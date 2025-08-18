@@ -91,5 +91,15 @@
     border-radius: 15px;
     font-size: 10px;
     white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 0.3s ease,
+      visibility 0.3s ease;
+  }
+
+  .synthesis-gift:hover .gift-name {
+    opacity: 1;
+    visibility: visible;
   }
 </style>
