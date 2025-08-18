@@ -1,39 +1,50 @@
 <template>
-  <TheHeader :selected-count="selectedStudents.length" @open-modal="openModal" />
+  <div :class="{ 'dark-mode': isDarkMode }">
+    <TheHeader @open-modal="openModal" @open-settings-modal="openSettingsModal" />
 
-  <main>
-    <WelcomeMessage v-if="selectedStudents.length === 0" />
-    <template v-else>
-      <GiftRecommendation v-for="gift in recommendedGifts" :key="gift.id" :gift="gift" />
-      <SynthesisSection :synthesis-gifts="synthesisGifts" />
-    </template>
-  </main>
+    <main>
+      <WelcomeMessage v-if="selectedStudents.length === 0" />
+      <template v-else>
+        <GiftRecommendation v-for="gift in recommendedGifts" :key="gift.id" :gift="gift" />
+        <SynthesisSection :synthesis-gifts="synthesisGifts" />
+      </template>
+    </main>
 
-  <StudentSelectionModal
-    :is-modal-open="isModalOpen"
-    :students-data="studentsData"
-    :selected-students="selectedStudents"
-    @close-modal="closeModal"
-    @toggle-student="toggleStudent"
-  />
+    <StudentSelectionModal
+      :is-modal-open="isModalOpen"
+      :students-data="studentsData"
+      :selected-students="selectedStudents"
+      @close-modal="closeModal"
+      @toggle-student="toggleStudent"
+    />
+
+    <SettingsModal :is-visible="isSettingsModalVisible" @close="closeSettingsModal" />
+  </div>
 </template>
 
 <script setup>
-  import { ref, computed, onMounted } from 'vue'
+  import { ref, computed, onMounted, watch } from 'vue'
+  import { useSettingStore } from '@/store/setting'
+  import { storeToRefs } from 'pinia'
   import TheHeader from './components/TheHeader.vue'
   import WelcomeMessage from './components/WelcomeMessage.vue'
   import GiftRecommendation from './components/GiftRecommendation.vue'
   import SynthesisSection from './components/SynthesisSection.vue'
   import StudentSelectionModal from './components/StudentSelectionModal.vue'
+  import SettingsModal from './components/SettingsModal.vue'
   import { fetchStudentData } from './utils/fetchStudentData'
   import { fetchSrGiftData } from './utils/fetchSrGiftData'
   import { fetchSsrGiftData } from './utils/fetchSsrGiftData'
   import { getPreferenceValue } from './utils/getPreferenceValue'
 
+  const settingStore = useSettingStore()
+  const { isDarkMode } = storeToRefs(settingStore)
+
   const studentsData = ref([])
   const giftsData = ref([])
   const selectedStudents = ref([])
   const isModalOpen = ref(false)
+  const isSettingsModalVisible = ref(false)
 
   onMounted(async () => {
     try {
@@ -50,7 +61,21 @@
     } catch (error) {
       console.error('Failed to load data:', error)
     }
+
+    settingStore.initThemeListener()
   })
+
+  watch(
+    isDarkMode,
+    (newVal) => {
+      if (newVal) {
+        document.body.classList.add('dark-mode')
+      } else {
+        document.body.classList.remove('dark-mode')
+      }
+    },
+    { immediate: true }
+  )
 
   function openModal() {
     isModalOpen.value = true
@@ -58,6 +83,14 @@
 
   function closeModal() {
     isModalOpen.value = false
+  }
+
+  function openSettingsModal() {
+    isSettingsModalVisible.value = true
+  }
+
+  function closeSettingsModal() {
+    isSettingsModalVisible.value = false
   }
 
   function toggleStudent(student) {

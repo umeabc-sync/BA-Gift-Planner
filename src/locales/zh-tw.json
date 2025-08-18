@@ -40,7 +40,10 @@
     "ETC": "其他"
   },
   "common": {
-    "all": "全部"
+    "all": "全部",
+    "settings": "設定",
+    "enabled": "啟用",
+    "disabled": "禁用"
   },
   "characterSelector": {
     "title": "選擇學生",
@@ -54,6 +57,11 @@
     "noResults": "找不到符合條件的學生"
   },
   "settingsModal": {
-    "language": "語言"
+    "language": "語言",
+    "characterSelectorLazyLoad": "角色選擇器圖片懶加載",
+    "theme": "主題",
+    "light": "明亮",
+    "dark": "暗黑",
+    "system": "跟隨系統"
   }
 }

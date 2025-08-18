@@ -70,10 +70,10 @@
     transform: scale(1.1);
   }
   .gift-yellow {
-    background: linear-gradient(45deg, #A97D51, #C7A579);
+    background: linear-gradient(45deg, #a97d51, #c7a579);
   }
   .gift-purple {
-    background: linear-gradient(45deg, #7A5BBE, #9E82D6);
+    background: linear-gradient(45deg, #7a5bbe, #9e82d6);
   }
   .gift-icon {
     width: 90%;
