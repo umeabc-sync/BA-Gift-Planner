@@ -6,8 +6,8 @@
       <WelcomeMessage v-if="selectedStudents.length === 0" />
       <template v-else>
         <GiftRecommendation v-for="gift in recommendedGifts" :key="gift.id" :gift="gift" />
-        <SynthesisSection :title="t('app.synthesisSection.generic')" :gifts="genericSsrGifts" />
-        <SynthesisSection :title="t('app.synthesisSection.synthesis')" :gifts="synthesisGifts" />
+        <GiftGridSection :title="t('app.synthesisSection.generic')" :gifts="genericSsrGifts" />
+        <GiftGridSection :title="t('app.synthesisSection.synthesis')" :gifts="synthesisGifts" />
       </template>
     </main>
 
@@ -30,7 +30,7 @@
   import TheHeader from './components/TheHeader.vue'
   import WelcomeMessage from './components/WelcomeMessage.vue'
   import GiftRecommendation from './components/GiftRecommendation.vue'
-  import SynthesisSection from './components/SynthesisSection.vue'
+  import GiftGridSection from './components/GiftGridSection.vue'
   import StudentSelectionModal from './components/StudentSelectionModal.vue'
   import SettingsModal from './components/SettingsModal.vue'
   import { fetchStudentData } from './utils/fetchStudentData'
@@ -121,67 +121,64 @@
   })
 
   const genericSsrGifts = computed(() => {
-    return analyzedGifts.value.filter((gift) => gift.analysis.class === 'rec-any')
+    return analyzedGifts.value.filter((gift) => gift.analysis.isGeneric)
   })
 
   const recommendedGifts = computed(() => {
     return analyzedGifts.value
-      .filter((gift) => !gift.analysis.shouldSynthesize && gift.analysis.class !== 'rec-any')
+      .filter((gift) => gift.analysis.isRecommended)
       .sort((a, b) => b.analysis.maxValue - a.analysis.maxValue)
   })
 
   function analyzeGift(gift) {
     const preferences = selectedStudents.value.map((student) => getPreferenceValue(student, gift))
     const maxValue = Math.max(...preferences)
-    const bestStudents = selectedStudents.value.filter((student) => getPreferenceValue(student, gift) === maxValue)
+
+    const getBestStudents = () =>
+      selectedStudents.value.filter((student) => getPreferenceValue(student, gift) === maxValue)
 
     if (gift.isSsr) {
       // SSR Gifts (Purple)
       if (maxValue >= 180) {
-        // L or XL
+        // L or XL - Recommended
         return {
-          shouldSynthesize: false,
+          isRecommended: true,
           class: 'rec-best',
           typeTextKey: 'app.analysis.recBest',
           titleKey: 'app.analysis.bestChoice',
           titleValue: maxValue,
-          characters: bestStudents,
+          characters: getBestStudents(),
           maxValue,
         }
       } else {
-        // Normal
+        // Normal - Generic gift, not for synthesis
         return {
-          shouldSynthesize: false,
-          class: 'rec-any',
-          typeTextKey: 'app.analysis.recAny',
-          titleKey: 'app.analysis.normalEffect',
-          titleValue: maxValue,
-          characters: bestStudents,
+          isGeneric: true,
           maxValue,
         }
       }
     } else {
       // SR Gifts (Yellow)
       if (maxValue >= 60) {
-        // L or XL
+        // L or XL - Recommended
         return {
-          shouldSynthesize: false,
+          isRecommended: true,
           class: 'rec-best',
           typeTextKey: 'app.analysis.recBest',
           titleKey: 'app.analysis.bestChoice',
           titleValue: maxValue,
-          characters: bestStudents,
+          characters: getBestStudents(),
           maxValue,
         }
       } else if (maxValue >= 40) {
-        // M
+        // M - Recommended
         return {
-          shouldSynthesize: false,
+          isRecommended: true,
           class: 'rec-good',
           typeTextKey: 'app.analysis.recGood',
           titleKey: 'app.analysis.goodChoice',
           titleValue: maxValue,
-          characters: bestStudents,
+          characters: getBestStudents(),
           maxValue,
         }
       } else {
