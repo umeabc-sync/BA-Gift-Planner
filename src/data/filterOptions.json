@@ -53,20 +53,6 @@
         { "value": "MT" },
         { "value": "FT" }
       ]
-    },
-    {
-      "id": "rating",
-      "labelKey": "characterSelector.ratingLabel",
-      "options": [
-        { "value": "SS" },
-        { "value": "S" },
-        { "value": "A" },
-        { "value": "B" },
-        { "value": "C" },
-        { "value": "D" },
-        { "value": "E" },
-        { "value": "F" }
-      ]
     }
   ]
 }

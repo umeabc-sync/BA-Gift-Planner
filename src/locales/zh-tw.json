@@ -1,0 +1,59 @@
+{
+  "attackType": {
+    "Explosive": "爆發",
+    "Piercing": "貫通",
+    "Mystic": "神秘",
+    "Sonic": "振動"
+  },
+  "defenseType": {
+    "Light": "輕型護甲",
+    "Heavy": "重型裝甲",
+    "Special": "特殊裝甲",
+    "Elastic": "彈性裝甲"
+  },
+  "school": {
+    "Abydos": "阿拜多斯高中",
+    "Arius": "奧利斯分校",
+    "Gehenna": "格黑娜學園",
+    "Hyakkiyako": "百鬼夜行聯合學園",
+    "Millennium": "千年科學學園",
+    "RedWinter": "赤冬聯邦學園",
+    "Shanhaijing": "山海經高級中學",
+    "Trinity": "三一綜合學園",
+    "Valkyrie": "女武神警察學園",
+    "SRT": "SRT特殊學園",
+    "Highlander": "高地人鐵道學園",
+    "ETC": "其他學園"
+  },
+  "schoolAbbr": {
+    "Abydos": "阿拜多斯",
+    "Arius": "奧利斯",
+    "Gehenna": "格黑娜",
+    "Hyakkiyako": "百鬼夜行",
+    "Millennium": "千年",
+    "RedWinter": "赤冬",
+    "Shanhaijing": "山海經",
+    "Trinity": "三一",
+    "Valkyrie": "女武神",
+    "SRT": "SRT",
+    "Highlander": "高地人",
+    "ETC": "其他"
+  },
+  "common": {
+    "all": "全部"
+  },
+  "characterSelector": {
+    "title": "選擇學生",
+    "searchPlaceholder": "搜尋學生名稱...",
+    "resetFilters": "重設篩選",
+    "attackTypeLabel": "攻擊屬性",
+    "defenseTypeLabel": "裝甲屬性",
+    "schoolLabel": "學園",
+    "weaponLabel": "使用武器",
+    "positionLabel": "角色定位",
+    "noResults": "找不到符合條件的學生"
+  },
+  "settingsModal": {
+    "language": "語言"
+  }
+}

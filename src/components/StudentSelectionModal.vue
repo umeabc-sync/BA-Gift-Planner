@@ -4,15 +4,15 @@
       <div v-if="isModalOpen" class="modal-overlay" @click.self="closeModal">
         <div class="modal-content">
           <div class="modal-header">
-            <h3>選擇學生</h3>
+            <h3>{{ t('characterSelector.title') }}</h3>
             <button class="close-button" @click="closeModal">&times;</button>
           </div>
           <div class="modal-body">
             <div class="fixed-section">
               <div ref="searchAndReset" class="search-and-reset modal-body-content-padding">
-                <input v-model="searchTerm" type="text" placeholder="搜尋學生名稱..." class="search-input" />
+                <input v-model="searchTerm" type="text" :placeholder="t('characterSelector.searchPlaceholder')" class="search-input" />
                 <div class="action-buttons">
-                  <button class="reset-button" @click="resetFilters">重置</button>
+                  <button class="reset-button" @click="resetFilters">{{ t('characterSelector.resetFilters') }}</button>
                   <button class="filter-toggle-button" @click="toggleFilterPanel">
                     <img :src="isFilterPanelOpen ? getAssetsFile('icon/filter_close.svg') : getAssetsFile('icon/filter_open.svg')" alt="Toggle Filters" class="filter-toggle-icon" />
                   </button>
@@ -20,18 +20,37 @@
               </div>
               <div ref="filterControls" class="filter-controls" :class="{ 'is-open': isFilterPanelOpen, 'is-animating': isAnimating }">
                 <div ref="filterContentWrapper" class="filter-content-wrapper modal-body-content-padding">
-                  <div v-for="group in schoolFilterGroup" :key="group.id" class="filter-group">
-                    <span class="filter-label">{{ group.labelKey }}</span>
+                  <div v-for="group in filterOptions.filters" :key="group.id" class="filter-group">
+                    <span class="filter-label">{{ t(group.labelKey) }}</span>
                     <div class="filter-buttons">
                       <button :class="{ active: selectedFilters[group.id].length === 0 }" @click="selectFilter(group.id, null)">
-                        全部
+                        {{ t('common.all') }}
                       </button>
                       <button v-for="option in group.options" :key="option.value" :class="{
                           active: selectedFilters[group.id].includes(option.value),
-                          'has-icon': group.id === 'school',
+                          'has-icon': ['attackType', 'defenseType', 'school'].includes(group.id),
                         }" @click="selectFilter(group.id, option.value)">
-                        <img v-if="group.id === 'school'" :src="getSchoolIconUrl(option.value)" :alt="option.value" class="school-icon" />
-                        <span>{{ option.value }}</span>
+                        
+                        <template v-if="group.id === 'attackType'">
+                          <div class="type-icon-wrapper" :class="`type-bg-${option.value.toLowerCase()}`">
+                            <img :src="getAssetsFile(`icon/Type_Attack_s.webp`)" alt="Attack Icon" class="type-icon" />
+                          </div>
+                        </template>
+                        <template v-else-if="group.id === 'defenseType'">
+                          <div class="type-icon-wrapper" :class="`type-bg-${option.value.toLowerCase()}`">
+                            <img :src="getAssetsFile(`icon/Type_Defense_s.webp`)" alt="Defense Icon" class="type-icon" />
+                          </div>
+                        </template>
+                        <template v-else-if="group.id === 'school'">
+                          <img :src="getSchoolIconUrl(option.value)" :alt="option.value" class="school-icon" />
+                        </template>
+
+                        <span :class="{ 'nexon-font': ['weapon', 'position'].includes(group.id) }">
+                          <span v-if="group.id === 'position'" :class="`position-type-${option.label.toLowerCase()}`">
+                            {{ option.label }}
+                          </span>
+                          <span v-else>{{ getOptionLabel(group, option) }}</span>
+                        </span>
                       </button>
                     </div>
                   </div>
@@ -45,7 +64,7 @@
                   <span class="student-name">{{ student.name }}</span>
                 </div>
                 <div v-if="filteredStudents.length === 0" class="no-results">
-                  沒有找到符合條件的學生
+                  {{ t('characterSelector.noResults') }}
                 </div>
               </div>
             </div>
@@ -62,16 +81,15 @@ import { getAvatarUrl } from '../utils/getAvatarUrl';
 import { getAssetsFile } from '../utils/getAssetsFile';
 import { getSchoolIconUrl } from '../utils/getSchoolIconUrl';
 import { useModal } from '../composables/useModal.js';
-import filterOptions from '../../filterOptions.json';
+import { useI18n } from '../composables/useI18n.js';
+import filterOptions from '@/data/filterOptions.json';
+
+const { t } = useI18n();
 
 const props = defineProps({
   isModalOpen: Boolean,
   studentsData: Array,
   selectedStudents: Array
-});
-
-const schoolFilterGroup = computed(() => {
-  return filterOptions.filters.filter(g => g.id === 'school');
 });
 
 const emit = defineEmits(['closeModal', 'toggleStudent']);
@@ -90,6 +108,17 @@ const selectedFilters = reactive(
 const searchAndReset = ref(null);
 const filterControls = ref(null);
 const filterContentWrapper = ref(null);
+
+const getOptionLabel = (group, option) => {
+  if (group.id === 'position') {
+    return option.label;
+  }
+  if (group.id === 'weapon') {
+    return option.value;
+  }
+  const prefix = group.labelKeyPrefix || group.id;
+  return t(`${prefix}.${option.value}`);
+};
 
 const closeModal = () => {
   emit('closeModal');
@@ -160,8 +189,17 @@ const resetFilters = () => {
 const filteredStudents = computed(() => {
   return props.studentsData.filter(student => {
     const searchMatch = !searchTerm.value || student.name.toLowerCase().includes(searchTerm.value.toLowerCase());
-    const schoolMatch = selectedFilters.school.length === 0 || selectedFilters.school.includes(student.school);
-    return searchMatch && schoolMatch;
+
+    const filtersMatch = filterOptions.filters.every(group => {
+        if (group.id === 'rating') return true; // not in student data
+
+        const selected = selectedFilters[group.id];
+        if (selected.length === 0) return true;
+
+        return selected.includes(student[group.id]);
+    });
+
+    return searchMatch && filtersMatch;
   });
 });
 
@@ -505,6 +543,22 @@ onBeforeUnmount(() => {
   border-color: #00aeef;
 }
 
+.type-icon-wrapper {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.type-icon {
+  width: 12px;
+  height: 12px;
+  object-fit: contain;
+}
+
 .school-icon {
   width: 20px;
   height: 20px;
@@ -522,6 +576,39 @@ onBeforeUnmount(() => {
 .dark-mode .filter-group button .school-icon {
   filter: none;
 }
+
+.type-bg-explosive,
+.type-bg-light {
+  background: #a70c19;
+}
+.type-bg-piercing,
+.type-bg-heavy {
+  background: #b26d1f;
+}
+.type-bg-mystic,
+.type-bg-special {
+  background: #216f9c;
+}
+.type-bg-sonic,
+.type-bg-elastic {
+  background: #9431a5;
+}
+
+.nexon-font {
+  font-family: 'NEXON Football Gothic', sans-serif;
+  font-style: italic;
+  font-weight: 300;
+  margin-right: 4px;
+}
+
+.position-type-striker {
+  color: #cc1a25;
+}
+
+.position-type-special {
+  color: #006bff;
+}
+
 
 .student-grid {
   display: grid;
