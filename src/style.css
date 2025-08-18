@@ -1,0 +1,359 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Microsoft JhengHei', sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding-top: 80px;
+}
+
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+    color: white;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.header-title {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.select-characters-btn {
+    background: rgba(255,255,255,0.2);
+    border: 2px solid rgba(255,255,255,0.3);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.select-characters-btn:hover {
+    background: rgba(255,255,255,0.3);
+    border-color: rgba(255,255,255,0.5);
+}
+
+.main-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.gift-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+    gap: 30px;
+}
+
+.gift-island {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+}
+
+.gift-island:hover {
+    transform: scale(1.05);
+}
+
+.gift-yellow {
+    background: linear-gradient(45deg, #ffd700, #ffed4e);
+}
+
+.gift-purple {
+    background: linear-gradient(45deg, #9c27b0, #e1bee7);
+}
+
+.gift-icon {
+    font-size: 36px;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.gift-name {
+    position: absolute;
+    bottom: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,0.8);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+.recommendation-island {
+    flex: 1;
+    background: white;
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    min-height: 120px;
+}
+
+.recommendation-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.character-avatars {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.character-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(45deg, #ff6b6b, #ffd93d);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    position: relative;
+}
+
+.character-avatar:hover {
+    transform: scale(1.1);
+}
+
+.tooltip {
+    position: absolute;
+    bottom: -80px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,0.9);
+    color: white;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 12px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 100;
+}
+
+.character-avatar:hover .tooltip {
+    opacity: 1;
+}
+
+.synthesis-section {
+    margin-top: 40px;
+    background: white;
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.synthesis-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #333;
+    text-align: center;
+}
+
+.synthesis-gifts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+}
+
+.synthesis-gift {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.synthesis-gift:hover {
+    transform: scale(1.1);
+}
+
+.synthesis-gift .gift-name {
+    bottom: -25px;
+    font-size: 10px;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 2000;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal.show {
+    display: flex;
+}
+
+.modal-content {
+    background: white;
+    border-radius: 20px;
+    padding: 30px;
+    max-width: 600px;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 15px 50px rgba(0,0,0,0.3);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.modal-title {
+    font-size: 22px;
+    font-weight: bold;
+    color: #333;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #666;
+    padding: 5px;
+}
+
+.close-btn:hover {
+    color: #333;
+}
+
+.student-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+.student-card {
+    border: 2px solid #e9ecef;
+    border-radius: 15px;
+    padding: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.student-card:hover {
+    border-color: #4facfe;
+    background: #f0f8ff;
+}
+
+.student-card.selected {
+    border-color: #4facfe;
+    background: #e6f3ff;
+}
+
+.student-avatar-large {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: linear-gradient(45deg, #ff6b6b, #ffd93d);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: white;
+    font-size: 20px;
+    margin: 0 auto 10px auto;
+}
+
+.student-name {
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.student-school {
+    font-size: 12px;
+    color: #666;
+}
+
+.no-selection {
+    text-align: center;
+    color: #666;
+    font-size: 18px;
+    margin: 50px 0;
+}
+
+.selected-count {
+    background: rgba(255,255,255,0.2);
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 14px;
+}
+
+.rec-type {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.rec-best {
+    background: #d4edda;
+    color: #155724;
+}
+
+.rec-good {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.rec-synthesize {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.rec-any {
+    background: #d1ecf1;
+    color: #0c5460;
+}
