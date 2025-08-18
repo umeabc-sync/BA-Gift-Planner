@@ -679,13 +679,44 @@
   }
 
   .student-card.selected {
-    border-color: #4caf50;
-    box-shadow: 0 0 15px rgba(76, 175, 80, 0.5);
-    background-color: #e6f3ff;
+    border-color: #6495ed;
+    background: linear-gradient(135deg, rgba(100, 149, 237, 0.15) 0%, rgba(135, 206, 235, 0.1) 100%);
+    box-shadow:
+      0 0 0 3px rgba(100, 149, 237, 0.3),
+      0 8px 25px rgba(100, 149, 237, 0.2);
+    transform: translateY(-2px);
   }
 
   .dark-mode .student-card.selected {
-    background-color: #1f3048;
+    border-color: #00aeef;
+    background: linear-gradient(135deg, rgba(0, 174, 239, 0.2) 0%, rgba(42, 127, 255, 0.15) 100%);
+    box-shadow:
+      0 0 0 3px rgba(0, 174, 239, 0.4),
+      0 8px 25px rgba(0, 174, 239, 0.3);
+  }
+
+  /* 頭像邊框在選中時的變化 */
+  .student-card.selected .student-avatar-large {
+    border-color: #6495ed;
+    box-shadow: 0 0 15px rgba(100, 149, 237, 0.4);
+    transform: scale(1.05);
+  }
+
+  .dark-mode .student-card.selected .student-avatar-large {
+    border-color: #00aeef;
+    box-shadow: 0 0 15px rgba(0, 174, 239, 0.5);
+  }
+
+  /* 選中時的名稱文字效果 */
+  .student-card.selected .student-name {
+    color: #4169e1;
+    font-weight: 700;
+    text-shadow: 0 1px 3px rgba(100, 149, 237, 0.3);
+  }
+
+  .dark-mode .student-card.selected .student-name {
+    color: #87ceeb;
+    text-shadow: 0 1px 3px rgba(0, 174, 239, 0.4);
   }
 
   .student-avatar-large {
