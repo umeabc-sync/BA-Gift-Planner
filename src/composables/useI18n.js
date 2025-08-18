@@ -21,7 +21,7 @@ export function useI18n() {
     }
   }
 
-  const t = (key) => {
+  const t = (key, params = {}) => {
     const keys = key.split('.')
     let value = loadedMessages.value
     for (const k of keys) {
@@ -31,6 +31,16 @@ export function useI18n() {
         return key // Return the key if the translation is not found
       }
     }
+
+    if (typeof value === 'string' && Object.keys(params).length > 0) {
+      let result = value
+      for (const [paramKey, paramValue] of Object.entries(params)) {
+        const regex = new RegExp(`\\{${paramKey}\\}`, 'g')
+        result = result.replace(regex, paramValue)
+      }
+      return result
+    }
+
     return value
   }
 

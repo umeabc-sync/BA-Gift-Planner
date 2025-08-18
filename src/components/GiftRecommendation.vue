@@ -5,15 +5,15 @@
       <div class="gift-name">{{ gift.name }}</div>
     </div>
     <div class="recommendation-island">
-      <div class="rec-type" :class="gift.analysis.class">{{ gift.analysis.typeText }}</div>
-      <div class="recommendation-title">{{ gift.analysis.title }}</div>
+      <div class="rec-type" :class="gift.analysis.class">{{ t(gift.analysis.typeTextKey) }}</div>
+      <div class="recommendation-title">{{ t(gift.analysis.titleKey, { maxValue: gift.analysis.titleValue }) }}</div>
       <div class="character-avatars">
         <div v-for="char in gift.analysis.characters" :key="char.id" class="character-avatar">
           <img :src="getAvatarUrl(char.id)" />
           <div class="tooltip">
             {{ char.name }}<br />
             {{ char.school }}<br />
-            好感度: +{{ getPreferenceValue(char, gift) }}
+            {{ t('giftRecommendation.favorability', { value: getPreferenceValue(char, gift) }) }}
           </div>
         </div>
       </div>
@@ -25,6 +25,9 @@
   import { getAvatarUrl } from '../utils/getAvatarUrl'
   import { getGiftUrl } from '../utils/getGiftUrl'
   import { getPreferenceValue } from '../utils/getPreferenceValue'
+  import { useI18n } from '../composables/useI18n.js'
+
+  const { t } = useI18n()
 
   const props = defineProps({
     gift: Object,

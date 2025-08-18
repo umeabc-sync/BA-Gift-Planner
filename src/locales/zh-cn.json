@@ -63,5 +63,30 @@
     "light": "明亮",
     "dark": "暗黑",
     "system": "跟随系统"
+  },
+  "app": {
+    "synthesisSection": {
+      "generic": "可任意赠送的礼物",
+      "synthesis": "建议拿去合成的礼物"
+    },
+    "analysis": {
+      "recBest": "强烈推荐",
+      "bestChoice": "最佳选择 (+{maxValue})",
+      "recAny": "任意送给",
+      "normalEffect": "效果一般 (+{maxValue})",
+      "recGood": "不错的选择",
+      "goodChoice": "不错的选择 (+{maxValue})"
+    }
+  },
+  "giftRecommendation": {
+    "favorability": "好感度: +{value}"
+  },
+  "header": {
+    "title": "蔚蓝档案送礼工具",
+    "selectStudentsAlt": "选择学生",
+    "settingsAlt": "设置"
+  },
+  "welcome": {
+    "message": "请点击右上角“选择角色”来选择要培养好感度的学生"
   }
 }

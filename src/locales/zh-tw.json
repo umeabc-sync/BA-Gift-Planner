@@ -63,5 +63,30 @@
     "light": "明亮",
     "dark": "暗黑",
     "system": "跟隨系統"
+  },
+  "app": {
+    "synthesisSection": {
+      "generic": "可任意贈送的禮物",
+      "synthesis": "建議拿去合成的禮物"
+    },
+    "analysis": {
+      "recBest": "強烈推薦",
+      "bestChoice": "最佳選擇 (+{maxValue})",
+      "recAny": "任意送給",
+      "normalEffect": "效果一般 (+{maxValue})",
+      "recGood": "不錯的選擇",
+      "goodChoice": "不錯的選擇 (+{maxValue})"
+    }
+  },
+  "giftRecommendation": {
+    "favorability": "好感度: +{value}"
+  },
+  "header": {
+    "title": "蔚藍檔案送禮工具",
+    "selectStudentsAlt": "選擇學生",
+    "settingsAlt": "設定"
+  },
+  "welcome": {
+    "message": "請點擊右上角「選擇角色」來選擇要培養好感度的學生"
   }
 }

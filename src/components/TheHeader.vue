@@ -1,14 +1,14 @@
 <template>
   <header class="header">
-    <div class="header-title">蔚藍檔案送禮工具</div>
+    <div class="header-title">{{ t('header.title') }}</div>
     <div class="controls">
       <button class="icon-btn" @click="$emit('openModal')">
-        <img :src="addStudentsIconUrl" alt="Select Students" />
+        <img :src="addStudentsIconUrl" :alt="t('header.selectStudentsAlt')" />
       </button>
       <button class="icon-btn settings-btn" @click="handleSettingsClick">
         <img
           :src="gearIconUrl"
-          alt="Settings"
+          :alt="t('header.settingsAlt')"
           :class="{ 'is-rotating': isSettingsIconRotating }"
           @animationend="isSettingsIconRotating = false"
         />
@@ -80,6 +80,9 @@
   import { useSettingStore } from '@/store/setting'
   import { storeToRefs } from 'pinia'
   import { getAssetsFile } from '../utils/getAssetsFile'
+  import { useI18n } from '../composables/useI18n'
+
+  const { t } = useI18n()
 
   const emit = defineEmits(['openModal', 'openSettingsModal'])
 

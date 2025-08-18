@@ -1,6 +1,12 @@
 <template>
-  <div class="no-selection">請點擊右上角「選擇角色」來選擇要培養好感度的學生</div>
+  <div class="no-selection">{{ t('welcome.message') }}</div>
 </template>
+
+<script setup>
+  import { useI18n } from '../composables/useI18n.js'
+
+  const { t } = useI18n()
+</script>
 
 <style scoped>
   .no-selection {

@@ -6,8 +6,8 @@
       <WelcomeMessage v-if="selectedStudents.length === 0" />
       <template v-else>
         <GiftRecommendation v-for="gift in recommendedGifts" :key="gift.id" :gift="gift" />
-        <SynthesisSection :title="'可任意贈送的禮物'" :gifts="genericSsrGifts" />
-        <SynthesisSection :title="'建議拿去合成的禮物'" :gifts="synthesisGifts" />
+        <SynthesisSection :title="t('app.synthesisSection.generic')" :gifts="genericSsrGifts" />
+        <SynthesisSection :title="t('app.synthesisSection.synthesis')" :gifts="synthesisGifts" />
       </template>
     </main>
 
@@ -37,7 +37,9 @@
   import { fetchSrGiftData } from './utils/fetchSrGiftData'
   import { fetchSsrGiftData } from './utils/fetchSsrGiftData'
   import { getPreferenceValue } from './utils/getPreferenceValue'
+  import { useI18n } from './composables/useI18n'
 
+  const { t } = useI18n()
   const settingStore = useSettingStore()
   const { isDarkMode } = storeToRefs(settingStore)
 
@@ -140,8 +142,9 @@
         return {
           shouldSynthesize: false,
           class: 'rec-best',
-          typeText: '強烈推薦',
-          title: `最佳選擇 (+${maxValue})`,
+          typeTextKey: 'app.analysis.recBest',
+          titleKey: 'app.analysis.bestChoice',
+          titleValue: maxValue,
           characters: bestStudents,
           maxValue,
         }
@@ -150,8 +153,9 @@
         return {
           shouldSynthesize: false,
           class: 'rec-any',
-          typeText: '任意送給',
-          title: `效果一般 (+${maxValue})`,
+          typeTextKey: 'app.analysis.recAny',
+          titleKey: 'app.analysis.normalEffect',
+          titleValue: maxValue,
           characters: bestStudents,
           maxValue,
         }
@@ -163,8 +167,9 @@
         return {
           shouldSynthesize: false,
           class: 'rec-best',
-          typeText: '強烈推薦',
-          title: `最佳選擇 (+${maxValue})`,
+          typeTextKey: 'app.analysis.recBest',
+          titleKey: 'app.analysis.bestChoice',
+          titleValue: maxValue,
           characters: bestStudents,
           maxValue,
         }
@@ -173,8 +178,9 @@
         return {
           shouldSynthesize: false,
           class: 'rec-good',
-          typeText: '不錯的選擇',
-          title: `不錯的選擇 (+${maxValue})`,
+          typeTextKey: 'app.analysis.recGood',
+          titleKey: 'app.analysis.goodChoice',
+          titleValue: maxValue,
           characters: bestStudents,
           maxValue,
         }
