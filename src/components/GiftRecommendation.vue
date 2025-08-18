@@ -41,7 +41,7 @@
   .gift-island {
     width: 100px;
     height: 100px;
-    border-radius: 20px;
+    border-radius: 999px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -55,14 +55,13 @@
     transform: scale(1.05);
   }
   .gift-yellow {
-    background: linear-gradient(45deg, #ffd700, #ffed4e);
+    background: linear-gradient(45deg, #A97D51, #C7A579);
   }
   .gift-purple {
-    background: linear-gradient(45deg, #9c27b0, #e1bee7);
+    background: linear-gradient(45deg, #7A5BBE, #9E82D6);
   }
   .gift-icon {
-    width: 80%;
-    height: 80%;
+    width: 90%;
     object-fit: contain;
   }
   .gift-name {

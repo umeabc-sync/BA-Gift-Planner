@@ -57,7 +57,7 @@
   .synthesis-gift {
     width: 80px;
     height: 80px;
-    border-radius: 20px;
+    border-radius: 999px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -70,14 +70,13 @@
     transform: scale(1.1);
   }
   .gift-yellow {
-    background: linear-gradient(45deg, #ffd700, #ffed4e);
+    background: linear-gradient(45deg, #A97D51, #C7A579);
   }
   .gift-purple {
-    background: linear-gradient(45deg, #9c27b0, #e1bee7);
+    background: linear-gradient(45deg, #7A5BBE, #9E82D6);
   }
   .gift-icon {
-    width: 70%;
-    height: 70%;
+    width: 90%;
     object-fit: contain;
   }
   .synthesis-gift .gift-name {
