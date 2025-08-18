@@ -7,8 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "lint": "eslint . --fix",
-    "analyze": "vite build --mode=analyze && node minify-json.js"
+    "format": "prettier --write src/",
+    "lint": "eslint . --fix"
   },
   "dependencies": {
     "eslint": "^9.33.0",
