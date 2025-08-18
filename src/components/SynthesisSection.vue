@@ -1,9 +1,9 @@
 <template>
-  <div v-if="synthesisGifts.length > 0" class="synthesis-section">
-    <div class="synthesis-title">建議拿去合成的禮物</div>
+  <div v-if="gifts && gifts.length > 0" class="synthesis-section">
+    <div class="synthesis-title">{{ title }}</div>
     <div class="synthesis-gifts">
       <div
-        v-for="gift in synthesisGifts"
+        v-for="gift in gifts"
         :key="gift.id"
         class="synthesis-gift"
         :class="gift.isSsr ? 'gift-purple' : 'gift-yellow'"
@@ -19,7 +19,8 @@
   import { getGiftUrl } from '../utils/getGiftUrl'
 
   defineProps({
-    synthesisGifts: Array,
+    title: String,
+    gifts: Array,
   })
 </script>
 

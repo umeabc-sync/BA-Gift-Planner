@@ -6,7 +6,8 @@
       <WelcomeMessage v-if="selectedStudents.length === 0" />
       <template v-else>
         <GiftRecommendation v-for="gift in recommendedGifts" :key="gift.id" :gift="gift" />
-        <SynthesisSection :synthesis-gifts="synthesisGifts" />
+        <SynthesisSection :title="'可任意贈送的禮物'" :gifts="genericSsrGifts" />
+        <SynthesisSection :title="'建議拿去合成的禮物'" :gifts="synthesisGifts" />
       </template>
     </main>
 
@@ -117,9 +118,13 @@
     return analyzedGifts.value.filter((gift) => gift.analysis.shouldSynthesize)
   })
 
+  const genericSsrGifts = computed(() => {
+    return analyzedGifts.value.filter((gift) => gift.analysis.class === 'rec-any')
+  })
+
   const recommendedGifts = computed(() => {
     return analyzedGifts.value
-      .filter((gift) => !gift.analysis.shouldSynthesize)
+      .filter((gift) => !gift.analysis.shouldSynthesize && gift.analysis.class !== 'rec-any')
       .sort((a, b) => b.analysis.maxValue - a.analysis.maxValue)
   })
 
