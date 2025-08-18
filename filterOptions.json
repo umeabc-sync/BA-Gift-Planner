@@ -1,0 +1,72 @@
+{
+  "filters": [
+    {
+      "id": "position",
+      "labelKey": "characterSelector.positionLabel",
+      "options": [
+        { "value": 0, "label": "STRIKER" },
+        { "value": 1, "label": "SPECIAL" }
+      ]
+    },
+    {
+      "id": "attackType",
+      "labelKey": "characterSelector.attackTypeLabel",
+      "options": [{ "value": "Explosive" }, { "value": "Piercing" }, { "value": "Mystic" }, { "value": "Sonic" }]
+    },
+    {
+      "id": "defenseType",
+      "labelKey": "characterSelector.defenseTypeLabel",
+      "options": [{ "value": "Light" }, { "value": "Heavy" }, { "value": "Special" }, { "value": "Elastic" }]
+    },
+    {
+      "id": "school",
+      "labelKey": "characterSelector.schoolLabel",
+      "labelKeyPrefix": "schoolAbbr",
+      "options": [
+        { "value": "Abydos" },
+        { "value": "Arius" },
+        { "value": "Gehenna" },
+        { "value": "Hyakkiyako" },
+        { "value": "Millennium" },
+        { "value": "RedWinter" },
+        { "value": "Shanhaijing" },
+        { "value": "Trinity" },
+        { "value": "Valkyrie" },
+        { "value": "SRT" },
+        { "value": "Highlander" },
+        { "value": "ETC" }
+      ]
+    },
+    {
+      "id": "weapon",
+      "labelKey": "characterSelector.weaponLabel",
+      "options": [
+        { "value": "SG" },
+        { "value": "SMG" },
+        { "value": "AR" },
+        { "value": "GL" },
+        { "value": "HG" },
+        { "value": "SR" },
+        { "value": "RG" },
+        { "value": "MG" },
+        { "value": "RL" },
+        { "value": "MT" },
+        { "value": "FT" }
+      ]
+    },
+    {
+      "id": "rating",
+      "labelKey": "characterSelector.ratingLabel",
+      "options": [
+        { "value": "SS" },
+        { "value": "S" },
+        { "value": "A" },
+        { "value": "B" },
+        { "value": "C" },
+        { "value": "D" },
+        { "value": "E" },
+        { "value": "F" }
+      ]
+    }
+  ]
+}

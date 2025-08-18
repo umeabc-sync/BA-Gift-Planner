@@ -1,78 +1,38 @@
 <template>
-  <!-- 固定頂部工具列 -->
-  <div class="header">
-    <div class="header-title">蔚藍檔案送禮工具</div>
-    <div style="display: flex; align-items: center; gap: 15px;">
-      <span class="selected-count">已選擇 {{ selectedStudents.length }} 位學生</span>
-      <button class="select-characters-btn" @click="openModal">
-        選擇角色
-      </button>
-    </div>
-  </div>
+  <TheHeader :selected-count="selectedStudents.length" @open-modal="openModal" />
 
-  <!-- 主要內容區域 -->
-  <div class="main-container">
-    <div id="mainContent">
-      <div v-if="selectedStudents.length === 0" class="no-selection">
-        請點擊右上角「選擇角色」來選擇要培養好感度的學生
-      </div>
-
-      <template v-else>
-        <div v-for="gift in recommendedGifts" :key="gift.id" class="gift-row">
-          <div class="gift-island" :class="gift.isSsr ? 'gift-purple' : 'gift-yellow'"
-            style="position: relative;">
-            <img :src="getGiftUrl(gift.id, gift.isSsr)" class="gift-icon" />
-            <div class="gift-name">{{ gift.name }}</div>
-          </div>
-
-          <div class="recommendation-island">
-            <div class="rec-type" :class="gift.analysis.class">{{ gift.analysis.typeText }}</div>
-            <div class="recommendation-title">{{ gift.analysis.title }}</div>
-            <div class="character-avatars">
-              <div v-for="char in gift.analysis.characters" :key="char.id" class="character-avatar">
-                <img :src="getAvatarUrl(char.id)" />
-                <div class="tooltip">
-                  {{ char.name }}<br>
-                  {{ char.school }}<br>
-                  好感度: +{{ getPreferenceValue(char, gift) }}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- 添加合成建議區塊 -->
-        <div v-if="synthesisGifts.length > 0" class="synthesis-section">
-          <div class="synthesis-title">建議拿去合成的禮物</div>
-          <div class="synthesis-gifts">
-            <div v-for="gift in synthesisGifts" :key="gift.id" class="synthesis-gift"
-              :class="gift.isSsr ? 'gift-purple' : 'gift-yellow'" style="position: relative;">
-              <img :src="getGiftUrl(gift.id, gift.isSsr)" class="gift-icon" style="width: 100%;" />
-              <div class="gift-name">{{ gift.name }}</div>
-            </div>
-          </div>
-        </div>
-      </template>
-    </div>
-  </div>
+  <main>
+    <WelcomeMessage v-if="selectedStudents.length === 0" />
+    <template v-else>
+      <GiftRecommendation
+        v-for="gift in recommendedGifts"
+        :key="gift.id"
+        :gift="gift"
+      />
+      <SynthesisSection :synthesis-gifts="synthesisGifts" />
+    </template>
+  </main>
 
   <StudentSelectionModal
-    :isModalOpen="isModalOpen"
-    :studentsData="studentsData"
-    :selectedStudents="selectedStudents"
-    @closeModal="closeModal"
-    @toggleStudent="toggleStudent"
+    :is-modal-open="isModalOpen"
+    :students-data="studentsData"
+    :selected-students="selectedStudents"
+    @close-modal="closeModal"
+    @toggle-student="toggleStudent"
   />
 </template>
 
 <script setup>
 import { ref, computed, onMounted } from 'vue';
+import TheHeader from './components/TheHeader.vue';
+import WelcomeMessage from './components/WelcomeMessage.vue';
+import GiftRecommendation from './components/GiftRecommendation.vue';
+import SynthesisSection from './components/SynthesisSection.vue';
 import StudentSelectionModal from './components/StudentSelectionModal.vue';
 import { fetchStudentData } from './utils/fetchStudentData';
 import { fetchSrGiftData } from './utils/fetchSrGiftData';
 import { fetchSsrGiftData } from './utils/fetchSsrGiftData';
-import { getAvatarUrl } from './utils/getAvatarUrl';
-import { getGiftUrl } from './utils/getGiftUrl';
+import { getPreferenceValue } from './utils/getPreferenceValue';
 
 const studentsData = ref([]);
 const giftsData = ref([]);
@@ -112,15 +72,6 @@ function toggleStudent(student) {
     selectedStudents.value.push(student);
   }
 }
-
-const getPreferenceValue = (student, gift) => {
-  const giftType = gift.isSsr ? 'ssr' : 'sr';
-  const favorData = student.favor[giftType];
-  if (favorData.xl.includes(gift.id)) return gift.isSsr ? 240 : 80;
-  if (favorData.l.includes(gift.id)) return gift.isSsr ? 180 : 60;
-  if (favorData.m && favorData.m.includes(gift.id)) return 40;
-  return gift.isSsr ? 120 : 20;
-};
 
 const analyzedGifts = computed(() => {
   if (selectedStudents.value.length === 0) {
@@ -182,7 +133,7 @@ function analyzeGift(gift) {
       return {
         shouldSynthesize: false,
         class: 'rec-good',
-        typeText: '可以送給',
+        typeText: '不錯的選擇',
         title: `不錯的選擇 (+${maxValue})`,
         characters: bestStudents,
         maxValue
