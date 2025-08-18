@@ -6,9 +6,14 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "lint": "eslint . --fix",
+    "analyze": "vite build --mode=analyze && node minify-json.js"
   },
   "dependencies": {
+    "eslint": "^9.33.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-vue": "^10.4.0",
     "pinia": "^3.0.3",
     "pinia-plugin-persistedstate": "^4.5.0",
     "vite-plugin-vue-devtools": "^8.0.0",
