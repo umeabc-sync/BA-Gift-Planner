@@ -1,0 +1,172 @@
+[
+    {
+    "id": 1,
+    "fullname": "陸八魔 亞瑠",
+    "name": "亞瑠",
+    "school": "Gehenna",
+    "attackType": "Explosive",
+    "defenseType": "Light",
+    "weapon": "SR",
+    "position": 0,
+    "city": "S",
+    "outdoor": "B",
+    "indoor": "D",
+    "favor": {
+      "sr": {
+        "m": [
+          19, 29, 30
+        ],
+        "l": [
+          17
+        ],
+        "xl": [
+          
+        ]
+      },
+      "ssr": {
+        "l": [
+          3
+        ],
+        "xl": [
+          
+        ]
+      }
+    }
+  },
+  {
+    "id": 2,
+    "fullname": "和泉元 英美",
+    "name": "英美",
+    "school": "Millennium",
+    "attackType": "Explosive",
+    "defenseType": "Light",
+    "weapon": "SG",
+    "position": 0,
+    "city": "S",
+    "outdoor": "B",
+    "indoor": "D",
+    "favor": {
+      "sr": {
+        "m": [
+          2, 17, 19, 29
+        ],
+        "l": [
+          30
+        ],
+        "xl": [
+          
+        ]
+      },
+      "ssr": {
+        "l": [
+          3
+        ],
+        "xl": [
+          
+        ]
+      }
+    }
+  },
+  {
+    "id": 3,
+    "fullname": "黑舘 羽留奈",
+    "name": "羽留奈",
+    "school": "Gehenna",
+    "attackType": "Mystic",
+    "defenseType": "Heavy",
+    "weapon": "SR",
+    "position": 0,
+    "city": "S",
+    "outdoor": "D",
+    "indoor": "B",
+    "favor": {
+      "sr": {
+        "m": [
+          
+        ],
+        "l": [
+          31
+        ],
+        "xl": [
+          
+        ]
+      },
+      "ssr": {
+        "l": [
+          
+        ],
+        "xl": [
+          10
+        ]
+      }
+    }
+  },
+  {
+    "id": 5,
+    "fullname": "空崎 陽奈",
+    "name": "陽奈",
+    "school": "Gehenna",
+    "attackType": "Explosive",
+    "defenseType": "Heavy",
+    "weapon": "MG",
+    "position": 0,
+    "city": "S",
+    "outdoor": "C",
+    "indoor": "C",
+    "favor": {
+      "sr": {
+        "m": [
+          
+        ],
+        "l": [
+          19
+        ],
+        "xl": [
+          
+        ]
+      },
+      "ssr": {
+        "l": [
+          
+        ],
+        "xl": [
+          2
+        ]
+      }
+    }
+  },
+  {
+    "id": 6,
+    "fullname": "小鳥遊 星野",
+    "name": "星野",
+    "school": "Abydos",
+    "attackType": "Piercing",
+    "defenseType": "Heavy",
+    "weapon": "SG",
+    "position": 0,
+    "city": "D",
+    "outdoor": "S",
+    "indoor": "B",
+    "favor": {
+      "sr": {
+        "m": [
+          
+        ],
+        "l": [
+          17
+        ],
+        "xl": [
+          
+        ]
+      },
+      "ssr": {
+        "l": [
+          
+        ],
+        "xl": [
+          0, 3
+        ]
+      }
+    }
+  }
+]

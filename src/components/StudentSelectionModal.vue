@@ -1,13 +1,3 @@
-<script setup>
-defineProps({
-  isModalOpen: Boolean,
-  studentsData: Object,
-  selectedStudents: Array
-});
-
-defineEmits(['closeModal', 'toggleStudent']);
-</script>
-
 <template>
   <div class="modal" :class="{ 'show': isModalOpen }" @click.self="$emit('closeModal')">
     <div class="modal-content">
@@ -16,16 +6,28 @@ defineEmits(['closeModal', 'toggleStudent']);
         <button class="close-btn" @click="$emit('closeModal')">&times;</button>
       </div>
       <div class="student-grid">
-        <div v-for="(data, name) in studentsData" :key="name" class="student-card"
-          :class="{ 'selected': selectedStudents.includes(name) }" @click="$emit('toggleStudent', name)">
-          <div class="student-avatar-large">{{ data.avatar }}</div>
-          <div class="student-name">{{ name }}</div>
-          <div class="student-school">{{ data.school }}</div>
+        <div v-for="student in studentsData" :key="student.id" class="student-card"
+          :class="{ 'selected': selectedStudents.some(s => s.id === student.id) }" @click="$emit('toggleStudent', student)">
+          <img :src="getAvatarUrl(student.id)" class="student-avatar-large" />
+          <div class="student-name">{{ student.name }}</div>
+          <div class="student-school">{{ student.school }}</div>
         </div>
       </div>
     </div>
   </div>
 </template>
+
+<script setup>
+import { getAvatarUrl } from '../utils/getAvatarUrl';
+
+defineProps({
+  isModalOpen: Boolean,
+  studentsData: Array,
+  selectedStudents: Array
+});
+
+defineEmits(['closeModal', 'toggleStudent']);
+</script>
 
 <style scoped>
 /* Styles for the modal, copied from style.css */
@@ -132,15 +134,12 @@ defineEmits(['closeModal', 'toggleStudent']);
 }
 
 .student-avatar-large {
-  font-size: 40px;
-  height: 60px;
   width: 60px;
-  background-color: #4a4a4a;
+  height: 60px;
   border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   margin: 0 auto 10px;
+  object-fit: cover;
+  background-color: #4a4a4a;
 }
 
 .student-name {
