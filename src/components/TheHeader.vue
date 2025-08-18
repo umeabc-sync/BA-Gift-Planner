@@ -113,7 +113,7 @@
     top: 0;
     left: 0;
     right: 0;
-    background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+    background: linear-gradient(45deg, #87ceeb, #6495ed);
     color: white;
     padding: 15px 20px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
@@ -124,7 +124,7 @@
   }
 
   .dark-mode .header {
-    background: linear-gradient(90deg, #2a4a6e 0%, #1a2b40 100%);
+    background: linear-gradient(45deg, #2a7fff, #00aeef);
   }
 
   .header-title {
