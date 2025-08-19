@@ -144,30 +144,6 @@
     }
   },
   {
-    "id": 205,
-    "fullname": "百合園 聖亞",
-    "name": "聖亞",
-    "school": "Trinity",
-    "attackType": "Piercing",
-    "defenseType": "Elastic",
-    "weapon": "HG",
-    "position": 0,
-    "city": "B",
-    "outdoor": "D",
-    "indoor": "S",
-    "favor": {
-      "sr": {
-        "m": [3, 4, 9, 15, 18, 28, 29, 32],
-        "l": [23],
-        "xl": []
-      },
-      "ssr": {
-        "l": [],
-        "xl": [1]
-      }
-    }
-  },
-  {
     "id": 197,
     "fullname": "龍華 妃姬",
     "name": "妃姬",
@@ -188,6 +164,30 @@
       "ssr": {
         "l": [1],
         "xl": [8]
+      }
+    }
+  },
+  {
+    "id": 205,
+    "fullname": "百合園 聖亞",
+    "name": "聖亞",
+    "school": "Trinity",
+    "attackType": "Piercing",
+    "defenseType": "Elastic",
+    "weapon": "HG",
+    "position": 0,
+    "city": "B",
+    "outdoor": "D",
+    "indoor": "S",
+    "favor": {
+      "sr": {
+        "m": [3, 4, 9, 15, 18, 28, 29, 32],
+        "l": [23],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [1]
       }
     }
   },

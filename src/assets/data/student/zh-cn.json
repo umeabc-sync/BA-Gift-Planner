@@ -1,0 +1,266 @@
+[
+  {
+    "id": 1,
+    "fullname": "陆八魔 爱露",
+    "name": "爱露",
+    "school": "Gehenna",
+    "attackType": "Explosive",
+    "defenseType": "Light",
+    "weapon": "SR",
+    "position": 0,
+    "city": "S",
+    "outdoor": "B",
+    "indoor": "D",
+    "favor": {
+      "sr": {
+        "m": [19, 29, 30],
+        "l": [17],
+        "xl": []
+      },
+      "ssr": {
+        "l": [3],
+        "xl": []
+      }
+    }
+  },
+  {
+    "id": 2,
+    "fullname": "和泉元 艾米",
+    "name": "艾米",
+    "school": "Millennium",
+    "attackType": "Explosive",
+    "defenseType": "Light",
+    "weapon": "SG",
+    "position": 0,
+    "city": "S",
+    "outdoor": "B",
+    "indoor": "D",
+    "favor": {
+      "sr": {
+        "m": [2, 17, 19, 29],
+        "l": [30],
+        "xl": []
+      },
+      "ssr": {
+        "l": [3],
+        "xl": []
+      }
+    }
+  },
+  {
+    "id": 3,
+    "fullname": "黑馆 晴奈",
+    "name": "晴奈",
+    "school": "Gehenna",
+    "attackType": "Mystic",
+    "defenseType": "Heavy",
+    "weapon": "SR",
+    "position": 0,
+    "city": "S",
+    "outdoor": "D",
+    "indoor": "B",
+    "favor": {
+      "sr": {
+        "m": [],
+        "l": [31],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [10]
+      }
+    }
+  },
+  {
+    "id": 5,
+    "fullname": "空崎 日奈",
+    "name": "日奈",
+    "school": "Gehenna",
+    "attackType": "Explosive",
+    "defenseType": "Heavy",
+    "weapon": "MG",
+    "position": 0,
+    "city": "S",
+    "outdoor": "C",
+    "indoor": "C",
+    "favor": {
+      "sr": {
+        "m": [],
+        "l": [19],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [2]
+      }
+    }
+  },
+  {
+    "id": 6,
+    "fullname": "小鸟游 星野",
+    "name": "星野",
+    "school": "Abydos",
+    "attackType": "Piercing",
+    "defenseType": "Heavy",
+    "weapon": "SG",
+    "position": 0,
+    "city": "D",
+    "outdoor": "S",
+    "indoor": "B",
+    "favor": {
+      "sr": {
+        "m": [],
+        "l": [17],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [0, 3]
+      }
+    }
+  },
+  {
+    "id": 21,
+    "fullname": "浅黄 睦月",
+    "name": "睦月",
+    "school": "Gehenna",
+    "attackType": "Explosive",
+    "defenseType": "Light",
+    "weapon": "MG",
+    "position": 0,
+    "city": "A",
+    "outdoor": "A",
+    "indoor": "D",
+    "favor": {
+      "sr": {
+        "m": [10, 20, 22, 25, 28, 29],
+        "l": [],
+        "xl": [18]
+      },
+      "ssr": {
+        "l": [12],
+        "xl": []
+      }
+    }
+  },
+  {
+    "id": 197,
+    "fullname": "龙华 妃咲",
+    "name": "妃咲",
+    "school": "Shanhaijing",
+    "attackType": "Sonic",
+    "defenseType": "Elastic",
+    "weapon": "SMG",
+    "position": 1,
+    "city": "B",
+    "outdoor": "D",
+    "indoor": "S",
+    "favor": {
+      "sr": {
+        "m": [3, 4, 9, 15, 18, 23, 28, 29, 32],
+        "l": [24],
+        "xl": []
+      },
+      "ssr": {
+        "l": [1],
+        "xl": [8]
+      }
+    }
+  },
+  {
+    "id": 205,
+    "fullname": "百合园 圣娅",
+    "name": "圣娅",
+    "school": "Trinity",
+    "attackType": "Piercing",
+    "defenseType": "Elastic",
+    "weapon": "HG",
+    "position": 0,
+    "city": "B",
+    "outdoor": "D",
+    "indoor": "S",
+    "favor": {
+      "sr": {
+        "m": [3, 4, 9, 15, 18, 28, 29, 32],
+        "l": [23],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [1]
+      }
+    }
+  },
+  {
+    "id": 217,
+    "fullname": "橘 光",
+    "name": "光",
+    "school": "Highlander",
+    "attackType": "Sonic",
+    "defenseType": "Light",
+    "weapon": "HG",
+    "position": 0,
+    "city": "D",
+    "outdoor": "B",
+    "indoor": "S",
+    "favor": {
+      "sr": {
+        "m": [4, 11, 12, 13, 16, 26],
+        "l": [8],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [4]
+      }
+    }
+  },
+  {
+    "id": 218,
+    "fullname": "橘 望",
+    "name": "望",
+    "school": "Highlander",
+    "attackType": "Sonic",
+    "defenseType": "Light",
+    "weapon": "HG",
+    "position": 0,
+    "city": "D",
+    "outdoor": "B",
+    "indoor": "S",
+    "favor": {
+      "sr": {
+        "m": [10, 17, 19, 20, 22, 25, 29, 30],
+        "l": [18],
+        "xl": []
+      },
+      "ssr": {
+        "l": [3],
+        "xl": [12]
+      }
+    }
+  },
+  {
+    "id": 227,
+    "fullname": "百合園 圣娅（泳装）",
+    "name": "圣娅（泳装）",
+    "school": "Trinity",
+    "attackType": "Piercing",
+    "defenseType": "Special",
+    "weapon": "HG",
+    "position": 0,
+    "city": "S",
+    "outdoor": "B",
+    "indoor": "D",
+    "favor": {
+      "sr": {
+        "m": [3, 4, 9, 15, 18, 23, 28, 29, 32],
+        "l": [11, 34],
+        "xl": []
+      },
+      "ssr": {
+        "l": [1],
+        "xl": [12]
+      }
+    }
+  }
+]
