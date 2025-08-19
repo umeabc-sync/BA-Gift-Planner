@@ -79,7 +79,7 @@
     }
   },
   "giftRecommendation": {
-    "favorability": "好感度: +{value}"
+    "bondXp": "羈絆經驗: +{value}"
   },
   "header": {
     "title": "蔚藍檔案送禮工具",

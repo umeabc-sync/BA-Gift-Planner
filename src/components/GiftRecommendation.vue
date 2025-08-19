@@ -9,11 +9,13 @@
       <div class="recommendation-title">{{ t(gift.analysis.titleKey, { maxValue: gift.analysis.titleValue }) }}</div>
       <div class="character-avatars">
         <div v-for="char in gift.analysis.characters" :key="char.id" class="character-avatar">
-          <img :src="getAvatarUrl(char.id)" />
+          <img :src="getAvatarUrl(char.id)" class="character-avatar-img" />
           <div class="tooltip">
-            {{ char.name }}<br />
-            {{ char.school }}<br />
-            {{ t('giftRecommendation.favorability', { value: getPreferenceValue(char, gift) }) }}
+            <div class="tooltip-name">{{ char.name }}</div>
+            <div class="tooltip-xp">
+              <img :src="getInteractionUrl(getInteractionLevel(gift, char))" class="tooltip-icon" />
+              <span>{{ t('giftRecommendation.bondXp', { value: getPreferenceValue(char, gift) }) }}</span>
+            </div>
           </div>
         </div>
       </div>
@@ -25,6 +27,7 @@
   import { getAvatarUrl } from '../utils/getAvatarUrl'
   import { getGiftUrl } from '../utils/getGiftUrl'
   import { getPreferenceValue } from '../utils/getPreferenceValue'
+  import { getInteractionUrl } from '../utils/getInteractionUrl'
   import { useI18n } from '../composables/useI18n.js'
 
   const { t } = useI18n()
@@ -32,6 +35,19 @@
   const props = defineProps({
     gift: Object,
   })
+
+  function getInteractionLevel(gift, student) {
+    const value = getPreferenceValue(student, gift)
+    if (gift.isSsr) {
+      if (value > 180) return 'xl'
+      if (value > 120) return 'l'
+      return 'm'
+    } else {
+      if (value > 60) return 'xl'
+      if (value > 40) return 'l'
+      return 'm'
+    }
+  }
 </script>
 
 <style scoped>
@@ -117,14 +133,14 @@
     transition: transform 0.3s ease;
     position: relative;
   }
-  .character-avatar img {
+  .character-avatar .character-avatar-img {
     width: 100%;
     border-radius: 50%;
     object-fit: cover;
     border: 2px solid #6495ed;
   }
 
-  .dark-mode .character-avatar img {
+  .dark-mode .character-avatar .character-avatar-img {
     border: 2px solid #00aeef;
   }
 
@@ -146,9 +162,27 @@
     pointer-events: none;
     transition: opacity 0.3s ease;
     z-index: 100;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
   }
   .character-avatar:hover .tooltip {
     opacity: 1;
+  }
+  .tooltip-name {
+    font-weight: bold;
+    font-size: 14px;
+  }
+  .tooltip-xp {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .tooltip-icon {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
   }
   .rec-type {
     display: inline-block;
