@@ -6,6 +6,7 @@
     <div class="developer-credits">
       Developed by © 2025
       <a href="https://github.com/Yuuzi261" target="_blank" rel="noopener noreferrer">Yuuzi</a>
+      <span v-if="appVersion"> 🥑 {{ appVersion }}</span>
     </div>
   </div>
 </template>
@@ -15,6 +16,8 @@
   import { getAssetsFile } from '@/utils/getAssetsFile'
 
   const githubIconUrl = computed(() => getAssetsFile('icon/github.svg'))
+
+  const appVersion = __APP_VERSION__
 </script>
 
 <style scoped>
