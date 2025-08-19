@@ -144,6 +144,54 @@
     }
   },
   {
+    "id": 205,
+    "fullname": "百合園 聖亞",
+    "name": "聖亞",
+    "school": "Trinity",
+    "attackType": "Piercing",
+    "defenseType": "Elastic",
+    "weapon": "HG",
+    "position": 0,
+    "city": "B",
+    "outdoor": "D",
+    "indoor": "S",
+    "favor": {
+      "sr": {
+        "m": [3, 4, 9, 15, 18, 28, 29, 32],
+        "l": [23],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [1]
+      }
+    }
+  },
+  {
+    "id": 197,
+    "fullname": "龍華 妃姬",
+    "name": "妃姬",
+    "school": "Shanhaijing",
+    "attackType": "Sonic",
+    "defenseType": "Elastic",
+    "weapon": "SMG",
+    "position": 1,
+    "city": "B",
+    "outdoor": "D",
+    "indoor": "S",
+    "favor": {
+      "sr": {
+        "m": [3, 4, 9, 15, 18, 23, 28, 29, 32],
+        "l": [24],
+        "xl": []
+      },
+      "ssr": {
+        "l": [1],
+        "xl": [8]
+      }
+    }
+  },
+  {
     "id": 217,
     "fullname": "橘 光",
     "name": "光",
@@ -187,6 +235,30 @@
       },
       "ssr": {
         "l": [3],
+        "xl": [12]
+      }
+    }
+  },
+  {
+    "id": 227,
+    "fullname": "百合園 聖亞（泳裝）",
+    "name": "聖亞（泳裝）",
+    "school": "Trinity",
+    "attackType": "Piercing",
+    "defenseType": "Special",
+    "weapon": "HG",
+    "position": 0,
+    "city": "S",
+    "outdoor": "B",
+    "indoor": "D",
+    "favor": {
+      "sr": {
+        "m": [3, 4, 9, 15, 18, 23, 28, 29, 32],
+        "l": [11, 34],
+        "xl": []
+      },
+      "ssr": {
+        "l": [1],
         "xl": [12]
       }
     }
