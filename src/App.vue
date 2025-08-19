@@ -5,7 +5,7 @@
     <main>
       <WelcomeMessage v-if="selectedStudents.length === 0" />
       <template v-else>
-        <GiftRecommendation v-for="gift in recommendedGifts" :key="gift.id" :gift="gift" />
+        <GiftRecommendation v-for="gift in recommendedGifts" :key="`${gift.id}-${gift.isSsr}`" :gift="gift" />
         <GiftGridSection :title="t('app.giftGridSection.generic')" :gifts="genericSsrGifts" />
         <GiftGridSection :title="t('app.giftGridSection.synthesis')" :gifts="synthesisGifts" />
       </template>
