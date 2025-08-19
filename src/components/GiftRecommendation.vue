@@ -66,6 +66,7 @@
     justify-content: center;
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
     cursor: pointer;
+    z-index: 1;
     transition: transform 0.3s ease;
     flex-shrink: 0;
     position: relative;
@@ -85,7 +86,7 @@
   }
   .gift-name {
     position: absolute;
-    bottom: -25px;
+    bottom: -30px;
     left: 50%;
     transform: translateX(-50%);
     background: rgba(0, 0, 0, 0.8);
@@ -94,6 +95,15 @@
     border-radius: 15px;
     font-size: 12px;
     white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 0.3s ease,
+      visibility 0.3s ease;
+  }
+  .gift-island:hover .gift-name {
+    opacity: 1;
+    visibility: visible;
   }
   .recommendation-island {
     flex: 1;
@@ -207,5 +217,16 @@
   .rec-any {
     background: #d1ecf1;
     color: #0c5460;
+  }
+
+  @media (max-width: 768px) {
+    .gift-row {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .recommendation-island {
+      width: 100%;
+    }
   }
 </style>
