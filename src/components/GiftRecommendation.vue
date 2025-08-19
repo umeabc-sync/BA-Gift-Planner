@@ -192,6 +192,10 @@
     font-weight: bold;
     margin-bottom: 10px;
   }
+  .rec-extra {
+    background: #fce4ec;
+    color: #c2185b;
+  }
   .rec-best {
     background: #d4edda;
     color: #155724;

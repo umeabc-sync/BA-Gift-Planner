@@ -139,13 +139,24 @@
 
     if (gift.isSsr) {
       // SSR Gifts (Purple)
-      if (maxValue >= 180) {
-        // L or XL - Recommended
+      if (maxValue >= 240) {
+        // XL - Recommended
         return {
           isRecommended: true,
           class: 'rec-best',
           typeTextKey: 'app.analysis.recBest',
           titleKey: 'app.analysis.bestChoice',
+          titleValue: maxValue,
+          characters: getBestStudents(),
+          maxValue,
+        }
+      } else if (maxValue >= 180) {
+        // L - Recommended
+        return {
+          isRecommended: true,
+          class: 'rec-good',
+          typeTextKey: 'app.analysis.recGood',
+          titleKey: 'app.analysis.goodChoice',
           titleValue: maxValue,
           characters: getBestStudents(),
           maxValue,
@@ -159,8 +170,19 @@
       }
     } else {
       // SR Gifts (Yellow)
-      if (maxValue >= 60) {
-        // L or XL - Recommended
+      if (maxValue >= 80) {
+        // XL - Recommended
+        return {
+          isRecommended: true,
+          class: 'rec-extra',
+          typeTextKey: 'app.analysis.recExtra',
+          titleKey: 'app.analysis.extraChoice',
+          titleValue: maxValue,
+          characters: getBestStudents(),
+          maxValue,
+        }
+      } else if (maxValue >= 60) {
+        // L - Recommended
         return {
           isRecommended: true,
           class: 'rec-best',

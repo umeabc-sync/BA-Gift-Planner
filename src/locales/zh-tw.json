@@ -70,12 +70,14 @@
       "synthesis": "建議拿去合成的禮物"
     },
     "analysis": {
+      "recExtra": "特殊推薦",
+      "extraChoice": "效果絕佳 (+{maxValue})",
       "recBest": "強烈推薦",
       "bestChoice": "最佳選擇 (+{maxValue})",
-      "recAny": "任意送給",
-      "normalEffect": "效果一般 (+{maxValue})",
       "recGood": "不錯的選擇",
-      "goodChoice": "不錯的選擇 (+{maxValue})"
+      "goodChoice": "頗受喜愛 (+{maxValue})",
+      "recAny": "任意送給",
+      "normalEffect": "效果一般 (+{maxValue})"
     }
   },
   "giftRecommendation": {
