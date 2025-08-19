@@ -45,7 +45,7 @@
 
   const { t } = useI18n()
   const settingStore = useSettingStore()
-  const { isDarkMode } = storeToRefs(settingStore)
+  const { isDarkMode, locale } = storeToRefs(settingStore)
 
   const studentsData = ref([])
   const giftsData = ref([])
@@ -55,11 +55,11 @@
 
   onMounted(async () => {
     try {
-      const students = await fetchStudentData('zh-tw')
+      const students = await fetchStudentData(locale.value)
       studentsData.value = students
 
-      const srGifts = await fetchSrGiftData('zh-tw')
-      const ssrGifts = await fetchSsrGiftData('zh-tw')
+      const srGifts = await fetchSrGiftData(locale.value)
+      const ssrGifts = await fetchSsrGiftData(locale.value)
 
       giftsData.value = [
         ...srGifts.map((g) => ({ ...g, isSsr: false })),
