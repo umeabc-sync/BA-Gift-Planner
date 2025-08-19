@@ -65,9 +65,11 @@
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     position: relative;
     cursor: pointer;
-    transition: transform 0.3s ease;
+    z-index: 1;
+    transition: transform 0.3s ease, z-index 0.3s ease;
   }
   .gift-grid-item:hover {
+    z-index: 10;
     transform: scale(1.1);
   }
   .gift-yellow {
