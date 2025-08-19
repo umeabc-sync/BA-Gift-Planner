@@ -66,7 +66,9 @@
     position: relative;
     cursor: pointer;
     z-index: 1;
-    transition: transform 0.3s ease, z-index 0.3s ease;
+    transition:
+      transform 0.3s ease,
+      z-index 0.3s ease;
   }
   .gift-grid-item:hover {
     z-index: 10;

@@ -17,8 +17,12 @@
                   class="search-input"
                 />
                 <div class="action-buttons">
-                  <button v-if="!isFilterPanelOpen" class="reset-selection-button" @click="resetSelection">{{ t('characterSelector.resetSelection') }}</button>
-                  <button v-if="isFilterPanelOpen" class="reset-button" @click="resetFilters">{{ t('characterSelector.resetFilters') }}</button>
+                  <button v-if="!isFilterPanelOpen" class="reset-selection-button" @click="resetSelection">
+                    {{ t('characterSelector.resetSelection') }}
+                  </button>
+                  <button v-if="isFilterPanelOpen" class="reset-button" @click="resetFilters">
+                    {{ t('characterSelector.resetFilters') }}
+                  </button>
                   <button class="filter-toggle-button" @click="toggleFilterPanel">
                     <img
                       :src="
