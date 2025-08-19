@@ -1,5 +1,5 @@
 <template>
-  <div :class="{ 'dark-mode': isDarkMode }">
+  <div class="app-container" :class="{ 'dark-mode': isDarkMode }">
     <TheHeader @open-modal="openModal" @open-settings-modal="openSettingsModal" />
 
     <main>
@@ -10,6 +10,8 @@
         <GiftGridSection :title="t('app.giftGridSection.synthesis')" :gifts="synthesisGifts" />
       </template>
     </main>
+
+    <FooterSection />
 
     <StudentSelectionModal
       :is-modal-open="isModalOpen"
@@ -34,6 +36,7 @@
   import GiftGridSection from './components/GiftGridSection.vue'
   import StudentSelectionModal from './components/StudentSelectionModal.vue'
   import SettingsModal from './components/SettingsModal.vue'
+  import FooterSection from './components/FooterSection.vue'
   import { fetchStudentData } from './utils/fetchStudentData'
   import { fetchSrGiftData } from './utils/fetchSrGiftData'
   import { fetchSsrGiftData } from './utils/fetchSsrGiftData'
@@ -214,3 +217,11 @@
     }
   }
 </script>
+
+<style scoped>
+  .app-container {
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - 80px - 40px); /* Subtract header(80px) & padding(40px) height */
+  }
+</style>

@@ -17,6 +17,10 @@ body.dark-mode {
   color: #e0e6ed;
 }
 
+main {
+  flex-grow: 1;
+}
+
 #app {
   max-width: 900px;
   margin: 0 auto;
