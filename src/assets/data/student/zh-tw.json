@@ -120,6 +120,30 @@
     }
   },
   {
+    "id": 21,
+    "fullname": "淺黃 無月",
+    "name": "無月",
+    "school": "Gehenna",
+    "attackType": "Explosive",
+    "defenseType": "Light",
+    "weapon": "MG",
+    "position": 0,
+    "city": "A",
+    "outdoor": "A",
+    "indoor": "D",
+    "favor": {
+      "sr": {
+        "m": [10, 20, 22, 25, 28, 29],
+        "l": [],
+        "xl": [18]
+      },
+      "ssr": {
+        "l": [12],
+        "xl": []
+      }
+    }
+  },
+  {
     "id": 217,
     "fullname": "橘 光",
     "name": "光",
