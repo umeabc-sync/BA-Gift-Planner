@@ -118,5 +118,53 @@
         "xl": [0, 3]
       }
     }
+  },
+  {
+    "id": 217,
+    "fullname": "橘 光",
+    "name": "光",
+    "school": "Highlander",
+    "attackType": "Sonic",
+    "defenseType": "Light",
+    "weapon": "HG",
+    "position": 0,
+    "city": "D",
+    "outdoor": "B",
+    "indoor": "S",
+    "favor": {
+      "sr": {
+        "m": [4, 11, 12, 13, 16, 26],
+        "l": [8],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [4]
+      }
+    }
+  },
+  {
+    "id": 218,
+    "fullname": "橘 希望",
+    "name": "希望",
+    "school": "Highlander",
+    "attackType": "Sonic",
+    "defenseType": "Light",
+    "weapon": "HG",
+    "position": 0,
+    "city": "D",
+    "outdoor": "B",
+    "indoor": "S",
+    "favor": {
+      "sr": {
+        "m": [10, 17, 19, 20, 22, 25, 29, 30],
+        "l": [18],
+        "xl": []
+      },
+      "ssr": {
+        "l": [3],
+        "xl": [12]
+      }
+    }
   }
 ]
