@@ -49,6 +49,7 @@
     "title": "选择学生",
     "searchPlaceholder": "搜索学生名称...",
     "resetFilters": "重设筛选",
+    "resetSelection": "清空选择",
     "attackTypeLabel": "攻击属性",
     "defenseTypeLabel": "装甲属性",
     "schoolLabel": "学园",

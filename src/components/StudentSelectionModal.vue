@@ -17,7 +17,8 @@
                   class="search-input"
                 />
                 <div class="action-buttons">
-                  <button class="reset-button" @click="resetFilters">{{ t('characterSelector.resetFilters') }}</button>
+                  <button v-if="!isFilterPanelOpen" class="reset-selection-button" @click="resetSelection">{{ t('characterSelector.resetSelection') }}</button>
+                  <button v-if="isFilterPanelOpen" class="reset-button" @click="resetFilters">{{ t('characterSelector.resetFilters') }}</button>
                   <button class="filter-toggle-button" @click="toggleFilterPanel">
                     <img
                       :src="
@@ -126,7 +127,7 @@
     selectedStudents: Array,
   })
 
-  const emit = defineEmits(['closeModal', 'toggleStudent'])
+  const emit = defineEmits(['closeModal', 'toggleStudent', 'resetSelection'])
 
   const searchTerm = ref('')
   const isFilterPanelOpen = ref(false)
@@ -218,6 +219,10 @@
     for (const key in selectedFilters) {
       selectedFilters[key] = []
     }
+  }
+
+  const resetSelection = () => {
+    emit('resetSelection')
   }
 
   const filteredStudents = computed(() => {
@@ -450,6 +455,47 @@
     margin-right: 8px;
     font-size: 0.9rem;
     white-space: nowrap;
+  }
+
+  .reset-selection-button {
+    padding: 10px 15px;
+    border: 1px solid transparent;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.85rem;
+    white-space: nowrap;
+    background: linear-gradient(45deg, #5dade2, #2e86c1);
+    color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transform: translateY(0);
+  }
+
+  .reset-selection-button:hover {
+    background: linear-gradient(45deg, #2e86c1, #21618c);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    transform: translateY(-2px);
+  }
+
+  .reset-selection-button:active {
+    background: linear-gradient(45deg, #21618c, #1b4f72);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    transform: translateY(0);
+  }
+
+  .dark-mode .reset-selection-button {
+    background: linear-gradient(45deg, #5dade2, #2e86c1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+  }
+
+  .dark-mode .reset-selection-button:hover {
+    background: linear-gradient(45deg, #2e86c1, #21618c);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  }
+
+  .dark-mode .reset-selection-button:active {
+    background: linear-gradient(45deg, #21618c, #1b4f72);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
   }
 
   .reset-button {

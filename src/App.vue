@@ -17,6 +17,7 @@
       :selected-students="selectedStudents"
       @close-modal="closeModal"
       @toggle-student="toggleStudent"
+      @reset-selection="selectedStudents = []"
     />
 
     <SettingsModal :is-visible="isSettingsModalVisible" @close="closeSettingsModal" />
