@@ -818,6 +818,13 @@
     color: #7f8c8d;
   }
 
+  .nexon-font {
+    font-family: 'NEXON Football Gothic', sans-serif;
+    font-style: italic;
+    font-weight: 700;
+    margin-right: 4px;
+  }
+
   .modal-fade-enter-active,
   .modal-fade-leave-active {
     transition: opacity 0.3s ease;
