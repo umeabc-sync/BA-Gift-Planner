@@ -71,9 +71,7 @@
 
   // Use computed to ensure student names are updated responsively
   const selectedStudents = computed(() => {
-    return selectedStudentIds.value
-      .map(id => studentsData.value.find(student => student.id === id))
-      .filter(Boolean) // Filter out students who may not be found
+    return selectedStudentIds.value.map((id) => studentsData.value.find((student) => student.id === id)).filter(Boolean) // Filter out students who may not be found
   })
 
   onMounted(async () => {
@@ -111,7 +109,7 @@
   }
 
   function toggleStudent(student) {
-    const index = selectedStudentIds.value.findIndex(id => id === student.id)
+    const index = selectedStudentIds.value.findIndex((id) => id === student.id)
     if (index > -1) {
       selectedStudentIds.value.splice(index, 1)
     } else {

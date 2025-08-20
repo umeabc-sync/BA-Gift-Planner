@@ -6,9 +6,13 @@ import { onKeyStroke } from '@vueuse/core'
  * @param {() => void} callback - The function to call when the Escape key is pressed.
  */
 export function useEscapeKey(isVisibleRef, callback) {
-  onKeyStroke('Escape', (e) => {
-    if (isVisibleRef.value) {
-      callback(e)
-    }
-  }, { target: window, eventName: 'keyup' })
+  onKeyStroke(
+    'Escape',
+    (e) => {
+      if (isVisibleRef.value) {
+        callback(e)
+      }
+    },
+    { target: window, eventName: 'keyup' }
+  )
 }

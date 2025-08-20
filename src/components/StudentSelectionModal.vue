@@ -60,7 +60,7 @@
                           'has-icon': ['attackType', 'defenseType', 'school'].includes(group.id),
                         }"
                         @click="selectFilter(group.id, option.value)"
-                        style="font-family: inherit;"
+                        style="font-family: inherit"
                       >
                         <template v-if="group.id === 'attackType'">
                           <div class="type-icon-wrapper" :class="`type-bg-${option.value.toLowerCase()}`">
