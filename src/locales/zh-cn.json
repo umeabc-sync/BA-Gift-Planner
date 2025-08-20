@@ -59,6 +59,7 @@
   },
   "settingsModal": {
     "language": "语言",
+    "showOnlyOptimalSolution": "仅显示最优解",
     "characterSelectorLazyLoad": "角色选择器图片懒加载",
     "theme": "主题",
     "light": "明亮",

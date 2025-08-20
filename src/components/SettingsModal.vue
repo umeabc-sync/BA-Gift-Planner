@@ -34,6 +34,25 @@
               </div>
             </div>
 
+            <!-- Show Only Optimal Solution Settings -->
+            <div class="setting-group">
+              <div class="setting-group-title-wrapper">
+                <h4 class="setting-group-title">{{ t('settingsModal.showOnlyOptimalSolution') }}</h4>
+              </div>
+              <div class="toggle-switch">
+                <span class="toggle-label">{{
+                  isShowOnlyOptimalSolutionEnabled ? t('common.enabled') : t('common.disabled')
+                }}</span>
+                <input
+                  id="showOnlyOptimalSolutionToggle"
+                  type="checkbox"
+                  :checked="isShowOnlyOptimalSolutionEnabled"
+                  @change="toggleShowOnlyOptimalSolution"
+                />
+                <label for="showOnlyOptimalSolutionToggle"></label>
+              </div>
+            </div>
+
             <!-- Lazy Load Settings -->
             <div class="setting-group">
               <div class="setting-group-title-wrapper">
@@ -73,9 +92,13 @@
   useModal(isVisible, closeModal)
 
   const settingStore = useSettingStore()
-  const { locale: currentLocale, enableCharacterSelectorLazyLoad: isLazyLoadEnabled } = storeToRefs(settingStore)
+  const {
+    locale: currentLocale,
+    enableCharacterSelectorLazyLoad: isLazyLoadEnabled,
+    showOnlyOptimalSolution: isShowOnlyOptimalSolutionEnabled,
+  } = storeToRefs(settingStore)
 
-  const { toggleCharacterSelectorLazyLoad } = settingStore
+  const { toggleCharacterSelectorLazyLoad, toggleShowOnlyOptimalSolution } = settingStore
 
   const availableLanguages = [
     { code: 'zh-tw', name: '繁體中文' },

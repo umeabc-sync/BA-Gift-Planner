@@ -9,6 +9,7 @@ export const useSettingStore = defineStore(
     const osPrefersDark = ref(window.matchMedia('(prefers-color-scheme: dark)').matches)
     const locale = ref('zh-tw')
     const enableCharacterSelectorLazyLoad = ref(true)
+    const showOnlyOptimalSolution = ref(true)
 
     // Getters (Computed)
     const isDarkMode = computed(() => {
@@ -29,6 +30,10 @@ export const useSettingStore = defineStore(
       enableCharacterSelectorLazyLoad.value = !enableCharacterSelectorLazyLoad.value
     }
 
+    function toggleShowOnlyOptimalSolution() {
+      showOnlyOptimalSolution.value = !showOnlyOptimalSolution.value
+    }
+
     function setLocale(newLocale) {
       locale.value = newLocale
     }
@@ -44,8 +49,10 @@ export const useSettingStore = defineStore(
       locale,
       isDarkMode,
       enableCharacterSelectorLazyLoad,
+      showOnlyOptimalSolution,
       toggleTheme,
       toggleCharacterSelectorLazyLoad,
+      toggleShowOnlyOptimalSolution,
       setLocale,
       initThemeListener,
     }

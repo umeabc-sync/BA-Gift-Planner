@@ -45,7 +45,7 @@
 
   const { t } = useI18n()
   const settingStore = useSettingStore()
-  const { isDarkMode, locale } = storeToRefs(settingStore)
+  const { isDarkMode, locale, showOnlyOptimalSolution } = storeToRefs(settingStore)
 
   const studentsData = ref([])
   const giftsData = ref([])
@@ -115,7 +115,7 @@
     }
 
     return giftsData.value.map((gift) => {
-      const analysis = analyzeGift(gift)
+      const analysis = analyzeGift(gift, showOnlyOptimalSolution.value)
       return { ...gift, analysis }
     })
   })
@@ -134,87 +134,87 @@
       .sort((a, b) => b.analysis.maxValue - a.analysis.maxValue)
   })
 
-  function analyzeGift(gift) {
-    const preferences = selectedStudents.value.map((student) => getPreferenceValue(student, gift))
-    const maxValue = Math.max(...preferences)
+  function analyzeGift(gift, showOnlyOptimal) {
+    const preferences = selectedStudents.value.map((student) => ({
+      student,
+      value: getPreferenceValue(student, gift),
+    }))
+    const maxValue = Math.max(0, ...preferences.map((p) => p.value))
 
-    const getBestStudents = () =>
-      selectedStudents.value.filter((student) => getPreferenceValue(student, gift) === maxValue)
+    const analysis = {
+      isRecommended: false,
+      isGeneric: false,
+      shouldSynthesize: false,
+      maxValue,
+    }
+
+    const baseThreshold = gift.isSsr ? 180 : 40
+
+    if (maxValue < baseThreshold) {
+      if (gift.isSsr) {
+        analysis.isGeneric = true
+      } else {
+        analysis.shouldSynthesize = true
+      }
+      return analysis
+    }
+
+    const potentialCharacters = preferences
+      .filter((p) => p.value >= baseThreshold)
+      .map((p) => ({
+        ...p.student,
+        isOptimal: p.value === maxValue,
+        value: p.value,
+      }))
+
+    const finalCharacters = showOnlyOptimal
+      ? potentialCharacters.filter((c) => c.isOptimal)
+      : potentialCharacters.sort((a, b) => b.value - a.value)
+
+    if (finalCharacters.length === 0) {
+      if (gift.isSsr) analysis.isGeneric = true
+      else analysis.shouldSynthesize = true
+      return analysis
+    }
+
+    analysis.isRecommended = true
+    analysis.characters = finalCharacters
 
     if (gift.isSsr) {
-      // SSR Gifts (Purple)
       if (maxValue >= 240) {
-        // XL - Recommended
-        return {
-          isRecommended: true,
-          class: 'rec-best',
-          typeTextKey: 'app.analysis.recBest',
-          titleKey: 'app.analysis.bestChoice',
-          titleValue: maxValue,
-          characters: getBestStudents(),
-          maxValue,
-        }
-      } else if (maxValue >= 180) {
-        // L - Recommended
-        return {
-          isRecommended: true,
-          class: 'rec-good',
-          typeTextKey: 'app.analysis.recGood',
-          titleKey: 'app.analysis.goodChoice',
-          titleValue: maxValue,
-          characters: getBestStudents(),
-          maxValue,
-        }
+        analysis.class = 'rec-best'
+        analysis.typeTextKey = 'app.analysis.recBest'
+        analysis.titleKey = 'app.analysis.bestChoice'
+        analysis.titleValue = maxValue
       } else {
-        // Normal - Generic gift, not for synthesis
-        return {
-          isGeneric: true,
-          maxValue,
-        }
+        // >= 180
+        analysis.class = 'rec-good'
+        analysis.typeTextKey = 'app.analysis.recGood'
+        analysis.titleKey = 'app.analysis.goodChoice'
+        analysis.titleValue = maxValue
       }
     } else {
-      // SR Gifts (Yellow)
+      // SR
       if (maxValue >= 80) {
-        // XL - Recommended
-        return {
-          isRecommended: true,
-          class: 'rec-extra',
-          typeTextKey: 'app.analysis.recExtra',
-          titleKey: 'app.analysis.extraChoice',
-          titleValue: maxValue,
-          characters: getBestStudents(),
-          maxValue,
-        }
+        analysis.class = 'rec-extra'
+        analysis.typeTextKey = 'app.analysis.recExtra'
+        analysis.titleKey = 'app.analysis.extraChoice'
+        analysis.titleValue = maxValue
       } else if (maxValue >= 60) {
-        // L - Recommended
-        return {
-          isRecommended: true,
-          class: 'rec-best',
-          typeTextKey: 'app.analysis.recBest',
-          titleKey: 'app.analysis.bestChoice',
-          titleValue: maxValue,
-          characters: getBestStudents(),
-          maxValue,
-        }
-      } else if (maxValue >= 40) {
-        // M - Recommended
-        return {
-          isRecommended: true,
-          class: 'rec-good',
-          typeTextKey: 'app.analysis.recGood',
-          titleKey: 'app.analysis.goodChoice',
-          titleValue: maxValue,
-          characters: getBestStudents(),
-          maxValue,
-        }
+        analysis.class = 'rec-best'
+        analysis.typeTextKey = 'app.analysis.recBest'
+        analysis.titleKey = 'app.analysis.bestChoice'
+        analysis.titleValue = maxValue
       } else {
-        // Normal, suggest synthesis
-        return {
-          shouldSynthesize: true,
-          maxValue,
-        }
+        // >= 40
+        analysis.class = 'rec-good'
+        analysis.typeTextKey = 'app.analysis.recGood'
+        analysis.titleKey = 'app.analysis.goodChoice'
+        analysis.titleValue = maxValue
       }
     }
+
+    return analysis
   }
 </script>
 

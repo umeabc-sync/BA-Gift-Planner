@@ -8,7 +8,12 @@
       <div class="rec-type" :class="gift.analysis.class">{{ t(gift.analysis.typeTextKey) }}</div>
       <div class="recommendation-title">{{ t(gift.analysis.titleKey, { maxValue: gift.analysis.titleValue }) }}</div>
       <div class="character-avatars">
-        <div v-for="char in gift.analysis.characters" :key="char.id" class="character-avatar">
+        <div
+          v-for="char in gift.analysis.characters"
+          :key="char.id"
+          class="character-avatar"
+          :class="{ 'sub-optimal': !char.isOptimal }"
+        >
           <img :src="getAvatarUrl(char.id)" class="character-avatar-img" />
           <div class="tooltip">
             <div class="tooltip-name">{{ char.name }}</div>
@@ -148,6 +153,12 @@
     border-radius: 50%;
     object-fit: cover;
     border: 2px solid #6495ed;
+  }
+
+  .sub-optimal .character-avatar-img {
+    opacity: 0.75;
+    border: 2px dashed #ccc !important;
+    filter: none;
   }
 
   .dark-mode .character-avatar .character-avatar-img {
