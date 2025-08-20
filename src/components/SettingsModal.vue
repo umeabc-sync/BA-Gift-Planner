@@ -143,7 +143,7 @@
       return
     }
     settingStore.setLocale(newLocale)
-    window.location.reload()
+    // window.location.reload()
   }
 
   const toggleLazyLoad = () => {

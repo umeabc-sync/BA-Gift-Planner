@@ -19,7 +19,7 @@
       :selected-students="selectedStudents"
       @close-modal="closeModal"
       @toggle-student="toggleStudent"
-      @reset-selection="selectedStudents = []"
+      @reset-selection="selectedStudentIds = []"
     />
 
     <SettingsModal :is-visible="isSettingsModalVisible" @close="closeSettingsModal" />
@@ -38,9 +38,9 @@
   import StudentSelectionModal from './components/StudentSelectionModal.vue'
   import SettingsModal from './components/SettingsModal.vue'
   import FooterSection from './components/FooterSection.vue'
-  import { fetchStudentData } from './utils/fetchStudentData'
-  import { fetchSrGiftData } from './utils/fetchSrGiftData'
-  import { fetchSsrGiftData } from './utils/fetchSsrGiftData'
+  import { useStudentData } from './utils/fetchStudentData'
+  import { useSrGiftData } from './utils/fetchSrGiftData'
+  import { useSsrGiftData } from './utils/fetchSsrGiftData'
   import { getPreferenceValue } from './utils/getPreferenceValue'
   import { useI18n } from './composables/useI18n'
 
@@ -48,32 +48,37 @@
   const settingStore = useSettingStore()
   const { isDarkMode, locale, showOnlyOptimalSolution } = storeToRefs(settingStore)
 
-  const studentsData = ref([])
-  const giftsData = ref([])
-  const selectedStudents = ref([])
+  // Data Fetching
+  const { data: fetchedStudentsData } = useStudentData(locale)
+  const { data: srGiftsData } = useSrGiftData(locale)
+  const { data: ssrGiftsData } = useSsrGiftData(locale)
+
+  const studentsData = computed(() => fetchedStudentsData.value || [])
+
+  const giftsData = computed(() => {
+    if (!srGiftsData.value || !ssrGiftsData.value) {
+      return []
+    }
+    return [
+      ...srGiftsData.value.map((g) => ({ ...g, isSsr: false })),
+      ...ssrGiftsData.value.map((g) => ({ ...g, isSsr: true })),
+    ]
+  })
+
+  const selectedStudentIds = ref([])
   const isModalOpen = ref(false)
   const isSettingsModalVisible = ref(false)
 
+  // Use computed to ensure student names are updated responsively
+  const selectedStudents = computed(() => {
+    return selectedStudentIds.value
+      .map(id => studentsData.value.find(student => student.id === id))
+      .filter(Boolean) // Filter out students who may not be found
+  })
+
   onMounted(async () => {
-    try {
-      // Wait for IP location to set locale
-      await runIPGeolocation()
-
-      // Load character & gift data, using the locale in the Pinia store
-      const students = await fetchStudentData(locale.value)
-      studentsData.value = students
-
-      const srGifts = await fetchSrGiftData(locale.value)
-      const ssrGifts = await fetchSsrGiftData(locale.value)
-
-      giftsData.value = [
-        ...srGifts.map((g) => ({ ...g, isSsr: false })),
-        ...ssrGifts.map((g) => ({ ...g, isSsr: true })),
-      ]
-    } catch (error) {
-      console.error('Failed to load data:', error)
-    }
-
+    // Wait for IP location to set locale
+    await runIPGeolocation()
     settingStore.initThemeListener()
   })
 
@@ -106,11 +111,11 @@
   }
 
   function toggleStudent(student) {
-    const index = selectedStudents.value.findIndex((s) => s.id === student.id)
+    const index = selectedStudentIds.value.findIndex(id => id === student.id)
     if (index > -1) {
-      selectedStudents.value.splice(index, 1)
+      selectedStudentIds.value.splice(index, 1)
     } else {
-      selectedStudents.value.push(student)
+      selectedStudentIds.value.push(student.id)
     }
   }
 

@@ -1,9 +1,10 @@
+import { useFetch } from '@vueuse/core'
 import { getAssetsFile } from './getAssetsFile'
+import { computed } from 'vue'
 
-export async function fetchSsrGiftData(language = 'zh-tw') {
-  const response = await fetch(getAssetsFile(`data/gift/ssr/${language}.json`))
-  if (!response.ok) {
-    throw new Error('Failed to fetch data')
-  }
-  return response.json()
+export function useSsrGiftData(language) {
+  const url = computed(() => getAssetsFile(`data/gift/ssr/${language.value}.json`))
+  const { isFetching, error, data } = useFetch(url, { refetch: true }).json()
+
+  return { isFetching, error, data }
 }
