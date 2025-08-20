@@ -156,7 +156,10 @@
     height: 50px;
     border-radius: 50%;
     cursor: pointer;
-    transition: transform 0.3s ease;
+    z-index: 0;
+    transition:
+      transform 0.3s ease,
+      z-index 0.3s ease;
     position: relative;
   }
   .character-avatar-img {
@@ -181,6 +184,7 @@
   }
 
   .character-avatar:hover {
+    z-index: 10;
     transform: scale(1.1);
   }
   .tooltip {
