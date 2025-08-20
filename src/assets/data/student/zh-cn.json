@@ -1,7 +1,6 @@
 [
   {
     "id": 1,
-    "fullname": "陆八魔 爱露",
     "name": "爱露",
     "school": "Gehenna",
     "attackType": "Explosive",
@@ -22,7 +21,6 @@
   },
   {
     "id": 2,
-    "fullname": "和泉元 艾米",
     "name": "艾米",
     "school": "Millennium",
     "attackType": "Explosive",
@@ -43,7 +41,6 @@
   },
   {
     "id": 3,
-    "fullname": "黑馆 晴奈",
     "name": "晴奈",
     "school": "Gehenna",
     "attackType": "Mystic",
@@ -64,7 +61,6 @@
   },
   {
     "id": 5,
-    "fullname": "空崎 日奈",
     "name": "日奈",
     "school": "Gehenna",
     "attackType": "Explosive",
@@ -85,7 +81,6 @@
   },
   {
     "id": 6,
-    "fullname": "小鸟游 星野",
     "name": "星野",
     "school": "Abydos",
     "attackType": "Piercing",
@@ -106,7 +101,6 @@
   },
   {
     "id": 21,
-    "fullname": "浅黄 睦月",
     "name": "睦月",
     "school": "Gehenna",
     "attackType": "Explosive",
@@ -127,7 +121,6 @@
   },
   {
     "id": 197,
-    "fullname": "龙华 妃咲",
     "name": "妃咲",
     "school": "Shanhaijing",
     "attackType": "Sonic",
@@ -148,7 +141,6 @@
   },
   {
     "id": 205,
-    "fullname": "百合园 圣娅",
     "name": "圣娅",
     "school": "Trinity",
     "attackType": "Piercing",
@@ -169,7 +161,6 @@
   },
   {
     "id": 217,
-    "fullname": "橘 光",
     "name": "光",
     "school": "Highlander",
     "attackType": "Sonic",
@@ -190,7 +181,6 @@
   },
   {
     "id": 218,
-    "fullname": "橘 望",
     "name": "望",
     "school": "Highlander",
     "attackType": "Sonic",
@@ -211,7 +201,6 @@
   },
   {
     "id": 227,
-    "fullname": "百合園 圣娅（泳装）",
     "name": "圣娅（泳装）",
     "school": "Trinity",
     "attackType": "Piercing",
