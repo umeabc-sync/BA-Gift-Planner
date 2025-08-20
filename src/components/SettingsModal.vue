@@ -269,6 +269,7 @@
     border-radius: 8px;
     background-color: #fff;
     cursor: pointer;
+    font-family: inherit;
     font-size: 1rem;
     font-weight: 500;
     display: flex;

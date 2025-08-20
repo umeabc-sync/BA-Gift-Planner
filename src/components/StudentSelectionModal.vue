@@ -59,6 +59,7 @@
                           'has-icon': ['attackType', 'defenseType', 'school'].includes(group.id),
                         }"
                         @click="selectFilter(group.id, option.value)"
+                        style="font-family: inherit;"
                       >
                         <template v-if="group.id === 'attackType'">
                           <div class="type-icon-wrapper" :class="`type-bg-${option.value.toLowerCase()}`">
@@ -390,6 +391,7 @@
     border-radius: 8px;
     border: 1px solid #ccc;
     font-size: 1rem;
+    font-family: inherit;
     min-width: 0;
   }
 
@@ -478,6 +480,7 @@
     cursor: pointer;
     transition: all 0.2s ease;
     font-size: 0.85rem;
+    font-family: inherit;
     white-space: nowrap;
     background: linear-gradient(45deg, #5dade2, #2e86c1);
     color: white;
@@ -519,6 +522,7 @@
     cursor: pointer;
     transition: all 0.2s ease;
     font-size: 0.85rem;
+    font-family: inherit;
     white-space: nowrap;
     background: linear-gradient(45deg, #ff6b6b, #e74c3c);
     color: white;
@@ -601,7 +605,7 @@
     background-color: #fff;
     cursor: pointer;
     transition: all 0.3s ease;
-    font-size: 0.85rem;
+    font-size: 0.86rem;
   }
 
   .filter-group button.has-icon {
