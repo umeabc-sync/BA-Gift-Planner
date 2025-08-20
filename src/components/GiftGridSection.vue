@@ -8,7 +8,12 @@
         class="gift-grid-item"
         :class="gift.isSsr ? 'gift-purple' : 'gift-yellow'"
       >
-        <img :src="getGiftUrl(gift.id, gift.isSsr)" class="gift-icon" />
+        <ImageWithLoader
+          :src="getGiftUrl(gift.id, gift.isSsr)"
+          class="gift-icon"
+          object-fit="contain"
+          loader-type="pulse"
+        />
         <div class="gift-name">{{ gift.name }}</div>
       </div>
     </div>
@@ -17,6 +22,7 @@
 
 <script setup>
   import { getGiftUrl } from '../utils/getGiftUrl'
+  import ImageWithLoader from './ImageWithLoader.vue'
 
   defineProps({
     title: String,
@@ -82,7 +88,8 @@
   }
   .gift-icon {
     width: 90%;
-    object-fit: contain;
+    height: 90%;
+    border-radius: 50%;
   }
   .gift-grid-item .gift-name {
     position: absolute;

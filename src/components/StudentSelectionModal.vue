@@ -99,7 +99,11 @@
                   :class="{ selected: selectedStudents.some((s) => s.id === student.id) }"
                   @click="toggleStudentSelection(student)"
                 >
-                  <img :src="getAvatarUrl(student.id)" class="student-avatar-large" />
+                  <ImageWithLoader
+                    :src="getAvatarUrl(student.id)"
+                    class="student-avatar-large"
+                    :lazy="enableCharacterSelectorLazyLoad"
+                  />
                   <span class="student-name">{{ student.name }}</span>
                 </div>
                 <div v-if="filteredStudents.length === 0" class="no-results">
@@ -122,6 +126,9 @@
   import { useModal } from '../composables/useModal.js'
   import { useI18n } from '../composables/useI18n.js'
   import filterOptions from '@/data/filterOptions.json'
+  import ImageWithLoader from './ImageWithLoader.vue'
+  import { useSettingStore } from '@/store/setting'
+  import { storeToRefs } from 'pinia'
 
   const { t } = useI18n()
 
@@ -132,6 +139,9 @@
   })
 
   const emit = defineEmits(['closeModal', 'toggleStudent', 'resetSelection'])
+
+  const settingStore = useSettingStore()
+  const { enableCharacterSelectorLazyLoad } = storeToRefs(settingStore)
 
   const searchTerm = ref('')
   const isFilterPanelOpen = ref(false)
@@ -745,14 +755,37 @@
       0 8px 25px rgba(0, 174, 239, 0.3);
   }
 
+  .student-avatar-large {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-bottom: 8px;
+    transition:
+      transform 0.2s,
+      box-shadow 0.2s;
+  }
+
+  .student-avatar-large :deep(img) {
+    border-radius: 50%;
+    border: 3px solid #6495ed;
+    transition: border-color 0.2s;
+  }
+
+  .dark-mode .student-avatar-large :deep(img) {
+    border-color: #00aeef;
+  }
+
   /* 頭像邊框在選中時的變化 */
   .student-card.selected .student-avatar-large {
-    border-color: #6495ed;
-    box-shadow: 0 0 15px rgba(100, 149, 237, 0.4);
     transform: scale(1.05);
   }
 
-  .dark-mode .student-card.selected .student-avatar-large {
+  .student-card.selected .student-avatar-large :deep(img) {
+    border-color: #6495ed;
+    box-shadow: 0 0 15px rgba(100, 149, 237, 0.4);
+  }
+
+  .dark-mode .student-card.selected .student-avatar-large :deep(img) {
     border-color: #00aeef;
     box-shadow: 0 0 15px rgba(0, 174, 239, 0.5);
   }
@@ -767,19 +800,6 @@
   .dark-mode .student-card.selected .student-name {
     color: #87ceeb;
     text-shadow: 0 1px 3px rgba(0, 174, 239, 0.4);
-  }
-
-  .student-avatar-large {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    border: 3px solid #6495ed;
-    margin-bottom: 8px;
-    object-fit: cover;
-  }
-
-  .dark-mode .student-avatar-large {
-    border-color: #00aeef;
   }
 
   .student-name {

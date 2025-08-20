@@ -1,7 +1,12 @@
 <template>
   <div class="gift-row">
     <div class="gift-island" :class="gift.isSsr ? 'gift-purple' : 'gift-yellow'">
-      <img :src="getGiftUrl(gift.id, gift.isSsr)" class="gift-icon" />
+      <ImageWithLoader
+        :src="getGiftUrl(gift.id, gift.isSsr)"
+        class="gift-icon"
+        object-fit="contain"
+        loader-type="pulse"
+      />
       <div class="gift-name">{{ gift.name }}</div>
     </div>
     <div class="recommendation-island">
@@ -14,11 +19,15 @@
           class="character-avatar"
           :class="{ 'sub-optimal': !char.isOptimal }"
         >
-          <img :src="getAvatarUrl(char.id)" class="character-avatar-img" />
+          <ImageWithLoader :src="getAvatarUrl(char.id)" class="character-avatar-img" />
           <div class="tooltip">
             <div class="tooltip-name">{{ char.name }}</div>
             <div class="tooltip-xp">
-              <img :src="getInteractionUrl(getInteractionLevel(gift, char))" class="tooltip-icon" />
+              <ImageWithLoader
+                :src="getInteractionUrl(getInteractionLevel(gift, char))"
+                class="tooltip-icon"
+                object-fit="contain"
+              />
               <span>{{ t('giftRecommendation.bondXp', { value: getPreferenceValue(char, gift) }) }}</span>
             </div>
           </div>
@@ -34,6 +43,7 @@
   import { getPreferenceValue } from '../utils/getPreferenceValue'
   import { getInteractionUrl } from '../utils/getInteractionUrl'
   import { useI18n } from '../composables/useI18n.js'
+  import ImageWithLoader from './ImageWithLoader.vue'
 
   const { t } = useI18n()
 
@@ -87,7 +97,8 @@
   }
   .gift-icon {
     width: 90%;
-    object-fit: contain;
+    height: 90%;
+    border-radius: 50%;
   }
   .gift-name {
     position: absolute;
@@ -148,20 +159,24 @@
     transition: transform 0.3s ease;
     position: relative;
   }
-  .character-avatar .character-avatar-img {
+  .character-avatar-img {
     width: 100%;
+    height: 100%;
     border-radius: 50%;
-    object-fit: cover;
+  }
+
+  .character-avatar :deep(.character-avatar-img img) {
+    border-radius: 50%;
     border: 2px solid #6495ed;
   }
 
-  .sub-optimal .character-avatar-img {
+  .sub-optimal :deep(.character-avatar-img img) {
     opacity: 0.75;
     border: 2px dashed #ccc !important;
     filter: none;
   }
 
-  .dark-mode .character-avatar .character-avatar-img {
+  .dark-mode .character-avatar :deep(.character-avatar-img img) {
     border: 2px solid #00aeef;
   }
 
@@ -203,7 +218,6 @@
   .tooltip-icon {
     width: 24px;
     height: 24px;
-    object-fit: contain;
   }
   .rec-type {
     display: inline-block;
