@@ -1,6 +1,8 @@
 <template>
   <header class="header">
-    <div class="header-title">{{ t('header.title') }}</div>
+    <div class="header-title">
+      <img :src="logoUrl" :alt="t('header.title')" />
+    </div>
     <div class="controls">
       <button class="icon-btn" @click="$emit('openModal')">
         <img :src="addStudentsIconUrl" :alt="t('header.selectStudentsAlt')" />
@@ -79,19 +81,26 @@
   import { computed, ref } from 'vue'
   import { useSettingStore } from '@/store/setting'
   import { storeToRefs } from 'pinia'
-  import { getAssetsFile } from '../utils/getAssetsFile'
-  import { useI18n } from '../composables/useI18n'
+  import { getAssetsFile } from '@/utils/getAssetsFile'
+  import { getTitleUrl } from '@/utils/getTitleUrl'
+  import { useI18n } from '@/composables/useI18n'
+  import { useWindowSize } from '@vueuse/core'
 
   const { t } = useI18n()
 
   const emit = defineEmits(['openModal', 'openSettingsModal'])
 
   const settingStore = useSettingStore()
-  const { theme } = storeToRefs(settingStore)
+  const { theme, locale } = storeToRefs(settingStore)
   const { toggleTheme } = settingStore
+
+  const { width } = useWindowSize()
+  const isMobile = computed(() => width.value <= 768)
 
   const addStudentsIconUrl = computed(() => getAssetsFile('icon/add_students.svg'))
   const gearIconUrl = computed(() => getAssetsFile('icon/gear.svg'))
+
+  const logoUrl = computed(() => getTitleUrl(locale.value, isMobile.value))
 
   const isSettingsIconRotating = ref(false)
 
@@ -116,9 +125,10 @@
     top: 0;
     left: 0;
     right: 0;
+    height: 70px;
     background: linear-gradient(45deg, #87ceeb, #6495ed);
     color: white;
-    padding: 15px 20px;
+    padding: 5px 20px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     z-index: 1000;
     display: flex;
@@ -133,7 +143,17 @@
   .header-title {
     font-size: 24px;
     font-weight: bold;
+    display: flex;
+    align-items: center;
+    height: 100%;
   }
+
+  .header-title img {
+    height: 100%;
+    width: auto;
+    object-fit: contain;
+  }
+
   .controls {
     display: flex;
     align-items: center;
