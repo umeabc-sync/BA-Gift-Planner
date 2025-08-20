@@ -5,7 +5,7 @@
     </div>
     <div class="controls">
       <button class="icon-btn" @click="$emit('openModal')">
-        <img :src="addStudentsIconUrl" :alt="t('header.selectStudentsAlt')" />
+        <img :src="addStudentsIconUrl" :alt="t('header.selectStudentsAlt')" draggable="false" />
       </button>
       <button class="icon-btn settings-btn" @click="handleSettingsClick">
         <img
@@ -13,6 +13,7 @@
           :alt="t('header.settingsAlt')"
           :class="{ 'is-rotating': isSettingsIconRotating }"
           @animationend="isSettingsIconRotating = false"
+          draggable="false"
         />
       </button>
       <button class="icon-btn theme-toggle-btn" @click="toggleTheme">

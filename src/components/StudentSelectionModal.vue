@@ -32,6 +32,7 @@
                       "
                       alt="Toggle Filters"
                       class="filter-toggle-icon"
+                      draggable="false"
                     />
                   </button>
                 </div>
