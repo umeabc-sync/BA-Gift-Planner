@@ -28,7 +28,8 @@
 
 <script setup>
   import { ref, computed, onMounted, watch } from 'vue'
-  import { useSettingStore } from '@/store/setting'
+  import { runIPGeolocation } from './utils/ipGeolocation'
+  import { useSettingStore } from './store/setting'
   import { storeToRefs } from 'pinia'
   import TheHeader from './components/TheHeader.vue'
   import WelcomeMessage from './components/WelcomeMessage.vue'
@@ -55,6 +56,10 @@
 
   onMounted(async () => {
     try {
+      // Wait for IP location to set locale
+      await runIPGeolocation()
+
+      // Load character & gift data, using the locale in the Pinia store
       const students = await fetchStudentData(locale.value)
       studentsData.value = students
 

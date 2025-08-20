@@ -7,7 +7,7 @@ export const useSettingStore = defineStore(
     // State
     const theme = ref('system') // 'light', 'dark', 'system'
     const osPrefersDark = ref(window.matchMedia('(prefers-color-scheme: dark)').matches)
-    const locale = ref('zh-tw')
+    const locale = ref(null)
     const showOnlyOptimalSolution = ref(false)
     const enableCharacterSelectorLazyLoad = ref(true)
 

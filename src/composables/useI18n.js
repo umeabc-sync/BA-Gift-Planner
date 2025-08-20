@@ -9,6 +9,7 @@ export function useI18n() {
 
   const loadMessages = async (locale) => {
     try {
+      if (locale === null) locale = 'zh-tw' // Make sure components don't try to access null.json during their initial setup.
       const module = await import(`@/locales/${locale}.json`)
       loadedMessages.value = module.default
       currentLocale.value = locale
