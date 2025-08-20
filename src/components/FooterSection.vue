@@ -1,6 +1,6 @@
 <template>
   <div class="footer-container">
-    <a href="https://github.com/Yuuzi261/BA-Character-Rating" target="_blank" class="github-link">
+    <a href="https://github.com/Yuuzi261/BA-Gift-Planner" target="_blank" class="github-link">
       <img :src="githubIconUrl" alt="Github Icon" />
     </a>
     <div class="developer-credits">
