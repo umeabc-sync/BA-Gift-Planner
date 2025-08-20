@@ -1,7 +1,6 @@
 [
   {
     "id": 1,
-    "name": "亞瑠",
     "school": "Gehenna",
     "attackType": "Explosive",
     "defenseType": "Light",
@@ -21,7 +20,6 @@
   },
   {
     "id": 2,
-    "name": "英美",
     "school": "Millennium",
     "attackType": "Explosive",
     "defenseType": "Light",
@@ -41,7 +39,6 @@
   },
   {
     "id": 3,
-    "name": "羽留奈",
     "school": "Gehenna",
     "attackType": "Mystic",
     "defenseType": "Heavy",
@@ -61,7 +58,6 @@
   },
   {
     "id": 4,
-    "name": "日步美",
     "school": "Trinity",
     "attackType": "Piercing",
     "defenseType": "Light",
@@ -81,7 +77,6 @@
   },
   {
     "id": 5,
-    "name": "陽奈",
     "school": "Gehenna",
     "attackType": "Explosive",
     "defenseType": "Heavy",
@@ -101,7 +96,6 @@
   },
   {
     "id": 6,
-    "name": "星野",
     "school": "Abydos",
     "attackType": "Piercing",
     "defenseType": "Heavy",
@@ -121,7 +115,6 @@
   },
   {
     "id": 7,
-    "name": "伊織",
     "school": "Gehenna",
     "attackType": "Piercing",
     "defenseType": "Heavy",
@@ -141,7 +134,6 @@
   },
   {
     "id": 8,
-    "name": "真紀",
     "school": "Millennium",
     "attackType": "Piercing",
     "defenseType": "Light",
@@ -161,7 +153,6 @@
   },
   {
     "id": 9,
-    "name": "寧瑠",
     "school": "Millennium",
     "attackType": "Piercing",
     "defenseType": "Light",
@@ -181,7 +172,6 @@
   },
   {
     "id": 10,
-    "name": "泉",
     "school": "Gehenna",
     "attackType": "Explosive",
     "defenseType": "Light",
@@ -201,7 +191,6 @@
   },
   {
     "id": 11,
-    "name": "白子",
     "school": "Abydos",
     "attackType": "Explosive",
     "defenseType": "Light",
@@ -221,7 +210,6 @@
   },
   {
     "id": 12,
-    "name": "旬",
     "school": "Shanhaijing",
     "attackType": "Explosive",
     "defenseType": "Light",
@@ -241,7 +229,6 @@
   },
   {
     "id": 13,
-    "name": "堇",
     "school": "Millennium",
     "attackType": "Piercing",
     "defenseType": "Special",
@@ -261,7 +248,6 @@
   },
   {
     "id": 15,
-    "name": "朱音",
     "school": "Millennium",
     "attackType": "Piercing",
     "defenseType": "Light",
@@ -281,7 +267,6 @@
   },
   {
     "id": 16,
-    "name": "知世",
     "school": "Hyakkiyako",
     "attackType": "Mystic",
     "defenseType": "Heavy",
@@ -301,7 +286,6 @@
   },
   {
     "id": 17,
-    "name": "亞伽里",
     "school": "Gehenna",
     "attackType": "Explosive",
     "defenseType": "Heavy",
@@ -321,7 +305,6 @@
   },
   {
     "id": 18,
-    "name": "蓮實",
     "school": "Trinity",
     "attackType": "Piercing",
     "defenseType": "Heavy",
@@ -341,7 +324,6 @@
   },
   {
     "id": 19,
-    "name": "野乃美",
     "school": "Abydos",
     "attackType": "Piercing",
     "defenseType": "Light",
@@ -361,7 +343,6 @@
   },
   {
     "id": 20,
-    "name": "佳世子",
     "school": "Gehenna",
     "attackType": "Explosive",
     "defenseType": "Heavy",
@@ -381,7 +362,6 @@
   },
   {
     "id": 21,
-    "name": "無月",
     "school": "Gehenna",
     "attackType": "Explosive",
     "defenseType": "Light",
@@ -401,7 +381,6 @@
   },
   {
     "id": 23,
-    "name": "茜香",
     "school": "Abydos",
     "attackType": "Explosive",
     "defenseType": "Light",
@@ -421,7 +400,6 @@
   },
   {
     "id": 24,
-    "name": "椿",
     "school": "Hyakkiyako",
     "attackType": "Piercing",
     "defenseType": "Special",
@@ -441,7 +419,6 @@
   },
   {
     "id": 25,
-    "name": "優香",
     "school": "Millennium",
     "attackType": "Explosive",
     "defenseType": "Heavy",
@@ -461,7 +438,6 @@
   },
   {
     "id": 27,
-    "name": "明日奈",
     "school": "Millennium",
     "attackType": "Mystic",
     "defenseType": "Light",
@@ -481,7 +457,6 @@
   },
   {
     "id": 28,
-    "name": "亞都梨",
     "school": "Millennium",
     "attackType": "Piercing",
     "defenseType": "Light",
@@ -501,7 +476,6 @@
   },
   {
     "id": 30,
-    "name": "菲娜",
     "school": "Hyakkiyako",
     "attackType": "Piercing",
     "defenseType": "Light",
@@ -521,7 +495,6 @@
   },
   {
     "id": 31,
-    "name": "響",
     "school": "Millennium",
     "attackType": "Explosive",
     "defenseType": "Heavy",
@@ -541,7 +514,6 @@
   },
   {
     "id": 32,
-    "name": "花凜",
     "school": "Millennium",
     "attackType": "Piercing",
     "defenseType": "Heavy",
@@ -561,7 +533,6 @@
   },
   {
     "id": 33,
-    "name": "沙耶",
     "school": "Shanhaijing",
     "attackType": "Explosive",
     "defenseType": "Heavy",
@@ -581,7 +552,6 @@
   },
   {
     "id": 37,
-    "name": "晴",
     "school": "Millennium",
     "attackType": "Explosive",
     "defenseType": "Light",
@@ -601,7 +571,6 @@
   },
   {
     "id": 38,
-    "name": "詠葉",
     "school": "Millennium",
     "attackType": "Piercing",
     "defenseType": "Heavy",
@@ -621,7 +590,6 @@
   },
   {
     "id": 39,
-    "name": "綾音",
     "school": "Abydos",
     "attackType": "Piercing",
     "defenseType": "Light",
@@ -641,7 +609,6 @@
   },
   {
     "id": 40,
-    "name": "千夏",
     "school": "Gehenna",
     "attackType": "Piercing",
     "defenseType": "Light",
@@ -661,7 +628,6 @@
   },
   {
     "id": 41,
-    "name": "小玉",
     "school": "Millennium",
     "attackType": "Explosive",
     "defenseType": "Light",
@@ -681,7 +647,6 @@
   },
   {
     "id": 47,
-    "name": "伊樹菜",
     "school": "Hyakkiyako",
     "attackType": "Mystic",
     "defenseType": "Light",
@@ -701,7 +666,6 @@
   },
   {
     "id": 48,
-    "name": "靜子",
     "school": "Hyakkiyako",
     "attackType": "Mystic",
     "defenseType": "Special",
@@ -721,7 +685,6 @@
   },
   {
     "id": 49,
-    "name": "愛麗絲",
     "school": "Millennium",
     "attackType": "Mystic",
     "defenseType": "Special",
@@ -741,7 +704,6 @@
   },
   {
     "id": 50,
-    "name": "綠",
     "school": "Millennium",
     "attackType": "Piercing",
     "defenseType": "Light",
@@ -761,7 +723,6 @@
   },
   {
     "id": 51,
-    "name": "桃井",
     "school": "Millennium",
     "attackType": "Piercing",
     "defenseType": "Light",
@@ -781,7 +742,6 @@
   },
   {
     "id": 52,
-    "name": "潔莉諾",
     "school": "RedWinter",
     "attackType": "Piercing",
     "defenseType": "Light",
@@ -801,7 +761,6 @@
   },
   {
     "id": 53,
-    "name": "和香",
     "school": "RedWinter",
     "attackType": "Explosive",
     "defenseType": "Heavy",
@@ -821,7 +780,6 @@
   },
   {
     "id": 54,
-    "name": "柚子",
     "school": "Millennium",
     "attackType": "Piercing",
     "defenseType": "Special",
@@ -841,7 +799,6 @@
   },
   {
     "id": 65,
-    "name": "白子（單車）",
     "school": "Abydos",
     "attackType": "Mystic",
     "defenseType": "Heavy",
@@ -861,7 +818,6 @@
   },
   {
     "id": 66,
-    "name": "旬（幼女）",
     "school": "Shanhaijing",
     "attackType": "Explosive",
     "defenseType": "Light",
@@ -881,7 +837,6 @@
   },
   {
     "id": 67,
-    "name": "桐乃",
     "school": "Valkyrie",
     "attackType": "Explosive",
     "defenseType": "Special",
@@ -901,7 +856,6 @@
   },
   {
     "id": 68,
-    "name": "沙耶（私服）",
     "school": "Shanhaijing",
     "attackType": "Piercing",
     "defenseType": "Special",
@@ -921,7 +875,6 @@
   },
   {
     "id": 69,
-    "name": "寧瑠（兔女郎）",
     "school": "Millennium",
     "attackType": "Explosive",
     "defenseType": "Heavy",
@@ -941,7 +894,6 @@
   },
   {
     "id": 70,
-    "name": "花凜（兔女郎）",
     "school": "Millennium",
     "attackType": "Mystic",
     "defenseType": "Heavy",
@@ -961,7 +913,6 @@
   },
   {
     "id": 71,
-    "name": "明日奈（兔女郎）",
     "school": "Millennium",
     "attackType": "Mystic",
     "defenseType": "Light",
@@ -981,7 +932,6 @@
   },
   {
     "id": 74,
-    "name": "初音未來",
     "school": "ETC",
     "attackType": "Explosive",
     "defenseType": "Light",
@@ -1001,7 +951,6 @@
   },
   {
     "id": 76,
-    "name": "潔莉諾（溫泉）",
     "school": "RedWinter",
     "attackType": "Explosive",
     "defenseType": "Heavy",
@@ -1021,7 +970,6 @@
   },
   {
     "id": 78,
-    "name": "智惠",
     "school": "RedWinter",
     "attackType": "Piercing",
     "defenseType": "Special",
@@ -1041,7 +989,6 @@
   },
   {
     "id": 79,
-    "name": "和香（溫泉）",
     "school": "RedWinter",
     "attackType": "Explosive",
     "defenseType": "Special",
@@ -1061,7 +1008,6 @@
   },
   {
     "id": 82,
-    "name": "茜香（正月）",
     "school": "Abydos",
     "attackType": "Piercing",
     "defenseType": "Special",
@@ -1081,7 +1027,6 @@
   },
   {
     "id": 83,
-    "name": "若藻",
     "school": "Hyakkiyako",
     "attackType": "Mystic",
     "defenseType": "Light",
@@ -1101,7 +1046,6 @@
   },
   {
     "id": 84,
-    "name": "吹雪",
     "school": "Valkyrie",
     "attackType": "Piercing",
     "defenseType": "Heavy",
@@ -1121,7 +1065,6 @@
   },
   {
     "id": 86,
-    "name": "千尋",
     "school": "Millennium",
     "attackType": "Piercing",
     "defenseType": "Heavy",
@@ -1141,7 +1084,6 @@
   },
   {
     "id": 197,
-    "name": "妃姬",
     "school": "Shanhaijing",
     "attackType": "Sonic",
     "defenseType": "Elastic",
@@ -1161,7 +1103,6 @@
   },
   {
     "id": 205,
-    "name": "聖亞",
     "school": "Trinity",
     "attackType": "Piercing",
     "defenseType": "Elastic",
@@ -1181,7 +1122,6 @@
   },
   {
     "id": 217,
-    "name": "光",
     "school": "Highlander",
     "attackType": "Sonic",
     "defenseType": "Light",
@@ -1201,7 +1141,6 @@
   },
   {
     "id": 218,
-    "name": "希望",
     "school": "Highlander",
     "attackType": "Sonic",
     "defenseType": "Light",
@@ -1221,7 +1160,6 @@
   },
   {
     "id": 227,
-    "name": "聖亞（泳裝）",
     "school": "Trinity",
     "attackType": "Piercing",
     "defenseType": "Special",

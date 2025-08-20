@@ -21,7 +21,7 @@
         >
           <ImageWithLoader :src="getAvatarUrl(char.id)" class="character-avatar-img" />
           <div class="tooltip">
-            <div class="tooltip-name">{{ char.name }}</div>
+            <div class="tooltip-name">{{ t(`student.name.${char.id}`) }}</div>
             <div class="tooltip-xp">
               <ImageWithLoader
                 :src="getInteractionUrl(getInteractionLevel(gift, char))"

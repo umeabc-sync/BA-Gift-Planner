@@ -106,7 +106,7 @@
                     class="student-avatar-large"
                     :lazy="enableCharacterSelectorLazyLoad"
                   />
-                  <span class="student-name">{{ student.name }}</span>
+                  <span class="student-name">{{ t(`student.name.${student.id}`) }}</span>
                 </div>
                 <div v-if="filteredStudents.length === 0" class="no-results">
                   {{ t('characterSelector.noResults') }}
@@ -243,7 +243,8 @@
 
   const filteredStudents = computed(() => {
     return props.studentsData.filter((student) => {
-      const searchMatch = !searchTerm.value || student.name.toLowerCase().includes(searchTerm.value.toLowerCase())
+      const translatedName = t(`student.name.${student.id}`)
+      const searchMatch = !searchTerm.value || translatedName.toLowerCase().includes(searchTerm.value.toLowerCase())
 
       const filtersMatch = filterOptions.filters.every((group) => {
         if (group.id === 'rating') return true // not in student data

@@ -49,7 +49,7 @@
   const { isDarkMode, locale, showOnlyOptimalSolution } = storeToRefs(settingStore)
 
   // Data Fetching
-  const { data: fetchedStudentsData } = useStudentData(locale)
+  const { data: fetchedStudentsData } = useStudentData()
   const { data: srGiftsData } = useSrGiftData(locale)
   const { data: ssrGiftsData } = useSsrGiftData(locale)
 
