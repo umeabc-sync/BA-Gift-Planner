@@ -8,8 +8,8 @@ export const useSettingStore = defineStore(
     const theme = ref('system') // 'light', 'dark', 'system'
     const osPrefersDark = ref(window.matchMedia('(prefers-color-scheme: dark)').matches)
     const locale = ref('zh-tw')
+    const showOnlyOptimalSolution = ref(false)
     const enableCharacterSelectorLazyLoad = ref(true)
-    const showOnlyOptimalSolution = ref(true)
 
     // Getters (Computed)
     const isDarkMode = computed(() => {
