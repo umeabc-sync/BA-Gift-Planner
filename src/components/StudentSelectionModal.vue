@@ -364,6 +364,7 @@
     overflow-y: auto;
     scrollbar-width: thin;
     scrollbar-color: #bdc3c7 #f8f9fa;
+    mask-image: linear-gradient(to bottom, transparent, black 15px);
   }
 
   .dark-mode .scrollable-section {
