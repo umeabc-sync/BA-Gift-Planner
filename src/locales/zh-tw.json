@@ -1,4 +1,8 @@
 {
+  "collection": {
+    "Selected": "已選擇",
+    "Unselected": "未選擇"
+  },
   "attackType": {
     "Explosive": "爆發",
     "Piercing": "貫通",
@@ -50,6 +54,7 @@
     "searchPlaceholder": "搜尋學生名稱...",
     "resetFilters": "重設篩選",
     "resetSelection": "清空選擇",
+    "collectionLabel": "集合",
     "attackTypeLabel": "攻擊屬性",
     "defenseTypeLabel": "裝甲屬性",
     "schoolLabel": "學園",

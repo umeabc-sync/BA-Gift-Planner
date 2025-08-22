@@ -1,6 +1,14 @@
 {
   "filters": [
     {
+      "id": "collection",
+      "labelKey": "characterSelector.collectionLabel",
+      "options": [
+        { "value": "Selected" },
+        { "value": "Unselected" }
+      ]
+    },
+    {
       "id": "position",
       "labelKey": "characterSelector.positionLabel",
       "options": [

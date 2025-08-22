@@ -4,7 +4,7 @@
       <div v-if="isModalOpen" class="modal-overlay" @click.self="closeModal">
         <div class="modal-content">
           <div class="modal-header">
-            <h3>{{ t('characterSelector.title') }}</h3>
+              <h3>{{ t('characterSelector.title') }}</h3>
             <button class="close-button" @click="closeModal">&times;</button>
           </div>
           <div class="modal-body">
@@ -251,6 +251,15 @@
 
         const selected = selectedFilters[group.id]
         if (selected.length === 0) return true
+
+        if (group.id === 'collection') {
+          const isSelected = props.selectedStudents.some((s) => s.id === student.id)
+          return selected.some((option) => {
+            if (option === 'Selected') return isSelected
+            if (option === 'Unselected') return !isSelected
+            return false
+          })
+        }
 
         return selected.includes(student[group.id])
       })
