@@ -3,10 +3,7 @@
     {
       "id": "collection",
       "labelKey": "characterSelector.collectionLabel",
-      "options": [
-        { "value": "Selected" },
-        { "value": "Unselected" }
-      ]
+      "options": [{ "value": "Selected" }, { "value": "Unselected" }]
     },
     {
       "id": "position",

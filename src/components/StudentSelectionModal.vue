@@ -4,7 +4,7 @@
       <div v-if="isModalOpen" class="modal-overlay" @click.self="closeModal">
         <div class="modal-content">
           <div class="modal-header">
-              <h3>{{ t('characterSelector.title') }}</h3>
+            <h3>{{ t('characterSelector.title') }}</h3>
             <button class="close-button" @click="closeModal">&times;</button>
           </div>
           <div class="modal-body">
@@ -80,7 +80,11 @@
                           <img :src="getSchoolIconUrl(option.value)" :alt="option.value" class="school-icon" />
                         </template>
                         <template v-else-if="group.id === 'collection'">
-                          <img :src="getAssetsFile(`icon/${option.value.toLowerCase()}.svg`)" :alt="option.value" class="collection-icon" />
+                          <img
+                            :src="getAssetsFile(`icon/${option.value.toLowerCase()}.svg`)"
+                            :alt="option.value"
+                            class="collection-icon"
+                          />
                         </template>
 
                         <span :class="{ 'nexon-font': ['weapon', 'position'].includes(group.id) }">
