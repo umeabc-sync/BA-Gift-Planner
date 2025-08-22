@@ -57,7 +57,7 @@
                         :key="option.value"
                         :class="{
                           active: selectedFilters[group.id].includes(option.value),
-                          'has-icon': ['attackType', 'defenseType', 'school'].includes(group.id),
+                          'has-icon': ['attackType', 'defenseType', 'school', 'collection'].includes(group.id),
                         }"
                         @click="selectFilter(group.id, option.value)"
                         style="font-family: inherit"
@@ -78,6 +78,9 @@
                         </template>
                         <template v-else-if="group.id === 'school'">
                           <img :src="getSchoolIconUrl(option.value)" :alt="option.value" class="school-icon" />
+                        </template>
+                        <template v-else-if="group.id === 'collection'">
+                          <img :src="getAssetsFile(`icon/${option.value.toLowerCase()}.svg`)" :alt="option.value" class="collection-icon" />
                         </template>
 
                         <span :class="{ 'nexon-font': ['weapon', 'position'].includes(group.id) }">
@@ -671,7 +674,8 @@
     object-fit: contain;
   }
 
-  .school-icon {
+  .school-icon,
+  .collection-icon {
     width: 20px;
     height: 20px;
     object-fit: contain;
@@ -687,6 +691,14 @@
 
   .dark-mode .filter-group button .school-icon {
     filter: none;
+  }
+
+  .filter-group button.active .collection-icon {
+    filter: invert(1);
+  }
+
+  .dark-mode .filter-group button .collection-icon {
+    filter: invert(1);
   }
 
   .type-bg-explosive,
