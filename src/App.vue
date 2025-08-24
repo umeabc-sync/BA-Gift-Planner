@@ -43,6 +43,7 @@
   import { useSsrGiftData } from './utils/fetchSsrGiftData'
   import { getPreferenceValue } from './utils/getPreferenceValue'
   import { useI18n } from './composables/useI18n'
+  import { useShareableSelection } from './composables/useShareableSelection'
 
   const { t } = useI18n()
   const settingStore = useSettingStore()
@@ -68,6 +69,8 @@
   const selectedStudentIds = ref([])
   const isModalOpen = ref(false)
   const isSettingsModalVisible = ref(false)
+
+  useShareableSelection(selectedStudentIds, studentsData)
 
   // Use computed to ensure student names are updated responsively
   const selectedStudents = computed(() => {
