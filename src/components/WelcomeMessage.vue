@@ -3,7 +3,7 @@
 </template>
 
 <script setup>
-  import { useI18n } from '../composables/useI18n.js'
+  import { useI18n } from '@/composables/useI18n.js'
 
   const { t } = useI18n()
 </script>
