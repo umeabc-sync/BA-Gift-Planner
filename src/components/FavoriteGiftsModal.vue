@@ -94,9 +94,9 @@
       text: text,
       style: {
         position: 'fixed',
-        top: `${rect.top}px`,
+        top: `${rect.top - 10}px`,
         left: `${rect.left + rect.width / 2}px`,
-        transform: 'translate(-50%, -110%)',
+        transform: 'translate(-50%, -100%)',
       },
     }
   }
@@ -251,6 +251,7 @@
     border-radius: 50%;
   }
   .tooltip {
+    position: relative;
     background: rgba(0, 0, 0, 0.9);
     color: white;
     padding: 8px 12px;
@@ -260,6 +261,18 @@
     white-space: nowrap;
     pointer-events: none;
     z-index: 3000;
+    transform: translateY(-8px);
+  }
+
+  .tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 6px;
+    border-style: solid;
+    border-color: rgba(0, 0, 0, 0.9) transparent transparent transparent;
   }
 
   .bond-xp-capsule {
