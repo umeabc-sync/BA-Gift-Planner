@@ -35,7 +35,6 @@
                 </div>
               </div>
             </div>
-            <div v-else class="no-gifts">{{ t('favoriteGiftsModal.noGifts') }}</div>
           </div>
           <transition name="tooltip-fade">
             <div v-if="tooltip.visible" class="tooltip" :style="tooltip.style">{{ tooltip.text }}</div>
@@ -110,11 +109,7 @@
       return []
     }
 
-    const favorSrIds = [
-      ...props.character.favor.sr.m,
-      ...props.character.favor.sr.l,
-      ...props.character.favor.sr.xl,
-    ]
+    const favorSrIds = [...props.character.favor.sr.m, ...props.character.favor.sr.l, ...props.character.favor.sr.xl]
     const favorSsrIds = [...props.character.favor.ssr.l, ...props.character.favor.ssr.xl]
 
     const likedSr = srGifts.value.filter((gift) => favorSrIds.includes(gift.id)).map((g) => ({ ...g, isSsr: false }))
@@ -302,13 +297,6 @@
   .tooltip-text {
     font-style: italic;
     padding-right: 4px;
-  }
-
-  .no-gifts {
-    text-align: center;
-    padding: 40px 0;
-    color: #7f8c8d;
-    font-size: 1.1rem;
   }
 
   /* Dark Mode */

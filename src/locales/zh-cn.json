@@ -99,8 +99,7 @@
     "message": "请点击右上角“选择角色”来选择要培养好感度的学生"
   },
   "favoriteGiftsModal": {
-    "titleSuffix": "喜欢的礼物",
-    "noGifts": "没有喜欢的礼物"
+    "titleSuffix": "喜欢的礼物"
   },
   "student": {
     "name": {
