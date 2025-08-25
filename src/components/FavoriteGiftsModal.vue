@@ -24,12 +24,14 @@
                   loader-type="pulse"
                 />
                 <div class="bond-xp-capsule">
-                  <ImageWithLoader
-                    :src="getInteractionUrl(getInteractionLevel(gift))"
-                    class="interaction-icon"
-                    object-fit="contain"
-                  />
-                  <span>+{{ getPreferenceValue(character, gift) }}</span>
+                  <div class="tooltip-wrapper">
+                    <ImageWithLoader
+                      :src="getInteractionUrl(getInteractionLevel(gift))"
+                      class="interaction-icon"
+                      object-fit="contain"
+                    />
+                    <span class="tooltip-text">{{ getPreferenceValue(character, gift) }}</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -262,24 +264,31 @@
 
   .bond-xp-capsule {
     position: absolute;
-    bottom: -5px;
-    right: -5px;
+    bottom: -8px;
+    right: -8px;
     background: #212529;
     color: white;
-    padding: 3px 8px;
-    border-radius: 15px;
-    font-size: 12px;
-    font-style: italic;
-    display: flex;
+    border-radius: 20px;
+    font-size: 14px;
     align-items: center;
+  }
+
+  .tooltip-wrapper {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 4px;
     gap: 4px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
   }
 
   .interaction-icon {
-    width: 20px;
-    height: 20px;
+    width: 24px;
+    height: 24px;
     background-color: rgba(0, 0, 0, 0);
+  }
+
+  .tooltip-text {
+    font-style: italic;
+    padding-right: 4px;
   }
 
   .no-gifts {
