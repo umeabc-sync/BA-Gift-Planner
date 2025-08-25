@@ -18,6 +18,7 @@
           :key="char.id"
           class="character-avatar"
           :class="{ 'sub-optimal': !char.isOptimal }"
+          @click="openFavoriteGiftsModal(char)"
         >
           <ImageWithLoader :src="getAvatarUrl(char.id)" class="character-avatar-img" />
           <div class="tooltip">
@@ -35,21 +36,40 @@
       </div>
     </div>
   </div>
+  <FavoriteGiftsModal
+    :is-visible="isFavoriteGiftsModalVisible"
+    :character="selectedCharacter"
+    @close="closeFavoriteGiftsModal"
+  />
 </template>
 
 <script setup>
+  import { ref } from 'vue'
   import { getAvatarUrl } from '@/utils/getAvatarUrl'
   import { getGiftUrl } from '@/utils/getGiftUrl'
   import { getPreferenceValue } from '@/utils/getPreferenceValue'
   import { getInteractionUrl } from '@/utils/getInteractionUrl'
   import { useI18n } from '@/composables/useI18n.js'
   import ImageWithLoader from './ImageWithLoader.vue'
+  import FavoriteGiftsModal from './FavoriteGiftsModal.vue'
 
   const { t } = useI18n()
 
   defineProps({
     gift: Object,
   })
+
+  const isFavoriteGiftsModalVisible = ref(false)
+  const selectedCharacter = ref(null)
+
+  const openFavoriteGiftsModal = (character) => {
+    selectedCharacter.value = character
+    isFavoriteGiftsModalVisible.value = true
+  }
+
+  const closeFavoriteGiftsModal = () => {
+    isFavoriteGiftsModalVisible.value = false
+  }
 
   function getInteractionLevel(gift, student) {
     const value = getPreferenceValue(student, gift)
