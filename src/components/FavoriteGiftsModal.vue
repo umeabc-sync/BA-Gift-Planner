@@ -47,11 +47,9 @@
 </template>
 
 <script setup>
-  import { ref, computed, toRefs, watch } from 'vue'
+  import { ref, computed, toRefs } from 'vue'
   import { useModal } from '@/composables/useModal.js'
   import { useI18n } from '@/composables/useI18n.js'
-  import { useSettingStore } from '@/store/setting'
-  import { storeToRefs } from 'pinia'
   import { useSrGiftData } from '@/utils/fetchSrGiftData.js'
   import { useSsrGiftData } from '@/utils/fetchSsrGiftData.js'
   import { getGiftUrl } from '@/utils/getGiftUrl'
@@ -59,7 +57,7 @@
   import { getInteractionUrl } from '@/utils/getInteractionUrl'
   import ImageWithLoader from './ImageWithLoader.vue'
 
-  const { t, locale } = useI18n()
+  const { t, currentLocale: locale } = useI18n()
 
   const props = defineProps({
     isVisible: { type: Boolean, default: false },
@@ -75,11 +73,8 @@
   const { isVisible } = toRefs(props)
   useModal(isVisible, closeModal)
 
-  const settingStore = useSettingStore()
-  const { locale: currentLocale } = storeToRefs(settingStore)
-
-  const { data: srGifts } = useSrGiftData(currentLocale)
-  const { data: ssrGifts } = useSsrGiftData(currentLocale)
+  const { data: srGifts } = useSrGiftData(locale)
+  const { data: ssrGifts } = useSsrGiftData(locale)
 
   const tooltip = ref({
     visible: false,

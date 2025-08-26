@@ -78,7 +78,7 @@
   import { useI18n } from '@/composables/useI18n.js'
   import { useModal } from '@/composables/useModal.js'
 
-  const { t } = useI18n()
+  const { t, currentLocale: locale } = useI18n()
 
   const props = defineProps({
     isVisible: { type: Boolean, default: false },
@@ -93,7 +93,6 @@
 
   const settingStore = useSettingStore()
   const {
-    locale: currentLocale,
     enableCharacterSelectorLazyLoad: isLazyLoadEnabled,
     showOnlyOptimalSolution: isShowOnlyOptimalSolutionEnabled,
   } = storeToRefs(settingStore)
@@ -135,11 +134,11 @@
   })
 
   const currentLanguageName = computed(() => {
-    return availableLanguages.find((lang) => lang.code === currentLocale.value)?.name || ''
+    return availableLanguages.find((lang) => lang.code === locale.value)?.name || ''
   })
 
   const handleLocaleChange = (newLocale) => {
-    if (currentLocale.value === newLocale) {
+    if (locale.value === newLocale) {
       return
     }
     settingStore.setLocale(newLocale)

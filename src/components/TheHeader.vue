@@ -87,12 +87,12 @@
   import { useI18n } from '@/composables/useI18n'
   import { useWindowSize } from '@vueuse/core'
 
-  const { t } = useI18n()
+  const { t, currentLocale: locale } = useI18n()
 
   const emit = defineEmits(['openModal', 'openSettingsModal'])
 
   const settingStore = useSettingStore()
-  const { theme, locale } = storeToRefs(settingStore)
+  const { theme } = storeToRefs(settingStore)
   const { toggleTheme } = settingStore
 
   const { width } = useWindowSize()

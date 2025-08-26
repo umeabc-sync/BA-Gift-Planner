@@ -45,9 +45,9 @@
   import { useI18n } from './composables/useI18n'
   import { useShareableSelection } from './composables/useShareableSelection'
 
-  const { t, isLoaded } = useI18n()
+  const { t, isLoaded, currentLocale: locale } = useI18n()
   const settingStore = useSettingStore()
-  const { isDarkMode, locale, showOnlyOptimalSolution } = storeToRefs(settingStore)
+  const { isDarkMode, showOnlyOptimalSolution } = storeToRefs(settingStore)
 
   // Data Fetching
   const { data: fetchedStudentsData } = useStudentData()

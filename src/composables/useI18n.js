@@ -39,7 +39,7 @@ export function useI18n() {
       for (const [paramKey, paramValue] of Object.entries(params)) {
         const regex = new RegExp(`\\{${paramKey}\\}`, 'g')
         result = result.replace(regex, paramValue)
-      } 
+      }
       return result
     }
 
