@@ -1,5 +1,5 @@
 import { watch } from 'vue'
-import { useEscapeKey } from '@/composables/useEscapeKey.js'
+import { useEscapeKey } from '@composables/useEscapeKey.js'
 
 /**
  * A Composable for managing common Modal logic, including closing on the Esc key and preventing the background from scrolling.

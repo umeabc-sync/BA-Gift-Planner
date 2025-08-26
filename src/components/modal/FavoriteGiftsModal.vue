@@ -48,14 +48,14 @@
 
 <script setup>
   import { ref, computed, toRefs } from 'vue'
-  import { useModal } from '@/composables/useModal.js'
-  import { useI18n } from '@/composables/useI18n.js'
-  import { useSrGiftData } from '@/utils/fetchSrGiftData.js'
-  import { useSsrGiftData } from '@/utils/fetchSsrGiftData.js'
-  import { getGiftUrl } from '@/utils/getGiftUrl'
-  import { getPreferenceValue } from '@/utils/getPreferenceValue'
-  import { getInteractionUrl } from '@/utils/getInteractionUrl'
-  import ImageWithLoader from '@/components/ui/ImageWithLoader.vue'
+  import { useModal } from '@composables/useModal.js'
+  import { useI18n } from '@composables/useI18n.js'
+  import { useSrGiftData } from '@utils/fetchSrGiftData.js'
+  import { useSsrGiftData } from '@utils/fetchSsrGiftData.js'
+  import { getGiftUrl } from '@utils/getGiftUrl'
+  import { getPreferenceValue } from '@utils/getPreferenceValue'
+  import { getInteractionUrl } from '@utils/getInteractionUrl'
+  import ImageWithLoader from '@components/ui/ImageWithLoader.vue'
 
   const { t, currentLocale: locale } = useI18n()
 

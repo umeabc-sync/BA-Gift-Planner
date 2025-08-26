@@ -13,7 +13,7 @@
 
 <script setup>
   import { computed } from 'vue'
-  import { getAssetsFile } from '@/utils/getAssetsFile'
+  import { getAssetsFile } from '@utils/getAssetsFile'
 
   const githubIconUrl = computed(() => getAssetsFile('icon/github.svg'))
 

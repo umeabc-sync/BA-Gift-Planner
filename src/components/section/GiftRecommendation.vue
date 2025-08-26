@@ -46,13 +46,13 @@
 
 <script setup>
   import { ref } from 'vue'
-  import { getAvatarUrl } from '@/utils/getAvatarUrl'
-  import { getGiftUrl } from '@/utils/getGiftUrl'
-  import { getPreferenceValue } from '@/utils/getPreferenceValue'
-  import { getInteractionUrl } from '@/utils/getInteractionUrl'
-  import { useI18n } from '@/composables/useI18n.js'
-  import ImageWithLoader from '../ui/ImageWithLoader.vue'
-  import FavoriteGiftsModal from '../modal/FavoriteGiftsModal.vue'
+  import { getAvatarUrl } from '@utils/getAvatarUrl'
+  import { getGiftUrl } from '@utils/getGiftUrl'
+  import { getPreferenceValue } from '@utils/getPreferenceValue'
+  import { getInteractionUrl } from '@utils/getInteractionUrl'
+  import { useI18n } from '@composables/useI18n.js'
+  import ImageWithLoader from '@components/ui/ImageWithLoader.vue'
+  import FavoriteGiftsModal from '@components/modal/FavoriteGiftsModal.vue'
 
   const { t } = useI18n()
 

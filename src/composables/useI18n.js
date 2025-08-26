@@ -1,5 +1,5 @@
 import { ref, watch, computed } from 'vue'
-import { useSettingStore } from '@/store/setting'
+import { useSettingStore } from '@store/setting'
 
 const loadedMessages = ref({})
 const isLoaded = ref(false)

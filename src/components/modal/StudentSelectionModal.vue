@@ -129,14 +129,14 @@
 
 <script setup>
   import { ref, computed, toRefs, onMounted, onBeforeUnmount, reactive, watch, nextTick } from 'vue'
-  import { getAvatarUrl } from '@/utils/getAvatarUrl'
-  import { getAssetsFile } from '@/utils/getAssetsFile'
-  import { getSchoolIconUrl } from '@/utils/getSchoolIconUrl'
-  import { useModal } from '@/composables/useModal.js'
-  import { useI18n } from '@/composables/useI18n.js'
+  import { getAvatarUrl } from '@utils/getAvatarUrl'
+  import { getAssetsFile } from '@utils/getAssetsFile'
+  import { getSchoolIconUrl } from '@utils/getSchoolIconUrl'
+  import { useModal } from '@composables/useModal.js'
+  import { useI18n } from '@composables/useI18n.js'
   import filterOptions from '@/data/filterOptions.json'
-  import ImageWithLoader from '@/components/ui/ImageWithLoader.vue'
-  import { useSettingStore } from '@/store/setting'
+  import ImageWithLoader from '@components/ui/ImageWithLoader.vue'
+  import { useSettingStore } from '@store/setting'
   import { storeToRefs } from 'pinia'
 
   const { t } = useI18n()

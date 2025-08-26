@@ -1,4 +1,4 @@
-import { useSettingStore } from '@/store/setting'
+import { useSettingStore } from '@store/setting'
 
 export async function runIPGeolocation() {
   const settingStore = useSettingStore()

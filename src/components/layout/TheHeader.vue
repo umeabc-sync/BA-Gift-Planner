@@ -80,11 +80,11 @@
 
 <script setup>
   import { computed, ref } from 'vue'
-  import { useSettingStore } from '@/store/setting'
+  import { useSettingStore } from '@store/setting'
   import { storeToRefs } from 'pinia'
-  import { getAssetsFile } from '@/utils/getAssetsFile'
-  import { getTitleUrl } from '@/utils/getTitleUrl'
-  import { useI18n } from '@/composables/useI18n'
+  import { getAssetsFile } from '@utils/getAssetsFile'
+  import { getTitleUrl } from '@utils/getTitleUrl'
+  import { useI18n } from '@composables/useI18n'
   import { useWindowSize } from '@vueuse/core'
 
   const { t, currentLocale: locale } = useI18n()

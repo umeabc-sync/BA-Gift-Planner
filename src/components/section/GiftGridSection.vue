@@ -21,8 +21,8 @@
 </template>
 
 <script setup>
-  import { getGiftUrl } from '@/utils/getGiftUrl'
-  import ImageWithLoader from '../ui/ImageWithLoader.vue'
+  import { getGiftUrl } from '@utils/getGiftUrl'
+  import ImageWithLoader from '@components/ui/ImageWithLoader.vue'
 
   defineProps({
     title: String,
