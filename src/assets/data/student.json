@@ -1824,6 +1824,500 @@
     }
   },
   {
+    "id": 147,
+    "school": "Abydos",
+    "attackType": "Mystic",
+    "defenseType": "Light",
+    "weapon": "AR",
+    "position": 1,
+    "favor": {
+      "sr": {
+        "m": [16],
+        "l": [1, 34],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [11]
+      }
+    }
+  },
+  {
+    "id": 148,
+    "school": "Trinity",
+    "attackType": "Piercing",
+    "defenseType": "Elastic",
+    "weapon": "SR",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [3, 4, 15, 32],
+        "l": [9, 17, 23, 34],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [1]
+      }
+    }
+  },
+  {
+    "id": 151,
+    "school": "Trinity",
+    "attackType": "Sonic",
+    "defenseType": "Heavy",
+    "weapon": "AR",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [5, 7, 31],
+        "l": [34],
+        "xl": [6]
+      },
+      "ssr": {
+        "l": [2],
+        "xl": [6]
+      }
+    }
+  },
+  {
+    "id": 154,
+    "school": "RedWinter",
+    "attackType": "Sonic",
+    "defenseType": "Heavy",
+    "weapon": "RL",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [4, 5, 9, 15, 23, 32],
+        "l": [3],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [1]
+      }
+    }
+  },
+  {
+    "id": 155,
+    "school": "Millennium",
+    "attackType": "Explosive",
+    "defenseType": "Special",
+    "weapon": "MG",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [1, 16, 25, 33],
+        "l": [32],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [11]
+      }
+    }
+  },
+  {
+    "id": 159,
+    "school": "RedWinter",
+    "attackType": "Piercing",
+    "defenseType": "Special",
+    "weapon": "GL",
+    "position": 1,
+    "favor": {
+      "sr": {
+        "m": [32],
+        "l": [33],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [7]
+      }
+    }
+  },
+  {
+    "id": 160,
+    "school": "ETC",
+    "attackType": "Piercing",
+    "defenseType": "Heavy",
+    "weapon": "AR",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [],
+        "l": [],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": []
+      }
+    }
+  },
+  {
+    "id": 161,
+    "school": "ETC",
+    "attackType": "Explosive",
+    "defenseType": "Heavy",
+    "weapon": "HG",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [],
+        "l": [],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": []
+      }
+    }
+  },
+  {
+    "id": 162,
+    "school": "ETC",
+    "attackType": "Piercing",
+    "defenseType": "Special",
+    "weapon": "SMG",
+    "position": 1,
+    "favor": {
+      "sr": {
+        "m": [],
+        "l": [],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": []
+      }
+    }
+  },
+  {
+    "id": 164,
+    "school": "Hyakkiyako",
+    "attackType": "Sonic",
+    "defenseType": "Heavy",
+    "weapon": "SR",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [27],
+        "l": [3, 21, 24],
+        "xl": []
+      },
+      "ssr": {
+        "l": [10],
+        "xl": [9]
+      }
+    }
+  },
+  {
+    "id": 165,
+    "school": "Hyakkiyako",
+    "attackType": "Sonic",
+    "defenseType": "Heavy",
+    "weapon": "SR",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [3, 4, 33],
+        "l": [9, 15, 23, 32],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [1]
+      }
+    }
+  },
+  {
+    "id": 166,
+    "school": "Millennium",
+    "attackType": "Mystic",
+    "defenseType": "Special",
+    "weapon": "SG",
+    "position": 1,
+    "favor": {
+      "sr": {
+        "m": [2, 17, 19, 29],
+        "l": [30, 34],
+        "xl": []
+      },
+      "ssr": {
+        "l": [3],
+        "xl": []
+      }
+    }
+  },
+  {
+    "id": 167,
+    "school": "Millennium",
+    "attackType": "Piercing",
+    "defenseType": "Heavy",
+    "weapon": "HG",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [10, 18, 22, 25],
+        "l": [20],
+        "xl": []
+      },
+      "ssr": {
+        "l": [12],
+        "xl": [5]
+      }
+    }
+  },
+  {
+    "id": 168,
+    "school": "Millennium",
+    "attackType": "Explosive",
+    "defenseType": "Light",
+    "weapon": "AR",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [11, 16],
+        "l": [4],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [5]
+      }
+    }
+  },
+  {
+    "id": 172,
+    "school": "Gehenna",
+    "attackType": "Explosive",
+    "defenseType": "Elastic",
+    "weapon": "MG",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [27],
+        "l": [19, 21],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [10]
+      }
+    }
+  },
+  {
+    "id": 184,
+    "school": "Abydos",
+    "attackType": "Mystic",
+    "defenseType": "Heavy",
+    "weapon": "AR",
+    "position": 1,
+    "favor": {
+      "sr": {
+        "m": [17, 19, 30, 31],
+        "l": [29, 34],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [3]
+      }
+    }
+  },
+  {
+    "id": 185,
+    "school": "Valkyrie",
+    "attackType": "Explosive",
+    "defenseType": "Light",
+    "weapon": "HG",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [3, 4, 9, 23, 32],
+        "l": [15, 34],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [1]
+      }
+    }
+  },
+  {
+    "id": 186,
+    "school": "Valkyrie",
+    "attackType": "Explosive",
+    "defenseType": "Heavy",
+    "weapon": "SR",
+    "position": 1,
+    "favor": {
+      "sr": {
+        "m": [4, 11, 12, 16, 26],
+        "l": [8, 13, 34],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [4]
+      }
+    }
+  },
+  {
+    "id": 187,
+    "school": "Valkyrie",
+    "attackType": "Mystic",
+    "defenseType": "Heavy",
+    "weapon": "HG",
+    "position": 1,
+    "favor": {
+      "sr": {
+        "m": [1, 8],
+        "l": [16, 34],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [11]
+      }
+    }
+  },
+  {
+    "id": 188,
+    "school": "SRT",
+    "attackType": "Sonic",
+    "defenseType": "Special",
+    "weapon": "HG",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [2, 7, 11, 12, 18, 28, 29],
+        "l": [34],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [5]
+      }
+    }
+  },
+  {
+    "id": 189,
+    "school": "Abydos",
+    "attackType": "Mystic",
+    "defenseType": "Heavy",
+    "weapon": "SG",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [19, 29, 30],
+        "l": [7, 12, 17],
+        "xl": []
+      },
+      "ssr": {
+        "l": [3],
+        "xl": [0]
+      }
+    }
+  },
+  {
+    "id": 190,
+    "school": "Abydos",
+    "attackType": "Mystic",
+    "defenseType": "Special",
+    "weapon": "AR",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [16],
+        "l": [1],
+        "xl": []
+      },
+      "ssr": {
+        "l": [11],
+        "xl": []
+      }
+    }
+  },
+  {
+    "id": 191,
+    "school": "Arius",
+    "attackType": "Sonic",
+    "defenseType": "Special",
+    "weapon": "SMG",
+    "position": 1,
+    "favor": {
+      "sr": {
+        "m": [3, 4, 9, 15, 18, 28, 29, 33],
+        "l": [23, 32, 34],
+        "xl": []
+      },
+      "ssr": {
+        "l": [1],
+        "xl": [12]
+      }
+    }
+  },
+  {
+    "id": 192,
+    "school": "Arius",
+    "attackType": "Mystic",
+    "defenseType": "Heavy",
+    "weapon": "AR",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [12],
+        "l": [5, 6, 7, 34],
+        "xl": []
+      },
+      "ssr": {
+        "l": [2],
+        "xl": [6]
+      }
+    }
+  },
+  {
+    "id": 193,
+    "school": "Arius",
+    "attackType": "Piercing",
+    "defenseType": "Heavy",
+    "weapon": "SR",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [8, 12, 13, 27],
+        "l": [3, 26, 34],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [4]
+      }
+    }
+  },
+  {
+    "id": 196,
+    "school": "Shanhaijing",
+    "attackType": "Mystic",
+    "defenseType": "Heavy",
+    "weapon": "AR",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [1, 16, 17],
+        "l": [33],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [11]
+      }
+    }
+  },
+  {
     "id": 197,
     "school": "Shanhaijing",
     "attackType": "Sonic",
@@ -1843,6 +2337,63 @@
     }
   },
   {
+    "id": 201,
+    "school": "Gehenna",
+    "attackType": "Sonic",
+    "defenseType": "Special",
+    "weapon": "AR",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [3, 4, 9, 15, 19, 32],
+        "l": [23],
+        "xl": []
+      },
+      "ssr": {
+        "l": [1],
+        "xl": [5]
+      }
+    }
+  },
+  {
+    "id": 203,
+    "school": "Millennium",
+    "attackType": "Explosive",
+    "defenseType": "Heavy",
+    "weapon": "SMG",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [2, 5, 6, 7, 11, 14],
+        "l": [0],
+        "xl": []
+      },
+      "ssr": {
+        "l": [2, 5],
+        "xl": [0]
+      }
+    }
+  },
+  {
+    "id": 204,
+    "school": "Millennium",
+    "attackType": "Piercing",
+    "defenseType": "Light",
+    "weapon": "HG",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [0, 3, 4, 5, 6, 7, 9, 14, 15, 32],
+        "l": [23],
+        "xl": []
+      },
+      "ssr": {
+        "l": [1, 2],
+        "xl": [0]
+      }
+    }
+  },
+  {
     "id": 205,
     "school": "Trinity",
     "attackType": "Piercing",
@@ -1858,6 +2409,158 @@
       "ssr": {
         "l": [],
         "xl": [1]
+      }
+    }
+  },
+  {
+    "id": 206,
+    "school": "Millennium",
+    "attackType": "Explosive",
+    "defenseType": "Heavy",
+    "weapon": "AR",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [7],
+        "l": [5, 6],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [2]
+      }
+    }
+  },
+  {
+    "id": 207,
+    "school": "Millennium",
+    "attackType": "Explosive",
+    "defenseType": "Heavy",
+    "weapon": "SR",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [3, 31],
+        "l": [24],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [9]
+      }
+    }
+  },
+  {
+    "id": 208,
+    "school": "Millennium",
+    "attackType": "Piercing",
+    "defenseType": "Elastic",
+    "weapon": "SMG",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [4, 10, 11, 16, 20, 22, 25, 28, 29],
+        "l": [18],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [12]
+      }
+    }
+  },
+  {
+    "id": 209,
+    "school": "Millennium",
+    "attackType": "Mystic",
+    "defenseType": "Elastic",
+    "weapon": "HG",
+    "position": 1,
+    "favor": {
+      "sr": {
+        "m": [2, 11, 18, 28, 29],
+        "l": [10],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [5]
+      }
+    }
+  },
+  {
+    "id": 210,
+    "school": "Millennium",
+    "attackType": "Explosive",
+    "defenseType": "Light",
+    "weapon": "MG",
+    "position": 1,
+    "favor": {
+      "sr": {
+        "m": [2, 4, 16],
+        "l": [11, 22],
+        "xl": []
+      },
+      "ssr": {
+        "l": [5],
+        "xl": [6]
+      }
+    }
+  },
+  {
+    "id": 214,
+    "school": "Millennium",
+    "attackType": "Sonic",
+    "defenseType": "Light",
+    "weapon": "RL",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [2, 11, 17],
+        "l": [],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [5]
+      }
+    }
+  },
+  {
+    "id": 215,
+    "school": "Millennium",
+    "attackType": "Piercing",
+    "defenseType": "Light",
+    "weapon": "SG",
+    "position": 1,
+    "favor": {
+      "sr": {
+        "m": [1, 33],
+        "l": [16],
+        "xl": []
+      },
+      "ssr": {
+        "l": [11],
+        "xl": [7]
+      }
+    }
+  },
+  {
+    "id": 216,
+    "school": "Arius",
+    "attackType": "Sonic",
+    "defenseType": "Light",
+    "weapon": "AR",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [6, 7, 31],
+        "l": [5],
+        "xl": []
+      },
+      "ssr": {
+        "l": [2],
+        "xl": [6]
       }
     }
   },
@@ -1900,6 +2603,158 @@
     }
   },
   {
+    "id": 219,
+    "school": "Highlander",
+    "attackType": "Sonic",
+    "defenseType": "Light",
+    "weapon": "SG",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [21, 24, 33],
+        "l": [27],
+        "xl": []
+      },
+      "ssr": {
+        "l": [7, 10],
+        "xl": [9]
+      }
+    }
+  },
+  {
+    "id": 220,
+    "school": "Hyakkiyako",
+    "attackType": "Explosive",
+    "defenseType": "Heavy",
+    "weapon": "MG",
+    "position": 1,
+    "favor": {
+      "sr": {
+        "m": [3, 4, 9, 15, 23, 27, 32],
+        "l": [21],
+        "xl": []
+      },
+      "ssr": {
+        "l": [10],
+        "xl": [1]
+      }
+    }
+  },
+  {
+    "id": 221,
+    "school": "Hyakkiyako",
+    "attackType": "Sonic",
+    "defenseType": "Elastic",
+    "weapon": "SR",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [6, 8, 12, 13, 26, 31],
+        "l": [23],
+        "xl": []
+      },
+      "ssr": {
+        "l": [4],
+        "xl": [6]
+      }
+    }
+  },
+  {
+    "id": 222,
+    "school": "Hyakkiyako",
+    "attackType": "Sonic",
+    "defenseType": "Heavy",
+    "weapon": "HG",
+    "position": 1,
+    "favor": {
+      "sr": {
+        "m": [10, 17, 19, 20, 22, 25, 28, 30],
+        "l": [3, 18, 29],
+        "xl": []
+      },
+      "ssr": {
+        "l": [3, 12],
+        "xl": [8]
+      }
+    }
+  },
+  {
+    "id": 223,
+    "school": "Trinity",
+    "attackType": "Explosive",
+    "defenseType": "Special",
+    "weapon": "SMG",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [12, 13, 17],
+        "l": [8, 26],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [4]
+      }
+    }
+  },
+  {
+    "id": 224,
+    "school": "Hyakkiyako",
+    "attackType": "Piercing",
+    "defenseType": "Light",
+    "weapon": "SR",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [8, 12, 13, 26],
+        "l": [31, 34],
+        "xl": []
+      },
+      "ssr": {
+        "l": [4],
+        "xl": [6]
+      }
+    }
+  },
+  {
+    "id": 225,
+    "school": "Hyakkiyako",
+    "attackType": "Sonic",
+    "defenseType": "Special",
+    "weapon": "SR",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [4, 9, 15, 23, 24, 32],
+        "l": [3, 34],
+        "xl": []
+      },
+      "ssr": {
+        "l": [1],
+        "xl": [9]
+      }
+    }
+  },
+  {
+    "id": 226,
+    "school": "Hyakkiyako",
+    "attackType": "Sonic",
+    "defenseType": "Heavy",
+    "weapon": "SR",
+    "position": 1,
+    "favor": {
+      "sr": {
+        "m": [3, 4, 15, 23, 33],
+        "l": [9, 32, 34],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [1]
+      }
+    }
+  },
+  {
     "id": 227,
     "school": "Trinity",
     "attackType": "Piercing",
@@ -1915,6 +2770,82 @@
       "ssr": {
         "l": [1],
         "xl": [12]
+      }
+    }
+  },
+  {
+    "id": 228,
+    "school": "Trinity",
+    "attackType": "Piercing",
+    "defenseType": "Light",
+    "weapon": "SR",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [8, 12, 13, 27],
+        "l": [26, 34],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [4]
+      }
+    }
+  },
+  {
+    "id": 229,
+    "school": "Trinity",
+    "attackType": "Sonic",
+    "defenseType": "Special",
+    "weapon": "AR",
+    "position": 1,
+    "favor": {
+      "sr": {
+        "m": [2, 6, 7, 11],
+        "l": [5, 34],
+        "xl": []
+      },
+      "ssr": {
+        "l": [5],
+        "xl": [2]
+      }
+    }
+  },
+  {
+    "id": 230,
+    "school": "Trinity",
+    "attackType": "Sonic",
+    "defenseType": "Elastic",
+    "weapon": "HG",
+    "position": 1,
+    "favor": {
+      "sr": {
+        "m": [17, 19, 29, 30],
+        "l": [8, 34],
+        "xl": []
+      },
+      "ssr": {
+        "l": [3],
+        "xl": [0]
+      }
+    }
+  },
+  {
+    "id": 231,
+    "school": "Trinity",
+    "attackType": "Sonic",
+    "defenseType": "Special",
+    "weapon": "SMG",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [6, 7],
+        "l": [5, 34],
+        "xl": []
+      },
+      "ssr": {
+        "l": [2],
+        "xl": [6]
       }
     }
   }
