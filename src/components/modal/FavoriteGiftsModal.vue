@@ -335,6 +335,11 @@
     color: #e0e6ed;
   }
 
+  .dark-mode .bond-xp-capsule {
+    background: #dee2e6;
+    color: #201e2e;
+  }
+
   /* Transition */
   .modal-fade-enter-active,
   .modal-fade-leave-active {
