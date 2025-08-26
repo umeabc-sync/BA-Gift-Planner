@@ -81,6 +81,8 @@
     // Wait for IP location to set locale
     await runIPGeolocation()
     settingStore.initThemeListener()
+
+    document.title = 'Sensei Harem Tool'
   })
 
   watch(
