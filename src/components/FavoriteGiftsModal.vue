@@ -109,11 +109,32 @@
       return []
     }
 
-    const favorSrIds = [...props.character.favor.sr.m, ...props.character.favor.sr.l, ...props.character.favor.sr.xl]
-    const favorSsrIds = [...props.character.favor.ssr.l, ...props.character.favor.ssr.xl]
+    const favorSrIds = new Set([
+      ...props.character.favor.sr.m,
+      ...props.character.favor.sr.l,
+      ...props.character.favor.sr.xl,
+    ])
+    const favorSsrIds = new Set([...props.character.favor.ssr.l, ...props.character.favor.ssr.xl])
 
-    const likedSr = srGifts.value.filter((gift) => favorSrIds.includes(gift.id)).map((g) => ({ ...g, isSsr: false }))
-    const likedSsr = ssrGifts.value.filter((gift) => favorSsrIds.includes(gift.id)).map((g) => ({ ...g, isSsr: true }))
+    const sortFn = (a, b) => {
+      // Bond XP: higher first
+      const prefA = getPreferenceValue(props.character, a)
+      const prefB = getPreferenceValue(props.character, b)
+      if (prefA !== prefB) {
+        return prefB - prefA
+      }
+      // ID: smaller first
+      return a.id - b.id
+    }
+
+    const likedSr = srGifts.value
+      .filter((gift) => favorSrIds.has(gift.id))
+      .map((g) => ({ ...g, isSsr: false }))
+      .sort(sortFn)
+    const likedSsr = ssrGifts.value
+      .filter((gift) => favorSsrIds.has(gift.id))
+      .map((g) => ({ ...g, isSsr: true }))
+      .sort(sortFn)
 
     return [...likedSsr, ...likedSr]
   })
