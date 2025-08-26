@@ -55,7 +55,7 @@
   import { getGiftUrl } from '@/utils/getGiftUrl'
   import { getPreferenceValue } from '@/utils/getPreferenceValue'
   import { getInteractionUrl } from '@/utils/getInteractionUrl'
-  import ImageWithLoader from '@/components/ImageWithLoader.vue'
+  import ImageWithLoader from '@/components/ui/ImageWithLoader.vue'
 
   const { t, currentLocale: locale } = useI18n()
 

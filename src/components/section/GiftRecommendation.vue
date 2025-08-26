@@ -51,8 +51,8 @@
   import { getPreferenceValue } from '@/utils/getPreferenceValue'
   import { getInteractionUrl } from '@/utils/getInteractionUrl'
   import { useI18n } from '@/composables/useI18n.js'
-  import ImageWithLoader from './ImageWithLoader.vue'
-  import FavoriteGiftsModal from './modal/FavoriteGiftsModal.vue'
+  import ImageWithLoader from '../ui/ImageWithLoader.vue'
+  import FavoriteGiftsModal from '../modal/FavoriteGiftsModal.vue'
 
   const { t } = useI18n()
 

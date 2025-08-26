@@ -22,7 +22,7 @@
 
 <script setup>
   import { getGiftUrl } from '@/utils/getGiftUrl'
-  import ImageWithLoader from './ImageWithLoader.vue'
+  import ImageWithLoader from '../ui/ImageWithLoader.vue'
 
   defineProps({
     title: String,
