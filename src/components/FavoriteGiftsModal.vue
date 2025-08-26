@@ -4,7 +4,7 @@
       <div v-if="isVisible" class="favorite-gifts-modal-overlay" @click.self="closeModal">
         <div class="modal-content">
           <div class="modal-header">
-            <h3>{{ t('student.name.' + character.id) }}{{ t('favoriteGiftsModal.titleSuffix') }}</h3>
+            <h3 v-if="character">{{ t('student.name.' + character.id) }}{{ t('favoriteGiftsModal.titleSuffix') }}</h3>
             <button class="close-button" @click="closeModal">&times;</button>
           </div>
           <div class="modal-body">
@@ -63,7 +63,7 @@
 
   const props = defineProps({
     isVisible: { type: Boolean, default: false },
-    character: { type: Object, required: true },
+    character: { type: Object, default: null },
   })
 
   const emit = defineEmits(['close'])

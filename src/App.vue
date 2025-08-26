@@ -45,7 +45,7 @@
   import { useI18n } from './composables/useI18n'
   import { useShareableSelection } from './composables/useShareableSelection'
 
-  const { t } = useI18n()
+  const { t, isLoaded } = useI18n()
   const settingStore = useSettingStore()
   const { isDarkMode, locale, showOnlyOptimalSolution } = storeToRefs(settingStore)
 
@@ -81,9 +81,17 @@
     // Wait for IP location to set locale
     await runIPGeolocation()
     settingStore.initThemeListener()
-
-    document.title = 'Sensei Harem Tool'
   })
+
+  watch(
+    [isLoaded, locale],
+    ([loaded, newLocale]) => {
+      if (loaded && newLocale) {
+        document.title = t('common.title')
+      }
+    },
+    { immediate: true }
+  )
 
   watch(
     isDarkMode,

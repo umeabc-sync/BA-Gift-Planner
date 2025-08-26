@@ -1,24 +1,25 @@
-import { ref, watch } from 'vue'
+import { ref, watch, computed } from 'vue'
 import { useSettingStore } from '@/store/setting'
 
 const loadedMessages = ref({})
-const currentLocale = ref('zh-tw') // Default locale
+const isLoaded = ref(false)
 
 export function useI18n() {
   const settingStore = useSettingStore()
 
   const loadMessages = async (locale) => {
+    isLoaded.value = false
     try {
       if (locale === null) locale = 'zh-tw' // Make sure components don't try to access null.json during their initial setup.
       const module = await import(`@/locales/${locale}.json`)
       loadedMessages.value = module.default
-      currentLocale.value = locale
     } catch (error) {
       console.error(`Failed to load locale messages for ${locale}:`, error)
       // Fallback to default if loading fails
       const defaultModule = await import(`@/locales/zh-tw.json`)
       loadedMessages.value = defaultModule.default
-      currentLocale.value = 'zh-tw'
+    } finally {
+      isLoaded.value = true
     }
   }
 
@@ -38,7 +39,7 @@ export function useI18n() {
       for (const [paramKey, paramValue] of Object.entries(params)) {
         const regex = new RegExp(`\\{${paramKey}\\}`, 'g')
         result = result.replace(regex, paramValue)
-      }
+      } 
       return result
     }
 
@@ -48,9 +49,13 @@ export function useI18n() {
   // Watch for changes in the setting store's locale
   watch(
     () => settingStore.locale,
-    (newLocale) => loadMessages(newLocale),
+    (newLocale) => {
+      if (newLocale) {
+        loadMessages(newLocale)
+      }
+    },
     { immediate: true }
   )
 
-  return { t, currentLocale: settingStore.locale } // Expose settingStore.locale for reactivity
+  return { t, isLoaded, currentLocale: computed(() => settingStore.locale) }
 }

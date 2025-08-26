@@ -10,6 +10,10 @@ export function useShareableSelection(selectedStudentIds, studentsData) {
       return null
     }
 
+    if (!studentsData.value || studentsData.value.length === 0) {
+      return null
+    }
+
     const allIds = studentsData.value.map((s) => s.id)
     const maxIdInStore = Math.max(...allIds)
 

@@ -47,7 +47,8 @@
     "all": "全部",
     "settings": "設定",
     "enabled": "啟用",
-    "disabled": "禁用"
+    "disabled": "禁用",
+    "title": "Sensei 海王工具"
   },
   "characterSelector": {
     "title": "選擇學生",
