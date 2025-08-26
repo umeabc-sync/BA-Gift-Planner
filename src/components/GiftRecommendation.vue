@@ -52,7 +52,7 @@
   import { getInteractionUrl } from '@/utils/getInteractionUrl'
   import { useI18n } from '@/composables/useI18n.js'
   import ImageWithLoader from './ImageWithLoader.vue'
-  import FavoriteGiftsModal from './FavoriteGiftsModal.vue'
+  import FavoriteGiftsModal from './modal/FavoriteGiftsModal.vue'
 
   const { t } = useI18n()
 
