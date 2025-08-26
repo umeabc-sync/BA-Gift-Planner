@@ -29,6 +29,7 @@
                       :src="getInteractionUrl(getInteractionLevel(gift))"
                       class="interaction-icon"
                       object-fit="contain"
+                      loader-type="pulse"
                     />
                     <span class="tooltip-text">{{ getPreferenceValue(character, gift) }}</span>
                   </div>

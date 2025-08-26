@@ -28,6 +28,7 @@
                 :src="getInteractionUrl(getInteractionLevel(gift, char))"
                 class="tooltip-icon"
                 object-fit="contain"
+                loader-type="pulse"
               />
               <span>{{ t('giftRecommendation.bondXp', { value: getPreferenceValue(char, gift) }) }}</span>
             </div>
