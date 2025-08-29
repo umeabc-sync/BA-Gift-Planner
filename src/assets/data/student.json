@@ -247,6 +247,25 @@
     }
   },
   {
+    "id": 14,
+    "school": "Trinity",
+    "attackType": "Piercing",
+    "defenseType": "Heavy",
+    "weapon": "SG",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [],
+        "l": [3],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [6]
+      }
+    }
+  },
+  {
     "id": 15,
     "school": "Millennium",
     "attackType": "Piercing",
@@ -380,6 +399,25 @@
     }
   },
   {
+    "id": 22,
+    "school": "Gehenna",
+    "attackType": "Piercing",
+    "defenseType": "Light",
+    "weapon": "AR",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [12, 13, 26],
+        "l": [8],
+        "xl": []
+      },
+      "ssr": {
+        "l": [4],
+        "xl": []
+      }
+    }
+  },
+  {
     "id": 23,
     "school": "Abydos",
     "attackType": "Explosive",
@@ -437,6 +475,25 @@
     }
   },
   {
+    "id": 26,
+    "school": "Gehenna",
+    "attackType": "Explosive",
+    "defenseType": "Light",
+    "weapon": "SG",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [18, 29],
+        "l": [28],
+        "xl": []
+      },
+      "ssr": {
+        "l": [8],
+        "xl": []
+      }
+    }
+  },
+  {
     "id": 27,
     "school": "Millennium",
     "attackType": "Mystic",
@@ -471,6 +528,25 @@
       "ssr": {
         "l": [1],
         "xl": [5]
+      }
+    }
+  },
+  {
+    "id": 29,
+    "school": "Trinity",
+    "attackType": "Explosive",
+    "defenseType": "Heavy",
+    "weapon": "AR",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [],
+        "l": [20],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [10]
       }
     }
   },
@@ -546,6 +622,63 @@
       },
       "ssr": {
         "l": [7],
+        "xl": []
+      }
+    }
+  },
+  {
+    "id": 34,
+    "school": "Trinity",
+    "attackType": "Explosive",
+    "defenseType": "Light",
+    "weapon": "SMG",
+    "position": 1,
+    "favor": {
+      "sr": {
+        "m": [12, 13, 26],
+        "l": [8],
+        "xl": []
+      },
+      "ssr": {
+        "l": [4],
+        "xl": []
+      }
+    }
+  },
+  {
+    "id": 35,
+    "school": "Gehenna",
+    "attackType": "Explosive",
+    "defenseType": "Heavy",
+    "weapon": "SMG",
+    "position": 1,
+    "favor": {
+      "sr": {
+        "m": [],
+        "l": [24],
+        "xl": []
+      },
+      "ssr": {
+        "l": [9],
+        "xl": []
+      }
+    }
+  },
+  {
+    "id": 36,
+    "school": "Trinity",
+    "attackType": "Explosive",
+    "defenseType": "Heavy",
+    "weapon": "AR",
+    "position": 1,
+    "favor": {
+      "sr": {
+        "m": [5, 7],
+        "l": [6],
+        "xl": []
+      },
+      "ssr": {
+        "l": [2],
         "xl": []
       }
     }
@@ -642,6 +775,101 @@
       "ssr": {
         "l": [12],
         "xl": []
+      }
+    }
+  },
+  {
+    "id": 42,
+    "school": "Gehenna",
+    "attackType": "Explosive",
+    "defenseType": "Light",
+    "weapon": "SG",
+    "position": 1,
+    "favor": {
+      "sr": {
+        "m": [],
+        "l": [22],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [7]
+      }
+    }
+  },
+  {
+    "id": 43,
+    "school": "Trinity",
+    "attackType": "Mystic",
+    "defenseType": "Light",
+    "weapon": "AR",
+    "position": 1,
+    "favor": {
+      "sr": {
+        "m": [],
+        "l": [14],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [2, 7]
+      }
+    }
+  },
+  {
+    "id": 44,
+    "school": "Trinity",
+    "attackType": "Explosive",
+    "defenseType": "Light",
+    "weapon": "AR",
+    "position": 1,
+    "favor": {
+      "sr": {
+        "m": [3, 4, 9, 23, 32],
+        "l": [15],
+        "xl": []
+      },
+      "ssr": {
+        "l": [1],
+        "xl": []
+      }
+    }
+  },
+  {
+    "id": 45,
+    "school": "Trinity",
+    "attackType": "Piercing",
+    "defenseType": "Heavy",
+    "weapon": "AR",
+    "position": 1,
+    "favor": {
+      "sr": {
+        "m": [12, 13, 26],
+        "l": [8],
+        "xl": []
+      },
+      "ssr": {
+        "l": [4],
+        "xl": []
+      }
+    }
+  },
+  {
+    "id": 46,
+    "school": "Trinity",
+    "attackType": "Explosive",
+    "defenseType": "Heavy",
+    "weapon": "SR",
+    "position": 1,
+    "favor": {
+      "sr": {
+        "m": [12],
+        "l": [7],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [7]
       }
     }
   },
@@ -798,6 +1026,196 @@
     }
   },
   {
+    "id": 55,
+    "school": "Trinity",
+    "attackType": "Explosive",
+    "defenseType": "Heavy",
+    "weapon": "AR",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [0, 1, 31],
+        "l": [20],
+        "xl": []
+      },
+      "ssr": {
+        "l": [6],
+        "xl": []
+      }
+    }
+  },
+  {
+    "id": 56,
+    "school": "Trinity",
+    "attackType": "Piercing",
+    "defenseType": "Special",
+    "weapon": "AR",
+    "position": 1,
+    "favor": {
+      "sr": {
+        "m": [4, 9, 15, 23, 32],
+        "l": [3, 19],
+        "xl": []
+      },
+      "ssr": {
+        "l": [1],
+        "xl": []
+      }
+    }
+  },
+  {
+    "id": 57,
+    "school": "Trinity",
+    "attackType": "Explosive",
+    "defenseType": "Heavy",
+    "weapon": "SR",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [6, 7, 15],
+        "l": [3, 5],
+        "xl": []
+      },
+      "ssr": {
+        "l": [2],
+        "xl": []
+      }
+    }
+  },
+  {
+    "id": 58,
+    "school": "Trinity",
+    "attackType": "Mystic",
+    "defenseType": "Light",
+    "weapon": "AR",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [0, 1],
+        "l": [20, 34],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [6]
+      }
+    }
+  },
+  {
+    "id": 59,
+    "school": "Trinity",
+    "attackType": "Mystic",
+    "defenseType": "Light",
+    "weapon": "SR",
+    "position": 1,
+    "favor": {
+      "sr": {
+        "m": [7],
+        "l": [12, 34],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [7]
+      }
+    }
+  },
+  {
+    "id": 60,
+    "school": "Trinity",
+    "attackType": "Mystic",
+    "defenseType": "Special",
+    "weapon": "SG",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [],
+        "l": [3, 34],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [6]
+      }
+    }
+  },
+  {
+    "id": 61,
+    "school": "Trinity",
+    "attackType": "Piercing",
+    "defenseType": "Heavy",
+    "weapon": "AR",
+    "position": 1,
+    "favor": {
+      "sr": {
+        "m": [0],
+        "l": [1, 34],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [2]
+      }
+    }
+  },
+  {
+    "id": 62,
+    "school": "Gehenna",
+    "attackType": "Explosive",
+    "defenseType": "Heavy",
+    "weapon": "MG",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [],
+        "l": [19, 34],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [2]
+      }
+    }
+  },
+  {
+    "id": 63,
+    "school": "Gehenna",
+    "attackType": "Explosive",
+    "defenseType": "Special",
+    "weapon": "SR",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [7, 8, 13, 26],
+        "l": [12, 34],
+        "xl": []
+      },
+      "ssr": {
+        "l": [4],
+        "xl": []
+      }
+    }
+  },
+  {
+    "id": 64,
+    "school": "Gehenna",
+    "attackType": "Explosive",
+    "defenseType": "Light",
+    "weapon": "MG",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [8, 12, 26],
+        "l": [13, 34],
+        "xl": []
+      },
+      "ssr": {
+        "l": [4],
+        "xl": []
+      }
+    }
+  },
+  {
     "id": 65,
     "school": "Abydos",
     "attackType": "Mystic",
@@ -931,6 +1349,44 @@
     }
   },
   {
+    "id": 72,
+    "school": "Trinity",
+    "attackType": "Mystic",
+    "defenseType": "Heavy",
+    "weapon": "SMG",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [8, 12, 13, 26],
+        "l": [17],
+        "xl": []
+      },
+      "ssr": {
+        "l": [4],
+        "xl": []
+      }
+    }
+  },
+  {
+    "id": 73,
+    "school": "Trinity",
+    "attackType": "Mystic",
+    "defenseType": "Special",
+    "weapon": "HG",
+    "position": 1,
+    "favor": {
+      "sr": {
+        "m": [28],
+        "l": [31],
+        "xl": []
+      },
+      "ssr": {
+        "l": [8],
+        "xl": []
+      }
+    }
+  },
+  {
     "id": 74,
     "school": "ETC",
     "attackType": "Explosive",
@@ -945,6 +1401,25 @@
       },
       "ssr": {
         "l": [],
+        "xl": []
+      }
+    }
+  },
+  {
+    "id": 75,
+    "school": "Gehenna",
+    "attackType": "Mystic",
+    "defenseType": "Heavy",
+    "weapon": "HG",
+    "position": 1,
+    "favor": {
+      "sr": {
+        "m": [17, 19, 29, 30, 32],
+        "l": [33],
+        "xl": []
+      },
+      "ssr": {
+        "l": [3],
         "xl": []
       }
     }
@@ -965,6 +1440,25 @@
       "ssr": {
         "l": [],
         "xl": [3]
+      }
+    }
+  },
+  {
+    "id": 77,
+    "school": "Gehenna",
+    "attackType": "Mystic",
+    "defenseType": "Light",
+    "weapon": "HG",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [3, 4, 15, 17, 19, 23, 29, 32],
+        "l": [9, 30],
+        "xl": []
+      },
+      "ssr": {
+        "l": [1, 3],
+        "xl": []
       }
     }
   },
@@ -1002,6 +1496,44 @@
       },
       "ssr": {
         "l": [4, 10],
+        "xl": []
+      }
+    }
+  },
+  {
+    "id": 80,
+    "school": "Gehenna",
+    "attackType": "Piercing",
+    "defenseType": "Special",
+    "weapon": "SR",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [19, 29, 30],
+        "l": [17],
+        "xl": []
+      },
+      "ssr": {
+        "l": [3],
+        "xl": []
+      }
+    }
+  },
+  {
+    "id": 81,
+    "school": "Gehenna",
+    "attackType": "Mystic",
+    "defenseType": "Heavy",
+    "weapon": "MG",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [10, 20, 22, 25, 28, 29],
+        "l": [18],
+        "xl": []
+      },
+      "ssr": {
+        "l": [12],
         "xl": []
       }
     }
@@ -1064,6 +1596,25 @@
     }
   },
   {
+    "id": 85,
+    "school": "Gehenna",
+    "attackType": "Mystic",
+    "defenseType": "Light",
+    "weapon": "GL",
+    "position": 1,
+    "favor": {
+      "sr": {
+        "m": [14, 32, 33],
+        "l": [0],
+        "xl": []
+      },
+      "ssr": {
+        "l": [0],
+        "xl": [7]
+      }
+    }
+  },
+  {
     "id": 86,
     "school": "Millennium",
     "attackType": "Piercing",
@@ -1079,6 +1630,63 @@
       "ssr": {
         "l": [5],
         "xl": []
+      }
+    }
+  },
+  {
+    "id": 87,
+    "school": "Hyakkiyako",
+    "attackType": "Mystic",
+    "defenseType": "Light",
+    "weapon": "HG",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [],
+        "l": [24, 31],
+        "xl": []
+      },
+      "ssr": {
+        "l": [6, 9],
+        "xl": []
+      }
+    }
+  },
+  {
+    "id": 88,
+    "school": "Trinity",
+    "attackType": "Explosive",
+    "defenseType": "Light",
+    "weapon": "SR",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [3, 4, 15, 32],
+        "l": [9, 23],
+        "xl": []
+      },
+      "ssr": {
+        "l": [1],
+        "xl": [3]
+      }
+    }
+  },
+  {
+    "id": 89,
+    "school": "Trinity",
+    "attackType": "Mystic",
+    "defenseType": "Heavy",
+    "weapon": "HG",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [31],
+        "l": [28],
+        "xl": []
+      },
+      "ssr": {
+        "l": [8],
+        "xl": [9]
       }
     }
   },
@@ -1173,6 +1781,25 @@
       },
       "ssr": {
         "l": [12],
+        "xl": []
+      }
+    }
+  },
+  {
+    "id": 95,
+    "school": "Gehenna",
+    "attackType": "Mystic",
+    "defenseType": "Heavy",
+    "weapon": "HG",
+    "position": 1,
+    "favor": {
+      "sr": {
+        "m": [3, 9, 11, 15, 16, 23, 32],
+        "l": [4],
+        "xl": []
+      },
+      "ssr": {
+        "l": [1],
         "xl": []
       }
     }
@@ -1444,6 +2071,25 @@
     }
   },
   {
+    "id": 110,
+    "school": "Trinity",
+    "attackType": "Piercing",
+    "defenseType": "Heavy",
+    "weapon": "MG",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [5, 12, 13, 26],
+        "l": [8],
+        "xl": []
+      },
+      "ssr": {
+        "l": [4],
+        "xl": []
+      }
+    }
+  },
+  {
     "id": 111,
     "school": "Shanhaijing",
     "attackType": "Piercing",
@@ -1558,6 +2204,44 @@
     }
   },
   {
+    "id": 117,
+    "school": "Trinity",
+    "attackType": "Mystic",
+    "defenseType": "Special",
+    "weapon": "HG",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [28],
+        "l": [31],
+        "xl": []
+      },
+      "ssr": {
+        "l": [8],
+        "xl": [6]
+      }
+    }
+  },
+  {
+    "id": 118,
+    "school": "Trinity",
+    "attackType": "Mystic",
+    "defenseType": "Special",
+    "weapon": "SR",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [8, 12, 13, 27],
+        "l": [26],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [4]
+      }
+    }
+  },
+  {
     "id": 119,
     "school": "Millennium",
     "attackType": "Piercing",
@@ -1592,6 +2276,101 @@
       "ssr": {
         "l": [],
         "xl": [7]
+      }
+    }
+  },
+  {
+    "id": 121,
+    "school": "Trinity",
+    "attackType": "Piercing",
+    "defenseType": "Special",
+    "weapon": "AR",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [0, 33],
+        "l": [14],
+        "xl": []
+      },
+      "ssr": {
+        "l": [7],
+        "xl": [0]
+      }
+    }
+  },
+  {
+    "id": 122,
+    "school": "Trinity",
+    "attackType": "Mystic",
+    "defenseType": "Special",
+    "weapon": "AR",
+    "position": 1,
+    "favor": {
+      "sr": {
+        "m": [1, 33],
+        "l": [16],
+        "xl": []
+      },
+      "ssr": {
+        "l": [7],
+        "xl": [11]
+      }
+    }
+  },
+  {
+    "id": 123,
+    "school": "Gehenna",
+    "attackType": "Explosive",
+    "defenseType": "Light",
+    "weapon": "SR",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [],
+        "l": [8, 31],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [10]
+      }
+    }
+  },
+  {
+    "id": 124,
+    "school": "Gehenna",
+    "attackType": "Piercing",
+    "defenseType": "Special",
+    "weapon": "SMG",
+    "position": 1,
+    "favor": {
+      "sr": {
+        "m": [],
+        "l": [24, 33],
+        "xl": []
+      },
+      "ssr": {
+        "l": [9],
+        "xl": [7]
+      }
+    }
+  },
+  {
+    "id": 125,
+    "school": "Gehenna",
+    "attackType": "Mystic",
+    "defenseType": "Heavy",
+    "weapon": "AR",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [12, 13, 26],
+        "l": [8],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [4]
       }
     }
   },
@@ -1634,6 +2413,25 @@
     }
   },
   {
+    "id": 130,
+    "school": "Trinity",
+    "attackType": "Mystic",
+    "defenseType": "Special",
+    "weapon": "AR",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [8, 12, 13],
+        "l": [26],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [4]
+      }
+    }
+  },
+  {
     "id": 131,
     "school": "Millennium",
     "attackType": "Explosive",
@@ -1653,6 +2451,25 @@
     }
   },
   {
+    "id": 132,
+    "school": "Trinity",
+    "attackType": "Explosive",
+    "defenseType": "Heavy",
+    "weapon": "HG",
+    "position": 1,
+    "favor": {
+      "sr": {
+        "m": [8, 17, 19, 29],
+        "l": [30],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [3]
+      }
+    }
+  },
+  {
     "id": 133,
     "school": "Millennium",
     "attackType": "Mystic",
@@ -1668,6 +2485,63 @@
       "ssr": {
         "l": [],
         "xl": [12]
+      }
+    }
+  },
+  {
+    "id": 134,
+    "school": "Gehenna",
+    "attackType": "Mystic",
+    "defenseType": "Special",
+    "weapon": "HG",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [11, 30],
+        "l": [2, 31],
+        "xl": []
+      },
+      "ssr": {
+        "l": [5, 6],
+        "xl": [10]
+      }
+    }
+  },
+  {
+    "id": 135,
+    "school": "Gehenna",
+    "attackType": "Explosive",
+    "defenseType": "Light",
+    "weapon": "SG",
+    "position": 1,
+    "favor": {
+      "sr": {
+        "m": [18, 29],
+        "l": [28],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [8]
+      }
+    }
+  },
+  {
+    "id": 136,
+    "school": "Hyakkiyako",
+    "attackType": "Mystic",
+    "defenseType": "Heavy",
+    "weapon": "AR",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [3, 4, 9, 15, 32],
+        "l": [23],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [1]
       }
     }
   },
@@ -1725,6 +2599,25 @@
       "ssr": {
         "l": [],
         "xl": [5]
+      }
+    }
+  },
+  {
+    "id": 140,
+    "school": "Trinity",
+    "attackType": "Piercing",
+    "defenseType": "Heavy",
+    "weapon": "SG",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [8, 11, 12, 13, 26, 30],
+        "l": [2],
+        "xl": []
+      },
+      "ssr": {
+        "l": [5],
+        "xl": [4]
       }
     }
   },
@@ -1862,6 +2755,44 @@
     }
   },
   {
+    "id": 149,
+    "school": "Trinity",
+    "attackType": "Explosive",
+    "defenseType": "Light",
+    "weapon": "HG",
+    "position": 1,
+    "favor": {
+      "sr": {
+        "m": [31],
+        "l": [24, 34],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [9]
+      }
+    }
+  },
+  {
+    "id": 150,
+    "school": "Trinity",
+    "attackType": "Mystic",
+    "defenseType": "Heavy",
+    "weapon": "SR",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [9],
+        "l": [3, 34],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [2]
+      }
+    }
+  },
+  {
     "id": 151,
     "school": "Trinity",
     "attackType": "Sonic",
@@ -1877,6 +2808,25 @@
       "ssr": {
         "l": [2],
         "xl": [6]
+      }
+    }
+  },
+  {
+    "id": 152,
+    "school": "Hyakkiyako",
+    "attackType": "Mystic",
+    "defenseType": "Special",
+    "weapon": "HG",
+    "position": 1,
+    "favor": {
+      "sr": {
+        "m": [3, 4, 5, 6, 7, 9, 15, 24, 32],
+        "l": [23, 34],
+        "xl": []
+      },
+      "ssr": {
+        "l": [1, 2],
+        "xl": [9]
       }
     }
   },
@@ -1915,6 +2865,63 @@
       "ssr": {
         "l": [],
         "xl": [11]
+      }
+    }
+  },
+  {
+    "id": 156,
+    "school": "Gehenna",
+    "attackType": "Sonic",
+    "defenseType": "Heavy",
+    "weapon": "SR",
+    "position": 1,
+    "favor": {
+      "sr": {
+        "m": [1, 12, 13, 16, 26],
+        "l": [8],
+        "xl": []
+      },
+      "ssr": {
+        "l": [11],
+        "xl": [4]
+      }
+    }
+  },
+  {
+    "id": 157,
+    "school": "Trinity",
+    "attackType": "Sonic",
+    "defenseType": "Heavy",
+    "weapon": "AR",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [2, 6, 7, 11, 31],
+        "l": [5],
+        "xl": []
+      },
+      "ssr": {
+        "l": [5, 6],
+        "xl": [2]
+      }
+    }
+  },
+  {
+    "id": 158,
+    "school": "Gehenna",
+    "attackType": "Sonic",
+    "defenseType": "Heavy",
+    "weapon": "HG",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [10, 19],
+        "l": [17],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [5]
       }
     }
   },
@@ -2090,6 +3097,63 @@
     }
   },
   {
+    "id": 169,
+    "school": "Gehenna",
+    "attackType": "Explosive",
+    "defenseType": "Special",
+    "weapon": "HG",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [17, 19, 29, 30, 32],
+        "l": [15, 33],
+        "xl": []
+      },
+      "ssr": {
+        "l": [3],
+        "xl": [7]
+      }
+    }
+  },
+  {
+    "id": 170,
+    "school": "Gehenna",
+    "attackType": "Mystic",
+    "defenseType": "Heavy",
+    "weapon": "AR",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [10, 12, 13, 18, 25, 26],
+        "l": [8, 20, 22],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [4, 12]
+      }
+    }
+  },
+  {
+    "id": 171,
+    "school": "Gehenna",
+    "attackType": "Piercing",
+    "defenseType": "Special",
+    "weapon": "SR",
+    "position": 1,
+    "favor": {
+      "sr": {
+        "m": [18, 28, 30],
+        "l": [17, 19, 29],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [3]
+      }
+    }
+  },
+  {
     "id": 172,
     "school": "Gehenna",
     "attackType": "Explosive",
@@ -2105,6 +3169,196 @@
       "ssr": {
         "l": [],
         "xl": [10]
+      }
+    }
+  },
+  {
+    "id": 173,
+    "school": "Gehenna",
+    "attackType": "Piercing",
+    "defenseType": "Light",
+    "weapon": "HG",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [11],
+        "l": [2, 30],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [5]
+      }
+    }
+  },
+  {
+    "id": 174,
+    "school": "Gehenna",
+    "attackType": "Piercing",
+    "defenseType": "Heavy",
+    "weapon": "SR",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [30],
+        "l": [17, 19, 29],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [3]
+      }
+    }
+  },
+  {
+    "id": 175,
+    "school": "Gehenna",
+    "attackType": "Mystic",
+    "defenseType": "Special",
+    "weapon": "AR",
+    "position": 1,
+    "favor": {
+      "sr": {
+        "m": [26],
+        "l": [27],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [4]
+      }
+    }
+  },
+  {
+    "id": 176,
+    "school": "Hyakkiyako",
+    "attackType": "Mystic",
+    "defenseType": "Special",
+    "weapon": "AR",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [10, 20, 22, 25, 28, 29],
+        "l": [18],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [12]
+      }
+    }
+  },
+  {
+    "id": 177,
+    "school": "Hyakkiyako",
+    "attackType": "Piercing",
+    "defenseType": "Heavy",
+    "weapon": "SMG",
+    "position": 1,
+    "favor": {
+      "sr": {
+        "m": [3, 4, 9, 14, 15, 23, 32],
+        "l": [0],
+        "xl": []
+      },
+      "ssr": {
+        "l": [1],
+        "xl": [0]
+      }
+    }
+  },
+  {
+    "id": 178,
+    "school": "Trinity",
+    "attackType": "Explosive",
+    "defenseType": "Special",
+    "weapon": "MG",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [2, 12, 13, 30],
+        "l": [8, 26],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [4]
+      }
+    }
+  },
+  {
+    "id": 179,
+    "school": "Trinity",
+    "attackType": "Explosive",
+    "defenseType": "Special",
+    "weapon": "AR",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [5, 12, 13],
+        "l": [8, 26],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [4]
+      }
+    }
+  },
+  {
+    "id": 181,
+    "school": "Gehenna",
+    "attackType": "Sonic",
+    "defenseType": "Light",
+    "weapon": "AR",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [7, 31],
+        "l": [5, 6],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [2, 6]
+      }
+    }
+  },
+  {
+    "id": 182,
+    "school": "Millennium",
+    "attackType": "Sonic",
+    "defenseType": "Light",
+    "weapon": "AR",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [0, 4, 14, 16],
+        "l": [11],
+        "xl": []
+      },
+      "ssr": {
+        "l": [0],
+        "xl": [12]
+      }
+    }
+  },
+  {
+    "id": 183,
+    "school": "Millennium",
+    "attackType": "Sonic",
+    "defenseType": "Light",
+    "weapon": "SR",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [4, 11, 16],
+        "l": [24],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [9]
       }
     }
   },
@@ -2299,6 +3553,44 @@
     }
   },
   {
+    "id": 194,
+    "school": "RedWinter",
+    "attackType": "Piercing",
+    "defenseType": "Heavy",
+    "weapon": "SMG",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [10, 17, 18, 19, 22, 25, 29, 30],
+        "l": [20],
+        "xl": []
+      },
+      "ssr": {
+        "l": [3, 12],
+        "xl": [6]
+      }
+    }
+  },
+  {
+    "id": 195,
+    "school": "RedWinter",
+    "attackType": "Mystic",
+    "defenseType": "Special",
+    "weapon": "SR",
+    "position": 1,
+    "favor": {
+      "sr": {
+        "m": [3, 4, 9, 15, 23, 31, 32],
+        "l": [5],
+        "xl": []
+      },
+      "ssr": {
+        "l": [1, 6],
+        "xl": [2]
+      }
+    }
+  },
+  {
     "id": 196,
     "school": "Shanhaijing",
     "attackType": "Mystic",
@@ -2333,6 +3625,44 @@
       "ssr": {
         "l": [1],
         "xl": [8]
+      }
+    }
+  },
+  {
+    "id": 198,
+    "school": "Trinity",
+    "attackType": "Explosive",
+    "defenseType": "Heavy",
+    "weapon": "HG",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [],
+        "l": [24, 31],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [9]
+      }
+    }
+  },
+  {
+    "id": 199,
+    "school": "Trinity",
+    "attackType": "Explosive",
+    "defenseType": "Heavy",
+    "weapon": "AR",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [3, 4, 9, 15, 18, 19, 23, 28, 29, 32],
+        "l": [33],
+        "xl": []
+      },
+      "ssr": {
+        "l": [1],
+        "xl": [4]
       }
     }
   },
@@ -2504,6 +3834,63 @@
       "ssr": {
         "l": [5],
         "xl": [6]
+      }
+    }
+  },
+  {
+    "id": 211,
+    "school": "Gehenna",
+    "attackType": "Sonic",
+    "defenseType": "Heavy",
+    "weapon": "GL",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [18, 28, 29, 32],
+        "l": [33],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [7]
+      }
+    }
+  },
+  {
+    "id": 212,
+    "school": "Gehenna",
+    "attackType": "Mystic",
+    "defenseType": "Light",
+    "weapon": "SG",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [5, 24],
+        "l": [31],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [4]
+      }
+    }
+  },
+  {
+    "id": 213,
+    "school": "Gehenna",
+    "attackType": "Explosive",
+    "defenseType": "Light",
+    "weapon": "MG",
+    "position": 1,
+    "favor": {
+      "sr": {
+        "m": [8, 12, 26],
+        "l": [13],
+        "xl": []
+      },
+      "ssr": {
+        "l": [4],
+        "xl": []
       }
     }
   },
