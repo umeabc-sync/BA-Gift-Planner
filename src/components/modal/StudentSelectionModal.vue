@@ -88,7 +88,11 @@
                         </template>
 
                         <span :class="{ 'nexon-font': ['weapon', 'position'].includes(group.id) }">
-                          <span v-if="group.id === 'position'" :class="`position-type-${option.label.toLowerCase()}`" class="position-button">
+                          <span
+                            v-if="group.id === 'position'"
+                            :class="`position-type-${option.label.toLowerCase()}`"
+                            class="position-button"
+                          >
                             {{ option.label }}
                           </span>
                           <span v-else>{{ getOptionLabel(group, option) }}</span>
