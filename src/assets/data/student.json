@@ -4387,5 +4387,43 @@
         "xl": [6]
       }
     }
+  },
+  {
+    "id": 232,
+    "school": "WildHunt",
+    "attackType": "Sonic",
+    "defenseType": "Special",
+    "weapon": "SR",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [19, 29, 30],
+        "l": [17, 22],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [3]
+      }
+    }
+  },
+  {
+    "id": 233,
+    "school": "WildHunt",
+    "attackType": "Mystic",
+    "defenseType": "Heavy",
+    "weapon": "SG",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [4, 9, 15, 23, 32],
+        "l": [2, 3],
+        "xl": []
+      },
+      "ssr": {
+        "l": [1],
+        "xl": [2]
+      }
+    }
   }
 ]
