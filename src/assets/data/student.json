@@ -2375,6 +2375,25 @@
     }
   },
   {
+    "id": 126,
+    "school": "Trinity",
+    "attackType": "Explosive",
+    "defenseType": "Light",
+    "weapon": "SG",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [6, 7],
+        "l": [5],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [2]
+      }
+    }
+  },
+  {
     "id": 127,
     "school": "Trinity",
     "attackType": "Piercing",
@@ -2390,6 +2409,25 @@
       "ssr": {
         "l": [2],
         "xl": [4]
+      }
+    }
+  },
+  {
+    "id": 128,
+    "school": "Gehenna",
+    "attackType": "Explosive",
+    "defenseType": "Special",
+    "weapon": "FT",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [10, 20, 22, 25, 28, 29],
+        "l": [18],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [12]
       }
     }
   },
@@ -2660,6 +2698,25 @@
     }
   },
   {
+    "id": 143,
+    "school": "RedWinter",
+    "attackType": "Explosive",
+    "defenseType": "Special",
+    "weapon": "AR",
+    "position": 1,
+    "favor": {
+      "sr": {
+        "m": [3, 4, 15, 23, 33],
+        "l": [9, 32],
+        "xl": []
+      },
+      "ssr": {
+        "l": [1],
+        "xl": [7]
+      }
+    }
+  },
+  {
     "id": 144,
     "school": "SRT",
     "attackType": "Explosive",
@@ -2831,6 +2888,25 @@
     }
   },
   {
+    "id": 153,
+    "school": "RedWinter",
+    "attackType": "Piercing",
+    "defenseType": "Light",
+    "weapon": "HG",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [3, 4, 9, 10, 15, 18, 20, 23, 25, 32],
+        "l": [22],
+        "xl": []
+      },
+      "ssr": {
+        "l": [1],
+        "xl": [12]
+      }
+    }
+  },
+  {
     "id": 154,
     "school": "RedWinter",
     "attackType": "Sonic",
@@ -2998,6 +3074,25 @@
       "ssr": {
         "l": [],
         "xl": []
+      }
+    }
+  },
+  {
+    "id": 163,
+    "school": "Hyakkiyako",
+    "attackType": "Sonic",
+    "defenseType": "Heavy",
+    "weapon": "SR",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [8, 12, 13, 26],
+        "l": [31],
+        "xl": []
+      },
+      "ssr": {
+        "l": [4],
+        "xl": [6]
       }
     }
   },
@@ -3296,6 +3391,25 @@
     "favor": {
       "sr": {
         "m": [5, 12, 13],
+        "l": [8, 26],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [4]
+      }
+    }
+  },
+  {
+    "id": 180,
+    "school": "Trinity",
+    "attackType": "Explosive",
+    "defenseType": "Special",
+    "weapon": "SMG",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [12, 13, 31],
         "l": [8, 26],
         "xl": []
       },
@@ -3667,6 +3781,25 @@
     }
   },
   {
+    "id": 200,
+    "school": "Trinity",
+    "attackType": "Explosive",
+    "defenseType": "Heavy",
+    "weapon": "SG",
+    "position": 0,
+    "favor": {
+      "sr": {
+        "m": [1, 6, 7],
+        "l": [0, 5, 20],
+        "xl": []
+      },
+      "ssr": {
+        "l": [2],
+        "xl": [6]
+      }
+    }
+  },
+  {
     "id": 201,
     "school": "Gehenna",
     "attackType": "Sonic",
@@ -3682,6 +3815,25 @@
       "ssr": {
         "l": [1],
         "xl": [5]
+      }
+    }
+  },
+  {
+    "id": 202,
+    "school": "Gehenna",
+    "attackType": "Explosive",
+    "defenseType": "Heavy",
+    "weapon": "HG",
+    "position": 1,
+    "favor": {
+      "sr": {
+        "m": [3, 4, 9, 15, 19, 23, 33],
+        "l": [32],
+        "xl": []
+      },
+      "ssr": {
+        "l": [1],
+        "xl": [3]
       }
     }
   },
