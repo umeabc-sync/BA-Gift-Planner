@@ -142,6 +142,10 @@
     opacity: 1;
     visibility: visible;
   }
+  .dark-mode .gift-name {
+    background: rgba(223, 227, 231, 0.95);
+    color: #201e2e;
+  }
   .recommendation-island {
     flex: 1;
     background: #fff;
@@ -243,6 +247,10 @@
   .tooltip-icon {
     width: 24px;
     height: 24px;
+  }
+  .dark-mode .tooltip {
+    background: rgba(223, 227, 231, 0.95);
+    color: #201e2e;
   }
   .rec-type {
     display: inline-block;

@@ -275,6 +275,10 @@
     z-index: 3000;
     transform: translateY(-8px);
   }
+  .dark-mode .tooltip {
+    background: rgba(223, 227, 231, 0.95);
+    color: #201e2e;
+  }
 
   .tooltip::after {
     content: '';
@@ -285,6 +289,9 @@
     border-width: 6px;
     border-style: solid;
     border-color: rgba(0, 0, 0, 0.9) transparent transparent transparent;
+  }
+  .dark-mode .tooltip::after {
+    border-color: rgba(223, 227, 231, 0.95) transparent transparent transparent;
   }
 
   .bond-xp-capsule {

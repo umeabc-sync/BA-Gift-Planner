@@ -108,6 +108,10 @@
       opacity 0.3s ease,
       visibility 0.3s ease;
   }
+  .dark-mode .gift-grid-item .gift-name {
+    background: rgba(223, 227, 231, 0.95);
+    color: #201e2e;
+  }
 
   .gift-grid-item:hover .gift-name {
     opacity: 1;
