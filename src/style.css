@@ -32,3 +32,9 @@ main {
   margin: 0 auto;
   padding: 20px;
 }
+
+/* Fix the height of the vertical scrollbar */
+.os-scrollbar-vertical {
+    top: 70px !important;
+    height: calc(100% - 70px) !important;
+}
