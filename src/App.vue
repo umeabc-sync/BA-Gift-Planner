@@ -28,6 +28,7 @@
 
 <script setup>
   import { ref, computed, onMounted, watch } from 'vue'
+  import { useOverlayScrollbars } from 'overlayscrollbars-vue'
   import { runIPGeolocation } from '@utils/ipGeolocation'
   import { useSettingStore } from '@store/setting'
   import { storeToRefs } from 'pinia'
@@ -48,6 +49,16 @@
   const { t, isLoaded, currentLocale: locale } = useI18n()
   const settingStore = useSettingStore()
   const { isDarkMode, showOnlyOptimalSolution } = storeToRefs(settingStore)
+
+  const [initBodyOverlayScrollbars, getBodyOverlayScrollbarsInstance] = useOverlayScrollbars({
+    defer: true,
+    options: {
+      scrollbars: {
+        theme: isDarkMode.value ? 'os-theme-light' : 'os-theme-dark',
+        clickScroll: true,
+      },
+    },
+  })
 
   // Data Fetching
   const { data: fetchedStudentsData } = useStudentData()
@@ -81,6 +92,7 @@
     // Wait for IP location to set locale
     await runIPGeolocation()
     settingStore.initThemeListener()
+    initBodyOverlayScrollbars({ target: document.body })
   })
 
   watch(
@@ -95,11 +107,21 @@
 
   watch(
     isDarkMode,
-    (newVal) => {
-      if (newVal) {
+    (isDark) => {
+      if (isDark) {
         document.body.classList.add('dark-mode')
       } else {
         document.body.classList.remove('dark-mode')
+      }
+
+      // Dynamically update the theme of the OverlayScrollbars instance
+      const instance = getBodyOverlayScrollbarsInstance()
+      if (instance) {
+        instance.options({
+          scrollbars: {
+            theme: isDark ? 'os-theme-light' : 'os-theme-dark',
+          },
+        })
       }
     },
     { immediate: true }
