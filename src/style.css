@@ -35,6 +35,16 @@ main {
 
 /* Fix the height of the vertical scrollbar */
 .os-scrollbar-vertical {
-    top: 70px !important;
-    height: calc(100% - 70px) !important;
+  top: 70px !important;
+  height: calc(100% - 70px) !important;
+}
+
+.os-theme-light.os-scrollbar-vertical,
+.os-theme-dark.os-scrollbar-vertical {
+  --os-size: 7px;
+}
+
+.os-theme-light.os-scrollbar-vertical:hover,
+.os-theme-dark.os-scrollbar-vertical:hover {
+  --os-size: 10px;
 }
