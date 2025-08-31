@@ -12,10 +12,9 @@
               <div
                 v-for="gift in likedGifts"
                 :key="gift.id"
+                v-tooltip:fav-gift-tooltip="gift.name"
                 class="gift-grid-item"
                 :class="gift.isSsr ? 'gift-purple' : 'gift-yellow'"
-                @mouseenter="showTooltip($event, gift.name)"
-                @mouseleave="hideTooltip"
               >
                 <ImageWithLoader
                   :src="getGiftUrl(gift.id, gift.isSsr)"
@@ -37,9 +36,6 @@
               </div>
             </div>
           </div>
-          <transition name="tooltip-fade">
-            <div v-if="tooltip.visible" class="tooltip" :style="tooltip.style">{{ tooltip.text }}</div>
-          </transition>
         </div>
       </div>
     </transition>
@@ -47,7 +43,7 @@
 </template>
 
 <script setup>
-  import { ref, computed, toRefs } from 'vue'
+  import { computed, toRefs } from 'vue'
   import { useModal } from '@composables/useModal.js'
   import { useI18n } from '@composables/useI18n.js'
   import { useSrGiftData } from '@utils/fetchSrGiftData.js'
@@ -75,30 +71,6 @@
 
   const { data: srGifts } = useSrGiftData(locale)
   const { data: ssrGifts } = useSsrGiftData(locale)
-
-  const tooltip = ref({
-    visible: false,
-    text: '',
-    style: {},
-  })
-
-  const showTooltip = (event, text) => {
-    const rect = event.currentTarget.getBoundingClientRect()
-    tooltip.value = {
-      visible: true,
-      text: text,
-      style: {
-        position: 'fixed',
-        top: `${rect.top - 10}px`,
-        left: `${rect.left + rect.width / 2}px`,
-        transform: 'translate(-50%, -100%)',
-      },
-    }
-  }
-
-  const hideTooltip = () => {
-    tooltip.value.visible = false
-  }
 
   const likedGifts = computed(() => {
     if (!props.character || !srGifts.value || !ssrGifts.value) {
@@ -261,37 +233,6 @@
     width: 90%;
     height: 90%;
     border-radius: 50%;
-  }
-  .tooltip {
-    position: relative;
-    background: rgba(0, 0, 0, 0.9);
-    color: white;
-    padding: 8px 12px;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: bold;
-    white-space: nowrap;
-    pointer-events: none;
-    z-index: 3000;
-    transform: translateY(-8px);
-  }
-  .dark-mode .tooltip {
-    background: rgba(223, 227, 231, 0.95);
-    color: #201e2e;
-  }
-
-  .tooltip::after {
-    content: '';
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    border-width: 6px;
-    border-style: solid;
-    border-color: rgba(0, 0, 0, 0.9) transparent transparent transparent;
-  }
-  .dark-mode .tooltip::after {
-    border-color: rgba(223, 227, 231, 0.95) transparent transparent transparent;
   }
 
   .bond-xp-capsule {
