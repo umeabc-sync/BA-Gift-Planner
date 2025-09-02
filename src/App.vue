@@ -1,6 +1,11 @@
 <template>
   <div class="app-container" :class="{ 'dark-mode': isDarkMode }">
-    <TheHeader @open-modal="openModal" @open-settings-modal="openSettingsModal" />
+    <TheHeader
+      @open-modal="openModal"
+      @open-settings-modal="openSettingsModal"
+      @copy-share-link="handleCopyShareLink"
+      @download-share-screenshot="handleDownloadShareScreenshot"
+    />
 
     <main>
       <WelcomeMessage v-if="selectedStudents.length === 0" />
@@ -13,6 +18,14 @@
 
     <FooterSection />
 
+    <SilentScreenshotRenderer
+      ref="silentScreenshotRendererRef"
+      :recommended-gifts="recommendedGifts"
+      :generic-ssr-gifts="genericSsrGifts"
+      :synthesis-gifts="synthesisGifts"
+      :is-dark-mode="isDarkMode"
+    />
+
     <StudentSelectionModal
       :is-modal-open="isModalOpen"
       :students-data="studentsData"
@@ -23,6 +36,8 @@
     />
 
     <SettingsModal :is-visible="isSettingsModalVisible" @close="closeSettingsModal" />
+
+    <LoadingOverlay :is-visible="isDownloadingScreenshot" />
   </div>
 </template>
 
@@ -39,6 +54,8 @@
   import StudentSelectionModal from '@components/modal/StudentSelectionModal.vue'
   import SettingsModal from '@components/modal/SettingsModal.vue'
   import FooterSection from '@components/layout/FooterSection.vue'
+  import SilentScreenshotRenderer from '@components/utility/SilentScreenshotRenderer.vue'
+  import LoadingOverlay from '@components/utility/LoadingOverlay.vue'
   import { useStudentData } from '@utils/fetchStudentData'
   import { useSrGiftData } from '@utils/fetchSrGiftData'
   import { useSsrGiftData } from '@utils/fetchSsrGiftData'
@@ -80,6 +97,8 @@
   const selectedStudentIds = ref([])
   const isModalOpen = ref(false)
   const isSettingsModalVisible = ref(false)
+  const silentScreenshotRendererRef = ref(null)
+  const isDownloadingScreenshot = ref(false)
 
   useShareableSelection(selectedStudentIds, studentsData)
 
@@ -141,6 +160,22 @@
 
   function closeSettingsModal() {
     isSettingsModalVisible.value = false
+  }
+
+  function handleCopyShareLink() {
+    navigator.clipboard.writeText(window.location.href)
+    alert('Link copied to clipboard!')
+  }
+
+  async function handleDownloadShareScreenshot() {
+    isDownloadingScreenshot.value = true
+    try {
+      if (silentScreenshotRendererRef.value) {
+        await silentScreenshotRendererRef.value.takeScreenshot()
+      }
+    } finally {
+      isDownloadingScreenshot.value = false
+    }
   }
 
   function toggleStudent(student) {

@@ -88,7 +88,8 @@
       "goodChoice": "颇受喜爱 (+{maxValue})",
       "recAny": "任意送给",
       "normalEffect": "效果一般 (+{maxValue})"
-    }
+    },
+    "downloading": "下载中..."
   },
   "giftRecommendation": {
     "bondXp": "羁绊经验: +{value}"
@@ -96,7 +97,9 @@
   "header": {
     "title": "蔚藍檔案礼物规划器",
     "selectStudentsAlt": "选择学生",
-    "settingsAlt": "设置"
+    "settingsAlt": "设置",
+    "copyLink": "复制链接",
+    "downloadScreenshot": "下载截图"
   },
   "welcome": {
     "message": "请点击右上角“选择角色”来选择要培养好感度的学生"

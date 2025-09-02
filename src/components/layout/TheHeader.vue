@@ -7,6 +7,25 @@
       <button class="icon-btn" @click="$emit('openModal')">
         <img :src="addStudentsIconUrl" :alt="t('header.selectStudentsAlt')" draggable="false" />
       </button>
+      <div class="share-dropdown-container">
+        <button class="icon-btn" @click="toggleShareDropdown">
+          <img :src="shareIconUrl" :alt="t('header.shareAlt')" draggable="false" />
+        </button>
+        <div v-if="showShareDropdown" class="share-dropdown-menu">
+          <button @click="handleCopyLink" class="dropdown-item">
+            <span class="dropdown-icon">
+              <img :src="getAssetsFile('icon/link.svg')" :alt="t('header.copyLink')" draggable="false" />
+            </span>
+            <span>{{ t('header.copyLink') }}</span>
+          </button>
+          <button @click="handleDownloadScreenshot" class="dropdown-item">
+            <span class="dropdown-icon">
+              <img :src="getAssetsFile('icon/download.svg')" :alt="t('header.downloadScreenshot')" draggable="false" />
+            </span>
+            <span>{{ t('header.downloadScreenshot') }}</span>
+          </button>
+        </div>
+      </div>
       <button class="icon-btn settings-btn" @click="handleSettingsClick">
         <img
           :src="gearIconUrl"
@@ -79,7 +98,7 @@
 </template>
 
 <script setup>
-  import { computed, ref } from 'vue'
+  import { computed, ref, onMounted, onUnmounted } from 'vue'
   import { useSettingStore } from '@store/setting'
   import { storeToRefs } from 'pinia'
   import { getAssetsFile } from '@utils/getAssetsFile'
@@ -89,7 +108,37 @@
 
   const { t, currentLocale: locale } = useI18n()
 
-  const emit = defineEmits(['openModal', 'openSettingsModal'])
+  const emit = defineEmits(['openModal', 'openSettingsModal', 'copyShareLink', 'downloadShareScreenshot'])
+
+  const showShareDropdown = ref(false)
+
+  const toggleShareDropdown = () => {
+    showShareDropdown.value = !showShareDropdown.value
+  }
+
+  const handleCopyLink = () => {
+    emit('copyShareLink')
+    showShareDropdown.value = false
+  }
+
+  const handleDownloadScreenshot = () => {
+    emit('downloadShareScreenshot')
+    showShareDropdown.value = false
+  }
+
+  const handleClickOutside = (event) => {
+    if (showShareDropdown.value && !event.target.closest('.share-dropdown-container')) {
+      showShareDropdown.value = false
+    }
+  }
+
+  onMounted(() => {
+    document.addEventListener('click', handleClickOutside)
+  })
+
+  onUnmounted(() => {
+    document.removeEventListener('click', handleClickOutside)
+  })
 
   const settingStore = useSettingStore()
   const { theme } = storeToRefs(settingStore)
@@ -99,6 +148,7 @@
   const isMobile = computed(() => width.value <= 768)
 
   const addStudentsIconUrl = computed(() => getAssetsFile('icon/add_students.svg'))
+  const shareIconUrl = computed(() => getAssetsFile('icon/share.svg'))
   const gearIconUrl = computed(() => getAssetsFile('icon/gear.svg'))
 
   const logoUrl = computed(() => getTitleUrl(locale.value, isMobile.value))
@@ -228,5 +278,77 @@
   .icon-fade-slide-leave-to {
     opacity: 0;
     transform: rotateY(-90deg);
+  }
+
+  .share-dropdown-container {
+    position: relative;
+  }
+
+    .share-dropdown-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    z-index: 1001;
+    margin-top: 10px;
+  }
+
+  .dark-mode .share-dropdown-menu {
+    background-color: #1f3048;
+  }
+
+  .share-dropdown-menu button {
+    padding: 12px 15px;
+    text-align: left;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    color: #333;
+    transition: background-color 0.2s ease;
+  }
+
+  .dark-mode .share-dropdown-menu button {
+    color: #eee;
+  }
+
+  .share-dropdown-menu button:hover {
+    background-color: #f0f0f0;
+  }
+
+  .dark-mode .share-dropdown-menu button:hover {
+    background-color: #2a4a6e;
+  }
+
+  .dropdown-item {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 8px;
+  }
+
+  .dropdown-item span:last-child {
+    white-space: nowrap;
+  }
+
+  .dropdown-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+  }
+
+  .dropdown-icon img {
+    width: 100%;
+    height: 100%;
+    filter: brightness(0) invert(0.2);
+  }
+
+  .dark-mode .dropdown-icon img {
+    filter: brightness(0) invert(0.8);
   }
 </style>
