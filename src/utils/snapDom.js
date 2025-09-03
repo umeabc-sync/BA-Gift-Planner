@@ -15,7 +15,7 @@ export async function convertElementToJpg(element, options = {}) {
     return
   }
 
-  const { fileName = 'download', backgroundColor = '#ffffff', scale = 1 } = options
+  const { fileName = 'download', backgroundColor = '#ffffff', dpr = 1, scale = 1 } = options
 
   try {
     const rect = element.getBoundingClientRect()
@@ -24,6 +24,7 @@ export async function convertElementToJpg(element, options = {}) {
       width: rect.width,
       height: rect.height,
       embedFonts: true,
+      dpr: dpr,
       scale: scale,
     }
 
