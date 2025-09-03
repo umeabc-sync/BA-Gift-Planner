@@ -12,7 +12,7 @@
 </template>
 
 <script setup>
-  import { ref, computed } from 'vue'
+  import { ref } from 'vue'
   import { convertElementToJpg } from '@utils/snapDom.js'
   import { isMobile } from '@utils/deviceDetector'
   import { useI18n } from '@composables/useI18n'
