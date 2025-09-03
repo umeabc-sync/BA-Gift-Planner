@@ -4,7 +4,7 @@
       @open-modal="openModal"
       @open-settings-modal="openSettingsModal"
       @copy-share-link="handleCopyShareLink"
-      @download-share-screenshot="handleDownloadShareScreenshot"
+      @open-share-modal="openShareModal"
     />
 
     <main>
@@ -21,9 +21,12 @@
     <SilentScreenshotRenderer
       ref="silentScreenshotRendererRef"
       :recommended-gifts="recommendedGifts"
+      :student-preferences="studentPreferences"
       :generic-ssr-gifts="genericSsrGifts"
       :synthesis-gifts="synthesisGifts"
       :is-dark-mode="isDarkMode"
+      :style="screenshotRenderStyle"
+      :size="screenshotRenderSize"
     />
 
     <StudentSelectionModal
@@ -36,6 +39,13 @@
     />
 
     <SettingsModal :is-visible="isSettingsModalVisible" @close="closeSettingsModal" />
+    <ShareModal
+      :is-visible="isShareModalVisible"
+      v-model:screenshot-style="screenshotRenderStyle"
+      v-model:screenshot-size="screenshotRenderSize"
+      @close="closeShareModal"
+      @download-screenshot="handleDownloadShareScreenshot"
+    />
 
     <LoadingOverlay :is-visible="isDownloadingScreenshot" />
   </div>
@@ -53,6 +63,7 @@
   import GiftGridSection from '@components/section/GiftGridSection.vue'
   import StudentSelectionModal from '@components/modal/StudentSelectionModal.vue'
   import SettingsModal from '@components/modal/SettingsModal.vue'
+  import ShareModal from '@components/modal/ShareModal.vue'
   import FooterSection from '@components/layout/FooterSection.vue'
   import SilentScreenshotRenderer from '@components/utility/SilentScreenshotRenderer.vue'
   import LoadingOverlay from '@components/utility/LoadingOverlay.vue'
@@ -97,6 +108,9 @@
   const selectedStudentIds = ref([])
   const isModalOpen = ref(false)
   const isSettingsModalVisible = ref(false)
+  const isShareModalVisible = ref(false)
+  const screenshotRenderStyle = ref('gift-recommendation') // Default style for screenshot rendering
+  const screenshotRenderSize = ref('1') // Default size for screenshot rendering
   const silentScreenshotRendererRef = ref(null)
   const isDownloadingScreenshot = ref(false)
 
@@ -162,6 +176,14 @@
     isSettingsModalVisible.value = false
   }
 
+  function openShareModal() {
+    isShareModalVisible.value = true
+  }
+
+  function closeShareModal() {
+    isShareModalVisible.value = false
+  }
+
   function handleCopyShareLink() {
     navigator.clipboard.writeText(window.location.href)
     alert('Link copied to clipboard!')
@@ -210,6 +232,39 @@
     return analyzedGifts.value
       .filter((gift) => gift.analysis.isRecommended)
       .sort((a, b) => b.analysis.maxValue - a.analysis.maxValue)
+  })
+
+  const studentPreferences = computed(() => {
+    if (selectedStudents.value.length === 0 || giftsData.value.length === 0) {
+      return []
+    }
+
+    const giftMap = new Map(giftsData.value.map((g) => [`${g.id}-${g.isSsr}`, g]))
+
+    return selectedStudents.value.map((student) => {
+      const favorSrIds = new Set([...student.favor.sr.m, ...student.favor.sr.l, ...student.favor.sr.xl])
+      const favorSsrIds = new Set([...student.favor.ssr.l, ...student.favor.ssr.xl])
+
+      const likedGifts = []
+
+      favorSrIds.forEach((id) => {
+        const gift = giftMap.get(`${id}-false`)
+        if (gift) likedGifts.push(gift)
+      })
+
+      favorSsrIds.forEach((id) => {
+        const gift = giftMap.get(`${id}-true`)
+        if (gift) likedGifts.push(gift)
+      })
+
+      const sortedGifts = likedGifts.sort((a, b) => {
+        const prefA = getPreferenceValue(student, a)
+        const prefB = getPreferenceValue(student, b)
+        return prefB - prefA
+      })
+
+      return { id: student.id, favor: student.favor, gifts: sortedGifts }
+    })
   })
 
   function analyzeGift(gift, showOnlyOptimal) {

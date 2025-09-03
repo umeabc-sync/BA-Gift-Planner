@@ -34,6 +34,11 @@ export const useSettingStore = defineStore(
       showOnlyOptimalSolution.value = !showOnlyOptimalSolution.value
     }
 
+    function toggleScreenshotStyle() {
+      screenshotStyle.value =
+        screenshotStyle.value === 'gift-recommendation' ? 'student-preference' : 'gift-recommendation'
+    }
+
     function setLocale(newLocale) {
       locale.value = newLocale
     }
