@@ -4425,5 +4425,24 @@
         "xl": [2]
       }
     }
+  },
+  {
+    "id": 234,
+    "school": "Arius",
+    "attackType": "Explosive",
+    "defenseType": "Special",
+    "weapon": "RL",
+    "position": 1,
+    "favor": {
+      "sr": {
+        "m": [31],
+        "l": [20, 34],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [6]
+      }
+    }
   }
 ]
