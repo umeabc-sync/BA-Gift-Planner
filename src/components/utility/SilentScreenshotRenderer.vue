@@ -13,7 +13,7 @@
 
 <script setup>
   import { ref } from 'vue'
-  import { convertElementToJpg } from '@utils/snapDom.js'
+  import { convertElementToPng } from '@utils/snapDom.js'
   import { isMobile } from '@utils/deviceDetector'
   import { useI18n } from '@composables/useI18n'
   import CompactGiftRecommendation from '@components/section/CompactGiftRecommendation.vue'
@@ -39,7 +39,7 @@
       return
     }
     try {
-      await convertElementToJpg(shareContentForScreenshot.value, {
+      await convertElementToPng(shareContentForScreenshot.value, {
         fileName: 'gift-recommendations',
         backgroundColor: props.isDarkMode ? '#1e2a38' : '#f0f4f8',
         dpr: isMobile() ? 1 : window.devicePixelRatio,
