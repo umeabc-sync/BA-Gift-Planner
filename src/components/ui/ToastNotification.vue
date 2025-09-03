@@ -2,8 +2,8 @@
   <div class="toast-container">
     <transition-group name="toast" tag="div">
       <div v-for="toast in toasts" :key="toast.id" :class="['toast', `toast-${toast.type}`]">
-        <span>{{ toast.message }}</span>
-        <button @click="removeToast(toast.id)">&times;</button>
+        <span style="user-select: none">{{ toast.message }}</span>
+        <button @click="removeToast(toast.id)">×</button>
       </div>
     </transition-group>
   </div>
@@ -60,7 +60,8 @@
     cursor: pointer;
     margin-left: 1rem;
     padding: 0;
-    line-height: 1;
+    display: flex;
+    align-items: center;
   }
 
   .toast-enter-active,

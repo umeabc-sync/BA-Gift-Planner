@@ -124,6 +124,7 @@
     "titleSuffix": "喜欢的礼物"
   },
   "toast": {
+    "link_copied_to_clipboard": "已将连结複製到剪贴簿",
     "canvas_exceeds_max_size": "图片尺寸过大，请选择较低的倍率"
   },
   "student": {

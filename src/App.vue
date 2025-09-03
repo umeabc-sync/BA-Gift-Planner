@@ -75,8 +75,10 @@
   import { getPreferenceValue } from '@utils/getPreferenceValue'
   import { useI18n } from '@composables/useI18n'
   import { useShareableSelection } from '@composables/useShareableSelection'
+  import { useToast } from '@composables/useToast'
 
   const { t, isLoaded, currentLocale: locale } = useI18n()
+  const { addToast } = useToast()
   const settingStore = useSettingStore()
   const { isDarkMode, showOnlyOptimalSolution } = storeToRefs(settingStore)
 
@@ -188,7 +190,7 @@
 
   function handleCopyShareLink() {
     navigator.clipboard.writeText(window.location.href)
-    alert('Link copied to clipboard!')
+    addToast(t('toast.link_copied_to_clipboard'), 'success')
   }
 
   async function handleDownloadShareScreenshot() {
