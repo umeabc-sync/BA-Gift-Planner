@@ -48,6 +48,7 @@
     />
 
     <LoadingOverlay :is-visible="isDownloadingScreenshot" />
+    <ToastNotification />
   </div>
 </template>
 
@@ -67,6 +68,7 @@
   import FooterSection from '@components/layout/FooterSection.vue'
   import SilentScreenshotRenderer from '@components/utility/SilentScreenshotRenderer.vue'
   import LoadingOverlay from '@components/utility/LoadingOverlay.vue'
+  import ToastNotification from '@components/ui/ToastNotification.vue'
   import { useStudentData } from '@utils/fetchStudentData'
   import { useSrGiftData } from '@utils/fetchSrGiftData'
   import { useSsrGiftData } from '@utils/fetchSsrGiftData'

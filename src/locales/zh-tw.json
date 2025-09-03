@@ -123,6 +123,9 @@
   "favoriteGiftsModal": {
     "titleSuffix": "喜歡的禮物"
   },
+  "toast": {
+    "canvas_exceeds_max_size": "圖片尺寸過大，請選擇較低的倍率"
+  },
   "student": {
     "name": {
       "1": "亞瑠",

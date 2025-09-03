@@ -16,6 +16,7 @@
   import { convertElementToPng } from '@utils/snapDom.js'
   import { isMobile } from '@utils/deviceDetector'
   import { useI18n } from '@composables/useI18n'
+  import { useToast } from '@composables/useToast'
   import CompactGiftRecommendation from '@components/section/CompactGiftRecommendation.vue'
   import CompactStudentPreference from '@components/section/CompactStudentPreference.vue'
   import CompactGiftGridSection from '@components/section/CompactGiftGridSection.vue'
@@ -31,6 +32,7 @@
   })
 
   const { t } = useI18n()
+  const { addToast } = useToast()
   const shareContentForScreenshot = ref(null)
 
   const takeScreenshot = async () => {
@@ -46,7 +48,11 @@
         scale: +props.size.replace('x', ''),
       })
     } catch (error) {
-      console.error('Failed to download screenshot:', error)
+      if (error instanceof DOMException && error.message.includes('Canvas exceeds max size')) {
+        addToast(t('toast.canvas_exceeds_max_size'), 'error')
+      } else {
+        console.error('Failed to download screenshot:', error)
+      }
     }
   }
 

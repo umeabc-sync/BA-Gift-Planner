@@ -123,6 +123,9 @@
   "favoriteGiftsModal": {
     "titleSuffix": "喜欢的礼物"
   },
+  "toast": {
+    "canvas_exceeds_max_size": "图片尺寸过大，请选择较低的倍率"
+  },
   "student": {
     "name": {
       "1": "爱露",
