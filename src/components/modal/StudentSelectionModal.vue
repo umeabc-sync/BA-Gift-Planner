@@ -412,13 +412,11 @@
   }
 
   .filter-controls {
-    margin: 15px 0;
-    border-bottom: 1px solid #dee2e6;
+    margin: 0;
+    border-bottom: 2px solid #e0e6ed;
     display: grid;
     grid-template-rows: 0fr;
     opacity: 0;
-    margin-bottom: 0;
-    border-bottom-width: 0;
     transition:
       grid-template-rows 0.3s cubic-bezier(0.4, 0, 0.2, 1),
       opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
@@ -429,7 +427,8 @@
   .filter-controls.is-open {
     grid-template-rows: 1fr;
     opacity: 1;
-    border-bottom-width: 1px;
+    margin: 15px 0;
+    border-bottom-width: 2px;
   }
 
   .dark-mode .filter-controls {
@@ -440,7 +439,7 @@
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 15px;
     padding: 0 20px;
     min-height: 0;
     overflow-y: hidden;
@@ -467,7 +466,7 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 8px;
+    gap: 10px;
   }
 
   .filter-buttons {
@@ -477,10 +476,17 @@
   }
 
   .filter-label {
-    font-weight: bold;
-    margin-right: 8px;
-    font-size: 0.9rem;
-    white-space: nowrap;
+    font-weight: 700;
+    font-size: 1rem;
+    color: #314665;
+    padding: 2px 8px;
+    background-color: #e0e6ed;
+    border-radius: 4px;
+  }
+
+  .dark-mode .filter-label {
+    background-color: #2a4a6e;
+    color: #e0f4ff;
   }
 
   .reset-selection-button,
@@ -575,13 +581,22 @@
   }
 
   .filter-group button {
+    position: relative;
     padding: 5px 12px;
-    border: 1px solid #bdc3c7;
-    border-radius: 15px;
+    border: 2px solid #d1d8e0;
+    border-radius: 4px;
     background-color: #fff;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
     font-size: 0.86rem;
+    transform: skew(-8deg);
+  }
+
+  .filter-group button > span,
+  .filter-group button > img,
+  .type-icon-wrapper {
+    display: inline-block;
+    transform: skew(8deg);
   }
 
   .filter-group button.has-icon {
@@ -598,25 +613,16 @@
   }
 
   .filter-group button:hover {
-    background-color: #e9ecef;
-    border-color: #6495ed;
-  }
-
-  .dark-mode .filter-group button:hover {
-    background-color: #2a4a6e;
-    border-color: #00aeef;
+    border-color: #00a4e4;
+    color: #00a4e4;
   }
 
   .filter-group button.active {
-    background-color: #6495ed;
-    color: white;
-    border-color: #6495ed;
+    background-color: #00a4e4;
+    color: white !important;
+    border-color: #00a4e4;
     font-weight: bold;
-  }
-
-  .dark-mode .filter-group button.active {
-    background-color: #00aeef;
-    border-color: #00aeef;
+    box-shadow: 0 0 10px #00a4e480;
   }
 
   .type-icon-wrapper {
