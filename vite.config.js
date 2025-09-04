@@ -2,6 +2,7 @@ import { defineConfig } from 'vite'
 import { fileURLToPath, URL } from 'node:url'
 import { createRequire } from 'module'
 import vue from '@vitejs/plugin-vue'
+import svgLoader from 'vite-svg-loader'
 import vueDevTools from 'vite-plugin-vue-devtools'
 
 const require = createRequire(import.meta.url)
@@ -9,7 +10,9 @@ const { version } = require('./package.json')
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [vue(),
+  plugins: [
+    vue(),
+    svgLoader(),
     vueDevTools(),
   ],
   resolve: {

@@ -24,13 +24,8 @@
                     <span>{{ t('characterSelector.resetFilters') }}</span>
                   </button>
                   <button class="filter-toggle-button" @click="toggleFilterPanel">
-                    <img
-                      :src="
-                        isFilterPanelOpen
-                          ? getAssetsFile('icon/filter_close.svg')
-                          : getAssetsFile('icon/filter_open.svg')
-                      "
-                      alt="Toggle Filters"
+                    <component
+                      :is="isFilterPanelOpen ? FilterCloseIcon : FilterOpenIcon"
                       class="filter-toggle-icon"
                       draggable="false"
                     />
@@ -142,6 +137,8 @@
   import ImageWithLoader from '@components/ui/ImageWithLoader.vue'
   import { useSettingStore } from '@store/setting'
   import { storeToRefs } from 'pinia'
+  import FilterOpenIcon from '@assets/icon/filter_open.svg'
+  import FilterCloseIcon from '@assets/icon/filter_close.svg'
 
   const { t } = useI18n()
 
@@ -486,7 +483,7 @@
     white-space: nowrap;
   }
 
-  .reset-selection-button, 
+  .reset-selection-button,
   .reset-button {
     padding: 12px 20px;
     border: none;
@@ -585,7 +582,7 @@
   .filter-toggle-icon {
     width: 20px;
     height: 20px;
-    filter: brightness(0) invert(1);
+    fill: #314665;
   }
 
   .dark-mode .filter-toggle-button {
