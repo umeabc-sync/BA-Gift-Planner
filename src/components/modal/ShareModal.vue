@@ -153,7 +153,7 @@
                 <polyline points="7,10 12,15 17,10" />
                 <line x1="12" y1="15" x2="12" y2="3" />
               </svg>
-              {{ t('shareModal.download') }}
+              <span>{{ t('shareModal.download') }}</span>
             </button>
           </div>
         </div>
@@ -572,34 +572,59 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    background: linear-gradient(135deg, #6495ed, #4169e1);
-    color: white;
+    background-color: #77ddff;
+    background-image: linear-gradient(to bottom right, #63d0fd 0%, transparent 50%),
+      linear-gradient(to top left, #63d0fd 0%, transparent 50%);
+    color: #314665;
     border: none;
     border-radius: 12px;
     padding: 14px 24px;
+    font-family: inherit;
     font-size: 1rem;
-    font-weight: 600;
+    font-weight: bold;
+    letter-spacing: 2px;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 16px rgba(100, 149, 237, 0.3);
+    box-shadow: 0 3px 2px rgba(0, 0, 0, 0.15);
+    position: relative;
+    transform: skew(-8deg);
+    text-transform: uppercase;
+  }
+
+  .download-button span {
+    transform: skew(8deg);
+    display: inline-block;
+  }
+
+  .download-button svg {
+    transform: skew(8deg);
+  }
+
+  .download-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(120deg, transparent 0%, rgba(255, 255, 255, 0.1) 50%, transparent 100%);
+    border-radius: 12px;
+    pointer-events: none;
   }
 
   .dark-mode .download-button {
-    background: linear-gradient(135deg, #00aeef, #0086c3);
-    box-shadow: 0 4px 16px rgba(0, 174, 239, 0.3);
+    background-color: #00aeef;
+    background-image: linear-gradient(to bottom right, #09a4f2 0%, transparent 50%),
+      linear-gradient(to top left, #09a4f2 0%, transparent 50%);
+    color: #e0f4ff;
   }
 
   .download-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(100, 149, 237, 0.4);
-  }
-
-  .dark-mode .download-button:hover {
-    box-shadow: 0 6px 20px rgba(0, 174, 239, 0.4);
+    transform: translateY(-2px) skew(-8deg);
   }
 
   .download-button:active {
-    transform: translateY(0);
+    transform: scale(0.95) skew(-8deg);
   }
 
   /* Transitions */
