@@ -530,34 +530,19 @@
     transform: scale(0.95) skew(-8deg);
   }
 
-  .dark-mode .reset-selection-button {
-    background: linear-gradient(45deg, #5dade2, #2e86c1);
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
-  }
-
-  .dark-mode .reset-selection-button:hover {
-    background: linear-gradient(45deg, #2e86c1, #21618c);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-  }
-
-  .dark-mode .reset-selection-button:active {
-    background: linear-gradient(45deg, #21618c, #1b4f72);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  .dark-mode .reset-selection-button,
+  .dark-mode .filter-toggle-button {
+    background-color: #00aeef;
+    background-image: linear-gradient(to bottom right, #09a4f2 0%, transparent 50%),
+      linear-gradient(to top left, #09a4f2 0%, transparent 50%);
+    color: #e0f4ff;
   }
 
   .dark-mode .reset-button {
-    background: linear-gradient(45deg, #e74c3c, #c0392b);
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
-  }
-
-  .dark-mode .reset-button:hover {
-    background: linear-gradient(45deg, #c0392b, #a93226);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-  }
-
-  .dark-mode .reset-button:active {
-    background: linear-gradient(45deg, #a93226, #922b20);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    background-color: #e57758;
+    background-image: linear-gradient(to bottom right, #e4522f 0%, transparent 50%),
+      linear-gradient(to top left, #e4522f 0%, transparent 50%);
+    color: #e0f4ff;
   }
 
   .filter-toggle-button {
@@ -585,12 +570,8 @@
     fill: #314665;
   }
 
-  .dark-mode .filter-toggle-button {
-    background: linear-gradient(45deg, #2a7fff, #00aeef);
-  }
-
-  .dark-mode .filter-toggle-button:active {
-    background: linear-gradient(45deg, #0062cc, #008fbf);
+  .dark-mode .filter-toggle-icon {
+    fill: #e0f4ff;
   }
 
   .filter-group button {
