@@ -11,7 +11,7 @@
   import { HalfCircleSpinner } from 'epic-spinners'
   import { useI18n } from '@composables/useI18n'
 
-  const props = defineProps({
+  defineProps({
     isVisible: Boolean,
   })
 

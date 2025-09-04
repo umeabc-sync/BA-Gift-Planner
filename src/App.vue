@@ -48,6 +48,7 @@
     />
 
     <LoadingOverlay :is-visible="isDownloadingScreenshot" />
+    <ToastNotification />
   </div>
 </template>
 
@@ -67,14 +68,17 @@
   import FooterSection from '@components/layout/FooterSection.vue'
   import SilentScreenshotRenderer from '@components/utility/SilentScreenshotRenderer.vue'
   import LoadingOverlay from '@components/utility/LoadingOverlay.vue'
+  import ToastNotification from '@components/ui/ToastNotification.vue'
   import { useStudentData } from '@utils/fetchStudentData'
   import { useSrGiftData } from '@utils/fetchSrGiftData'
   import { useSsrGiftData } from '@utils/fetchSsrGiftData'
   import { getPreferenceValue } from '@utils/getPreferenceValue'
   import { useI18n } from '@composables/useI18n'
   import { useShareableSelection } from '@composables/useShareableSelection'
+  import { useToast } from '@composables/useToast'
 
   const { t, isLoaded, currentLocale: locale } = useI18n()
+  const { addToast } = useToast()
   const settingStore = useSettingStore()
   const { isDarkMode, showOnlyOptimalSolution } = storeToRefs(settingStore)
 
@@ -186,7 +190,7 @@
 
   function handleCopyShareLink() {
     navigator.clipboard.writeText(window.location.href)
-    alert('Link copied to clipboard!')
+    addToast(t('toast.link_copied_to_clipboard'), 'success')
   }
 
   async function handleDownloadShareScreenshot() {
@@ -235,36 +239,47 @@
   })
 
   const studentPreferences = computed(() => {
-    if (selectedStudents.value.length === 0 || giftsData.value.length === 0) {
+    if (selectedStudents.value.length === 0) {
       return []
     }
 
-    const giftMap = new Map(giftsData.value.map((g) => [`${g.id}-${g.isSsr}`, g]))
+    const preferencesMap = new Map(
+      selectedStudents.value.map((student) => [
+        student.id,
+        {
+          id: student.id,
+          favor: student.favor,
+          gifts: [],
+        },
+      ])
+    )
 
-    return selectedStudents.value.map((student) => {
-      const favorSrIds = new Set([...student.favor.sr.m, ...student.favor.sr.l, ...student.favor.sr.xl])
-      const favorSsrIds = new Set([...student.favor.ssr.l, ...student.favor.ssr.xl])
-
-      const likedGifts = []
-
-      favorSrIds.forEach((id) => {
-        const gift = giftMap.get(`${id}-false`)
-        if (gift) likedGifts.push(gift)
-      })
-
-      favorSsrIds.forEach((id) => {
-        const gift = giftMap.get(`${id}-true`)
-        if (gift) likedGifts.push(gift)
-      })
-
-      const sortedGifts = likedGifts.sort((a, b) => {
-        const prefA = getPreferenceValue(student, a)
-        const prefB = getPreferenceValue(student, b)
-        return prefB - prefA
-      })
-
-      return { id: student.id, favor: student.favor, gifts: sortedGifts }
+    recommendedGifts.value.forEach((gift) => {
+      if (gift.analysis && gift.analysis.characters) {
+        gift.analysis.characters.forEach((character) => {
+          const studentPref = preferencesMap.get(character.id)
+          if (studentPref) {
+            studentPref.gifts.push({
+              ...gift,
+              isRecommended: character.isOptimal,
+              preferenceValue: character.value,
+            })
+          }
+        })
+      }
     })
+
+    const result = Array.from(preferencesMap.values())
+    result.forEach((studentPref) => {
+      studentPref.gifts.sort((a, b) => {
+        if (a.isRecommended !== b.isRecommended) {
+          return a.isRecommended ? -1 : 1
+        }
+        return b.preferenceValue - a.preferenceValue
+      })
+    })
+
+    return result
   })
 
   function analyzeGift(gift, showOnlyOptimal) {

@@ -123,6 +123,10 @@
   "favoriteGiftsModal": {
     "titleSuffix": "喜歡的禮物"
   },
+  "toast": {
+    "link_copied_to_clipboard": "已將連結複製到剪貼簿",
+    "canvas_exceeds_max_size": "圖片尺寸過大，請選擇較低的倍率"
+  },
   "student": {
     "name": {
       "1": "亞瑠",
@@ -357,7 +361,8 @@
       "230": "渚（泳裝）",
       "231": "彌香（泳裝）",
       "232": "繪里",
-      "233": "庚"
+      "233": "庚",
+      "234": "美咲（泳裝）"
     }
   }
 }
