@@ -548,7 +548,8 @@
   }
 
   .reset-selection-button span,
-  .reset-button span {
+  .reset-button span,
+  .filter-toggle-icon {
     transform: skew(8deg);
     display: inline-block;
   }
