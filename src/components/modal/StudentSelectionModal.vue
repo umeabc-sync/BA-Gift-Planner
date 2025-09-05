@@ -746,6 +746,7 @@
     box-shadow:
       0 2px 8px rgba(0, 0, 0, 0.08),
       inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    user-select: none;
     position: relative;
     overflow: hidden;
   }
