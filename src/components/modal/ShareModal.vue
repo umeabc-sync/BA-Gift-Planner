@@ -233,7 +233,7 @@
   /* Header Styles */
   .modal-header {
     padding: 18px 24px;
-    background: linear-gradient(135deg, #87ceeb 0%, #6495ed 100%);
+    background: linear-gradient(135deg, #57bbff 0%, #2993f8 100%);
     color: white;
     display: flex;
     justify-content: space-between;

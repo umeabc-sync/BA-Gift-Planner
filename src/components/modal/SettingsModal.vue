@@ -188,7 +188,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: linear-gradient(45deg, #87ceeb, #6495ed);
+    background: linear-gradient(45deg, #57bbff, #2993f8);
     color: white;
     border-radius: 15px 15px 0 0;
   }
@@ -394,7 +394,7 @@
   }
 
   input[type='checkbox']:checked + label {
-    background-color: #6495ed;
+    background-color: #466398;
   }
 
   .dark-mode input[type='checkbox']:checked + label {

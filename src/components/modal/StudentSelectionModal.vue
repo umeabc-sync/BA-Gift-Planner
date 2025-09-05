@@ -329,7 +329,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: linear-gradient(45deg, #87ceeb, #6495ed);
+    background: linear-gradient(45deg, #57bbff, #2993f8);
     color: white;
     border-radius: 15px 15px 0 0;
   }
@@ -613,15 +613,26 @@
   }
 
   .filter-group button:hover {
+    border-color: #466398;
+    color: #466398;
+  }
+
+  .dark-mode .filter-group button:hover {
     border-color: #00a4e4;
     color: #00a4e4;
   }
 
   .filter-group button.active {
-    background-color: #00a4e4;
+    background-color: #466398;
     color: white !important;
-    border-color: #00a4e4;
+    border-color: #466398;
     font-weight: bold;
+    box-shadow: 0 0 10px #46639880;
+  }
+
+  .dark-mode .filter-group button.active {
+    background-color: #00a4e4;
+    border-color: #00a4e4;
     box-shadow: 0 0 10px #00a4e480;
   }
 

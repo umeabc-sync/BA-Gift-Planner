@@ -177,7 +177,7 @@
     left: 0;
     right: 0;
     height: 70px;
-    background: linear-gradient(45deg, #87ceeb, #6495ed);
+    background: linear-gradient(45deg, #57bbff, #2993f8);
     color: white;
     padding: 5px 20px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
