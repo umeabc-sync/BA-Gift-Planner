@@ -17,10 +17,20 @@
                   class="search-input"
                 />
                 <div class="action-buttons">
-                  <button v-if="!isFilterPanelOpen" class="reset-selection-button" @click="resetSelection">
+                  <button
+                    v-if="!isFilterPanelOpen"
+                    class="reset-selection-button"
+                    :class="{ 'no-select': isNoStudentSelected }"
+                    @click="resetSelection"
+                  >
                     <span>{{ t('characterSelector.resetSelection') }}</span>
                   </button>
-                  <button v-if="isFilterPanelOpen" class="reset-button" @click="resetFilters">
+                  <button
+                    v-if="isFilterPanelOpen"
+                    class="reset-button"
+                    :class="{ 'no-select': isNoFilterSelected }"
+                    @click="resetFilters"
+                  >
                     <span>{{ t('characterSelector.resetFilters') }}</span>
                   </button>
                   <button class="filter-toggle-button" @click="toggleFilterPanel">
@@ -163,6 +173,11 @@
       return acc
     }, {})
   )
+
+  const isNoStudentSelected = computed(() => props.selectedStudents.length === 0)
+  const isNoFilterSelected = computed(() => {
+    return Object.values(selectedFilters).every((arr) => arr.length === 0)
+  })
 
   const searchAndReset = ref(null)
   const filterControls = ref(null)
@@ -506,7 +521,8 @@
     transform: skew(-8deg);
   }
 
-  .reset-selection-button {
+  .reset-selection-button,
+  .filter-toggle-button {
     background-color: #77ddff;
     background-image: linear-gradient(to bottom right, #63d0fd 0%, transparent 50%),
       linear-gradient(to top left, #63d0fd 0%, transparent 50%);
@@ -551,12 +567,24 @@
     color: #e0f4ff;
   }
 
+  .reset-selection-button.no-select,
+  .reset-button.no-select {
+    background-color: #daedf4;
+    background-image: linear-gradient(to bottom right, #c9e1ed 0%, transparent 50%),
+      linear-gradient(to top left, #c9e1ed 0%, transparent 50%);
+  }
+
+  .dark-mode .reset-selection-button.no-select,
+  .dark-mode .reset-button.no-select {
+    background-color: #3d4852;
+    background-image: linear-gradient(to bottom right, #2d3748 0%, transparent 50%),
+      linear-gradient(to top left, #2d3748 0%, transparent 50%);
+    color: #9ca3af;
+  }
+
   .filter-toggle-button {
     display: flex;
     padding: 0;
-    background-color: #77ddff;
-    background-image: linear-gradient(to bottom right, #63d0fd 0%, transparent 50%),
-      linear-gradient(to top left, #63d0fd 0%, transparent 50%);
     border: none;
     border-radius: 12px;
     cursor: pointer;
