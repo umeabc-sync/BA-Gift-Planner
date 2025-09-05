@@ -769,215 +769,138 @@
   /* 學生網格容器 */
   .student-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-    gap: 16px;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 12px;
     padding: 20px;
-    background: linear-gradient(135deg, rgba(135, 206, 235, 0.05) 0%, rgba(100, 149, 237, 0.03) 100%);
+    background-color: #e9eef3;
+    background-image: repeating-linear-gradient(
+      45deg,
+      rgba(0, 0, 0, 0.03),
+      rgba(0, 0, 0, 0.03) 1px,
+      transparent 1px,
+      transparent 10px
+    );
     border-radius: 12px;
     margin: 0 20px 20px 20px;
-    position: relative;
   }
 
-  /* 暗黑模式下加上背景跟陰影看起來有點怪，暫時移除 */
   .dark-mode .student-grid {
-    /* background: linear-gradient(135deg, rgba(0, 174, 239, 0.08) 0%, rgba(42, 127, 255, 0.05) 100%); */
+    background-color: #1a2b40;
+    background-image: repeating-linear-gradient(
+      45deg,
+      rgba(255, 255, 255, 0.04),
+      rgba(255, 255, 255, 0.04) 1px,
+      transparent 1px,
+      transparent 10px
+    );
   }
 
-  /* 學生卡片 */
+  /* 學生卡片 - 基礎樣式 */
   .student-card {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     cursor: pointer;
-    padding: 12px 8px 10px 8px;
-    border-radius: 12px;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 12px 8px;
+    border-radius: 8px;
+    transition:
+      transform 0.2s ease,
+      background-color 0.2s ease,
+      border-color 0.2s ease;
     border: 2px solid transparent;
-    background: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
-    box-shadow:
-      0 2px 8px rgba(0, 0, 0, 0.08),
-      inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    background-color: #f8f9fa;
     user-select: none;
     position: relative;
-    overflow: hidden;
+    transform: skew(-8deg);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   }
 
-  .student-card::before {
+  .dark-mode .student-card {
+    background-color: #1f3048;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .student-card:hover {
+    transform: translateY(-3px) skew(-8deg);
+    border-color: #466398;
+  }
+
+  .dark-mode .student-card:hover {
+    border-color: #00a4e4;
+  }
+
+  /* 選中狀態 (明亮模式) */
+  .student-card.selected {
+    background-color: #e4f2ff;
+    border-color: #466398;
+    transform: translateY(-1px) skew(-8deg);
+  }
+
+  /* --- 暗黑模式專屬的選中狀態 --- */
+
+  .dark-mode .student-card.selected {
+    background-color: #1f3048; /* 將背景色重設為卡片原本的深色 */
+    border-color: #00a4e4;
+  }
+
+  /* 在暗黑模式下，使用偽元素來疊加半透明效果 */
+  .dark-mode .student-card::before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
-    right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, transparent 0%, #87ceeb 50%, transparent 100%);
-    opacity: 0;
-    transition: opacity 0.3s ease;
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    background-color: transparent; /* 預設為透明 */
+    transition: background-color 0.2s ease; /* 偽元素自己的過渡效果 */
+    z-index: 1; /* 確保在卡片內容下方 */
   }
 
-  /* 暗黑模式下加上背景跟陰影看起來有點怪，暫時移除 */
-  .dark-mode .student-card {
-    /* background: linear-gradient(145deg, #1f3048 0%, #1a2b40 100%); */
-    background: none;
-    color: #e0e6ed;
-    box-shadow: none;
-    /* box-shadow:
-      0 2px 8px rgba(0, 0, 0, 0.08),
-      inset 0 1px 0 rgba(255, 255, 255, 0.1); */
-  }
-
-  .dark-mode .student-card::before {
-    background: linear-gradient(90deg, transparent 0%, #00aeef 50%, transparent 100%);
-  }
-
-  /* 懸停效果 */
-  .student-card:hover {
-    background: linear-gradient(145deg, #f0f8ff 0%, #e6f3ff 100%);
-    transform: translateY(-4px);
-    box-shadow:
-      0 8px 20px rgba(100, 149, 237, 0.15),
-      inset 0 1px 0 rgba(255, 255, 255, 0.9);
-    border-color: rgba(135, 206, 235, 0.3);
-  }
-
-  .student-card:hover::before {
-    opacity: 1;
-  }
-
-  .dark-mode .student-card:hover {
-    background: linear-gradient(145deg, #2a4a6e 0%, #1f3048 100%);
-    box-shadow:
-      0 8px 20px rgba(0, 174, 239, 0.2),
-      inset 0 1px 0 rgba(255, 255, 255, 0.15);
-    border-color: rgba(0, 174, 239, 0.4);
-  }
-
-  /* 選中狀態 */
-  .student-card.selected {
-    border-color: #6495ed;
-    background: linear-gradient(
-      145deg,
-      rgba(100, 149, 237, 0.12) 0%,
-      rgba(135, 206, 235, 0.08) 50%,
-      rgba(255, 255, 255, 0.95) 100%
-    );
-    box-shadow:
-      0 0 0 3px rgba(100, 149, 237, 0.3),
-      0 8px 25px rgba(100, 149, 237, 0.2),
-      inset 0 1px 0 rgba(255, 255, 255, 0.9);
-    transform: translateY(-2px);
-    position: relative;
-  }
-
-  .student-card.selected::before {
-    opacity: 1;
-    height: 3px;
-    background: linear-gradient(90deg, #6495ed 0%, #87ceeb 50%, #6495ed 100%);
-  }
-
-  .dark-mode .student-card.selected {
-    border-color: #00aeef;
-    background: linear-gradient(
-      145deg,
-      rgba(0, 174, 239, 0.15) 0%,
-      rgba(42, 127, 255, 0.1) 50%,
-      rgba(31, 48, 72, 0.95) 100%
-    );
-    box-shadow:
-      0 0 0 3px rgba(0, 174, 239, 0.4),
-      0 8px 25px rgba(0, 174, 239, 0.3),
-      inset 0 1px 0 rgba(255, 255, 255, 0.15);
-  }
-
+  /* 暗黑模式下，選中時顯示偽元素背景 */
   .dark-mode .student-card.selected::before {
-    background: linear-gradient(90deg, #00aeef 0%, #2a7fff 50%, #00aeef 100%);
+    background-color: rgba(0, 164, 228, 0.2);
   }
 
-  .dark-mode .student-card.selected::after {
-    background: linear-gradient(45deg, #00aeef 0%, #2a7fff 100%);
+  /* 確保卡片內容在偽元素之上 */
+  .student-card > * {
+    position: relative;
+    z-index: 2;
   }
 
   /* 學生頭像 */
   .student-avatar-large {
-    width: 75px;
-    height: 75px;
+    width: 70px;
+    height: 70px;
     border-radius: 50%;
     margin-bottom: 8px;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-  }
-
-  .student-avatar-large::before {
-    content: '';
-    position: absolute;
-    top: -3px;
-    left: -3px;
-    right: -3px;
-    bottom: -3px;
-    border-radius: 50%;
-    background: conic-gradient(from 0deg, #87ceeb, #6495ed, #4169e1, #87ceeb);
-    z-index: -1;
-    opacity: 0;
-    transition: opacity 0.3s ease;
+    transition: transform 0.2s ease;
+    transform: skew(8deg);
   }
 
   .student-avatar-large :deep(img) {
     border-radius: 50%;
-    border: 3px solid rgba(100, 149, 237, 0.3);
-    transition: all 0.3s ease;
-    background: linear-gradient(145deg, #ffffff 0%, #f0f8ff 100%);
-  }
-
-  .dark-mode .student-avatar-large::before {
-    background: conic-gradient(from 0deg, #00aeef, #2a7fff, #0066cc, #00aeef);
+    border: 3px solid #d1d8e0;
+    transition: border-color 0.2s ease;
+    background-color: #fff;
   }
 
   .dark-mode .student-avatar-large :deep(img) {
-    border-color: rgba(0, 174, 239, 0.4);
-    background: linear-gradient(145deg, #1f3048 0%, #2a4a6e 100%);
+    border-color: #2a4a6e;
+    background-color: #1a2b40;
   }
 
-  /* 懸停時的頭像效果 */
   .student-card:hover .student-avatar-large {
-    transform: scale(1.05) rotate(-2deg);
-  }
-
-  .student-card:hover .student-avatar-large::before {
-    opacity: 0.6;
-    animation: rotate 3s linear infinite;
-  }
-
-  .student-card:hover .student-avatar-large :deep(img) {
-    border-color: #6495ed;
-    box-shadow: 0 0 15px rgba(100, 149, 237, 0.3);
-  }
-
-  .dark-mode .student-card:hover .student-avatar-large :deep(img) {
-    border-color: #00aeef;
-    box-shadow: 0 0 15px rgba(0, 174, 239, 0.4);
-  }
-
-  /* 選中時的頭像效果 */
-  .student-card.selected .student-avatar-large {
-    transform: scale(1.08);
-  }
-
-  .student-card.selected .student-avatar-large::before {
-    opacity: 0.8;
-    animation: rotate 2s linear infinite;
+    transform: scale(1.05) skew(8deg);
   }
 
   .student-card.selected .student-avatar-large :deep(img) {
-    border-color: #6495ed;
-    box-shadow:
-      0 0 20px rgba(100, 149, 237, 0.5),
-      inset 0 0 10px rgba(100, 149, 237, 0.1);
+    border-color: #466398;
   }
 
   .dark-mode .student-card.selected .student-avatar-large :deep(img) {
-    border-color: #00aeef;
-    box-shadow:
-      0 0 20px rgba(0, 174, 239, 0.6),
-      inset 0 0 10px rgba(0, 174, 239, 0.15);
+    border-color: #00a4e4;
   }
 
   /* 學生姓名 */
@@ -989,46 +912,21 @@
     text-overflow: ellipsis;
     max-width: 100%;
     color: #314665;
-    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
-    position: relative;
-    padding: 4px 8px;
-    border-radius: 8px;
-    background: linear-gradient(90deg, transparent 0%, rgba(135, 206, 235, 0.1) 50%, transparent 100%);
-    transition: all 0.3s ease;
+    transition: color 0.2s ease;
+    transform: skew(8deg);
   }
 
   .dark-mode .student-name {
     color: #e0e6ed;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-    background: linear-gradient(90deg, transparent 0%, rgba(0, 174, 239, 0.1) 50%, transparent 100%);
   }
 
-  /* 選中時的姓名效果 */
   .student-card.selected .student-name {
-    color: #4169e1;
+    color: #0056b3;
     font-weight: 700;
-    text-shadow:
-      0 1px 3px rgba(100, 149, 237, 0.4),
-      0 0 10px rgba(100, 149, 237, 0.2);
-    background: linear-gradient(
-      90deg,
-      rgba(100, 149, 237, 0.15) 0%,
-      rgba(135, 206, 235, 0.25) 50%,
-      rgba(100, 149, 237, 0.15) 100%
-    );
   }
 
   .dark-mode .student-card.selected .student-name {
     color: #87ceeb;
-    text-shadow:
-      0 1px 3px rgba(0, 174, 239, 0.5),
-      0 0 10px rgba(0, 174, 239, 0.3);
-    background: linear-gradient(
-      90deg,
-      rgba(0, 174, 239, 0.2) 0%,
-      rgba(42, 127, 255, 0.3) 50%,
-      rgba(0, 174, 239, 0.2) 100%
-    );
   }
 
   /* 無結果提示 */
@@ -1039,30 +937,20 @@
     color: #7f8c8d;
     font-size: 1.1rem;
     font-weight: 500;
-    background: linear-gradient(135deg, rgba(135, 206, 235, 0.1) 0%, rgba(100, 149, 237, 0.05) 100%);
+    background-color: rgba(255, 255, 255, 0.5);
     border-radius: 12px;
-    border: 2px dashed rgba(135, 206, 235, 0.3);
+    border: 2px dashed #d1d8e0;
   }
 
   .dark-mode .no-results {
     color: #bdc3c7;
-    background: linear-gradient(135deg, rgba(0, 174, 239, 0.1) 0%, rgba(42, 127, 255, 0.05) 100%);
-    border-color: rgba(0, 174, 239, 0.3);
-  }
-
-  /* 旋轉動畫 */
-  @keyframes rotate {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
+    background-color: rgba(0, 0, 0, 0.1);
+    border-color: #2a4a6e;
   }
 
   /* 點擊動畫 */
   .student-card:active {
-    transform: scale(0.95);
+    transform: scale(0.95) skew(-8deg);
     transition-duration: 0.1s;
   }
 
@@ -1136,7 +1024,6 @@
 
     .student-name {
       font-size: 0.75rem;
-      padding: 2px 4px;
     }
   }
 
