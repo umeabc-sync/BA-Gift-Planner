@@ -734,7 +734,6 @@
     box-shadow:
       0 2px 8px rgba(0, 0, 0, 0.08),
       inset 0 1px 0 rgba(255, 255, 255, 0.8);
-    transform: skew(-2deg);
     position: relative;
     overflow: hidden;
   }
@@ -763,15 +762,10 @@
     background: linear-gradient(90deg, transparent 0%, #00aeef 50%, transparent 100%);
   }
 
-  /* 學生卡片內容容器 */
-  .student-card > * {
-    transform: skew(2deg);
-  }
-
   /* 懸停效果 */
   .student-card:hover {
     background: linear-gradient(145deg, #f0f8ff 0%, #e6f3ff 100%);
-    transform: translateY(-4px) skew(-2deg);
+    transform: translateY(-4px);
     box-shadow:
       0 8px 20px rgba(100, 149, 237, 0.15),
       inset 0 1px 0 rgba(255, 255, 255, 0.9);
@@ -803,7 +797,7 @@
       0 0 0 3px rgba(100, 149, 237, 0.3),
       0 8px 25px rgba(100, 149, 237, 0.2),
       inset 0 1px 0 rgba(255, 255, 255, 0.9);
-    transform: translateY(-2px) skew(-2deg);
+    transform: translateY(-2px);
     position: relative;
   }
 
@@ -897,7 +891,7 @@
 
   /* 選中時的頭像效果 */
   .student-card.selected .student-avatar-large {
-    transform: scale(1.08) rotate(-1deg);
+    transform: scale(1.08);
   }
 
   .student-card.selected .student-avatar-large::before {
@@ -981,11 +975,6 @@
     background: linear-gradient(135deg, rgba(135, 206, 235, 0.1) 0%, rgba(100, 149, 237, 0.05) 100%);
     border-radius: 12px;
     border: 2px dashed rgba(135, 206, 235, 0.3);
-    transform: skew(-1deg);
-  }
-
-  .no-results > * {
-    transform: skew(1deg);
   }
 
   .dark-mode .no-results {
@@ -1006,7 +995,7 @@
 
   /* 點擊動畫 */
   .student-card:active {
-    transform: scale(0.95) skew(-2deg);
+    transform: scale(0.95);
     transition-duration: 0.1s;
   }
 
