@@ -704,117 +704,310 @@
     color: white;
   }
 
+  /* 學生網格容器 */
   .student-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-    gap: 15px;
-    padding: 15px 20px 20px;
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    gap: 16px;
+    padding: 20px;
+    background: linear-gradient(135deg, rgba(135, 206, 235, 0.05) 0%, rgba(100, 149, 237, 0.03) 100%);
+    border-radius: 12px;
+    margin: 0 20px 20px 20px;
+    position: relative;
   }
 
+  .dark-mode .student-grid {
+    background: linear-gradient(135deg, rgba(0, 174, 239, 0.08) 0%, rgba(42, 127, 255, 0.05) 100%);
+  }
+
+  /* 學生卡片 */
   .student-card {
     display: flex;
     flex-direction: column;
     align-items: center;
     cursor: pointer;
-    padding: 10px;
-    border-radius: 8px;
-    transition:
-      background-color 0.2s,
-      transform 0.2s;
+    padding: 12px 8px 10px 8px;
+    border-radius: 12px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     border: 2px solid transparent;
+    background: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
+    box-shadow:
+      0 2px 8px rgba(0, 0, 0, 0.08),
+      inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    transform: skew(-2deg);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .student-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent 0%, #87ceeb 50%, transparent 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
   }
 
   .dark-mode .student-card {
+    background: linear-gradient(145deg, #1f3048 0%, #1a2b40 100%);
     color: #e0e6ed;
+    box-shadow:
+      0 2px 8px rgba(0, 0, 0, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
   }
 
+  .dark-mode .student-card::before {
+    background: linear-gradient(90deg, transparent 0%, #00aeef 50%, transparent 100%);
+  }
+
+  /* 學生卡片內容容器 */
+  .student-card > * {
+    transform: skew(2deg);
+  }
+
+  /* 懸停效果 */
   .student-card:hover {
-    background-color: #e9ecef;
-    transform: translateY(-3px);
+    background: linear-gradient(145deg, #f0f8ff 0%, #e6f3ff 100%);
+    transform: translateY(-4px) skew(-2deg);
+    box-shadow:
+      0 8px 20px rgba(100, 149, 237, 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    border-color: rgba(135, 206, 235, 0.3);
+  }
+
+  .student-card:hover::before {
+    opacity: 1;
   }
 
   .dark-mode .student-card:hover {
-    background-color: #1f3048;
+    background: linear-gradient(145deg, #2a4a6e 0%, #1f3048 100%);
+    box-shadow:
+      0 8px 20px rgba(0, 174, 239, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    border-color: rgba(0, 174, 239, 0.4);
   }
 
+  /* 選中狀態 */
   .student-card.selected {
     border-color: #6495ed;
-    background: linear-gradient(135deg, rgba(100, 149, 237, 0.15) 0%, rgba(135, 206, 235, 0.1) 100%);
+    background: linear-gradient(
+      145deg,
+      rgba(100, 149, 237, 0.12) 0%,
+      rgba(135, 206, 235, 0.08) 50%,
+      rgba(255, 255, 255, 0.95) 100%
+    );
     box-shadow:
       0 0 0 3px rgba(100, 149, 237, 0.3),
-      0 8px 25px rgba(100, 149, 237, 0.2);
-    transform: translateY(-2px);
+      0 8px 25px rgba(100, 149, 237, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    transform: translateY(-2px) skew(-2deg);
+    position: relative;
+  }
+
+  .student-card.selected::before {
+    opacity: 1;
+    height: 3px;
+    background: linear-gradient(90deg, #6495ed 0%, #87ceeb 50%, #6495ed 100%);
   }
 
   .dark-mode .student-card.selected {
     border-color: #00aeef;
-    background: linear-gradient(135deg, rgba(0, 174, 239, 0.2) 0%, rgba(42, 127, 255, 0.15) 100%);
+    background: linear-gradient(
+      145deg,
+      rgba(0, 174, 239, 0.15) 0%,
+      rgba(42, 127, 255, 0.1) 50%,
+      rgba(31, 48, 72, 0.95) 100%
+    );
     box-shadow:
       0 0 0 3px rgba(0, 174, 239, 0.4),
-      0 8px 25px rgba(0, 174, 239, 0.3);
+      0 8px 25px rgba(0, 174, 239, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.15);
   }
 
+  .dark-mode .student-card.selected::before {
+    background: linear-gradient(90deg, #00aeef 0%, #2a7fff 50%, #00aeef 100%);
+  }
+
+  .dark-mode .student-card.selected::after {
+    background: linear-gradient(45deg, #00aeef 0%, #2a7fff 100%);
+  }
+
+  /* 學生頭像 */
   .student-avatar-large {
-    width: 80px;
-    height: 80px;
+    width: 75px;
+    height: 75px;
     border-radius: 50%;
     margin-bottom: 8px;
-    transition:
-      transform 0.2s,
-      box-shadow 0.2s;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+  }
+
+  .student-avatar-large::before {
+    content: '';
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
+    border-radius: 50%;
+    background: conic-gradient(from 0deg, #87ceeb, #6495ed, #4169e1, #87ceeb);
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
   }
 
   .student-avatar-large :deep(img) {
     border-radius: 50%;
-    border: 3px solid #6495ed;
-    transition: border-color 0.2s;
+    border: 3px solid rgba(100, 149, 237, 0.3);
+    transition: all 0.3s ease;
+    background: linear-gradient(145deg, #ffffff 0%, #f0f8ff 100%);
+  }
+
+  .dark-mode .student-avatar-large::before {
+    background: conic-gradient(from 0deg, #00aeef, #2a7fff, #0066cc, #00aeef);
   }
 
   .dark-mode .student-avatar-large :deep(img) {
-    border-color: #00aeef;
+    border-color: rgba(0, 174, 239, 0.4);
+    background: linear-gradient(145deg, #1f3048 0%, #2a4a6e 100%);
   }
 
-  /* 頭像邊框在選中時的變化 */
+  /* 懸停時的頭像效果 */
+  .student-card:hover .student-avatar-large {
+    transform: scale(1.05) rotate(-2deg);
+  }
+
+  .student-card:hover .student-avatar-large::before {
+    opacity: 0.6;
+    animation: rotate 3s linear infinite;
+  }
+
+  .student-card:hover .student-avatar-large :deep(img) {
+    border-color: #6495ed;
+    box-shadow: 0 0 15px rgba(100, 149, 237, 0.3);
+  }
+
+  .dark-mode .student-card:hover .student-avatar-large :deep(img) {
+    border-color: #00aeef;
+    box-shadow: 0 0 15px rgba(0, 174, 239, 0.4);
+  }
+
+  /* 選中時的頭像效果 */
   .student-card.selected .student-avatar-large {
-    transform: scale(1.05);
+    transform: scale(1.08) rotate(-1deg);
+  }
+
+  .student-card.selected .student-avatar-large::before {
+    opacity: 0.8;
+    animation: rotate 2s linear infinite;
   }
 
   .student-card.selected .student-avatar-large :deep(img) {
     border-color: #6495ed;
-    box-shadow: 0 0 15px rgba(100, 149, 237, 0.4);
+    box-shadow:
+      0 0 20px rgba(100, 149, 237, 0.5),
+      inset 0 0 10px rgba(100, 149, 237, 0.1);
   }
 
   .dark-mode .student-card.selected .student-avatar-large :deep(img) {
     border-color: #00aeef;
-    box-shadow: 0 0 15px rgba(0, 174, 239, 0.5);
+    box-shadow:
+      0 0 20px rgba(0, 174, 239, 0.6),
+      inset 0 0 10px rgba(0, 174, 239, 0.15);
   }
 
-  /* 選中時的名稱文字效果 */
-  .student-card.selected .student-name {
-    color: #4169e1;
-    font-weight: 700;
-    text-shadow: 0 1px 3px rgba(100, 149, 237, 0.3);
-  }
-
-  .dark-mode .student-card.selected .student-name {
-    color: #87ceeb;
-    text-shadow: 0 1px 3px rgba(0, 174, 239, 0.4);
-  }
-
+  /* 學生姓名 */
   .student-name {
-    font-weight: bold;
-    font-size: 0.9rem;
+    font-weight: 600;
+    font-size: 0.85rem;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 100%;
+    color: #314665;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+    position: relative;
+    padding: 4px 8px;
+    border-radius: 8px;
+    background: linear-gradient(90deg, transparent 0%, rgba(135, 206, 235, 0.1) 50%, transparent 100%);
+    transition: all 0.3s ease;
   }
 
+  .dark-mode .student-name {
+    color: #e0e6ed;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    background: linear-gradient(90deg, transparent 0%, rgba(0, 174, 239, 0.1) 50%, transparent 100%);
+  }
+
+  /* 選中時的姓名效果 */
+  .student-card.selected .student-name {
+    color: #4169e1;
+    font-weight: 700;
+    text-shadow:
+      0 1px 3px rgba(100, 149, 237, 0.4),
+      0 0 10px rgba(100, 149, 237, 0.2);
+    background: linear-gradient(
+      90deg,
+      rgba(100, 149, 237, 0.15) 0%,
+      rgba(135, 206, 235, 0.25) 50%,
+      rgba(100, 149, 237, 0.15) 100%
+    );
+  }
+
+  .dark-mode .student-card.selected .student-name {
+    color: #87ceeb;
+    text-shadow:
+      0 1px 3px rgba(0, 174, 239, 0.5),
+      0 0 10px rgba(0, 174, 239, 0.3);
+    background: linear-gradient(
+      90deg,
+      rgba(0, 174, 239, 0.2) 0%,
+      rgba(42, 127, 255, 0.3) 50%,
+      rgba(0, 174, 239, 0.2) 100%
+    );
+  }
+
+  /* 無結果提示 */
   .no-results {
     grid-column: 1 / -1;
     text-align: center;
-    padding: 20px;
+    padding: 40px 20px;
     color: #7f8c8d;
+    font-size: 1.1rem;
+    font-weight: 500;
+    background: linear-gradient(135deg, rgba(135, 206, 235, 0.1) 0%, rgba(100, 149, 237, 0.05) 100%);
+    border-radius: 12px;
+    border: 2px dashed rgba(135, 206, 235, 0.3);
+    transform: skew(-1deg);
+  }
+
+  .no-results > * {
+    transform: skew(1deg);
+  }
+
+  .dark-mode .no-results {
+    color: #bdc3c7;
+    background: linear-gradient(135deg, rgba(0, 174, 239, 0.1) 0%, rgba(42, 127, 255, 0.05) 100%);
+    border-color: rgba(0, 174, 239, 0.3);
+  }
+
+  /* 旋轉動畫 */
+  @keyframes rotate {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* 點擊動畫 */
+  .student-card:active {
+    transform: scale(0.95) skew(-2deg);
+    transition-duration: 0.1s;
   }
 
   .nexon-font {
@@ -865,5 +1058,41 @@
   .dark-mode .scrollable-section::-webkit-scrollbar-thumb:hover,
   .dark-mode .filter-content-wrapper::-webkit-scrollbar-thumb:hover {
     background-color: #95a5a6;
+  }
+
+  /* 響應式設計 */
+  @media (max-width: 768px) {
+    .student-grid {
+      grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+      gap: 12px;
+      padding: 15px;
+      margin: 0 15px 15px 15px;
+    }
+
+    .student-card {
+      padding: 8px 6px;
+    }
+
+    .student-avatar-large {
+      width: 65px;
+      height: 65px;
+    }
+
+    .student-name {
+      font-size: 0.75rem;
+      padding: 2px 4px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .student-grid {
+      grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+      gap: 10px;
+    }
+
+    .student-avatar-large {
+      width: 55px;
+      height: 55px;
+    }
   }
 </style>
