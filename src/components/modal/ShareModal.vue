@@ -477,13 +477,17 @@
 
   /* Size Options */
   .size-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
+    display: flex;
   }
 
   .size-option {
     position: relative;
+    flex: 1 1 0%;
+    transition: all 0.2s ease-in-out;
+  }
+
+  .size-option:not(:first-child) {
+    margin-left: -15px;
   }
 
   .size-option input[type='radio'] {
@@ -496,14 +500,25 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     gap: 12px;
     padding: 20px 16px;
     background: #f7fafc;
-    border: 2px solid transparent;
-    border-radius: 12px;
     cursor: pointer;
     transition: all 0.2s ease;
     text-align: center;
+    clip-path: polygon(15px 0, 100% 0, calc(100% - 15px) 100%, 0 100%);
+    height: 100%;
+  }
+
+  .size-option:first-child .size-label {
+    clip-path: polygon(0 0, 100% 0, calc(100% - 15px) 100%, 0 100%);
+    border-radius: 12px 0 0 12px;
+  }
+
+  .size-option:last-child .size-label {
+    clip-path: polygon(15px 0, 100% 0, 100% 100%, 0 100%);
+    border-radius: 0 12px 12px 0;
   }
 
   .dark-mode .size-label {
@@ -512,12 +527,14 @@
 
   .size-option.active .size-label {
     background: rgba(50, 205, 50, 0.1);
-    border-color: #32cd32;
   }
 
   .dark-mode .size-option.active .size-label {
     background: rgba(74, 222, 128, 0.2);
-    border-color: #4ade80;
+  }
+
+  .size-label:active {
+    transform: scale(0.95);
   }
 
   .size-preview {
