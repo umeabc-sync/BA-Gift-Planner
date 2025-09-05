@@ -251,7 +251,8 @@
   }
 
   .dark-mode .modal-header {
-    background: linear-gradient(135deg, #2a7fff 0%, #00aeef 100%);
+    background: linear-gradient(45deg, #223d5a, #1a2b40);
+    border-bottom-color: #2a4a6e;
   }
 
   .modal-title {
@@ -259,6 +260,15 @@
     font-weight: 600;
     margin: 0;
     line-height: 1.2;
+  }
+
+  .dark-mode .modal-header .modal-title {
+    color: #e0f4ff;
+    border-bottom-color: #fdef66;
+  }
+
+  .dark-mode .close-button {
+    color: #e0f4ff;
   }
 
   .close-button {
