@@ -716,8 +716,9 @@
     position: relative;
   }
 
+  /* 暗黑模式下加上背景跟陰影看起來有點怪，暫時移除 */
   .dark-mode .student-grid {
-    background: linear-gradient(135deg, rgba(0, 174, 239, 0.08) 0%, rgba(42, 127, 255, 0.05) 100%);
+    /* background: linear-gradient(135deg, rgba(0, 174, 239, 0.08) 0%, rgba(42, 127, 255, 0.05) 100%); */
   }
 
   /* 學生卡片 */
@@ -750,12 +751,15 @@
     transition: opacity 0.3s ease;
   }
 
+  /* 暗黑模式下加上背景跟陰影看起來有點怪，暫時移除 */
   .dark-mode .student-card {
-    background: linear-gradient(145deg, #1f3048 0%, #1a2b40 100%);
+    /* background: linear-gradient(145deg, #1f3048 0%, #1a2b40 100%); */
+    background: none;
     color: #e0e6ed;
-    box-shadow:
-      0 2px 8px rgba(0, 0, 0, 0.3),
-      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    box-shadow: none;
+    /* box-shadow:
+      0 2px 8px rgba(0, 0, 0, 0.08),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1); */
   }
 
   .dark-mode .student-card::before {
