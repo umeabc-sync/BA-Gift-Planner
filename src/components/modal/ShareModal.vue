@@ -5,7 +5,7 @@
         <div class="modal-content">
           <!-- Header -->
           <div class="modal-header">
-            <h3 class="modal-title">{{ t('shareModal.title') }}</h3>
+            <div class="modal-title">{{ t('shareModal.title') }}</div>
             <button class="close-button" @click="closeModal">×</button>
           </div>
 
@@ -232,13 +232,22 @@
 
   /* Header Styles */
   .modal-header {
-    padding: 18px 24px;
-    background: linear-gradient(135deg, #57bbff 0%, #2993f8 100%);
-    color: white;
+    background: linear-gradient(45deg, #cde6f8, #f7fafb);
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
+    border-radius: 15px 15px 0 0;
     position: relative;
+  }
+
+  .modal-header .modal-title {
+    padding: 10px 0px 5px 0px;
+    text-align: center;
+    color: #2d4663;
+    flex-grow: 0;
+    font-size: 1.5rem;
+    font-weight: bold;
+    border-bottom: 5px solid #fdef66;
   }
 
   .dark-mode .modal-header {
@@ -256,10 +265,14 @@
     background: none;
     border: none;
     font-size: 2rem;
-    color: white;
+    color: #2d4663;
     cursor: pointer;
     opacity: 0.8;
     transition: opacity 0.2s;
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
   }
 
   .close-button:hover {

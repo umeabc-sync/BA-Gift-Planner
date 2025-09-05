@@ -4,7 +4,7 @@
       <div v-if="isVisible" class="modal-overlay" @click.self="closeModal">
         <div class="modal-content">
           <div class="modal-header">
-            <h3>{{ t('common.settings') }}</h3>
+            <div class="modal-title">{{ t('common.settings') }}</div>
             <button class="close-button" @click="closeModal">×</button>
           </div>
           <div class="modal-body">
@@ -167,6 +167,8 @@
 
   .modal-content {
     background: #f8f9fa;
+    /* Abandoned */
+    /* background: linear-gradient(135deg, #f8f9fa 75%, #d4e4ed); */
     border-radius: 15px;
     width: 90%;
     max-width: 500px;
@@ -183,14 +185,23 @@
   }
 
   .modal-header {
-    padding: 15px 20px;
     border-bottom: 1px solid #dee2e6;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    background: linear-gradient(45deg, #57bbff, #2993f8);
-    color: white;
+    background: linear-gradient(45deg, #cde6f8, #f7fafb);
     border-radius: 15px 15px 0 0;
+    position: relative;
+  }
+
+  .modal-header .modal-title {
+    padding: 10px 0px 5px 0px;
+    text-align: center;
+    color: #2d4663;
+    flex-grow: 0;
+    font-size: 1.5rem;
+    font-weight: bold;
+    border-bottom: 5px solid #fdef66;
   }
 
   .dark-mode .modal-header {
@@ -202,11 +213,15 @@
     background: none;
     border: none;
     font-size: 2rem;
-    color: white;
+    color: #2d4663;
     cursor: pointer;
     line-height: 1;
     opacity: 0.8;
     transition: opacity 0.2s;
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
   }
   .close-button:hover {
     opacity: 1;
