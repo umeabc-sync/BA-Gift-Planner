@@ -214,7 +214,7 @@
 
   .modal-content {
     background: #ffffff;
-    border-radius: 20px;
+    border-radius: 15px;
     width: 90%;
     max-width: 520px;
     max-height: 85vh;
@@ -652,7 +652,8 @@
 
   /* Responsive Design */
   @media (max-width: 768px) {
-    .modal-content {
+    /* Abandoned */
+    /* .modal-content {
       width: 95%;
       max-height: 90vh;
       border-radius: 16px;
@@ -677,7 +678,7 @@
 
     .modal-body {
       padding: 20px;
-    }
+    } */
 
     .setting-card {
       padding: 20px;
