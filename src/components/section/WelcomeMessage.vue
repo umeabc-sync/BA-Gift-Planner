@@ -28,35 +28,19 @@
   .no-selection-panel {
     width: 100%;
     max-width: 600px;
-    background-color: #e9eef3;
-    background-image: repeating-linear-gradient(
-      45deg,
-      rgba(0, 0, 0, 0.03),
-      rgba(0, 0, 0, 0.03) 1px,
-      transparent 1px,
-      transparent 10px
-    );
+    background-color: #f8f9fa;
     border-radius: 12px;
     padding: 4px;
-    transform: skew(-8deg);
-    border: 1px solid #dee2e6;
-    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+    border: 2px solid #dee2e6;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   }
 
   .dark-mode .no-selection-panel {
     background-color: #1a2b40;
-    background-image: repeating-linear-gradient(
-      45deg,
-      rgba(255, 255, 255, 0.04),
-      rgba(255, 255, 255, 0.04) 1px,
-      transparent 1px,
-      transparent 10px
-    );
     border-color: #2a4a6e;
   }
 
   .panel-content {
-    transform: skew(8deg);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -74,7 +58,6 @@
 
   .gift-icon {
     width: 80px;
-    height: 80px;
     margin-bottom: 20px;
     filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
   }
