@@ -635,37 +635,6 @@
       padding: 20px;
     }
 
-    .size-grid {
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .size-option:not(:first-child) {
-      margin-left: 0;
-    }
-
-    .size-label {
-      padding: 16px;
-      flex-direction: row;
-      justify-content: flex-start;
-      text-align: left;
-    }
-
-    .size-option.active .size-label {
-      border-color: #32cd32;
-    }
-
-    .dark-mode .size-option.active .size-label {
-      border-color: #4ade80;
-    }
-
-    .size-label,
-    .size-option:first-child .size-label,
-    .size-option:last-child .size-label {
-      clip-path: none;
-      border-radius: 12px;
-    }
-
     .option-text-content {
       gap: 4px;
     }
