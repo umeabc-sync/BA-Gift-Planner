@@ -530,15 +530,15 @@
   }
 
   .size-option.active .size-label {
-    background: #1d2b65;
+    background: #263473;
   }
 
   .size-option.active .size-text {
-    color: #ffe401;
+    color: white;
   }
 
   .size-option.active .size-desc {
-    color: #ffe401bf;
+    color: rgba(255, 255, 255, 0.8);
   }
 
   .dark-mode .size-option.active .size-label {
@@ -591,7 +591,7 @@
   }
 
   .dark-mode .size-text {
-    color: #ffe401;
+    color: #e0e6ed;
   }
 
   .size-desc {
@@ -600,7 +600,7 @@
   }
 
   .dark-mode .size-desc {
-    color: #ffe401bf;
+    color: rgba(223, 229, 236, 0.8);
   }
 
   /* Footer Styles */
