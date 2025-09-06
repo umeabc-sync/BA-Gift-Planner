@@ -5,11 +5,19 @@
     </div>
     <div class="controls">
       <button class="icon-btn" @click="$emit('openModal')">
-        <img :src="addStudentsIconUrl" :alt="t('header.selectStudentsAlt')" draggable="false" />
+         <component 
+            :is="AddStudentsIcon"
+            :alt="t('header.selectStudentsAlt')"
+            draggable="false"
+          />
       </button>
       <div class="share-dropdown-container">
         <button class="icon-btn" @click="toggleShareDropdown">
-          <img :src="shareIconUrl" :alt="t('header.shareAlt')" draggable="false" />
+          <component 
+            :is="ShareIcon"
+            :alt="t('header.shareAlt')"
+            draggable="false"
+          />
         </button>
         <div v-if="showShareDropdown" class="share-dropdown-menu">
           <button @click="handleCopyLink" class="dropdown-item">
@@ -27,13 +35,13 @@
         </div>
       </div>
       <button class="icon-btn settings-btn" @click="handleSettingsClick">
-        <img
-          :src="gearIconUrl"
+        <component 
+          :is="GearIcon"
           :alt="t('header.settingsAlt')"
           :class="{ 'is-rotating': isSettingsIconRotating }"
           @animationend="isSettingsIconRotating = false"
           draggable="false"
-        />
+        />        
       </button>
       <button class="icon-btn theme-toggle-btn" @click="toggleTheme">
         <Transition name="icon-fade-slide" mode="out-in">
@@ -105,6 +113,9 @@
   import { getTitleUrl } from '@utils/getTitleUrl'
   import { useI18n } from '@composables/useI18n'
   import { useWindowSize } from '@vueuse/core'
+  import AddStudentsIcon from '@assets/icon/add_students.svg'
+  import ShareIcon from '@assets/icon/share.svg'
+  import GearIcon from '@assets/icon/gear.svg'
 
   const { t, currentLocale: locale } = useI18n()
 
@@ -146,10 +157,6 @@
 
   const { width } = useWindowSize()
   const isMobile = computed(() => width.value <= 768)
-
-  const addStudentsIconUrl = computed(() => getAssetsFile('icon/add_students.svg'))
-  const shareIconUrl = computed(() => getAssetsFile('icon/share.svg'))
-  const gearIconUrl = computed(() => getAssetsFile('icon/gear.svg'))
 
   const logoUrl = computed(() => getTitleUrl(locale.value, isMobile.value))
 
@@ -220,6 +227,7 @@
       linear-gradient(to top left, #63d0fd 0%, transparent 50%);
     border: none;
     color: #314665;
+    fill: #314665;
     cursor: pointer;
     border-radius: 12px;
     width: 42px;
@@ -245,29 +253,21 @@
     background-image: linear-gradient(to bottom right, #09a4f2 0%, transparent 50%),
       linear-gradient(to top left, #09a4f2 0%, transparent 50%);
     color: #e0f4ff;
+    fill: #e0f4ff
   }
 
-  .icon-btn img {
+  .icon-btn svg {
     width: 24px;
     height: 24px;
-    filter: brightness(0) invert(0.2);
     transform: skew(8deg);
     transition: transform 0.3s ease-in-out;
   }
 
-  .icon-btn svg {
-    transform: skew(8deg);
-  }
-
-  .dark-mode .icon-btn img {
-    filter: brightness(0) invert(1);
-  }
-
-  .icon-btn img.is-rotating {
+  .icon-btn svg.is-rotating {
     animation: rotate-gear 0.5s ease-in-out;
   }
 
-  .settings-btn:hover img {
+  .settings-btn:hover svg {
     transform: skew(8deg) rotate(90deg);
   }
 
