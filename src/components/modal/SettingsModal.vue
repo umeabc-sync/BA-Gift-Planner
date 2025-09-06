@@ -36,32 +36,39 @@
 
             <!-- Show Only Optimal Solution Settings -->
             <div class="setting-group">
-              <div class="setting-group-title-wrapper">
-                <h4 class="setting-group-title">{{ t('settingsModal.showOnlyOptimalSolution') }}</h4>
-              </div>
-              <div class="toggle-switch">
-                <span class="toggle-label">{{
-                  isShowOnlyOptimalSolutionEnabled ? t('common.enabled') : t('common.disabled')
-                }}</span>
-                <input
-                  id="showOnlyOptimalSolutionToggle"
-                  type="checkbox"
-                  :checked="isShowOnlyOptimalSolutionEnabled"
-                  @change="toggleShowOnlyOptimalSolution"
-                />
-                <label for="showOnlyOptimalSolutionToggle"></label>
+              <h4 class="setting-group-title">{{ t('settingsModal.showOnlyOptimalSolution') }}</h4>
+              <div class="toggle-button-group">
+                <button
+                  :class="['toggle-button', 'off', { active: !isShowOnlyOptimalSolutionEnabled }]"
+                  @click="isShowOnlyOptimalSolutionEnabled && toggleShowOnlyOptimalSolution()"
+                >
+                  <span>{{ t('common.disabled') }}</span>
+                </button>
+                <button
+                  :class="['toggle-button', 'on', { active: isShowOnlyOptimalSolutionEnabled }]"
+                  @click="!isShowOnlyOptimalSolutionEnabled && toggleShowOnlyOptimalSolution()"
+                >
+                  <span>{{ t('common.enabled') }}</span>
+                </button>
               </div>
             </div>
 
             <!-- Lazy Load Settings -->
             <div class="setting-group">
-              <div class="setting-group-title-wrapper">
-                <h4 class="setting-group-title">{{ t('settingsModal.characterSelectorLazyLoad') }}</h4>
-              </div>
-              <div class="toggle-switch">
-                <span class="toggle-label">{{ isLazyLoadEnabled ? t('common.enabled') : t('common.disabled') }}</span>
-                <input id="lazyLoadToggle" type="checkbox" :checked="isLazyLoadEnabled" @change="toggleLazyLoad" />
-                <label for="lazyLoadToggle"></label>
+              <h4 class="setting-group-title">{{ t('settingsModal.characterSelectorLazyLoad') }}</h4>
+              <div class="toggle-button-group">
+                <button
+                  :class="['toggle-button', 'off', { active: !isLazyLoadEnabled }]"
+                  @click="isLazyLoadEnabled && toggleLazyLoad()"
+                >
+                  <span>{{ t('common.disabled') }}</span>
+                </button>
+                <button
+                  :class="['toggle-button', 'on', { active: isLazyLoadEnabled }]"
+                  @click="!isLazyLoadEnabled && toggleLazyLoad()"
+                >
+                  <span>{{ t('common.enabled') }}</span>
+                </button>
               </div>
             </div>
           </div>
@@ -383,56 +390,62 @@
     opacity: 0;
   }
 
-  .toggle-switch {
-    position: relative;
+  .toggle-button-group {
     display: flex;
-    align-items: center;
-    gap: 10px;
   }
 
-  .toggle-switch input[type='checkbox'] {
-    opacity: 0;
-    width: 0;
-    height: 0;
-  }
-
-  .toggle-switch label {
-    position: relative;
-    display: inline-block;
-    width: 48px;
-    height: 28px;
-    background-color: #ccc;
-    border-radius: 28px;
+  .toggle-button {
+    padding: 10px 24px;
+    /* border: none; */
+    border: 1px solid #dee2e6;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+    font-family: inherit;
+    font-weight: bold;
+    white-space: nowrap;
+    background-color: #e6f2f6;
+    transform: skew(-8deg);
+    /* box-shadow: 0 3px 2px rgba(0, 0, 0, 0.1); */
   }
 
-  .toggle-switch label:before {
-    content: '';
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background-color: white;
-    top: 4px;
-    left: 4px;
-    transition: transform 0.3s;
+  .dark-mode .toggle-button {
+    background-color: #1a2b40;
+    border-color: #2a4a6e;
   }
 
-  input[type='checkbox']:checked + label {
+  .toggle-button span {
+    display: inline-block;
+    transform: skew(8deg);
+  }
+
+  .toggle-button:active {
+    transform: scale(0.95) skew(-8deg);
+  }
+
+  .toggle-button.off {
+    color: #5484fd;
+    border-right: none;
+    border-radius: 6px 0 0 6px;
+  }
+
+  .toggle-button.on {
+    color: #cf595b;
+    border-left: none;
+    border-radius: 0 6px 6px 0;
+  }
+
+  .toggle-button.active {
+    color: white;
+  }
+
+  .toggle-button.off.active,
+  .toggle-button.on.active {
     background-color: #466398;
   }
 
-  .dark-mode input[type='checkbox']:checked + label {
-    background-color: #00aeef;
-  }
-
-  input[type='checkbox']:checked + label:before {
-    transform: translateX(20px);
-  }
-
-  .toggle-label {
-    font-weight: 500;
-    user-select: none;
+  .dark-mode .toggle-button.off.active,
+  .dark-mode .toggle-button.on.active {
+    background-color: #00a4e4;
   }
 </style>
