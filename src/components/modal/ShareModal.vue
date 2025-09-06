@@ -715,8 +715,12 @@
     }
 
     .size-grid {
-      grid-template-columns: 1fr;
+      flex-direction: column;
       gap: 10px;
+    }
+
+    .size-option:not(:first-child) {
+      margin-left: 0;
     }
 
     .size-label {
@@ -724,6 +728,22 @@
       flex-direction: row;
       justify-content: flex-start;
       text-align: left;
+      /* border: 2px solid transparent; */
+    }
+
+    .size-option.active .size-label {
+      border-color: #32cd32;
+    }
+
+    .dark-mode .size-option.active .size-label {
+      border-color: #4ade80;
+    }
+
+    .size-label,
+    .size-option:first-child .size-label,
+    .size-option:last-child .size-label {
+      clip-path: none;
+      border-radius: 12px;
     }
 
     .modal-footer {
