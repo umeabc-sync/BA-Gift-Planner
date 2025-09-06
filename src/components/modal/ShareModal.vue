@@ -27,8 +27,8 @@
                 </div>
               </div>
               <div class="card-content">
-                <div class="style-options">
-                  <div class="style-option" :class="{ active: screenshotStyle === 'gift-recommendation' }">
+                <div class="option-grid">
+                  <div class="option-item" :class="{ active: screenshotStyle === 'gift-recommendation' }">
                     <input
                       id="gift-style"
                       type="radio"
@@ -41,13 +41,13 @@
                       <div class="option-icon">
                         <img :src="getAssetsFile('icon/gift.webp')" draggable="false" />
                       </div>
-                      <div class="option-text">
+                      <div class="option-text-content">
                         <span class="option-title">{{ t('shareModal.giftRecommendation') }}</span>
                         <span class="option-desc">{{ t('shareModal.giftRecommendationDesc') }}</span>
                       </div>
                     </label>
                   </div>
-                  <div class="style-option" :class="{ active: screenshotStyle === 'student-preference' }">
+                  <div class="option-item" :class="{ active: screenshotStyle === 'student-preference' }">
                     <input
                       id="student-style"
                       type="radio"
@@ -60,7 +60,7 @@
                       <div class="option-icon">
                         <img :src="getAssetsFile('icon/student_favor.webp')" draggable="false" />
                       </div>
-                      <div class="option-text">
+                      <div class="option-text-content">
                         <span class="option-title">{{ t('shareModal.studentPreference') }}</span>
                         <span class="option-desc">{{ t('shareModal.studentPreferenceDesc') }}</span>
                       </div>
@@ -87,8 +87,8 @@
                 </div>
               </div>
               <div class="card-content">
-                <div class="size-grid">
-                  <div class="size-option" :class="{ active: screenshotSize == 1 }">
+                <div class="option-grid">
+                  <div class="option-item" :class="{ active: screenshotSize == 1 }">
                     <input
                       id="size-1x"
                       type="radio"
@@ -97,13 +97,13 @@
                       :checked="screenshotSize == 1"
                       @change="updateScreenshotSize"
                     />
-                    <label for="size-1x" class="size-label">
+                    <label for="size-1x" class="option-label">
                       <div class="size-preview size-1x"></div>
-                      <span class="size-text">1x</span>
-                      <span class="size-desc">{{ t('shareModal.screenshotSizeNormal') }}</span>
+                      <span class="option-title">1x</span>
+                      <span class="option-desc">{{ t('shareModal.screenshotSizeNormal') }}</span>
                     </label>
                   </div>
-                  <div class="size-option" :class="{ active: screenshotSize == 2 }">
+                  <div class="option-item" :class="{ active: screenshotSize == 2 }">
                     <input
                       id="size-2x"
                       type="radio"
@@ -112,13 +112,13 @@
                       :checked="screenshotSize == 2"
                       @change="updateScreenshotSize"
                     />
-                    <label for="size-2x" class="size-label">
+                    <label for="size-2x" class="option-label">
                       <div class="size-preview size-2x"></div>
-                      <span class="size-text">2x</span>
-                      <span class="size-desc">{{ t('shareModal.screenshotSizeClear') }}</span>
+                      <span class="option-title">2x</span>
+                      <span class="option-desc">{{ t('shareModal.screenshotSizeClear') }}</span>
                     </label>
                   </div>
-                  <div class="size-option" :class="{ active: screenshotSize == 4 }">
+                  <div class="option-item" :class="{ active: screenshotSize == 4 }">
                     <input
                       id="size-4x"
                       type="radio"
@@ -127,10 +127,10 @@
                       :checked="screenshotSize == 4"
                       @change="updateScreenshotSize"
                     />
-                    <label for="size-4x" class="size-label">
+                    <label for="size-4x" class="option-label">
                       <div class="size-preview size-4x"></div>
-                      <span class="size-text">4x</span>
-                      <span class="size-desc">{{ t('shareModal.screenshotSizeSuperClear') }}</span>
+                      <span class="option-title">4x</span>
+                      <span class="option-desc">{{ t('shareModal.screenshotSizeSuperClear') }}</span>
                     </label>
                   </div>
                 </div>
@@ -345,22 +345,20 @@
   }
 
   .style-icon {
-    background: linear-gradient(135deg, #87ceeb, #6495ed);
+    background: linear-gradient(135deg, #6994e4, #466398);
     color: white;
   }
 
   .size-icon {
-    /* background: linear-gradient(135deg, #98fb98, #32cd32); */
     background: linear-gradient(135deg, #6994e4, #466398);
     color: white;
   }
 
   .dark-mode .style-icon {
-    background: linear-gradient(135deg, #2a7fff, #00aeef);
+    background: linear-gradient(135deg, #6994e4, #466398);
   }
 
   .dark-mode .size-icon {
-    /* background: linear-gradient(135deg, #4ade80, #22c55e); */
     background: linear-gradient(135deg, #6994e4, #466398);
   }
 
@@ -387,52 +385,6 @@
     color: #a0aec0;
   }
 
-  /* Style Options */
-  .style-options {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .style-option {
-    position: relative;
-    border-radius: 12px;
-    overflow: hidden;
-    transition: all 0.2s ease;
-  }
-
-  .style-option input[type='radio'] {
-    position: absolute;
-    opacity: 0;
-    pointer-events: none;
-  }
-
-  .option-label {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    padding: 16px;
-    background: #f7fafc;
-    border: 2px solid transparent;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-  }
-
-  .dark-mode .option-label {
-    background: #1a365d;
-  }
-
-  .style-option.active .option-label {
-    background: rgba(100, 149, 237, 0.1);
-    border-color: #6495ed;
-  }
-
-  .dark-mode .style-option.active .option-label {
-    background: rgba(42, 127, 255, 0.2);
-    border-color: #2a7fff;
-  }
-
   .option-icon {
     font-size: 1.5rem;
     width: 40px;
@@ -453,54 +405,33 @@
     background: #2a4a6e;
   }
 
-  .option-text {
+  .option-text-content {
     display: flex;
     flex-direction: column;
-    flex: 1;
+    gap: 10px;
   }
 
-  .option-title {
-    font-weight: 600;
-    color: #2d3748;
-    line-height: 1.3;
-  }
-
-  .dark-mode .option-title {
-    color: #e0e6ed;
-  }
-
-  .option-desc {
-    font-size: 0.85rem;
-    color: #718096;
-    margin-top: 2px;
-  }
-
-  .dark-mode .option-desc {
-    color: #a0aec0;
-  }
-
-  /* Size Options */
-  .size-grid {
+  .option-grid {
     display: flex;
   }
 
-  .size-option {
+  .option-item {
     position: relative;
     flex: 1 1 0%;
     transition: all 0.2s ease-in-out;
   }
 
-  .size-option:not(:first-child) {
+  .option-item:not(:first-child) {
     margin-left: -15px;
   }
 
-  .size-option input[type='radio'] {
+  .option-item input[type='radio'] {
     position: absolute;
     opacity: 0;
     pointer-events: none;
   }
 
-  .size-label {
+  .option-label {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -515,51 +446,50 @@
     height: 100%;
   }
 
-  .size-option:first-child .size-label {
+  .option-item:first-child .option-label {
     clip-path: polygon(0 0, 100% 0, calc(100% - 15px) 100%, 0 100%);
     border-radius: 12px 0 0 12px;
   }
 
-  .size-option:last-child .size-label {
+  .option-item:last-child .option-label {
     clip-path: polygon(15px 0, 100% 0, 100% 100%, 0 100%);
     border-radius: 0 12px 12px 0;
   }
 
-  .dark-mode .size-label {
+  .dark-mode .option-label {
     background: #1a365d;
   }
 
-  .size-option.active .size-label {
+  .option-item.active .option-label {
     background: #263473;
   }
 
-  .size-option.active .size-text {
+  .option-item.active .option-title {
     color: white;
   }
 
-  .size-option.active .size-desc {
+  .option-item.active .option-desc {
     color: rgba(255, 255, 255, 0.8);
   }
 
-  .dark-mode .size-option.active .size-label {
+  .dark-mode .option-item.active .option-label {
     background: #c9e1edcc;
   }
 
-  .dark-mode .size-option.active .size-text {
+  .dark-mode .option-item.active .option-title {
     color: #314665;
   }
 
-  .dark-mode .size-option.active .size-desc {
+  .dark-mode .option-item.active .option-desc {
     color: #314665bf;
   }
 
-  .size-label:active {
+  .option-label:active {
     transform: scale(0.95);
   }
 
   .size-preview {
     border-radius: 4px;
-    /* background: linear-gradient(135deg, #98fb98, #32cd32); */
     background: linear-gradient(135deg, #6994e4, #466398);
     margin-bottom: 4px;
   }
@@ -580,26 +510,25 @@
   }
 
   .dark-mode .size-preview {
-    /* background: linear-gradient(135deg, #4ade80, #22c55e); */
     background: linear-gradient(135deg, #6994e4, #466398);
   }
 
-  .size-text {
+  .option-title {
     font-weight: 600;
     font-size: 1.1rem;
     color: #314665;
   }
 
-  .dark-mode .size-text {
+  .dark-mode .option-title {
     color: #e0e6ed;
   }
 
-  .size-desc {
+  .option-desc {
     font-size: 0.8rem;
     color: #718096;
   }
 
-  .dark-mode .size-desc {
+  .dark-mode .option-desc {
     color: rgba(223, 229, 236, 0.8);
   }
 
@@ -702,34 +631,6 @@
 
   /* Responsive Design */
   @media (max-width: 768px) {
-    /* Abandoned */
-    /* .modal-content {
-      width: 95%;
-      max-height: 90vh;
-      border-radius: 16px;
-    }
-
-    .modal-header {
-      padding: 20px;
-    }
-
-    .header-content {
-      gap: 12px;
-    }
-
-    .header-icon {
-      width: 40px;
-      height: 40px;
-    }
-
-    .modal-title {
-      font-size: 1.3rem;
-    }
-
-    .modal-body {
-      padding: 20px;
-    } */
-
     .setting-card {
       padding: 20px;
     }
@@ -748,7 +649,6 @@
       flex-direction: row;
       justify-content: flex-start;
       text-align: left;
-      /* border: 2px solid transparent; */
     }
 
     .size-option.active .size-label {
@@ -764,6 +664,10 @@
     .size-option:last-child .size-label {
       clip-path: none;
       border-radius: 12px;
+    }
+
+    .option-text-content {
+      gap: 4px;
     }
 
     .modal-footer {
