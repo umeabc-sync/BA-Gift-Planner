@@ -448,4 +448,17 @@
   .dark-mode .toggle-button.on.active {
     background-color: #00a4e4;
   }
+
+  @media (max-width: 425px) {
+    .setting-group {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .language-selector {
+      max-width: none;
+      width: 100%;
+    }
+  }
 </style>
