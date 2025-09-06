@@ -248,6 +248,7 @@
     font-size: 1.5rem;
     font-weight: bold;
     border-bottom: 5px solid #fdef66;
+    user-select: none;
   }
 
   .dark-mode .modal-header {
@@ -308,6 +309,7 @@
     margin-bottom: 20px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     border: 1px solid #e9ecef;
+    user-select: none;
     transition: all 0.3s ease;
   }
 
@@ -602,6 +604,7 @@
     gap: 8px;
     color: #718096;
     font-size: 0.9rem;
+    user-select: none;
   }
 
   .dark-mode .footer-info {

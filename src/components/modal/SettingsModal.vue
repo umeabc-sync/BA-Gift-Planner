@@ -202,6 +202,7 @@
     font-size: 1.5rem;
     font-weight: bold;
     border-bottom: 5px solid #fdef66;
+    user-select: none;
   }
 
   .dark-mode .modal-header {
@@ -257,6 +258,7 @@
     font-size: 1.1rem;
     font-weight: 500;
     margin: 0;
+    user-select: none;
   }
 
   .dark-mode .setting-group {

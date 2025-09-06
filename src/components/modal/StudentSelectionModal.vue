@@ -356,6 +356,7 @@
     font-size: 1.5rem;
     font-weight: bold;
     border-bottom: 5px solid #fdef66;
+    user-select: none;
   }
 
   .dark-mode .modal-header {

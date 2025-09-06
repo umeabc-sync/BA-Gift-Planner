@@ -157,6 +157,7 @@
     padding-bottom: 10px;
     border-bottom: 1px solid #eee;
     flex-shrink: 0;
+    user-select: none;
   }
 
   .modal-header h3 {
