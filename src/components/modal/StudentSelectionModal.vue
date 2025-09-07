@@ -10,12 +10,15 @@
           <div class="modal-body">
             <div class="fixed-section">
               <div ref="searchAndReset" class="search-and-reset modal-body-content-padding">
-                <input
-                  v-model="searchTerm"
-                  type="text"
-                  :placeholder="t('characterSelector.searchPlaceholder')"
-                  class="search-input"
-                />
+                <div class="search-input-wrapper">
+                  <input
+                    v-model="searchTerm"
+                    type="text"
+                    :placeholder="t('characterSelector.searchPlaceholder')"
+                    class="search-input"
+                  />
+                  <PencilIcon class="search-input-icon" />
+                </div>
                 <div class="action-buttons">
                   <button
                     v-if="!isFilterPanelOpen"
@@ -149,6 +152,7 @@
   import { storeToRefs } from 'pinia'
   import FilterOpenIcon from '@assets/icon/filter_open.svg'
   import FilterCloseIcon from '@assets/icon/filter_close.svg'
+  import PencilIcon from '@assets/icon/pencil.svg'
 
   const { t } = useI18n()
 
@@ -432,21 +436,46 @@
     align-items: center;
   }
 
-  .search-input {
+  .search-input-wrapper {
+    position: relative;
     flex-grow: 1;
-    padding: 12px 15px;
+  }
+
+  .search-input-icon {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%) skew(8deg);
+    width: 20px;
+    height: 20px;
+    fill: #2d4663;
+    pointer-events: none;
+  }
+
+  .dark-mode .search-input-icon {
+    fill: #e0f4ff;
+  }
+
+  .search-input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px 40px 12px 15px;
+    color: #2d4663;
     border-radius: 8px;
     border: 1.5px solid #ccc;
     font-size: 1rem;
     font-family: inherit;
     min-width: 0;
-    transform: skew(-8deg);
   }
 
   .dark-mode .search-input {
     background-color: #1f3048;
     border-color: #2a4a6e;
     color: #e0e6ed;
+  }
+
+  .search-input:focus {
+    outline: none;
   }
 
   .filter-controls {
