@@ -307,15 +307,14 @@
     border-radius: 16px;
     padding: 24px;
     margin-bottom: 20px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    border: 1px solid #e9ecef;
+    border: 2px solid #dee2e6;
     user-select: none;
     transition: all 0.3s ease;
   }
 
   .setting-card:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 3px 2px rgba(0, 0, 0, 0.05);
   }
 
   .setting-card:last-child {
