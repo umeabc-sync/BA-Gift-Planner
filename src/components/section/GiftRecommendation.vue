@@ -89,7 +89,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
     cursor: pointer;
     z-index: 1;
     transition: transform 0.3s ease;
@@ -103,11 +102,15 @@
   }
 
   .gift-yellow {
-    background: linear-gradient(45deg, #a97d51, #c7a579);
+    background-color: #c7a579;
+    background-image: linear-gradient(to bottom right, #a97d51 0%, transparent 50%),
+      linear-gradient(to top left, #a97d51 0%, transparent 50%);
   }
 
   .gift-purple {
-    background: linear-gradient(45deg, #7a5bbe, #9e82d6);
+    background-color: #9e82d6;
+    background-image: linear-gradient(to bottom right, #7a5bbe 0%, transparent 50%),
+      linear-gradient(to top left, #7a5bbe 0%, transparent 50%);
   }
 
   .gift-icon {
@@ -146,22 +149,16 @@
 
   .recommendation-island {
     flex: 1;
-    background: #f8f9fa;
+    background: #efefef;
     border-radius: 12px;
     padding: 20px;
-    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
-    transform: skew(-8deg);
-    border: 1px solid #dee2e6;
+    border: 2px solid #dee2e6;
   }
 
   .dark-mode .recommendation-island {
     background: #1f3048;
     color: #e0e6ed;
     border-color: #2a4a6e;
-  }
-
-  .recommendation-island > * {
-    transform: skew(8deg);
   }
 
   .recommendation-title {

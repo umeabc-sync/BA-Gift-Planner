@@ -28,7 +28,7 @@
   .no-selection-panel {
     width: 100%;
     max-width: 600px;
-    background-color: #f8f9fa;
+    background-color: #efefef;
     border-radius: 12px;
     padding: 4px;
     border: 2px solid #dee2e6;
