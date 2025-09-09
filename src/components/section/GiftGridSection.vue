@@ -13,7 +13,9 @@
           class="gift-icon"
           object-fit="contain"
           loader-type="pulse"
+          :inherit-background="false"
         />
+        <div class="gift-icon-bg"></div>
         <div class="gift-name">{{ gift.name }}</div>
       </div>
     </div>
@@ -67,38 +69,77 @@
     width: 80px;
     height: 80px;
     border-radius: 999px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: grid;
+    place-items: center;
     position: relative;
     cursor: pointer;
-    z-index: 1;
-    transition:
-      transform 0.3s ease,
-      z-index 0.3s ease;
+    transition: transform 0.3s ease;
   }
+
+  .gift-grid-item > *,
+  .gift-grid-item::before,
+  .gift-grid-item::after {
+    grid-column: 1 / 1;
+    grid-row: 1 / 1;
+  }
+
   .gift-grid-item:hover {
     z-index: 10;
     transform: scale(1.1);
   }
-  .gift-yellow {
+
+  /* Border */
+  .gift-grid-item::before {
+    content: '';
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    z-index: 1;
+  }
+
+  .gift-yellow::before {
     background-color: #c7a579;
     background-image: linear-gradient(to bottom right, #a97d51 0%, transparent 50%),
       linear-gradient(to top left, #a97d51 0%, transparent 50%);
   }
-  .gift-purple {
+
+  .gift-purple::before {
     background-color: #9e82d6;
     background-image: linear-gradient(to bottom right, #7a5bbe 0%, transparent 50%),
       linear-gradient(to top left, #7a5bbe 0%, transparent 50%);
   }
-  .dark-mode .gift-yellow {
-  }
-  .dark-mode .gift-purple {
-  }
-  .gift-icon {
+
+  /* Solid Background */
+  .gift-icon-bg {
     width: 90%;
     height: 90%;
     border-radius: 50%;
+    z-index: 2;
+  }
+
+  .gift-yellow .gift-icon-bg {
+    background-color: #c7a579;
+  }
+
+  .gift-purple .gift-icon-bg {
+    background-color: #9e82d6;
+  }
+
+  /* Dark Mode Overlay */
+  .dark-mode .gift-grid-item::after {
+    content: '';
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    background: rgba(0, 0, 0, 0.1);
+    z-index: 3;
+  }
+
+  /* Icon Image */
+  .gift-icon {
+    width: 90%;
+    height: 90%;
+    z-index: 4;
   }
   .gift-grid-item .gift-name {
     position: absolute;

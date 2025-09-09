@@ -21,7 +21,9 @@
                   class="gift-icon"
                   object-fit="contain"
                   loader-type="pulse"
+                  :inherit-background="false"
                 />
+                <div class="gift-icon-bg"></div>
                 <div class="bond-xp-capsule">
                   <div class="tooltip-wrapper">
                     <ImageWithLoader
@@ -198,31 +200,73 @@
     width: 90px;
     height: 90px;
     border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    display: grid;
+    place-items: center;
     position: relative;
     cursor: pointer;
-    z-index: 1;
-    transition:
-      transform 0.3s ease,
-      z-index 0.3s ease;
+    transition: transform 0.3s ease;
   }
+
+  .gift-grid-item > *,
+  .gift-grid-item::before,
+  .gift-grid-item::after {
+    grid-column: 1 / 1;
+    grid-row: 1 / 1;
+  }
+
   .gift-grid-item:hover {
     z-index: 10;
     transform: scale(1.1);
   }
-  .gift-yellow {
-    background: linear-gradient(45deg, #a97d51, #c7a579);
+
+  .gift-grid-item::before {
+    content: '';
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    z-index: 1;
   }
-  .gift-purple {
-    background: linear-gradient(45deg, #7a5bbe, #9e82d6);
+
+  .gift-yellow::before {
+    background-color: #c7a579;
+    background-image: linear-gradient(to bottom right, #a97d51 0%, transparent 50%),
+      linear-gradient(to top left, #a97d51 0%, transparent 50%);
   }
-  .gift-icon {
+
+  .gift-purple::before {
+    background-color: #9e82d6;
+    background-image: linear-gradient(to bottom right, #7a5bbe 0%, transparent 50%),
+      linear-gradient(to top left, #7a5bbe 0%, transparent 50%);
+  }
+
+  .gift-icon-bg {
     width: 90%;
     height: 90%;
     border-radius: 50%;
+    z-index: 2;
+  }
+
+  .gift-yellow .gift-icon-bg {
+    background-color: #c7a579;
+  }
+
+  .gift-purple .gift-icon-bg {
+    background-color: #9e82d6;
+  }
+
+  .dark-mode .gift-grid-item::after {
+    content: '';
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    background: rgba(0, 0, 0, 0.15);
+    z-index: 3;
+  }
+
+  .gift-icon {
+    width: 90%;
+    height: 90%;
+    z-index: 4;
   }
 
   .bond-xp-capsule {
@@ -234,6 +278,7 @@
     border-radius: 20px;
     font-size: 14px;
     align-items: center;
+    z-index: 5;
   }
 
   .tooltip-wrapper {

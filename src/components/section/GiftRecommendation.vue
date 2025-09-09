@@ -6,7 +6,9 @@
         class="gift-icon"
         object-fit="contain"
         loader-type="pulse"
+        :inherit-background="false"
       />
+      <div class="gift-icon-bg"></div>
       <div class="gift-name">{{ gift.name }}</div>
     </div>
     <div class="recommendation-island">
@@ -86,37 +88,76 @@
     width: 100px;
     height: 100px;
     border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: grid;
+    place-items: center;
     cursor: pointer;
     z-index: 1;
     transition: transform 0.3s ease;
     flex-shrink: 0;
     position: relative;
-    align-self: center; /* Center vertically in the flex container */
+    align-self: center;
+  }
+
+  .gift-island > *,
+  .gift-island::before,
+  .gift-island::after {
+    grid-column: 1 / 1;
+    grid-row: 1 / 1;
   }
 
   .gift-island:hover {
     transform: scale(1.05);
+    z-index: 10;
   }
 
-  .gift-yellow {
+  .gift-island::before {
+    content: '';
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    z-index: 1;
+  }
+
+  .gift-yellow::before {
     background-color: #c7a579;
     background-image: linear-gradient(to bottom right, #a97d51 0%, transparent 50%),
       linear-gradient(to top left, #a97d51 0%, transparent 50%);
   }
 
-  .gift-purple {
+  .gift-purple::before {
     background-color: #9e82d6;
     background-image: linear-gradient(to bottom right, #7a5bbe 0%, transparent 50%),
       linear-gradient(to top left, #7a5bbe 0%, transparent 50%);
   }
 
-  .gift-icon {
+  .gift-icon-bg {
     width: 90%;
     height: 90%;
     border-radius: 50%;
+    z-index: 2;
+  }
+
+  .gift-yellow .gift-icon-bg {
+    background-color: #c7a579;
+  }
+
+  .gift-purple .gift-icon-bg {
+    background-color: #9e82d6;
+  }
+
+  .dark-mode .gift-island::after {
+    content: '';
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    background: rgba(0, 0, 0, 0.15);
+    z-index: 3;
+  }
+
+  .gift-icon {
+    width: 90%;
+    height: 90%;
+    z-index: 4;
   }
 
   .gift-name {
