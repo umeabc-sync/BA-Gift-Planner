@@ -316,51 +316,46 @@
   }
 
   .rec-extra {
-    border-color: #c2185b;
-    background-color: #fce4ec;
-    color: #c2185b;
+    border-color: #cb6d7e;
+    background-color: #f297a8;
+    color: white;
   }
 
   .rec-best {
-    border-color: #155724;
-    background-color: #d4edda;
-    color: #155724;
+    border-color: #496f94;
+    background-color: #3a9deb;
+    color: white;
   }
 
   .rec-good {
-    border-color: #856404;
-    background-color: #fff3cd;
-    color: #856404;
+    border-color: #388581;
+    background-color: #5cb3a6;
+    color: white;
   }
 
-  .rec-any {
-    border-color: #0c5460;
-    background-color: #d1ecf1;
-    color: #0c5460;
-  }
+  /* 深藍灰色系（備用） */
+  /* .rec-good {
+    border-color: #5a7ba8;
+    background-color: #6b8bb5;
+    color: white;
+  } */
 
   .dark-mode .rec-extra {
     background-color: #5c1f3a;
-    border-color: #c2185b;
+    border-color: #f297a8;
     color: #fce4ec;
   }
 
   .dark-mode .rec-best {
-    background-color: #1c4a2e;
-    border-color: #155724;
-    color: #d4edda;
+    background-color: #2a4a6e;
+    border-color: #3a9deb;
+    color: #e0f4ff;
   }
 
   .dark-mode .rec-good {
-    background-color: #5e4a18;
-    border-color: #856404;
-    color: #fff3cd;
-  }
-
-  .dark-mode .rec-any {
-    background-color: #1c4a57;
-    border-color: #0c5460;
-    color: #d1ecf1;
+    background-color: #2a5c54;
+    border-color: #5cb3a6;
+    color: #d1f1ec;
   }
 
   @media (max-width: 768px) {
