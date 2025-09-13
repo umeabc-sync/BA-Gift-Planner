@@ -9,8 +9,8 @@
           v-for="gift in student.gifts"
           :key="gift.id"
           class="ba-style-compact-gift-grid-item"
-          :class="[gift.isSsr ? 'gift-purple' : 'gift-yellow', { 'non-recommended': !gift.isRecommended }]">
-
+          :class="[gift.isSsr ? 'gift-purple' : 'gift-yellow', { 'non-recommended': !gift.isRecommended }]"
+        >
           <ImageWithLoader
             :src="getGiftUrl(gift.id, gift.isSsr)"
             class="ba-style-compact-gift-icon"

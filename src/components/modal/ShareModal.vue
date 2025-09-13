@@ -229,7 +229,13 @@
     screenshotLayout: { type: String, default: 'classic' },
     screenshotSize: { type: [Number, String], default: 1 },
   })
-  const emit = defineEmits(['close', 'downloadScreenshot', 'update:screenshotStyle', 'update:screenshotLayout', 'update:screenshotSize'])
+  const emit = defineEmits([
+    'close',
+    'downloadScreenshot',
+    'update:screenshotStyle',
+    'update:screenshotLayout',
+    'update:screenshotSize',
+  ])
 
   const closeModal = () => {
     emit('close')

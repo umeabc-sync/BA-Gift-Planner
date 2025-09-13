@@ -32,7 +32,7 @@
 </script>
 
 <style scoped>
-.ba-style-compact-gift-grid-section {
+  .ba-style-compact-gift-grid-section {
     margin-top: 20px;
     background: #efefef;
     border: 2px solid #dee2e6;

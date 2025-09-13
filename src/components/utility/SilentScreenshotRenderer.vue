@@ -15,7 +15,11 @@
     <!-- BA Style Layout -->
     <template v-else-if="layout === 'ba-style'">
       <div v-if="props.style === 'gift-recommendation'" class="ba-style-compact-gift-recommendation-grid">
-        <BAStyleCompactGiftRecommendation v-for="gift in recommendedGifts" :key="`${gift.id}-${gift.isSsr}`" :gift="gift" />
+        <BAStyleCompactGiftRecommendation
+          v-for="gift in recommendedGifts"
+          :key="`${gift.id}-${gift.isSsr}`"
+          :gift="gift"
+        />
       </div>
       <div v-else class="ba-style-compact-student-preference-grid">
         <BAStyleCompactStudentPreference v-for="student in studentPreferences" :key="student.id" :student="student" />
@@ -66,11 +70,7 @@
     try {
       await convertElementToPng(shareContentForScreenshot.value, {
         fileName: 'gift-recommendations',
-        backgroundColor: props.isDarkMode
-          ? '#1e2a38'
-          : props.layout === 'ba-style'
-            ? '#f7f7f4'
-            : '#f0f4f8',
+        backgroundColor: props.isDarkMode ? '#1e2a38' : props.layout === 'ba-style' ? '#f7f7f4' : '#f0f4f8',
         dpr: isMobile() ? 1 : window.devicePixelRatio,
         scale: +props.size.replace('x', ''),
       })

@@ -48,7 +48,7 @@
 </script>
 
 <style scoped>
-.ba-style-compact-gift-row {
+  .ba-style-compact-gift-row {
     display: flex;
     align-items: center;
     gap: 15px;
