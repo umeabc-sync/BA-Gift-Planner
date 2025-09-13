@@ -26,6 +26,7 @@
       :synthesis-gifts="synthesisGifts"
       :is-dark-mode="isDarkMode"
       :style="screenshotRenderStyle"
+      :layout="screenshotLayout"
       :size="screenshotRenderSize"
     />
 
@@ -42,6 +43,7 @@
     <ShareModal
       :is-visible="isShareModalVisible"
       v-model:screenshot-style="screenshotRenderStyle"
+      v-model:screenshot-layout="screenshotLayout"
       v-model:screenshot-size="screenshotRenderSize"
       @close="closeShareModal"
       @download-screenshot="handleDownloadShareScreenshot"
@@ -114,6 +116,7 @@
   const isSettingsModalVisible = ref(false)
   const isShareModalVisible = ref(false)
   const screenshotRenderStyle = ref('gift-recommendation') // Default style for screenshot rendering
+  const screenshotLayout = ref('ba-style') // Default layout for screenshot rendering
   const screenshotRenderSize = ref('1') // Default size for screenshot rendering
   const silentScreenshotRendererRef = ref(null)
   const isDownloadingScreenshot = ref(false)

@@ -70,6 +70,59 @@
               </div>
             </div>
 
+            <!-- Screenshot Layout Card -->
+            <div class="setting-card">
+              <div class="card-header">
+                <div class="card-icon style-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="3" y1="9" x2="21" y2="9"></line>
+                    <line x1="9" y1="21" x2="9" y2="9"></line>
+                  </svg>
+                </div>
+                <div>
+                  <h4 class="card-title">{{ t('shareModal.screenshotLayout') }}</h4>
+                  <p class="card-description">{{ t('shareModal.screenshotLayoutDesc') }}</p>
+                </div>
+              </div>
+              <div class="card-content">
+                <div class="option-grid">
+                  <div class="option-item" :class="{ active: screenshotLayout === 'classic' }">
+                    <input
+                      id="layout-classic"
+                      type="radio"
+                      name="screenshotLayout"
+                      value="classic"
+                      :checked="screenshotLayout === 'classic'"
+                      @change="updateScreenshotLayout"
+                    />
+                    <label for="layout-classic" class="option-label">
+                      <div class="option-text-content">
+                        <span class="option-title">{{ t('shareModal.layoutClassic') }}</span>
+                        <span class="option-desc">{{ t('shareModal.layoutClassicDesc') }}</span>
+                      </div>
+                    </label>
+                  </div>
+                  <div class="option-item" :class="{ active: screenshotLayout === 'ba-style' }">
+                    <input
+                      id="layout-ba-style"
+                      type="radio"
+                      name="screenshotLayout"
+                      value="ba-style"
+                      :checked="screenshotLayout === 'ba-style'"
+                      @change="updateScreenshotLayout"
+                    />
+                    <label for="layout-ba-style" class="option-label">
+                      <div class="option-text-content">
+                        <span class="option-title">{{ t('shareModal.layoutBAStyle') }}</span>
+                        <span class="option-desc">{{ t('shareModal.layoutBAStyleDesc') }}</span>
+                      </div>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <!-- Screenshot Size Card -->
             <div class="setting-card">
               <div class="card-header">
@@ -173,9 +226,10 @@
   const props = defineProps({
     isVisible: { type: Boolean, default: false },
     screenshotStyle: { type: String, default: 'gift-recommendation' },
+    screenshotLayout: { type: String, default: 'classic' },
     screenshotSize: { type: [Number, String], default: 1 },
   })
-  const emit = defineEmits(['close', 'downloadScreenshot', 'update:screenshotStyle', 'update:screenshotSize'])
+  const emit = defineEmits(['close', 'downloadScreenshot', 'update:screenshotStyle', 'update:screenshotLayout', 'update:screenshotSize'])
 
   const closeModal = () => {
     emit('close')
@@ -185,6 +239,10 @@
 
   const updateScreenshotStyle = (event) => {
     emit('update:screenshotStyle', event.target.value)
+  }
+
+  const updateScreenshotLayout = (event) => {
+    emit('update:screenshotLayout', event.target.value)
   }
 
   const updateScreenshotSize = (event) => {
