@@ -54,8 +54,8 @@
   .ba-style-compact-student-row {
     display: flex;
     align-items: center;
-    gap: 15px;
-    margin-bottom: 15px;
+    gap: 10px;
+    margin-bottom: 10px;
   }
   .ba-style-compact-student-island {
     width: 60px;
@@ -84,7 +84,7 @@
     flex: 1;
     background: #efefef;
     border-radius: 12px;
-    padding: 15px;
+    padding: 10px;
     border: 2px solid #dee2e6;
   }
   .dark-mode .ba-style-compact-recommendation-island {
@@ -94,7 +94,7 @@
   .ba-style-compact-gift-grid {
     display: flex;
     flex-wrap: wrap;
-    gap: 15px;
+    gap: 15px 10px;
     justify-content: flex-start;
   }
   .ba-style-compact-gift-grid-item {
@@ -163,8 +163,8 @@
   }
 
   .ba-style-compact-gift-icon {
-    width: 90%;
-    height: 90%;
+    width: 100%;
+    height: 100%;
     z-index: 4;
   }
 

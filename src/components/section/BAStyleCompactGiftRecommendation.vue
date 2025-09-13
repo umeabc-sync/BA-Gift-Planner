@@ -51,7 +51,7 @@
   .ba-style-compact-gift-row {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 10px;
   }
 
   .ba-style-compact-gift-island {
@@ -117,8 +117,8 @@
   }
 
   .ba-style-compact-gift-icon {
-    width: 90%;
-    height: 90%;
+    width: 100%;
+    height: 100%;
     z-index: 4;
   }
 
@@ -126,7 +126,7 @@
     flex: 1;
     background: #efefef;
     border-radius: 12px;
-    padding: 10px 15px;
+    padding: 10px;
     border: 2px solid #dee2e6;
     display: flex;
     align-items: center;
@@ -142,7 +142,7 @@
   .ba-style-compact-character-avatars {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: 5px;
   }
 
   .ba-style-compact-character-avatar {

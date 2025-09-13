@@ -60,7 +60,7 @@
   .ba-style-compact-gift-grid-items {
     display: flex;
     flex-wrap: wrap;
-    gap: 15px;
+    gap: 10px;
     justify-content: center;
   }
   .ba-style-compact-gift-grid-item {
@@ -124,8 +124,8 @@
   }
 
   .ba-style-compact-gift-icon {
-    width: 90%;
-    height: 90%;
+    width: 100%;
+    height: 100%;
     z-index: 4;
   }
 </style>
