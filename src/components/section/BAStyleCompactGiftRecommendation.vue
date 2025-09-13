@@ -179,8 +179,8 @@
     display: flex;
     align-items: center;
     gap: 5px;
-    padding: 4px 12px;
-    border-radius: 4px;
+    padding: 4px 8px;
+    border-radius: 15px;
     font-size: 12px;
     font-weight: bold;
     border: 2px solid;
