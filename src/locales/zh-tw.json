@@ -102,9 +102,9 @@
       "synthesis": "建議拿去合成的禮物"
     },
     "analysis": {
-      "recExtra": "特殊推薦",
+      "recExtra": "強烈推薦",
       "extraChoice": "效果絕佳 (+{maxValue})",
-      "recBest": "強烈推薦",
+      "recBest": "非常推薦",
       "bestChoice": "最佳選擇 (+{maxValue})",
       "recGood": "不錯的選擇",
       "goodChoice": "頗受喜愛 (+{maxValue})",

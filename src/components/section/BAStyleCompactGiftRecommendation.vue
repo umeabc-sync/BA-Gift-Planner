@@ -179,11 +179,11 @@
     display: flex;
     align-items: center;
     gap: 5px;
-    padding: 4px 8px;
+    padding: 6px 8px;
     border-radius: 15px;
     font-size: 12px;
     font-weight: bold;
-    border: 2px solid;
+    /* border: 2px solid; */
   }
 
   .tooltip-icon {
@@ -191,7 +191,7 @@
     height: 24px;
   }
 
-  .rec-extra {
+  /* .rec-extra {
     border-color: #cb6d7e;
     background-color: #f297a8;
     color: white;
@@ -207,7 +207,31 @@
     border-color: #388581;
     background-color: #5cb3a6;
     color: white;
+  } */
+
+  /* 深藍灰色系（備案2） */
+  /* .rec-good {
+    border-color: #5a7ba8;
+    background-color: #6b8bb5;
+    color: white;
+  } */
+
+  /* EXP Palette */
+  .rec-extra {
+    background-color: #f9c5d0;
+    color: #8b3a4a;
   }
+
+  .rec-best {
+    background-color: #a6d0f5;
+    color: #1e5a8b;
+  }
+
+  .rec-good {
+    background-color: #a8b8d1;
+    color: #3e4d66;
+  }
+  /* EXP Palette */
 
   .dark-mode .rec-extra {
     background-color: #5c1f3a;

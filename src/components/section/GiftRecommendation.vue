@@ -327,18 +327,19 @@
     color: white;
   }
 
-  .rec-good {
+  /* 深藍灰色系（備案1） */
+  /* .rec-good {
     border-color: #388581;
     background-color: #5cb3a6;
     color: white;
-  }
+  } */
 
-  /* 深藍灰色系（備用） */
-  /* .rec-good {
+  /* 深藍灰色系（備案2） */
+  .rec-good {
     border-color: #5a7ba8;
     background-color: #6b8bb5;
     color: white;
-  } */
+  }
 
   .dark-mode .rec-extra {
     background-color: #5c1f3a;

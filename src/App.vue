@@ -333,15 +333,15 @@
 
     if (gift.isSsr) {
       if (maxValue >= 240) {
-        analysis.class = 'rec-best'
-        analysis.typeTextKey = 'app.analysis.recBest'
-        analysis.titleKey = 'app.analysis.bestChoice'
+        analysis.class = 'rec-extra'
+        analysis.typeTextKey = 'app.analysis.recExtra'
+        analysis.titleKey = 'app.analysis.extraChoice'
         analysis.titleValue = maxValue
       } else {
         // >= 180
-        analysis.class = 'rec-good'
-        analysis.typeTextKey = 'app.analysis.recGood'
-        analysis.titleKey = 'app.analysis.goodChoice'
+        analysis.class = 'rec-best'
+        analysis.typeTextKey = 'app.analysis.recBest'
+        analysis.titleKey = 'app.analysis.bestChoice'
         analysis.titleValue = maxValue
       }
     } else {
