@@ -1,22 +1,21 @@
 <template>
-  <div v-if="gifts && gifts.length > 0" class="gift-grid-section">
-    <div class="gift-grid-title">{{ title }}</div>
-    <div class="gift-grid-items">
+  <div v-if="gifts && gifts.length > 0" class="ba-style-compact-gift-grid-section">
+    <div class="ba-style-compact-gift-grid-title">{{ title }}</div>
+    <div class="ba-style-compact-gift-grid-items">
       <div
         v-for="gift in gifts"
         :key="gift.id"
-        class="gift-grid-item"
+        class="ba-style-compact-gift-grid-item"
         :class="gift.isSsr ? 'gift-purple' : 'gift-yellow'"
       >
         <ImageWithLoader
           :src="getGiftUrl(gift.id, gift.isSsr)"
-          class="gift-icon"
+          class="ba-style-compact-gift-icon"
           object-fit="contain"
           loader-type="pulse"
           :inherit-background="false"
         />
         <div class="gift-icon-bg"></div>
-        <div class="gift-name">{{ gift.name }}</div>
       </div>
     </div>
   </div>
@@ -33,63 +32,54 @@
 </script>
 
 <style scoped>
-  .gift-grid-section {
-    margin-top: 40px;
+  .ba-style-compact-gift-grid-section {
+    margin-top: 20px;
     background: #efefef;
     border: 2px solid #dee2e6;
     border-radius: 20px;
-    padding: 25px;
+    padding: 15px;
   }
 
-  .dark-mode .gift-grid-section {
+  .dark-mode .ba-style-compact-gift-grid-section {
     background: #1f3048;
     border-color: #2a4a6e;
   }
 
-  .gift-grid-title {
-    font-size: 20px;
+  .ba-style-compact-gift-grid-title {
+    font-size: 16px;
     font-weight: bold;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     color: #314665;
     text-align: center;
   }
 
-  .dark-mode .gift-grid-title {
-    /* color: #e0e6ed; */
+  .dark-mode .ba-style-compact-gift-grid-title {
     color: #e0f4ff;
   }
 
-  .gift-grid-items {
+  .ba-style-compact-gift-grid-items {
     display: flex;
     flex-wrap: wrap;
-    gap: 15px;
+    gap: 10px;
     justify-content: center;
   }
-  .gift-grid-item {
-    width: 80px;
-    height: 80px;
+  .ba-style-compact-gift-grid-item {
+    width: 50px;
+    height: 50px;
     border-radius: 999px;
     display: grid;
     place-items: center;
     position: relative;
-    cursor: pointer;
-    transition: transform 0.3s ease;
   }
 
-  .gift-grid-item > *,
-  .gift-grid-item::before,
-  .gift-grid-item::after {
+  .ba-style-compact-gift-grid-item > *,
+  .ba-style-compact-gift-grid-item::before,
+  .ba-style-compact-gift-grid-item::after {
     grid-column: 1 / 1;
     grid-row: 1 / 1;
   }
 
-  .gift-grid-item:hover {
-    z-index: 10;
-    transform: scale(1.1);
-  }
-
-  /* Border */
-  .gift-grid-item::before {
+  .ba-style-compact-gift-grid-item::before {
     content: '';
     width: 100%;
     height: 100%;
@@ -109,7 +99,6 @@
       linear-gradient(to top left, #7a5bbe 0%, transparent 50%);
   }
 
-  /* Solid Background */
   .gift-icon-bg {
     width: 90%;
     height: 90%;
@@ -125,8 +114,7 @@
     background-color: #9e82d6;
   }
 
-  /* Dark Mode Overlay */
-  .dark-mode .gift-grid-item::after {
+  .dark-mode .ba-style-compact-gift-grid-item::after {
     content: '';
     width: 100%;
     height: 100%;
@@ -135,36 +123,9 @@
     z-index: 3;
   }
 
-  /* Icon Image */
-  .gift-icon {
-    width: 90%;
-    height: 90%;
+  .ba-style-compact-gift-icon {
+    width: 100%;
+    height: 100%;
     z-index: 4;
-  }
-  .gift-grid-item .gift-name {
-    position: absolute;
-    bottom: -25px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(0, 0, 0, 0.8);
-    color: white;
-    padding: 5px 10px;
-    border-radius: 15px;
-    font-size: 10px;
-    white-space: nowrap;
-    opacity: 0;
-    visibility: hidden;
-    transition:
-      opacity 0.3s ease,
-      visibility 0.3s ease;
-  }
-  .dark-mode .gift-grid-item .gift-name {
-    background: rgba(223, 227, 231, 0.95);
-    color: #201e2e;
-  }
-
-  .gift-grid-item:hover .gift-name {
-    opacity: 1;
-    visibility: visible;
   }
 </style>

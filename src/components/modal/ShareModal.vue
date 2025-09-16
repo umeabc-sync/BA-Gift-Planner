@@ -27,8 +27,8 @@
                 </div>
               </div>
               <div class="card-content">
-                <div class="style-options">
-                  <div class="style-option" :class="{ active: screenshotStyle === 'gift-recommendation' }">
+                <div class="option-grid">
+                  <div class="option-item" :class="{ active: screenshotStyle === 'gift-recommendation' }">
                     <input
                       id="gift-style"
                       type="radio"
@@ -41,13 +41,13 @@
                       <div class="option-icon">
                         <img :src="getAssetsFile('icon/gift.webp')" draggable="false" />
                       </div>
-                      <div class="option-text">
+                      <div class="option-text-content">
                         <span class="option-title">{{ t('shareModal.giftRecommendation') }}</span>
                         <span class="option-desc">{{ t('shareModal.giftRecommendationDesc') }}</span>
                       </div>
                     </label>
                   </div>
-                  <div class="style-option" :class="{ active: screenshotStyle === 'student-preference' }">
+                  <div class="option-item" :class="{ active: screenshotStyle === 'student-preference' }">
                     <input
                       id="student-style"
                       type="radio"
@@ -60,9 +60,62 @@
                       <div class="option-icon">
                         <img :src="getAssetsFile('icon/student_favor.webp')" draggable="false" />
                       </div>
-                      <div class="option-text">
+                      <div class="option-text-content">
                         <span class="option-title">{{ t('shareModal.studentPreference') }}</span>
                         <span class="option-desc">{{ t('shareModal.studentPreferenceDesc') }}</span>
+                      </div>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Screenshot Layout Card -->
+            <div class="setting-card">
+              <div class="card-header">
+                <div class="card-icon style-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="3" y1="9" x2="21" y2="9"></line>
+                    <line x1="9" y1="21" x2="9" y2="9"></line>
+                  </svg>
+                </div>
+                <div>
+                  <h4 class="card-title">{{ t('shareModal.screenshotLayout') }}</h4>
+                  <p class="card-description">{{ t('shareModal.screenshotLayoutDesc') }}</p>
+                </div>
+              </div>
+              <div class="card-content">
+                <div class="option-grid">
+                  <div class="option-item" :class="{ active: screenshotLayout === 'classic' }">
+                    <input
+                      id="layout-classic"
+                      type="radio"
+                      name="screenshotLayout"
+                      value="classic"
+                      :checked="screenshotLayout === 'classic'"
+                      @change="updateScreenshotLayout"
+                    />
+                    <label for="layout-classic" class="option-label">
+                      <div class="option-text-content">
+                        <span class="option-title">{{ t('shareModal.layoutClassic') }}</span>
+                        <span class="option-desc">{{ t('shareModal.layoutClassicDesc') }}</span>
+                      </div>
+                    </label>
+                  </div>
+                  <div class="option-item" :class="{ active: screenshotLayout === 'ba-style' }">
+                    <input
+                      id="layout-ba-style"
+                      type="radio"
+                      name="screenshotLayout"
+                      value="ba-style"
+                      :checked="screenshotLayout === 'ba-style'"
+                      @change="updateScreenshotLayout"
+                    />
+                    <label for="layout-ba-style" class="option-label">
+                      <div class="option-text-content">
+                        <span class="option-title">{{ t('shareModal.layoutBAStyle') }}</span>
+                        <span class="option-desc">{{ t('shareModal.layoutBAStyleDesc') }}</span>
                       </div>
                     </label>
                   </div>
@@ -87,8 +140,8 @@
                 </div>
               </div>
               <div class="card-content">
-                <div class="size-grid">
-                  <div class="size-option" :class="{ active: screenshotSize == 1 }">
+                <div class="option-grid">
+                  <div class="option-item" :class="{ active: screenshotSize == 1 }">
                     <input
                       id="size-1x"
                       type="radio"
@@ -97,13 +150,13 @@
                       :checked="screenshotSize == 1"
                       @change="updateScreenshotSize"
                     />
-                    <label for="size-1x" class="size-label">
+                    <label for="size-1x" class="option-label">
                       <div class="size-preview size-1x"></div>
-                      <span class="size-text">1x</span>
-                      <span class="size-desc">{{ t('shareModal.screenshotSizeNormal') }}</span>
+                      <span class="option-title">1x</span>
+                      <span class="option-desc">{{ t('shareModal.screenshotSizeNormal') }}</span>
                     </label>
                   </div>
-                  <div class="size-option" :class="{ active: screenshotSize == 2 }">
+                  <div class="option-item" :class="{ active: screenshotSize == 2 }">
                     <input
                       id="size-2x"
                       type="radio"
@@ -112,13 +165,13 @@
                       :checked="screenshotSize == 2"
                       @change="updateScreenshotSize"
                     />
-                    <label for="size-2x" class="size-label">
+                    <label for="size-2x" class="option-label">
                       <div class="size-preview size-2x"></div>
-                      <span class="size-text">2x</span>
-                      <span class="size-desc">{{ t('shareModal.screenshotSizeClear') }}</span>
+                      <span class="option-title">2x</span>
+                      <span class="option-desc">{{ t('shareModal.screenshotSizeClear') }}</span>
                     </label>
                   </div>
-                  <div class="size-option" :class="{ active: screenshotSize == 4 }">
+                  <div class="option-item" :class="{ active: screenshotSize == 4 }">
                     <input
                       id="size-4x"
                       type="radio"
@@ -127,10 +180,10 @@
                       :checked="screenshotSize == 4"
                       @change="updateScreenshotSize"
                     />
-                    <label for="size-4x" class="size-label">
+                    <label for="size-4x" class="option-label">
                       <div class="size-preview size-4x"></div>
-                      <span class="size-text">4x</span>
-                      <span class="size-desc">{{ t('shareModal.screenshotSizeSuperClear') }}</span>
+                      <span class="option-title">4x</span>
+                      <span class="option-desc">{{ t('shareModal.screenshotSizeSuperClear') }}</span>
                     </label>
                   </div>
                 </div>
@@ -173,9 +226,16 @@
   const props = defineProps({
     isVisible: { type: Boolean, default: false },
     screenshotStyle: { type: String, default: 'gift-recommendation' },
+    screenshotLayout: { type: String, default: 'classic' },
     screenshotSize: { type: [Number, String], default: 1 },
   })
-  const emit = defineEmits(['close', 'downloadScreenshot', 'update:screenshotStyle', 'update:screenshotSize'])
+  const emit = defineEmits([
+    'close',
+    'downloadScreenshot',
+    'update:screenshotStyle',
+    'update:screenshotLayout',
+    'update:screenshotSize',
+  ])
 
   const closeModal = () => {
     emit('close')
@@ -185,6 +245,10 @@
 
   const updateScreenshotStyle = (event) => {
     emit('update:screenshotStyle', event.target.value)
+  }
+
+  const updateScreenshotLayout = (event) => {
+    emit('update:screenshotLayout', event.target.value)
   }
 
   const updateScreenshotSize = (event) => {
@@ -248,6 +312,7 @@
     font-size: 1.5rem;
     font-weight: bold;
     border-bottom: 5px solid #fdef66;
+    user-select: none;
   }
 
   .dark-mode .modal-header {
@@ -306,14 +371,14 @@
     border-radius: 16px;
     padding: 24px;
     margin-bottom: 20px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    border: 1px solid #e9ecef;
+    border: 2px solid #dee2e6;
+    user-select: none;
     transition: all 0.3s ease;
   }
 
   .setting-card:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 3px 2px rgba(0, 0, 0, 0.05);
   }
 
   .setting-card:last-child {
@@ -343,21 +408,21 @@
   }
 
   .style-icon {
-    background: linear-gradient(135deg, #87ceeb, #6495ed);
+    background: linear-gradient(135deg, #6994e4, #466398);
     color: white;
   }
 
   .size-icon {
-    background: linear-gradient(135deg, #98fb98, #32cd32);
+    background: linear-gradient(135deg, #6994e4, #466398);
     color: white;
   }
 
   .dark-mode .style-icon {
-    background: linear-gradient(135deg, #2a7fff, #00aeef);
+    background: linear-gradient(135deg, #6994e4, #466398);
   }
 
   .dark-mode .size-icon {
-    background: linear-gradient(135deg, #4ade80, #22c55e);
+    background: linear-gradient(135deg, #6994e4, #466398);
   }
 
   .card-title {
@@ -383,52 +448,6 @@
     color: #a0aec0;
   }
 
-  /* Style Options */
-  .style-options {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .style-option {
-    position: relative;
-    border-radius: 12px;
-    overflow: hidden;
-    transition: all 0.2s ease;
-  }
-
-  .style-option input[type='radio'] {
-    position: absolute;
-    opacity: 0;
-    pointer-events: none;
-  }
-
-  .option-label {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    padding: 16px;
-    background: #f7fafc;
-    border: 2px solid transparent;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-  }
-
-  .dark-mode .option-label {
-    background: #1a365d;
-  }
-
-  .style-option.active .option-label {
-    background: rgba(100, 149, 237, 0.1);
-    border-color: #6495ed;
-  }
-
-  .dark-mode .style-option.active .option-label {
-    background: rgba(42, 127, 255, 0.2);
-    border-color: #2a7fff;
-  }
-
   .option-icon {
     font-size: 1.5rem;
     width: 40px;
@@ -449,80 +468,92 @@
     background: #2a4a6e;
   }
 
-  .option-text {
+  .option-text-content {
     display: flex;
     flex-direction: column;
-    flex: 1;
+    gap: 10px;
   }
 
-  .option-title {
-    font-weight: 600;
-    color: #2d3748;
-    line-height: 1.3;
+  .option-grid {
+    display: flex;
   }
 
-  .dark-mode .option-title {
-    color: #e0e6ed;
-  }
-
-  .option-desc {
-    font-size: 0.85rem;
-    color: #718096;
-    margin-top: 2px;
-  }
-
-  .dark-mode .option-desc {
-    color: #a0aec0;
-  }
-
-  /* Size Options */
-  .size-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-  }
-
-  .size-option {
+  .option-item {
     position: relative;
+    flex: 1 1 0%;
+    transition: all 0.2s ease-in-out;
   }
 
-  .size-option input[type='radio'] {
+  .option-item:not(:first-child) {
+    margin-left: -15px;
+  }
+
+  .option-item input[type='radio'] {
     position: absolute;
     opacity: 0;
     pointer-events: none;
   }
 
-  .size-label {
+  .option-label {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     gap: 12px;
     padding: 20px 16px;
     background: #f7fafc;
-    border: 2px solid transparent;
-    border-radius: 12px;
     cursor: pointer;
     transition: all 0.2s ease;
     text-align: center;
+    clip-path: polygon(15px 0, 100% 0, calc(100% - 15px) 100%, 0 100%);
+    height: 100%;
   }
 
-  .dark-mode .size-label {
+  .option-item:first-child .option-label {
+    clip-path: polygon(0 0, 100% 0, calc(100% - 15px) 100%, 0 100%);
+    border-radius: 12px 0 0 12px;
+  }
+
+  .option-item:last-child .option-label {
+    clip-path: polygon(15px 0, 100% 0, 100% 100%, 0 100%);
+    border-radius: 0 12px 12px 0;
+  }
+
+  .dark-mode .option-label {
     background: #1a365d;
   }
 
-  .size-option.active .size-label {
-    background: rgba(50, 205, 50, 0.1);
-    border-color: #32cd32;
+  .option-item.active .option-label {
+    background: #263473;
   }
 
-  .dark-mode .size-option.active .size-label {
-    background: rgba(74, 222, 128, 0.2);
-    border-color: #4ade80;
+  .option-item.active .option-title {
+    color: white;
+  }
+
+  .option-item.active .option-desc {
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  .dark-mode .option-item.active .option-label {
+    background: #c9e1edcc;
+  }
+
+  .dark-mode .option-item.active .option-title {
+    color: #314665;
+  }
+
+  .dark-mode .option-item.active .option-desc {
+    color: #314665bf;
+  }
+
+  .option-label:active {
+    transform: scale(0.95);
   }
 
   .size-preview {
     border-radius: 4px;
-    background: linear-gradient(135deg, #98fb98, #32cd32);
+    background: linear-gradient(135deg, #6994e4, #466398);
     margin-bottom: 4px;
   }
 
@@ -542,26 +573,26 @@
   }
 
   .dark-mode .size-preview {
-    background: linear-gradient(135deg, #4ade80, #22c55e);
+    background: linear-gradient(135deg, #6994e4, #466398);
   }
 
-  .size-text {
+  .option-title {
     font-weight: 600;
     font-size: 1.1rem;
-    color: #2d3748;
+    color: #314665;
   }
 
-  .dark-mode .size-text {
+  .dark-mode .option-title {
     color: #e0e6ed;
   }
 
-  .size-desc {
+  .option-desc {
     font-size: 0.8rem;
     color: #718096;
   }
 
-  .dark-mode .size-desc {
-    color: #a0aec0;
+  .dark-mode .option-desc {
+    color: rgba(223, 229, 236, 0.8);
   }
 
   /* Footer Styles */
@@ -585,6 +616,7 @@
     gap: 8px;
     color: #718096;
     font-size: 0.9rem;
+    user-select: none;
   }
 
   .dark-mode .footer-info {
@@ -662,48 +694,12 @@
 
   /* Responsive Design */
   @media (max-width: 768px) {
-    /* Abandoned */
-    /* .modal-content {
-      width: 95%;
-      max-height: 90vh;
-      border-radius: 16px;
-    }
-
-    .modal-header {
-      padding: 20px;
-    }
-
-    .header-content {
-      gap: 12px;
-    }
-
-    .header-icon {
-      width: 40px;
-      height: 40px;
-    }
-
-    .modal-title {
-      font-size: 1.3rem;
-    }
-
-    .modal-body {
-      padding: 20px;
-    } */
-
     .setting-card {
       padding: 20px;
     }
 
-    .size-grid {
-      grid-template-columns: 1fr;
-      gap: 10px;
-    }
-
-    .size-label {
-      padding: 16px;
-      flex-direction: row;
-      justify-content: flex-start;
-      text-align: left;
+    .option-text-content {
+      gap: 4px;
     }
 
     .modal-footer {

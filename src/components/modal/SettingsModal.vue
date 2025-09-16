@@ -12,14 +12,16 @@
             <div class="setting-group">
               <h4 class="setting-group-title">{{ t('settingsModal.language') }}</h4>
               <div class="language-selector">
-                <button ref="dropdownToggleRef" class="dropdown-toggle" @click="toggleMenu">
-                  {{ currentLanguageName }} <span class="caret" :class="{ open: isOpen }"></span>
+                <button ref="dropdownToggleRef" class="lang-dropdown-toggle" @click="toggleMenu">
+                  <span>{{ currentLanguageName }}</span>
+                  <span class="caret" :class="{ open: isOpen }"></span>
                 </button>
                 <transition name="dropdown">
                   <ul v-if="isOpen" ref="languageMenuRef" class="language-menu">
                     <li
                       v-for="lang in availableLanguages"
                       :key="lang.code"
+                      :class="{ active: locale === lang.code }"
                       @click="
                         () => {
                           handleLocaleChange(lang.code)
@@ -27,7 +29,7 @@
                         }
                       "
                     >
-                      {{ lang.name }}
+                      <span>{{ lang.name }}</span>
                     </li>
                   </ul>
                 </transition>
@@ -36,32 +38,39 @@
 
             <!-- Show Only Optimal Solution Settings -->
             <div class="setting-group">
-              <div class="setting-group-title-wrapper">
-                <h4 class="setting-group-title">{{ t('settingsModal.showOnlyOptimalSolution') }}</h4>
-              </div>
-              <div class="toggle-switch">
-                <span class="toggle-label">{{
-                  isShowOnlyOptimalSolutionEnabled ? t('common.enabled') : t('common.disabled')
-                }}</span>
-                <input
-                  id="showOnlyOptimalSolutionToggle"
-                  type="checkbox"
-                  :checked="isShowOnlyOptimalSolutionEnabled"
-                  @change="toggleShowOnlyOptimalSolution"
-                />
-                <label for="showOnlyOptimalSolutionToggle"></label>
+              <h4 class="setting-group-title">{{ t('settingsModal.showOnlyOptimalSolution') }}</h4>
+              <div class="toggle-button-group">
+                <button
+                  :class="['toggle-button', 'off', { active: !isShowOnlyOptimalSolutionEnabled }]"
+                  @click="isShowOnlyOptimalSolutionEnabled && toggleShowOnlyOptimalSolution()"
+                >
+                  <span>{{ t('common.disabled') }}</span>
+                </button>
+                <button
+                  :class="['toggle-button', 'on', { active: isShowOnlyOptimalSolutionEnabled }]"
+                  @click="!isShowOnlyOptimalSolutionEnabled && toggleShowOnlyOptimalSolution()"
+                >
+                  <span>{{ t('common.enabled') }}</span>
+                </button>
               </div>
             </div>
 
             <!-- Lazy Load Settings -->
             <div class="setting-group">
-              <div class="setting-group-title-wrapper">
-                <h4 class="setting-group-title">{{ t('settingsModal.characterSelectorLazyLoad') }}</h4>
-              </div>
-              <div class="toggle-switch">
-                <span class="toggle-label">{{ isLazyLoadEnabled ? t('common.enabled') : t('common.disabled') }}</span>
-                <input id="lazyLoadToggle" type="checkbox" :checked="isLazyLoadEnabled" @change="toggleLazyLoad" />
-                <label for="lazyLoadToggle"></label>
+              <h4 class="setting-group-title">{{ t('settingsModal.characterSelectorLazyLoad') }}</h4>
+              <div class="toggle-button-group">
+                <button
+                  :class="['toggle-button', 'off', { active: !isLazyLoadEnabled }]"
+                  @click="isLazyLoadEnabled && toggleLazyLoad()"
+                >
+                  <span>{{ t('common.disabled') }}</span>
+                </button>
+                <button
+                  :class="['toggle-button', 'on', { active: isLazyLoadEnabled }]"
+                  @click="!isLazyLoadEnabled && toggleLazyLoad()"
+                >
+                  <span>{{ t('common.enabled') }}</span>
+                </button>
               </div>
             </div>
           </div>
@@ -202,6 +211,7 @@
     font-size: 1.5rem;
     font-weight: bold;
     border-bottom: 5px solid #fdef66;
+    user-select: none;
   }
 
   .dark-mode .modal-header {
@@ -257,6 +267,7 @@
     font-size: 1.1rem;
     font-weight: 500;
     margin: 0;
+    user-select: none;
   }
 
   .dark-mode .setting-group {
@@ -271,84 +282,112 @@
 
   .language-selector {
     position: relative;
-    max-width: 200px;
+    min-width: 180px;
   }
 
-  .dropdown-toggle {
-    width: 100%;
-    padding: 10px 15px;
-    border: 1px solid #bdc3c7;
-    border-radius: 8px;
-    background-color: #fff;
+  .lang-dropdown-toggle {
+    background-color: #77ddff;
+    background-image: linear-gradient(to bottom right, #63d0fd 0%, transparent 50%),
+      linear-gradient(to top left, #63d0fd 0%, transparent 50%);
+    border: none;
+    color: #314665;
     cursor: pointer;
-    font-family: inherit;
-    font-size: 1rem;
-    font-weight: 500;
+    border-radius: 12px;
+    width: 100%;
+    height: 42px;
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: center;
     transition: all 0.3s ease;
+    transform: skew(-8deg);
+    box-shadow: 0 3px 2px rgba(0, 0, 0, 0.15);
+    font-family: inherit;
+    font-weight: bold;
+    font-size: 1rem;
+    padding: 0 20px;
   }
 
-  .dark-mode .dropdown-toggle {
-    background-color: #1f3048;
-    border-color: #2a4a6e;
-    color: #e0e6ed;
+  .lang-dropdown-toggle:hover {
+    transform: translateY(-2px) skew(-8deg);
   }
 
-  .dropdown-toggle:hover {
-    border-color: #6495ed;
-    background-color: #e9ecef;
+  .lang-dropdown-toggle:active {
+    transform: scale(0.95) skew(-8deg);
   }
 
-  .dark-mode .dropdown-toggle:hover {
-    border-color: #00aeef;
-    background-color: #2a4a6e;
+  .dark-mode .lang-dropdown-toggle {
+    background-color: #00aeef;
+    background-image: linear-gradient(to bottom right, #09a4f2 0%, transparent 50%),
+      linear-gradient(to top left, #09a4f2 0%, transparent 50%);
+    color: #e0f4ff;
+  }
+
+  .lang-dropdown-toggle > * {
+    transform: skew(8deg);
+    display: inline-block;
   }
 
   .caret {
     margin-left: 10px;
     border-left: 5px solid transparent;
     border-right: 5px solid transparent;
-    border-top: 5px solid #000;
+    border-top: 5px solid #314665;
     transition: transform 0.3s ease;
   }
 
   .dark-mode .caret {
-    border-top-color: #e0e6ed;
+    border-top-color: #e0f4ff;
   }
 
   .caret.open {
-    transform: rotate(180deg);
+    transform: skew(8deg) rotate(180deg);
   }
 
   .language-menu {
     position: absolute;
-    top: 100%;
-    left: 0;
+    top: calc(100% + 10px);
+    right: 0;
     width: 100%;
-    background-color: #fff;
-    border: 1px solid #bdc3c7;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-    list-style: none;
-    padding: 0;
-    margin: 5px 0 0 0;
-    z-index: 1000;
+    background-color: #f8f9fa;
+    border-radius: 12px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
     overflow: hidden;
+    z-index: 1001;
+    border: 1px solid #dee2e6;
+    transform: skew(-8deg);
+    padding: 5px;
+    list-style: none;
+    margin: 0;
   }
 
   .dark-mode .language-menu {
-    background-color: #1f3048;
+    background-color: #1a2b40;
     border-color: #2a4a6e;
   }
 
   .language-menu li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
     padding: 10px 15px;
+    text-align: left;
+    background: none;
+    border: none;
     cursor: pointer;
-    font-size: 1rem;
-    font-weight: 500;
+    font-size: 16px;
+    color: #314665;
     transition: background-color 0.2s ease;
+    border-radius: 8px;
+    width: 100%;
+    font-weight: bold;
+  }
+
+  .language-menu li > * {
+    transform: skew(8deg);
+  }
+
+  .dark-mode .language-menu li {
+    color: #e0e6ed;
   }
 
   .language-menu li:hover {
@@ -357,6 +396,15 @@
 
   .dark-mode .language-menu li:hover {
     background-color: #2a4a6e;
+  }
+
+  .language-menu li.active {
+    background-color: #466398;
+    color: white;
+  }
+
+  .dark-mode .language-menu li.active {
+    background-color: #00a4e4;
   }
 
   .dropdown-enter-active,
@@ -369,7 +417,7 @@
   .dropdown-enter-from,
   .dropdown-leave-to {
     opacity: 0;
-    transform: translateY(-10px);
+    transform: translateY(-10px) skew(-8deg);
   }
 
   .modal-fade-enter-active,
@@ -381,56 +429,75 @@
     opacity: 0;
   }
 
-  .toggle-switch {
-    position: relative;
+  .toggle-button-group {
     display: flex;
-    align-items: center;
-    gap: 10px;
   }
 
-  .toggle-switch input[type='checkbox'] {
-    opacity: 0;
-    width: 0;
-    height: 0;
-  }
-
-  .toggle-switch label {
-    position: relative;
-    display: inline-block;
-    width: 48px;
-    height: 28px;
-    background-color: #ccc;
-    border-radius: 28px;
+  .toggle-button {
+    padding: 10px 24px;
+    /* border: none; */
+    border: 1px solid #dee2e6;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+    font-family: inherit;
+    font-weight: bold;
+    white-space: nowrap;
+    background-color: #e6f2f6;
+    transform: skew(-8deg);
+    /* box-shadow: 0 3px 2px rgba(0, 0, 0, 0.1); */
   }
 
-  .toggle-switch label:before {
-    content: '';
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background-color: white;
-    top: 4px;
-    left: 4px;
-    transition: transform 0.3s;
+  .dark-mode .toggle-button {
+    background-color: #1a2b40;
+    border-color: #2a4a6e;
   }
 
-  input[type='checkbox']:checked + label {
+  .toggle-button span {
+    display: inline-block;
+    transform: skew(8deg);
+  }
+
+  .toggle-button:active {
+    transform: scale(0.95) skew(-8deg);
+  }
+
+  .toggle-button.off {
+    color: #5484fd;
+    border-right: none;
+    border-radius: 6px 0 0 6px;
+  }
+
+  .toggle-button.on {
+    color: #cf595b;
+    border-left: none;
+    border-radius: 0 6px 6px 0;
+  }
+
+  .toggle-button.active {
+    color: white;
+  }
+
+  .toggle-button.off.active,
+  .toggle-button.on.active {
     background-color: #466398;
   }
 
-  .dark-mode input[type='checkbox']:checked + label {
-    background-color: #00aeef;
+  .dark-mode .toggle-button.off.active,
+  .dark-mode .toggle-button.on.active {
+    background-color: #00a4e4;
   }
 
-  input[type='checkbox']:checked + label:before {
-    transform: translateX(20px);
-  }
+  @media (max-width: 425px) {
+    .setting-group {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+    }
 
-  .toggle-label {
-    font-weight: 500;
-    user-select: none;
+    .language-selector {
+      max-width: none;
+      width: 100%;
+    }
   }
 </style>

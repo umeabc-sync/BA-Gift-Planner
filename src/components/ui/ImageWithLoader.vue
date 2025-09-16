@@ -1,5 +1,5 @@
 <template>
-  <div class="image-loader-wrapper">
+  <div class="image-loader-wrapper" :class="{ 'inherit-bg': inheritBackground }">
     <div v-if="isLoading" class="placeholder" :class="`loader-${loaderType}`"></div>
     <img
       :src="src"
@@ -21,6 +21,7 @@
     objectFit: { type: String, default: 'cover' }, // 'cover', 'contain', 'fill', etc.
     lazy: { type: Boolean, default: false }, // Whether to use lazy loading for the image
     loaderType: { type: String, default: 'skeleton' }, // 'skeleton', 'pulse'
+    inheritBackground: { type: Boolean, default: true }, // Whether to inherit background color
   })
 
   const isLoading = ref(true)
@@ -50,6 +51,9 @@
     overflow: hidden; /* Make sure the placeholder animation does not extend beyond the borders (e.g. rounded corners) */
     display: inline-block;
     vertical-align: middle;
+  }
+
+  .image-loader-wrapper.inherit-bg {
     background-color: inherit; /* Inherit the background color of the parent layer */
   }
 
