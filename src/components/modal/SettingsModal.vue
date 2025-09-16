@@ -12,14 +12,16 @@
             <div class="setting-group">
               <h4 class="setting-group-title">{{ t('settingsModal.language') }}</h4>
               <div class="language-selector">
-                <button ref="dropdownToggleRef" class="dropdown-toggle" @click="toggleMenu">
-                  {{ currentLanguageName }} <span class="caret" :class="{ open: isOpen }"></span>
+                <button ref="dropdownToggleRef" class="lang-dropdown-toggle" @click="toggleMenu">
+                  <span>{{ currentLanguageName }}</span>
+                  <span class="caret" :class="{ open: isOpen }"></span>
                 </button>
                 <transition name="dropdown">
                   <ul v-if="isOpen" ref="languageMenuRef" class="language-menu">
                     <li
                       v-for="lang in availableLanguages"
                       :key="lang.code"
+                      :class="{ active: locale === lang.code }"
                       @click="
                         () => {
                           handleLocaleChange(lang.code)
@@ -27,7 +29,7 @@
                         }
                       "
                     >
-                      {{ lang.name }}
+                      <span>{{ lang.name }}</span>
                     </li>
                   </ul>
                 </transition>
@@ -280,84 +282,112 @@
 
   .language-selector {
     position: relative;
-    max-width: 200px;
+    min-width: 180px;
   }
 
-  .dropdown-toggle {
-    width: 100%;
-    padding: 10px 15px;
-    border: 1px solid #bdc3c7;
-    border-radius: 8px;
-    background-color: #fff;
+  .lang-dropdown-toggle {
+    background-color: #77ddff;
+    background-image: linear-gradient(to bottom right, #63d0fd 0%, transparent 50%),
+      linear-gradient(to top left, #63d0fd 0%, transparent 50%);
+    border: none;
+    color: #314665;
     cursor: pointer;
-    font-family: inherit;
-    font-size: 1rem;
-    font-weight: 500;
+    border-radius: 12px;
+    width: 100%;
+    height: 42px;
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: center;
     transition: all 0.3s ease;
+    transform: skew(-8deg);
+    box-shadow: 0 3px 2px rgba(0, 0, 0, 0.15);
+    font-family: inherit;
+    font-weight: bold;
+    font-size: 1rem;
+    padding: 0 20px;
   }
 
-  .dark-mode .dropdown-toggle {
-    background-color: #1f3048;
-    border-color: #2a4a6e;
-    color: #e0e6ed;
+  .lang-dropdown-toggle:hover {
+    transform: translateY(-2px) skew(-8deg);
   }
 
-  .dropdown-toggle:hover {
-    border-color: #6495ed;
-    background-color: #e9ecef;
+  .lang-dropdown-toggle:active {
+    transform: scale(0.95) skew(-8deg);
   }
 
-  .dark-mode .dropdown-toggle:hover {
-    border-color: #00aeef;
-    background-color: #2a4a6e;
+  .dark-mode .lang-dropdown-toggle {
+    background-color: #00aeef;
+    background-image: linear-gradient(to bottom right, #09a4f2 0%, transparent 50%),
+      linear-gradient(to top left, #09a4f2 0%, transparent 50%);
+    color: #e0f4ff;
+  }
+
+  .lang-dropdown-toggle > * {
+    transform: skew(8deg);
+    display: inline-block;
   }
 
   .caret {
     margin-left: 10px;
     border-left: 5px solid transparent;
     border-right: 5px solid transparent;
-    border-top: 5px solid #000;
+    border-top: 5px solid #314665;
     transition: transform 0.3s ease;
   }
 
   .dark-mode .caret {
-    border-top-color: #e0e6ed;
+    border-top-color: #e0f4ff;
   }
 
   .caret.open {
-    transform: rotate(180deg);
+    transform: skew(8deg) rotate(180deg);
   }
 
   .language-menu {
     position: absolute;
-    top: 100%;
-    left: 0;
+    top: calc(100% + 10px);
+    right: 0;
     width: 100%;
-    background-color: #fff;
-    border: 1px solid #bdc3c7;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-    list-style: none;
-    padding: 0;
-    margin: 5px 0 0 0;
-    z-index: 1000;
+    background-color: #f8f9fa;
+    border-radius: 12px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
     overflow: hidden;
+    z-index: 1001;
+    border: 1px solid #dee2e6;
+    transform: skew(-8deg);
+    padding: 5px;
+    list-style: none;
+    margin: 0;
   }
 
   .dark-mode .language-menu {
-    background-color: #1f3048;
+    background-color: #1a2b40;
     border-color: #2a4a6e;
   }
 
   .language-menu li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
     padding: 10px 15px;
+    text-align: left;
+    background: none;
+    border: none;
     cursor: pointer;
-    font-size: 1rem;
-    font-weight: 500;
+    font-size: 16px;
+    color: #314665;
     transition: background-color 0.2s ease;
+    border-radius: 8px;
+    width: 100%;
+    font-weight: bold;
+  }
+
+  .language-menu li > * {
+    transform: skew(8deg);
+  }
+
+  .dark-mode .language-menu li {
+    color: #e0e6ed;
   }
 
   .language-menu li:hover {
@@ -366,6 +396,15 @@
 
   .dark-mode .language-menu li:hover {
     background-color: #2a4a6e;
+  }
+
+  .language-menu li.active {
+    background-color: #466398;
+    color: white;
+  }
+
+  .dark-mode .language-menu li.active {
+    background-color: #00a4e4;
   }
 
   .dropdown-enter-active,
@@ -378,7 +417,7 @@
   .dropdown-enter-from,
   .dropdown-leave-to {
     opacity: 0;
-    transform: translateY(-10px);
+    transform: translateY(-10px) skew(-8deg);
   }
 
   .modal-fade-enter-active,
