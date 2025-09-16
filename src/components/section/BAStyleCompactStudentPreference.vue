@@ -74,7 +74,7 @@
   .ba-style-compact-student-island :deep(.ba-style-compact-student-avatar-img img) {
     border-radius: 50%;
     border: 3px solid #466398;
-    background-color: #fff;
+    background-color: #f7f7f4;
   }
   .dark-mode .ba-style-compact-student-island :deep(.ba-style-compact-student-avatar-img img) {
     border-color: #00a4e4;

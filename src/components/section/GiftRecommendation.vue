@@ -240,7 +240,7 @@
   .character-avatar :deep(.character-avatar-img img) {
     border-radius: 50%;
     border: 3px solid #466398;
-    background-color: #fff;
+    background-color: #f7f7f4;
   }
 
   .sub-optimal :deep(.character-avatar-img img) {
