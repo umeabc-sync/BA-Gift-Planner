@@ -1,7 +1,10 @@
 import { getAssetsFile } from './getAssetsFile'
 
-export function getTitleUrl(locale, isMobile) {
+export function getTitleUrl(locale, theme, isMobile) {
   if (locale === null || locale === undefined) return ''
-  if (isMobile) return getAssetsFile(`img/title/mobile.webp`)
-  return getAssetsFile(`img/title/${locale}.webp`)
+
+  const fileName = isMobile ? 'mobile' : locale
+  const themeSuffix = theme === 'light' ? '' : '_d'
+
+  return getAssetsFile(`img/title/${fileName}${themeSuffix}.webp`)
 }

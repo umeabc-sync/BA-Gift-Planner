@@ -106,7 +106,7 @@
   const { width } = useWindowSize()
   const isMobile = computed(() => width.value <= 768)
 
-  const logoUrl = computed(() => getTitleUrl(locale.value, isMobile.value))
+  const logoUrl = computed(() => getTitleUrl(locale.value, theme.value, isMobile.value))
 
   const isSettingsIconRotating = ref(false)
 
