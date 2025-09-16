@@ -234,20 +234,20 @@
   /* EXP Palette */
 
   .dark-mode .rec-extra {
-    background-color: #5c1f3a;
-    border-color: #f297a8;
-    color: #fce4ec;
+    background-color: #8b3a4a;
+    border-color: #f9c5d0;
+    color: #f9c5d0;
   }
 
   .dark-mode .rec-best {
-    background-color: #2a4a6e;
-    border-color: #3a9deb;
-    color: #e0f4ff;
+    background-color: #1e5a8b;
+    border-color: #a6d0f5;
+    color: #a6d0f5;
   }
 
   .dark-mode .rec-good {
-    background-color: #2a5c54;
-    border-color: #5cb3a6;
-    color: #d1f1ec;
+    background-color: #3e4d66;
+    border-color: #a8b8d1;
+    color: #a8b8d1;
   }
 </style>

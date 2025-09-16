@@ -327,7 +327,7 @@
     color: white;
   }
 
-  /* 深藍灰色系（備案1） */
+  /* 綠色系（備案1） */
   /* .rec-good {
     border-color: #388581;
     background-color: #5cb3a6;
@@ -353,10 +353,17 @@
     color: #e0f4ff;
   }
 
-  .dark-mode .rec-good {
+  /* 綠色系（備案1） */
+  /* .dark-mode .rec-good {
     background-color: #2a5c54;
     border-color: #5cb3a6;
     color: #d1f1ec;
+  } */
+
+  .dark-mode .rec-good {
+    background-color: #3a5a7a;
+    border-color: #6b8bb5;
+    color: #e0f4ff;
   }
 
   @media (max-width: 768px) {
