@@ -1387,7 +1387,7 @@
     "weapon": "AR",
     "position": "BACK",
     "type": 1,
-    "role": ["T.S."],
+    "role": ["TS"],
     "rarity": 3,
     "obtainMethod": "Archived",
     "favor": {
@@ -1732,7 +1732,7 @@
     "weapon": "HG",
     "position": "BACK",
     "type": 1,
-    "role": ["T.S."],
+    "role": ["TS"],
     "rarity": 3,
     "obtainMethod": "Archived",
     "favor": {
@@ -1939,7 +1939,7 @@
     "weapon": "GL",
     "position": "BACK",
     "type": 1,
-    "role": ["T.S."],
+    "role": ["TS"],
     "rarity": 3,
     "obtainMethod": "Archived",
     "favor": {
@@ -2169,7 +2169,7 @@
     "weapon": "HG",
     "position": "BACK",
     "type": 1,
-    "role": ["T.S."],
+    "role": ["TS"],
     "rarity": 3,
     "obtainMethod": "Regular",
     "favor": {
@@ -2353,7 +2353,7 @@
     "weapon": "HG",
     "position": "BACK",
     "type": 1,
-    "role": ["T.S."],
+    "role": ["TS"],
     "rarity": 1,
     "obtainMethod": "Event",
     "favor": {
@@ -4009,7 +4009,7 @@
     "weapon": "AR",
     "position": "BACK",
     "type": 1,
-    "role": ["T.S."],
+    "role": ["TS"],
     "rarity": 3,
     "obtainMethod": "Regular",
     "favor": {
