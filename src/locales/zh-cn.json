@@ -3,6 +3,20 @@
     "Selected": "已选择",
     "Unselected": "未选择"
   },
+  "role": {
+    "Tank": "坦克",
+    "Dealer": "输出",
+    "Healer": "治疗",
+    "Support": "辅助",
+    "TS": "T.S"
+  },
+  "obtainMethod": {
+    "Regular": "常规招募",
+    "Unique": "限定招募",
+    "Event": "活动奖励",
+    "Fest": "週年纪念招募",
+    "Archived": "档案招募"
+  },
   "attackType": {
     "Explosive": "爆发",
     "Piercing": "贯穿",
@@ -58,8 +72,12 @@
     "resetFilters": "重设筛选",
     "resetSelection": "清空选择",
     "collectionLabel": "集合",
+    "roleLabel": "战术类别",
+    "rarityLabel": "稀有度",
+    "obtainMethodLabel": "获取方式",
     "attackTypeLabel": "攻击属性",
     "defenseTypeLabel": "装甲属性",
+    "positionLabel": "站位",
     "schoolLabel": "学园",
     "weaponLabel": "使用武器",
     "typeLabel": "角色定位",

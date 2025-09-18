@@ -3,6 +3,20 @@
     "Selected": "已選擇",
     "Unselected": "未選擇"
   },
+  "role": {
+    "Tank": "坦克",
+    "Dealer": "輸出",
+    "Healer": "補師",
+    "Support": "輔助",
+    "TS": "戰術支援"
+  },
+  "obtainMethod": {
+    "Regular": "常規招募",
+    "Unique": "限定招募",
+    "Event": "活動獎勵",
+    "Fest": "週年紀念招募",
+    "Archived": "檔案招募"
+  },
   "attackType": {
     "Explosive": "爆發",
     "Piercing": "貫通",
@@ -58,8 +72,12 @@
     "resetFilters": "重設篩選",
     "resetSelection": "清空選擇",
     "collectionLabel": "集合",
+    "roleLabel": "戰術類別",
+    "rarityLabel": "稀有度",
+    "obtainMethodLabel": "獲取管道",
     "attackTypeLabel": "攻擊屬性",
     "defenseTypeLabel": "裝甲屬性",
+    "positionLabel": "站位",
     "schoolLabel": "學園",
     "weaponLabel": "使用武器",
     "typeLabel": "角色定位",
