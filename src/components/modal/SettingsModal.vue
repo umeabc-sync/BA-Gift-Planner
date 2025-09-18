@@ -7,7 +7,7 @@
             <div class="modal-title">{{ t('common.settings') }}</div>
             <button class="close-button" @click="closeModal">×</button>
           </div>
-          <div class="modal-body">
+          <div ref="modalBodyRef" class="modal-body">
             <!-- Language Settings -->
             <div class="setting-group">
               <h4 class="setting-group-title">{{ t('settingsModal.language') }}</h4>
@@ -17,7 +17,7 @@
                   <span class="caret" :class="{ open: isOpen }"></span>
                 </button>
                 <transition name="dropdown">
-                  <ul v-if="isOpen" ref="languageMenuRef" class="language-menu">
+                  <ul v-if="isOpen" ref="languageMenuRef" class="language-menu" :style="menuStyle">
                     <li
                       v-for="lang in availableLanguages"
                       :key="lang.code"
@@ -81,7 +81,7 @@
 </template>
 
 <script setup>
-  import { ref, computed, toRefs, watch } from 'vue'
+  import { ref, computed, toRefs, watch, nextTick } from 'vue'
   import { useSettingStore } from '@/store/setting'
   import { storeToRefs } from 'pinia'
   import { useI18n } from '@/composables/useI18n.js'
@@ -119,9 +119,35 @@
   const isOpen = ref(false)
   const dropdownToggleRef = ref(null)
   const languageMenuRef = ref(null)
+  const modalBodyRef = ref(null)
+  const menuStyle = ref({})
+
+  const updateMenuPosition = () => {
+    if (!isOpen.value || !dropdownToggleRef.value) {
+      return // Return only when the menu is closed or the button does not exist, without resetting the style
+    }
+
+    const rect = dropdownToggleRef.value.getBoundingClientRect()
+    menuStyle.value = {
+      position: 'fixed',
+      top: `${rect.bottom + 110}px`,
+      left: `${rect.left - 16}px`,
+      width: `${rect.width}px`,
+    }
+  }
 
   const toggleMenu = () => {
-    isOpen.value = !isOpen.value
+    if (!isOpen.value) {
+      isOpen.value = true
+      // Using two nextTicks ensures the DOM is fully updated
+      nextTick(() => {
+        nextTick(() => {
+          updateMenuPosition()
+        })
+      })
+    } else {
+      isOpen.value = false
+    }
   }
 
   const closeMenu = () => {
@@ -140,8 +166,14 @@
   watch(isOpen, (isMenuOpen) => {
     if (isMenuOpen) {
       document.addEventListener('click', handleClickOutside, true)
+      modalBodyRef.value?.addEventListener('scroll', updateMenuPosition)
+      window.addEventListener('resize', updateMenuPosition)
     } else {
       document.removeEventListener('click', handleClickOutside, true)
+      modalBodyRef.value?.removeEventListener('scroll', updateMenuPosition)
+      window.removeEventListener('resize', updateMenuPosition)
+      // Reset style when menu is closed
+      menuStyle.value = {}
     }
   })
 
@@ -347,15 +379,11 @@
   }
 
   .language-menu {
-    position: absolute;
-    top: calc(100% + 10px);
-    right: 0;
-    width: 100%;
     background-color: #f8f9fa;
     border-radius: 12px;
     box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
     overflow: hidden;
-    z-index: 1001;
+    z-index: 2001;
     border: 1px solid #dee2e6;
     transform: skew(-8deg);
     padding: 5px;
