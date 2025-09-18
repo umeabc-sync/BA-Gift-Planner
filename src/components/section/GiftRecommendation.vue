@@ -6,7 +6,9 @@
         class="gift-icon"
         object-fit="contain"
         loader-type="pulse"
+        :inherit-background="false"
       />
+      <div class="gift-icon-bg"></div>
       <div class="gift-name">{{ gift.name }}</div>
     </div>
     <div class="recommendation-island">
@@ -77,38 +79,87 @@
 <style scoped>
   .gift-row {
     display: flex;
-    align-items: center;
+    align-items: stretch; /* Align items to stretch to equal height */
     margin-bottom: 20px;
     gap: 20px;
   }
+
   .gift-island {
     width: 100px;
     height: 100px;
-    border-radius: 999px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
     cursor: pointer;
     z-index: 1;
     transition: transform 0.3s ease;
     flex-shrink: 0;
     position: relative;
+    align-self: center;
   }
+
+  .gift-island > *,
+  .gift-island::before,
+  .gift-island::after {
+    grid-column: 1 / 1;
+    grid-row: 1 / 1;
+  }
+
   .gift-island:hover {
     transform: scale(1.05);
+    z-index: 10;
   }
-  .gift-yellow {
-    background: linear-gradient(45deg, #a97d51, #c7a579);
+
+  .gift-island::before {
+    content: '';
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    z-index: 1;
   }
-  .gift-purple {
-    background: linear-gradient(45deg, #7a5bbe, #9e82d6);
+
+  .gift-yellow::before {
+    background-color: #c7a579;
+    background-image: linear-gradient(to bottom right, #a97d51 0%, transparent 50%),
+      linear-gradient(to top left, #a97d51 0%, transparent 50%);
   }
-  .gift-icon {
+
+  .gift-purple::before {
+    background-color: #9e82d6;
+    background-image: linear-gradient(to bottom right, #7a5bbe 0%, transparent 50%),
+      linear-gradient(to top left, #7a5bbe 0%, transparent 50%);
+  }
+
+  .gift-icon-bg {
     width: 90%;
     height: 90%;
     border-radius: 50%;
+    z-index: 2;
   }
+
+  .gift-yellow .gift-icon-bg {
+    background-color: #c7a579;
+  }
+
+  .gift-purple .gift-icon-bg {
+    background-color: #9e82d6;
+  }
+
+  .dark-mode .gift-island::after {
+    content: '';
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    background: rgba(0, 0, 0, 0.15);
+    z-index: 3;
+  }
+
+  .gift-icon {
+    width: 90%;
+    height: 90%;
+    z-index: 4;
+  }
+
   .gift-name {
     position: absolute;
     bottom: -30px;
@@ -126,37 +177,40 @@
       opacity 0.3s ease,
       visibility 0.3s ease;
   }
+
   .gift-island:hover .gift-name {
     opacity: 1;
     visibility: visible;
   }
+
   .dark-mode .gift-name {
     background: rgba(223, 227, 231, 0.95);
     color: #201e2e;
   }
+
   .recommendation-island {
     flex: 1;
-    background: #fff;
-    border-radius: 20px;
+    background: #efefef;
+    border-radius: 12px;
     padding: 20px;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-    min-height: 100px;
+    border: 2px solid #dee2e6;
   }
 
   .dark-mode .recommendation-island {
-    background: #2c3e50;
+    background: #1f3048;
     color: #e0e6ed;
+    border-color: #2a4a6e;
   }
 
   .recommendation-title {
-    font-size: 18px;
+    font-size: 1.1rem;
     font-weight: bold;
     margin-bottom: 15px;
-    color: #333;
+    color: #314665;
   }
 
   .dark-mode .recommendation-title {
-    color: #e0e6ed;
+    color: #e0f4ff;
   }
 
   .character-avatars {
@@ -164,6 +218,7 @@
     flex-wrap: wrap;
     gap: 10px;
   }
+
   .character-avatar {
     width: 50px;
     height: 50px;
@@ -175,6 +230,7 @@
       z-index 0.3s ease;
     position: relative;
   }
+
   .character-avatar-img {
     width: 100%;
     height: 100%;
@@ -183,23 +239,26 @@
 
   .character-avatar :deep(.character-avatar-img img) {
     border-radius: 50%;
-    border: 2px solid #6495ed;
+    border: 3px solid #466398;
+    background-color: #f7f7f4;
   }
 
   .sub-optimal :deep(.character-avatar-img img) {
     opacity: 0.75;
-    border: 2px dashed #ccc !important;
+    border: 3px dashed #bdc3c7 !important;
     filter: none;
   }
 
   .dark-mode .character-avatar :deep(.character-avatar-img img) {
-    border: 2px solid #00aeef;
+    border-color: #00a4e4;
+    background-color: #1a2b40;
   }
 
   .character-avatar:hover {
     z-index: 10;
     transform: scale(1.1);
   }
+
   .tooltip {
     position: absolute;
     bottom: 110%;
@@ -220,49 +279,91 @@
     align-items: center;
     gap: 5px;
   }
+
   .character-avatar:hover .tooltip {
     opacity: 1;
   }
+
   .tooltip-name {
     font-weight: bold;
     font-size: 14px;
   }
+
   .tooltip-xp {
     display: flex;
     align-items: center;
     gap: 5px;
   }
+
   .tooltip-icon {
     width: 24px;
     height: 24px;
   }
+
   .dark-mode .tooltip {
     background: rgba(223, 227, 231, 0.95);
     color: #201e2e;
   }
+
   .rec-type {
     display: inline-block;
     padding: 4px 12px;
-    border-radius: 15px;
+    border-radius: 4px;
     font-size: 12px;
     font-weight: bold;
     margin-bottom: 10px;
+    border: 2px solid;
   }
+
   .rec-extra {
-    background: #fce4ec;
-    color: #c2185b;
+    border-color: #cb6d7e;
+    background-color: #f297a8;
+    color: white;
   }
+
   .rec-best {
-    background: #d4edda;
-    color: #155724;
+    border-color: #496f94;
+    background-color: #3a9deb;
+    color: white;
   }
+
+  /* 綠色系（備案1） */
+  /* .rec-good {
+    border-color: #388581;
+    background-color: #5cb3a6;
+    color: white;
+  } */
+
+  /* 深藍灰色系（備案2） */
   .rec-good {
-    background: #fff3cd;
-    color: #856404;
+    border-color: #5a7ba8;
+    background-color: #6b8bb5;
+    color: white;
   }
-  .rec-any {
-    background: #d1ecf1;
-    color: #0c5460;
+
+  .dark-mode .rec-extra {
+    background-color: #5c1f3a;
+    border-color: #f297a8;
+    color: #fce4ec;
+  }
+
+  .dark-mode .rec-best {
+    background-color: #2a4a6e;
+    border-color: #3a9deb;
+    color: #e0f4ff;
+  }
+
+  /* 綠色系（備案1） */
+  /* .dark-mode .rec-good {
+    background-color: #2a5c54;
+    border-color: #5cb3a6;
+    color: #d1f1ec;
+  } */
+
+  .dark-mode .rec-good {
+    background-color: #3a5a7a;
+    border-color: #6b8bb5;
+    color: #e0f4ff;
   }
 
   @media (max-width: 768px) {
@@ -273,6 +374,11 @@
 
     .recommendation-island {
       width: 100%;
+      transform: skew(0);
+    }
+
+    .recommendation-island > * {
+      transform: skew(0);
     }
   }
 </style>

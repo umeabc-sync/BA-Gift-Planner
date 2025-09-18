@@ -1,13 +1,32 @@
 <template>
   <div ref="shareContentForScreenshot" class="share-content-for-screenshot" :class="{ 'dark-mode': isDarkMode }">
-    <div v-if="props.style === 'gift-recommendation'" class="compact-gift-recommendation-grid">
-      <CompactGiftRecommendation v-for="gift in recommendedGifts" :key="`${gift.id}-${gift.isSsr}`" :gift="gift" />
-    </div>
-    <div v-else class="compact-student-preference-grid">
-      <CompactStudentPreference v-for="student in studentPreferences" :key="student.id" :student="student" />
-    </div>
-    <CompactGiftGridSection :title="t('app.giftGridSection.generic')" :gifts="genericSsrGifts" />
-    <CompactGiftGridSection :title="t('app.giftGridSection.synthesis')" :gifts="synthesisGifts" />
+    <!-- Classic Layout -->
+    <template v-if="layout === 'classic'">
+      <div v-if="props.style === 'gift-recommendation'" class="compact-gift-recommendation-grid">
+        <CompactGiftRecommendation v-for="gift in recommendedGifts" :key="`${gift.id}-${gift.isSsr}`" :gift="gift" />
+      </div>
+      <div v-else class="compact-student-preference-grid">
+        <CompactStudentPreference v-for="student in studentPreferences" :key="student.id" :student="student" />
+      </div>
+      <CompactGiftGridSection :title="t('app.giftGridSection.generic')" :gifts="genericSsrGifts" />
+      <CompactGiftGridSection :title="t('app.giftGridSection.synthesis')" :gifts="synthesisGifts" />
+    </template>
+
+    <!-- BA Style Layout -->
+    <template v-else-if="layout === 'ba-style'">
+      <div v-if="props.style === 'gift-recommendation'" class="ba-style-compact-gift-recommendation-grid">
+        <BAStyleCompactGiftRecommendation
+          v-for="gift in recommendedGifts"
+          :key="`${gift.id}-${gift.isSsr}`"
+          :gift="gift"
+        />
+      </div>
+      <div v-else class="ba-style-compact-student-preference-grid">
+        <BAStyleCompactStudentPreference v-for="student in studentPreferences" :key="student.id" :student="student" />
+      </div>
+      <BAStyleCompactGiftGridSection :title="t('app.giftGridSection.generic')" :gifts="genericSsrGifts" />
+      <BAStyleCompactGiftGridSection :title="t('app.giftGridSection.synthesis')" :gifts="synthesisGifts" />
+    </template>
   </div>
 </template>
 
@@ -17,9 +36,16 @@
   import { isMobile } from '@utils/deviceDetector'
   import { useI18n } from '@composables/useI18n'
   import { useToast } from '@composables/useToast'
+
+  // Classic Components
   import CompactGiftRecommendation from '@components/section/CompactGiftRecommendation.vue'
   import CompactStudentPreference from '@components/section/CompactStudentPreference.vue'
   import CompactGiftGridSection from '@components/section/CompactGiftGridSection.vue'
+
+  // BA Style Components
+  import BAStyleCompactGiftRecommendation from '@components/section/BAStyleCompactGiftRecommendation.vue'
+  import BAStyleCompactStudentPreference from '@components/section/BAStyleCompactStudentPreference.vue'
+  import BAStyleCompactGiftGridSection from '@components/section/BAStyleCompactGiftGridSection.vue'
 
   const props = defineProps({
     recommendedGifts: Array,
@@ -28,6 +54,7 @@
     synthesisGifts: Array,
     isDarkMode: Boolean,
     style: String,
+    layout: String,
     size: String,
   })
 
@@ -43,7 +70,7 @@
     try {
       await convertElementToPng(shareContentForScreenshot.value, {
         fileName: 'gift-recommendations',
-        backgroundColor: props.isDarkMode ? '#1e2a38' : '#f0f4f8',
+        backgroundColor: props.isDarkMode ? '#1e2a38' : props.layout === 'ba-style' ? '#f7f7f4' : '#f0f4f8',
         dpr: isMobile() ? 1 : window.devicePixelRatio,
         scale: +props.size.replace('x', ''),
       })
@@ -82,6 +109,18 @@
   }
 
   .share-content-for-screenshot .compact-student-preference-grid {
+    display: block;
+    margin-bottom: 20px;
+  }
+
+  .share-content-for-screenshot .ba-style-compact-gift-recommendation-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-bottom: 20px;
+  }
+
+  .share-content-for-screenshot .ba-style-compact-student-preference-grid {
     display: block;
     margin-bottom: 20px;
   }
