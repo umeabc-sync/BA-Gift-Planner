@@ -65,7 +65,7 @@
                         :key="option.value"
                         :class="{
                           active: selectedFilters[group.id].includes(option.value),
-                          'has-icon': ['attackType', 'defenseType', 'school', 'collection'].includes(group.id),
+                          'has-icon': ['role', 'attackType', 'defenseType', 'school', 'collection'].includes(group.id),
                         }"
                         @click="selectFilter(group.id, option.value)"
                         style="font-family: inherit"
@@ -83,6 +83,9 @@
                               class="type-icon"
                             />
                           </div>
+                        </template>
+                        <template v-else-if="group.id === 'role'">
+                          <img :src="getRoleIconUrl(option.value)" :alt="option.value" class="role-icon" />
                         </template>
                         <template v-else-if="group.id === 'school'">
                           <img :src="getSchoolIconUrl(option.value)" :alt="option.value" class="school-icon" />
@@ -151,6 +154,7 @@
   import { ref, computed, toRefs, onMounted, onBeforeUnmount, reactive, watch, nextTick } from 'vue'
   import { getAvatarUrl } from '@utils/getAvatarUrl'
   import { getAssetsFile } from '@utils/getAssetsFile'
+  import { getRoleIconUrl } from '@utils/getRoleIconUrl'
   import { getSchoolIconUrl } from '@utils/getSchoolIconUrl'
   import { useModal } from '@composables/useModal.js'
   import { useI18n } from '@composables/useI18n.js'
@@ -746,6 +750,7 @@
     object-fit: contain;
   }
 
+  .role-icon,
   .school-icon,
   .collection-icon {
     width: 20px;
@@ -753,14 +758,17 @@
     object-fit: contain;
   }
 
+  .filter-group button .role-icon,
   .filter-group button .school-icon {
     filter: invert(1);
   }
 
+  .filter-group button.active .role-icon,
   .filter-group button.active .school-icon {
     filter: none;
   }
 
+  .dark-mode .filter-group button .role-icon,
   .dark-mode .filter-group button .school-icon {
     filter: none;
   }
