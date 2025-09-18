@@ -94,14 +94,22 @@
                             class="collection-icon"
                           />
                         </template>
-
-                        <span :class="{ 'nexon-font': ['weapon', 'type'].includes(group.id) }">
+                        <span :class="{ 'nexon-font': ['weapon', 'type', 'position'].includes(group.id) }">
                           <span
                             v-if="group.id === 'type'"
                             :class="`type-${option.label.toLowerCase()}`"
                             class="type-button"
                           >
                             {{ option.label }}
+                          </span>
+                          <span v-else-if="group.id === 'rarity'" style="display: flex; align-items: center; gap: 2px">
+                            <component
+                              :is="StarIcon"
+                              v-for="i in option.value"
+                              :key="i"
+                              class="rarity-icon"
+                              style="width: 14px; height: 14px; fill: currentColor"
+                            />
                           </span>
                           <span v-else>{{ getOptionLabel(group, option) }}</span>
                         </span>
@@ -153,6 +161,7 @@
   import FilterOpenIcon from '@assets/icon/filter_open.svg'
   import FilterCloseIcon from '@assets/icon/filter_close.svg'
   import PencilIcon from '@assets/icon/pencil.svg'
+  import StarIcon from '@assets/icon/star.svg'
 
   const { t } = useI18n()
 
@@ -191,7 +200,7 @@
     if (group.id === 'type') {
       return option.label
     }
-    if (group.id === 'weapon') {
+    if (group.id === 'weapon' || group.id === 'position') {
       return option.value
     }
     const prefix = group.labelKeyPrefix || group.id
@@ -286,6 +295,10 @@
             if (option === 'Unselected') return !isSelected
             return false
           })
+        }
+
+        if (group.id === 'role') {
+          return student.role.some((role) => selected.includes(role))
         }
 
         return selected.includes(student[group.id])

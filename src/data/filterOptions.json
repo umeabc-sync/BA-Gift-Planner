@@ -14,6 +14,33 @@
       ]
     },
     {
+      "id": "role",
+      "labelKey": "characterSelector.roleLabel",
+      "options": [
+        { "value": "Tank" },
+        { "value": "Dealer" },
+        { "value": "Healer" },
+        { "value": "Support" },
+        { "value": "T.S." }
+      ]
+    },
+    {
+      "id": "rarity",
+      "labelKey": "characterSelector.rarityLabel",
+      "options": [{ "value": 1 }, { "value": 2 }, { "value": 3 }]
+    },
+    {
+      "id": "obtainMethod",
+      "labelKey": "characterSelector.obtainMethodLabel",
+      "options": [
+        { "value": "Regular" },
+        { "value": "Unique" },
+        { "value": "Event" },
+        { "value": "Fest" },
+        { "value": "Archived" }
+      ]
+    },
+    {
       "id": "attackType",
       "labelKey": "characterSelector.attackTypeLabel",
       "options": [{ "value": "Explosive" }, { "value": "Piercing" }, { "value": "Mystic" }, { "value": "Sonic" }]
@@ -22,6 +49,11 @@
       "id": "defenseType",
       "labelKey": "characterSelector.defenseTypeLabel",
       "options": [{ "value": "Light" }, { "value": "Heavy" }, { "value": "Special" }, { "value": "Elastic" }]
+    },
+    {
+      "id": "position",
+      "labelKey": "characterSelector.positionLabel",
+      "options": [{ "value": "FRONT" }, { "value": "MIDDLE" }, { "value": "BACK" }]
     },
     {
       "id": "school",
