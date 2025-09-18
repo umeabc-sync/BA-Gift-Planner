@@ -1,4 +1,156 @@
 {
+  "collection": {
+    "Selected": "選択済み",
+    "Unselected": "未選択"
+  },
+  "role": {
+    "Tank": "タンク",
+    "Dealer": "アタッカー",
+    "Healer": "ヒーラー",
+    "Support": "サポーター",
+    "TS": "T.S"
+  },
+  "obtainMethod": {
+    "Regular": "通常募集",
+    "Unique": "限定募集",
+    "Event": "イベント報酬",
+    "Fest": "周年記念募集",
+    "Archived": "アーカイブ募集"
+  },
+  "attackType": {
+    "Explosive": "爆発",
+    "Piercing": "貫通",
+    "Mystic": "神秘",
+    "Sonic": "振動"
+  },
+  "defenseType": {
+    "Light": "軽装備",
+    "Heavy": "重装甲",
+    "Special": "特殊装甲",
+    "Elastic": "弾力装甲"
+  },
+  "school": {
+    "Abydos": "",
+    "Arius": "",
+    "Gehenna": "",
+    "Hyakkiyako": "",
+    "Millennium": "",
+    "RedWinter": "",
+    "Shanhaijing": "",
+    "Trinity": "",
+    "Valkyrie": "",
+    "SRT": "",
+    "Highlander": "",
+    "WildHunt": "",
+    "ETC": ""
+  },
+  "schoolAbbr": {
+    "Abydos": "アビドス",
+    "Arius": "アリウス",
+    "Gehenna": "ゲヘナ",
+    "Hyakkiyako": "百鬼夜行",
+    "Millennium": "ミレニアム",
+    "RedWinter": "レッドウィンター",
+    "Shanhaijing": "山海経",
+    "Trinity": "トリニティ",
+    "Valkyrie": "ヴァルキューレ",
+    "SRT": "SRT",
+    "Highlander": "ハイランダー",
+    "WildHunt": "ワイルドハント",
+    "ETC": "その他"
+  },
+  "common": {
+    "all": "すべて",
+    "settings": "設定",
+    "enabled": "有効",
+    "disabled": "無効",
+    "title": "Sensei ハーレムツール"
+  },
+  "characterSelector": {
+    "title": "生徒を選択",
+    "searchPlaceholder": "生徒名を検索...",
+    "resetFilters": "フィルターをリセット",
+    "resetSelection": "選択をリセット",
+    "collectionLabel": "コレクション",
+    "roleLabel": "クラス",
+    "rarityLabel": "レアリティ",
+    "obtainMethodLabel": "入手方法",
+    "attackTypeLabel": "攻撃タイプ",
+    "defenseTypeLabel": "防御タイプ",
+    "positionLabel": "ポジション",
+    "schoolLabel": "学園",
+    "weaponLabel": "武器種",
+    "typeLabel": "役割",
+    "noResults": "条件に合う生徒が見つかりません"
+  },
+  "settingsModal": {
+    "language": "言語",
+    "showOnlyOptimalSolution": "最適解のみ表示",
+    "characterSelectorLazyLoad": "キャラクターセレクターの画像を遅延読み込み",
+    "theme": "テーマ",
+    "light": "ライト",
+    "dark": "ダーク",
+    "system": "システム"
+  },
+  "shareModal": {
+    "title": "スクショ設定",
+    "screenshotStyle": "スクショのスタイル",
+    "screenshotStyleDesc": "スクショのスタイルタイプを選択",
+    "giftRecommendation": "贈り物の推薦",
+    "giftRecommendationDesc": "各贈り物に適した生徒を表示",
+    "studentPreference": "生徒の好み",
+    "studentPreferenceDesc": "各生徒の好きな贈り物を表示",
+    "screenshotLayout": "スクショのレイアウト",
+    "screenshotLayoutDesc": "スクショの表示スタイルを選択",
+    "layoutClassic": "v1",
+    "layoutClassicDesc": "クラシックスタイル",
+    "layoutBAStyle": "v2",
+    "layoutBAStyleDesc": "新しいBAスタイル",
+    "screenshotSize": "画像サイズ",
+    "screenshotSizeDesc": "サイズが大きいほど詳細が鮮明になりますが、ファイルサイズが大きくなります",
+    "screenshotSizeNormal": "標準",
+    "screenshotSizeClear": "クリア",
+    "screenshotSizeSuperClear": "スーパークリア",
+    "readyForDownload": "ダウンロードの準備ができました、クリックしてダウンロード",
+    "download": "ダウンロード"
+  },
+  "app": {
+    "giftGridSection": {
+      "generic": "誰にでも贈れる贈り物",
+      "synthesis": "合成におすすめの贈り物"
+    },
+    "analysis": {
+      "recExtra": "強く推奨",
+      "extraChoice": "効果抜群 (+{maxValue})",
+      "recBest": "非常におすすめ",
+      "bestChoice": "最良の選択 (+{maxValue})",
+      "recGood": "良い選択",
+      "goodChoice": "好まれる (+{maxValue})",
+      "recAny": "誰にでも贈れる",
+      "normalEffect": "効果は普通 (+{maxValue})"
+    },
+    "downloading": "ダウンロード中..."
+  },
+  "giftRecommendation": {
+    "bondXp": "絆経験値: +{value}"
+  },
+  "header": {
+    "title": "ブルーアーカイブ ギフトプランナー",
+    "selectStudentsAlt": "生徒を選択",
+    "settingsAlt": "設定",
+    "copyLink": "リンクをコピー",
+    "downloadScreenshot": "スクショをダウンロード"
+  },
+  "welcome": {
+    "message": "右上の「生徒を選択」をクリックして、絆を深めたい生徒を選択してください"
+  },
+  "favoriteGiftsModal": {
+    "titleSuffix": "の好きな贈り物"
+  },
+  "toast": {
+    "link_copied_to_clipboard": "リンクがクリップボードにコピーされました",
+    "canvas_exceeds_max_size": "画像サイズが大きすぎます、より低い倍率を選択してください"
+  },
   "student": {
     "name": {
       "1": "アル",

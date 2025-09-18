@@ -1,4 +1,156 @@
 {
+  "collection": {
+    "Selected": "선택됨",
+    "Unselected": "선택되지 않음"
+  },
+  "role": {
+    "Tank": "탱커",
+    "Dealer": "딜러",
+    "Healer": "힐러",
+    "Support": "서포터",
+    "TS": "T.S"
+  },
+  "obtainMethod": {
+    "Regular": "통상",
+    "Unique": "한정",
+    "Event": "배포",
+    "Fest": "페스",
+    "Archived": "아카이브 모집"
+  },
+  "attackType": {
+    "Explosive": "폭발",
+    "Piercing": "관통",
+    "Mystic": "신비",
+    "Sonic": "진동"
+  },
+  "defenseType": {
+    "Light": "경장갑",
+    "Heavy": "중장갑",
+    "Special": "특수장갑",
+    "Elastic": "탄력장갑"
+  },
+  "school": {
+    "Abydos": "",
+    "Arius": "",
+    "Gehenna": "",
+    "Hyakkiyako": "",
+    "Millennium": "",
+    "RedWinter": "",
+    "Shanhaijing": "",
+    "Trinity": "",
+    "Valkyrie": "",
+    "SRT": "",
+    "Highlander": "",
+    "WildHunt": "",
+    "ETC": ""
+  },
+  "schoolAbbr": {
+    "Abydos": "아비도스",
+    "Arius": "아리우스",
+    "Gehenna": "게헨나",
+    "Hyakkiyako": "백귀야행",
+    "Millennium": "밀레니엄",
+    "RedWinter": "붉은겨울",
+    "Shanhaijing": "산해경",
+    "Trinity": "트리니티",
+    "Valkyrie": "발키리",
+    "SRT": "SRT",
+    "Highlander": "하이랜더",
+    "WildHunt": "와일드헌트",
+    "ETC": "그 외"
+  },
+  "common": {
+    "all": "모두",
+    "settings": "설정",
+    "enabled": "활성화됨",
+    "disabled": "비활성화됨",
+    "title": "Sensei 하렘 도구"
+  },
+  "characterSelector": {
+    "title": "학생 선택",
+    "searchPlaceholder": "학생 이름 검색...",
+    "resetFilters": "필터 재설정",
+    "resetSelection": "선택 재설정",
+    "collectionLabel": "컬렉션",
+    "roleLabel": "역할",
+    "rarityLabel": "희귀도",
+    "obtainMethodLabel": "획득 방법",
+    "attackTypeLabel": "공격타입",
+    "defenseTypeLabel": "방어타입",
+    "positionLabel": "포지션",
+    "schoolLabel": "학원",
+    "weaponLabel": "무기종류",
+    "typeLabel": "전술 역할",
+    "noResults": "기준에 맞는 학생을 찾을 수 없습니다"
+  },
+  "settingsModal": {
+    "language": "언어",
+    "showOnlyOptimalSolution": "최적의 해결책만 표시",
+    "characterSelectorLazyLoad": "캐릭터 선택기 이미지 지연 로드",
+    "theme": "테마",
+    "light": "밝게",
+    "dark": "어둡게",
+    "system": "시스템"
+  },
+  "shareModal": {
+    "title": "스크린샷 설정",
+    "screenshotStyle": "스크린샷 스타일",
+    "screenshotStyleDesc": "스크린샷 스타일 유형 선택",
+    "giftRecommendation": "선물 추천",
+    "giftRecommendationDesc": "각 선물에 적합한 학생 표시",
+    "studentPreference": "학생 선호도",
+    "studentPreferenceDesc": "각 학생이 좋아하는 선물 표시",
+    "screenshotLayout": "스크린샷 레이아웃",
+    "screenshotLayoutDesc": "스크린샷의 표시 스타일 선택",
+    "layoutClassic": "v1",
+    "layoutClassicDesc": "클래식 스타일",
+    "layoutBAStyle": "v2",
+    "layoutBAStyleDesc": "새로운 BA 스타일",
+    "screenshotSize": "이미지 크기",
+    "screenshotSizeDesc": "크기가 클수록 세부 정보가 선명하지만 파일 크기가 커집니다",
+    "screenshotSizeNormal": "보통",
+    "screenshotSizeClear": "선명하게",
+    "screenshotSizeSuperClear": "초고화질",
+    "readyForDownload": "다운로드 준비 완료, 클릭하여 다운로드",
+    "download": "다운로드"
+  },
+  "app": {
+    "giftGridSection": {
+      "generic": "누구에게나 줄 수 있는 선물",
+      "synthesis": "합성에 추천하는 선물"
+    },
+    "analysis": {
+      "recExtra": "강력 추천",
+      "extraChoice": "훌륭함 (+{maxValue})",
+      "recBest": "매우 추천",
+      "bestChoice": "최고의 선택 (+{maxValue})",
+      "recGood": "좋은 선택",
+      "goodChoice": "호평 (+{maxValue})",
+      "recAny": "누구에게나 주기",
+      "normalEffect": "보통 (+{maxValue})"
+    },
+    "downloading": "다운로드 중..."
+  },
+  "giftRecommendation": {
+    "bondXp": "인연 경험치: +{value}"
+  },
+  "header": {
+    "title": "블루 아카이브 선물 플래너",
+    "selectStudentsAlt": "학생 선택",
+    "settingsAlt": "설정",
+    "copyLink": "링크 복사",
+    "downloadScreenshot": "스크린샷 다운로드"
+  },
+  "welcome": {
+    "message": "오른쪽 상단의 '학생 선택'을 클릭하여 인연을 쌓고 싶은 학생을 선택하세요"
+  },
+  "favoriteGiftsModal": {
+    "titleSuffix": "의 좋아하는 선물"
+  },
+  "toast": {
+    "link_copied_to_clipboard": "링크가 클립보드에 복사되었습니다",
+    "canvas_exceeds_max_size": "이미지 크기가 너무 큽니다. 더 낮은 배율을 선택하세요"
+  },
   "student": {
     "name": {
       "1": "아루",
