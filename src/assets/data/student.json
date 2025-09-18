@@ -1,6 +1,7 @@
 [
   {
     "id": 1,
+    "gid": 10000,
     "school": "Gehenna",
     "attackType": "Explosive",
     "defenseType": "Light",
@@ -24,6 +25,7 @@
   },
   {
     "id": 2,
+    "gid": 10001,
     "school": "Millennium",
     "attackType": "Explosive",
     "defenseType": "Light",
@@ -47,6 +49,7 @@
   },
   {
     "id": 3,
+    "gid": 10002,
     "school": "Gehenna",
     "attackType": "Mystic",
     "defenseType": "Heavy",
@@ -70,6 +73,7 @@
   },
   {
     "id": 4,
+    "gid": 10003,
     "school": "Trinity",
     "attackType": "Piercing",
     "defenseType": "Light",
@@ -93,6 +97,7 @@
   },
   {
     "id": 5,
+    "gid": 10004,
     "school": "Gehenna",
     "attackType": "Explosive",
     "defenseType": "Heavy",
@@ -116,6 +121,7 @@
   },
   {
     "id": 6,
+    "gid": 10005,
     "school": "Abydos",
     "attackType": "Piercing",
     "defenseType": "Heavy",
@@ -139,6 +145,7 @@
   },
   {
     "id": 7,
+    "gid": 10006,
     "school": "Gehenna",
     "attackType": "Piercing",
     "defenseType": "Heavy",
@@ -162,6 +169,7 @@
   },
   {
     "id": 8,
+    "gid": 10007,
     "school": "Millennium",
     "attackType": "Piercing",
     "defenseType": "Light",
@@ -185,6 +193,7 @@
   },
   {
     "id": 9,
+    "gid": 10008,
     "school": "Millennium",
     "attackType": "Piercing",
     "defenseType": "Light",
@@ -208,6 +217,7 @@
   },
   {
     "id": 10,
+    "gid": 10009,
     "school": "Gehenna",
     "attackType": "Explosive",
     "defenseType": "Light",
@@ -231,6 +241,7 @@
   },
   {
     "id": 11,
+    "gid": 10010,
     "school": "Abydos",
     "attackType": "Explosive",
     "defenseType": "Light",
@@ -254,6 +265,7 @@
   },
   {
     "id": 12,
+    "gid": 10011,
     "school": "Shanhaijing",
     "attackType": "Explosive",
     "defenseType": "Light",
@@ -277,6 +289,7 @@
   },
   {
     "id": 13,
+    "gid": 10012,
     "school": "Millennium",
     "attackType": "Piercing",
     "defenseType": "Special",
@@ -300,6 +313,7 @@
   },
   {
     "id": 14,
+    "gid": 10013,
     "school": "Trinity",
     "attackType": "Piercing",
     "defenseType": "Heavy",
@@ -323,6 +337,7 @@
   },
   {
     "id": 15,
+    "gid": 13000,
     "school": "Millennium",
     "attackType": "Piercing",
     "defenseType": "Light",
@@ -346,6 +361,7 @@
   },
   {
     "id": 16,
+    "gid": 13001,
     "school": "Hyakkiyako",
     "attackType": "Mystic",
     "defenseType": "Heavy",
@@ -369,6 +385,7 @@
   },
   {
     "id": 17,
+    "gid": 13002,
     "school": "Gehenna",
     "attackType": "Explosive",
     "defenseType": "Heavy",
@@ -392,6 +409,7 @@
   },
   {
     "id": 18,
+    "gid": 13003,
     "school": "Trinity",
     "attackType": "Piercing",
     "defenseType": "Heavy",
@@ -415,6 +433,7 @@
   },
   {
     "id": 19,
+    "gid": 13004,
     "school": "Abydos",
     "attackType": "Piercing",
     "defenseType": "Light",
@@ -438,6 +457,7 @@
   },
   {
     "id": 20,
+    "gid": 13005,
     "school": "Gehenna",
     "attackType": "Explosive",
     "defenseType": "Heavy",
@@ -461,6 +481,7 @@
   },
   {
     "id": 21,
+    "gid": 13006,
     "school": "Gehenna",
     "attackType": "Explosive",
     "defenseType": "Light",
@@ -484,6 +505,7 @@
   },
   {
     "id": 22,
+    "gid": 13007,
     "school": "Gehenna",
     "attackType": "Piercing",
     "defenseType": "Light",
@@ -507,6 +529,7 @@
   },
   {
     "id": 23,
+    "gid": 13008,
     "school": "Abydos",
     "attackType": "Explosive",
     "defenseType": "Light",
@@ -530,6 +553,7 @@
   },
   {
     "id": 24,
+    "gid": 13009,
     "school": "Hyakkiyako",
     "attackType": "Piercing",
     "defenseType": "Special",
@@ -553,6 +577,7 @@
   },
   {
     "id": 25,
+    "gid": 13010,
     "school": "Millennium",
     "attackType": "Explosive",
     "defenseType": "Heavy",
@@ -576,6 +601,7 @@
   },
   {
     "id": 26,
+    "gid": 16000,
     "school": "Gehenna",
     "attackType": "Explosive",
     "defenseType": "Light",
@@ -599,6 +625,7 @@
   },
   {
     "id": 27,
+    "gid": 16001,
     "school": "Millennium",
     "attackType": "Mystic",
     "defenseType": "Light",
@@ -622,6 +649,7 @@
   },
   {
     "id": 28,
+    "gid": 16002,
     "school": "Millennium",
     "attackType": "Piercing",
     "defenseType": "Light",
@@ -645,6 +673,7 @@
   },
   {
     "id": 29,
+    "gid": 16003,
     "school": "Trinity",
     "attackType": "Explosive",
     "defenseType": "Heavy",
@@ -668,6 +697,7 @@
   },
   {
     "id": 30,
+    "gid": 16004,
     "school": "Hyakkiyako",
     "attackType": "Piercing",
     "defenseType": "Light",
@@ -691,6 +721,7 @@
   },
   {
     "id": 31,
+    "gid": 20000,
     "school": "Millennium",
     "attackType": "Explosive",
     "defenseType": "Heavy",
@@ -714,6 +745,7 @@
   },
   {
     "id": 32,
+    "gid": 20001,
     "school": "Millennium",
     "attackType": "Piercing",
     "defenseType": "Heavy",
@@ -737,6 +769,7 @@
   },
   {
     "id": 33,
+    "gid": 20002,
     "school": "Shanhaijing",
     "attackType": "Explosive",
     "defenseType": "Heavy",
@@ -760,6 +793,7 @@
   },
   {
     "id": 34,
+    "gid": 23000,
     "school": "Trinity",
     "attackType": "Explosive",
     "defenseType": "Light",
@@ -783,6 +817,7 @@
   },
   {
     "id": 35,
+    "gid": 23001,
     "school": "Gehenna",
     "attackType": "Explosive",
     "defenseType": "Heavy",
@@ -806,6 +841,7 @@
   },
   {
     "id": 36,
+    "gid": 23002,
     "school": "Trinity",
     "attackType": "Explosive",
     "defenseType": "Heavy",
@@ -829,6 +865,7 @@
   },
   {
     "id": 37,
+    "gid": 23003,
     "school": "Millennium",
     "attackType": "Explosive",
     "defenseType": "Light",
@@ -852,6 +889,7 @@
   },
   {
     "id": 38,
+    "gid": 23004,
     "school": "Millennium",
     "attackType": "Piercing",
     "defenseType": "Heavy",
@@ -875,6 +913,7 @@
   },
   {
     "id": 39,
+    "gid": 23005,
     "school": "Abydos",
     "attackType": "Piercing",
     "defenseType": "Light",
@@ -898,6 +937,7 @@
   },
   {
     "id": 40,
+    "gid": 26000,
     "school": "Gehenna",
     "attackType": "Piercing",
     "defenseType": "Light",
@@ -921,6 +961,7 @@
   },
   {
     "id": 41,
+    "gid": 26001,
     "school": "Millennium",
     "attackType": "Explosive",
     "defenseType": "Light",
@@ -944,6 +985,7 @@
   },
   {
     "id": 42,
+    "gid": 26002,
     "school": "Gehenna",
     "attackType": "Explosive",
     "defenseType": "Light",
@@ -967,6 +1009,7 @@
   },
   {
     "id": 43,
+    "gid": 26003,
     "school": "Trinity",
     "attackType": "Mystic",
     "defenseType": "Light",
@@ -990,6 +1033,7 @@
   },
   {
     "id": 44,
+    "gid": 26004,
     "school": "Trinity",
     "attackType": "Explosive",
     "defenseType": "Light",
@@ -1013,6 +1057,7 @@
   },
   {
     "id": 45,
+    "gid": 26005,
     "school": "Trinity",
     "attackType": "Piercing",
     "defenseType": "Heavy",
@@ -1036,6 +1081,7 @@
   },
   {
     "id": 46,
+    "gid": 20003,
     "school": "Trinity",
     "attackType": "Explosive",
     "defenseType": "Heavy",
@@ -1059,6 +1105,7 @@
   },
   {
     "id": 47,
+    "gid": 10014,
     "school": "Hyakkiyako",
     "attackType": "Mystic",
     "defenseType": "Light",
@@ -1082,6 +1129,7 @@
   },
   {
     "id": 48,
+    "gid": 23006,
     "school": "Hyakkiyako",
     "attackType": "Mystic",
     "defenseType": "Special",
@@ -1105,6 +1153,7 @@
   },
   {
     "id": 49,
+    "gid": 10015,
     "school": "Millennium",
     "attackType": "Mystic",
     "defenseType": "Special",
@@ -1128,6 +1177,7 @@
   },
   {
     "id": 50,
+    "gid": 10016,
     "school": "Millennium",
     "attackType": "Piercing",
     "defenseType": "Light",
@@ -1151,6 +1201,7 @@
   },
   {
     "id": 51,
+    "gid": 13011,
     "school": "Millennium",
     "attackType": "Piercing",
     "defenseType": "Light",
@@ -1174,6 +1225,7 @@
   },
   {
     "id": 52,
+    "gid": 10017,
     "school": "RedWinter",
     "attackType": "Piercing",
     "defenseType": "Light",
@@ -1197,6 +1249,7 @@
   },
   {
     "id": 53,
+    "gid": 26006,
     "school": "RedWinter",
     "attackType": "Explosive",
     "defenseType": "Heavy",
@@ -1220,6 +1273,7 @@
   },
   {
     "id": 54,
+    "gid": 10018,
     "school": "Millennium",
     "attackType": "Piercing",
     "defenseType": "Special",
@@ -1243,6 +1297,7 @@
   },
   {
     "id": 55,
+    "gid": 10019,
     "school": "Trinity",
     "attackType": "Explosive",
     "defenseType": "Heavy",
@@ -1266,6 +1321,7 @@
   },
   {
     "id": 56,
+    "gid": 23007,
     "school": "Trinity",
     "attackType": "Piercing",
     "defenseType": "Special",
@@ -1289,6 +1345,7 @@
   },
   {
     "id": 57,
+    "gid": 10020,
     "school": "Trinity",
     "attackType": "Explosive",
     "defenseType": "Heavy",
@@ -1312,6 +1369,7 @@
   },
   {
     "id": 58,
+    "gid": 10021,
     "school": "Trinity",
     "attackType": "Mystic",
     "defenseType": "Light",
@@ -1335,6 +1393,7 @@
   },
   {
     "id": 59,
+    "gid": 20004,
     "school": "Trinity",
     "attackType": "Mystic",
     "defenseType": "Light",
@@ -1358,6 +1417,7 @@
   },
   {
     "id": 60,
+    "gid": 16005,
     "school": "Trinity",
     "attackType": "Mystic",
     "defenseType": "Special",
@@ -1381,6 +1441,7 @@
   },
   {
     "id": 61,
+    "gid": 20005,
     "school": "Trinity",
     "attackType": "Piercing",
     "defenseType": "Heavy",
@@ -1404,6 +1465,7 @@
   },
   {
     "id": 62,
+    "gid": 10022,
     "school": "Gehenna",
     "attackType": "Explosive",
     "defenseType": "Heavy",
@@ -1427,6 +1489,7 @@
   },
   {
     "id": 63,
+    "gid": 10023,
     "school": "Gehenna",
     "attackType": "Explosive",
     "defenseType": "Special",
@@ -1450,6 +1513,7 @@
   },
   {
     "id": 64,
+    "gid": 16006,
     "school": "Gehenna",
     "attackType": "Explosive",
     "defenseType": "Light",
@@ -1473,6 +1537,7 @@
   },
   {
     "id": 65,
+    "gid": 10024,
     "school": "Abydos",
     "attackType": "Mystic",
     "defenseType": "Heavy",
@@ -1496,6 +1561,7 @@
   },
   {
     "id": 66,
+    "gid": 10025,
     "school": "Shanhaijing",
     "attackType": "Explosive",
     "defenseType": "Light",
@@ -1519,6 +1585,7 @@
   },
   {
     "id": 67,
+    "gid": 13012,
     "school": "Valkyrie",
     "attackType": "Explosive",
     "defenseType": "Special",
@@ -1542,6 +1609,7 @@
   },
   {
     "id": 68,
+    "gid": 20006,
     "school": "Shanhaijing",
     "attackType": "Piercing",
     "defenseType": "Special",
@@ -1565,6 +1633,7 @@
   },
   {
     "id": 69,
+    "gid": 10026,
     "school": "Millennium",
     "attackType": "Explosive",
     "defenseType": "Heavy",
@@ -1588,6 +1657,7 @@
   },
   {
     "id": 70,
+    "gid": 10027,
     "school": "Millennium",
     "attackType": "Mystic",
     "defenseType": "Heavy",
@@ -1611,6 +1681,7 @@
   },
   {
     "id": 71,
+    "gid": 10028,
     "school": "Millennium",
     "attackType": "Mystic",
     "defenseType": "Light",
@@ -1634,6 +1705,7 @@
   },
   {
     "id": 72,
+    "gid": 10029,
     "school": "Trinity",
     "attackType": "Mystic",
     "defenseType": "Heavy",
@@ -1657,6 +1729,7 @@
   },
   {
     "id": 73,
+    "gid": 23008,
     "school": "Trinity",
     "attackType": "Mystic",
     "defenseType": "Special",
@@ -1680,6 +1753,7 @@
   },
   {
     "id": 74,
+    "gid": 20007,
     "school": "ETC",
     "attackType": "Explosive",
     "defenseType": "Light",
@@ -1703,6 +1777,7 @@
   },
   {
     "id": 75,
+    "gid": 20008,
     "school": "Gehenna",
     "attackType": "Mystic",
     "defenseType": "Heavy",
@@ -1726,6 +1801,7 @@
   },
   {
     "id": 76,
+    "gid": 20009,
     "school": "RedWinter",
     "attackType": "Explosive",
     "defenseType": "Heavy",
@@ -1749,6 +1825,7 @@
   },
   {
     "id": 77,
+    "gid": 10030,
     "school": "Gehenna",
     "attackType": "Mystic",
     "defenseType": "Light",
@@ -1772,6 +1849,7 @@
   },
   {
     "id": 78,
+    "gid": 16007,
     "school": "RedWinter",
     "attackType": "Piercing",
     "defenseType": "Special",
@@ -1795,6 +1873,7 @@
   },
   {
     "id": 79,
+    "gid": 20010,
     "school": "RedWinter",
     "attackType": "Explosive",
     "defenseType": "Special",
@@ -1818,6 +1897,7 @@
   },
   {
     "id": 80,
+    "gid": 10031,
     "school": "Gehenna",
     "attackType": "Piercing",
     "defenseType": "Special",
@@ -1841,6 +1921,7 @@
   },
   {
     "id": 81,
+    "gid": 10032,
     "school": "Gehenna",
     "attackType": "Mystic",
     "defenseType": "Heavy",
@@ -1864,6 +1945,7 @@
   },
   {
     "id": 82,
+    "gid": 20011,
     "school": "Abydos",
     "attackType": "Piercing",
     "defenseType": "Special",
@@ -1887,6 +1969,7 @@
   },
   {
     "id": 83,
+    "gid": 10033,
     "school": "Hyakkiyako",
     "attackType": "Mystic",
     "defenseType": "Light",
@@ -1910,6 +1993,7 @@
   },
   {
     "id": 84,
+    "gid": 16008,
     "school": "Valkyrie",
     "attackType": "Piercing",
     "defenseType": "Heavy",
@@ -1933,6 +2017,7 @@
   },
   {
     "id": 85,
+    "gid": 20012,
     "school": "Gehenna",
     "attackType": "Mystic",
     "defenseType": "Light",
@@ -1956,6 +2041,7 @@
   },
   {
     "id": 86,
+    "gid": 20013,
     "school": "Millennium",
     "attackType": "Piercing",
     "defenseType": "Heavy",
@@ -1979,6 +2065,7 @@
   },
   {
     "id": 87,
+    "gid": 10034,
     "school": "Hyakkiyako",
     "attackType": "Mystic",
     "defenseType": "Light",
@@ -2002,6 +2089,7 @@
   },
   {
     "id": 88,
+    "gid": 10035,
     "school": "Trinity",
     "attackType": "Explosive",
     "defenseType": "Light",
@@ -2025,6 +2113,7 @@
   },
   {
     "id": 89,
+    "gid": 10036,
     "school": "Trinity",
     "attackType": "Mystic",
     "defenseType": "Heavy",
@@ -2048,6 +2137,7 @@
   },
   {
     "id": 90,
+    "gid": 10037,
     "school": "RedWinter",
     "attackType": "Piercing",
     "defenseType": "Light",
@@ -2071,6 +2161,7 @@
   },
   {
     "id": 91,
+    "gid": 10038,
     "school": "SRT",
     "attackType": "Piercing",
     "defenseType": "Heavy",
@@ -2094,6 +2185,7 @@
   },
   {
     "id": 92,
+    "gid": 20014,
     "school": "SRT",
     "attackType": "Piercing",
     "defenseType": "Special",
@@ -2117,6 +2209,7 @@
   },
   {
     "id": 93,
+    "gid": 10039,
     "school": "SRT",
     "attackType": "Piercing",
     "defenseType": "Light",
@@ -2140,6 +2233,7 @@
   },
   {
     "id": 94,
+    "gid": 20015,
     "school": "Hyakkiyako",
     "attackType": "Explosive",
     "defenseType": "Special",
@@ -2163,6 +2257,7 @@
   },
   {
     "id": 95,
+    "gid": 20016,
     "school": "Gehenna",
     "attackType": "Mystic",
     "defenseType": "Heavy",
@@ -2186,6 +2281,7 @@
   },
   {
     "id": 96,
+    "gid": 16009,
     "school": "Hyakkiyako",
     "attackType": "Mystic",
     "defenseType": "Light",
@@ -2209,6 +2305,7 @@
   },
   {
     "id": 97,
+    "gid": 10040,
     "school": "Hyakkiyako",
     "attackType": "Mystic",
     "defenseType": "Light",
@@ -2232,6 +2329,7 @@
   },
   {
     "id": 98,
+    "gid": 10041,
     "school": "Arius",
     "attackType": "Explosive",
     "defenseType": "Special",
@@ -2255,6 +2353,7 @@
   },
   {
     "id": 99,
+    "gid": 20017,
     "school": "Arius",
     "attackType": "Explosive",
     "defenseType": "Light",
@@ -2278,6 +2377,7 @@
   },
   {
     "id": 100,
+    "gid": 10042,
     "school": "Arius",
     "attackType": "Explosive",
     "defenseType": "Special",
@@ -2301,6 +2401,7 @@
   },
   {
     "id": 101,
+    "gid": 10043,
     "school": "Hyakkiyako",
     "attackType": "Piercing",
     "defenseType": "Heavy",
@@ -2324,6 +2425,7 @@
   },
   {
     "id": 102,
+    "gid": 10044,
     "school": "Abydos",
     "attackType": "Explosive",
     "defenseType": "Special",
@@ -2347,6 +2449,7 @@
   },
   {
     "id": 103,
+    "gid": 26007,
     "school": "Abydos",
     "attackType": "Piercing",
     "defenseType": "Light",
@@ -2370,6 +2473,7 @@
   },
   {
     "id": 104,
+    "gid": 10045,
     "school": "Abydos",
     "attackType": "Explosive",
     "defenseType": "Special",
@@ -2393,6 +2497,7 @@
   },
   {
     "id": 105,
+    "gid": 26008,
     "school": "Hyakkiyako",
     "attackType": "Mystic",
     "defenseType": "Heavy",
@@ -2416,6 +2521,7 @@
   },
   {
     "id": 106,
+    "gid": 10046,
     "school": "Hyakkiyako",
     "attackType": "Mystic",
     "defenseType": "Special",
@@ -2439,6 +2545,7 @@
   },
   {
     "id": 107,
+    "gid": 10047,
     "school": "Hyakkiyako",
     "attackType": "Mystic",
     "defenseType": "Light",
@@ -2462,6 +2569,7 @@
   },
   {
     "id": 108,
+    "gid": 10048,
     "school": "Arius",
     "attackType": "Explosive",
     "defenseType": "Special",
@@ -2485,6 +2593,7 @@
   },
   {
     "id": 109,
+    "gid": 20018,
     "school": "SRT",
     "attackType": "Piercing",
     "defenseType": "Light",
@@ -2508,6 +2617,7 @@
   },
   {
     "id": 110,
+    "gid": 10049,
     "school": "Trinity",
     "attackType": "Piercing",
     "defenseType": "Heavy",
@@ -2531,6 +2641,7 @@
   },
   {
     "id": 111,
+    "gid": 10050,
     "school": "Shanhaijing",
     "attackType": "Piercing",
     "defenseType": "Special",
@@ -2554,6 +2665,7 @@
   },
   {
     "id": 112,
+    "gid": 10051,
     "school": "Millennium",
     "attackType": "Mystic",
     "defenseType": "Special",
@@ -2577,6 +2689,7 @@
   },
   {
     "id": 113,
+    "gid": 10052,
     "school": "Millennium",
     "attackType": "Mystic",
     "defenseType": "Special",
@@ -2600,6 +2713,7 @@
   },
   {
     "id": 114,
+    "gid": 16010,
     "school": "Millennium",
     "attackType": "Explosive",
     "defenseType": "Light",
@@ -2623,6 +2737,7 @@
   },
   {
     "id": 115,
+    "gid": 20019,
     "school": "Millennium",
     "attackType": "Mystic",
     "defenseType": "Heavy",
@@ -2646,6 +2761,7 @@
   },
   {
     "id": 116,
+    "gid": 10053,
     "school": "Millennium",
     "attackType": "Mystic",
     "defenseType": "Special",
@@ -2669,6 +2785,7 @@
   },
   {
     "id": 117,
+    "gid": 10054,
     "school": "Trinity",
     "attackType": "Mystic",
     "defenseType": "Special",
@@ -2692,6 +2809,7 @@
   },
   {
     "id": 118,
+    "gid": 16011,
     "school": "Trinity",
     "attackType": "Mystic",
     "defenseType": "Special",
@@ -2715,6 +2833,7 @@
   },
   {
     "id": 119,
+    "gid": 20020,
     "school": "Millennium",
     "attackType": "Piercing",
     "defenseType": "Light",
@@ -2738,6 +2857,7 @@
   },
   {
     "id": 120,
+    "gid": 10055,
     "school": "RedWinter",
     "attackType": "Explosive",
     "defenseType": "Heavy",
@@ -2761,6 +2881,7 @@
   },
   {
     "id": 121,
+    "gid": 10056,
     "school": "Trinity",
     "attackType": "Piercing",
     "defenseType": "Special",
@@ -2784,6 +2905,7 @@
   },
   {
     "id": 122,
+    "gid": 20021,
     "school": "Trinity",
     "attackType": "Mystic",
     "defenseType": "Special",
@@ -2807,6 +2929,7 @@
   },
   {
     "id": 123,
+    "gid": 10057,
     "school": "Gehenna",
     "attackType": "Explosive",
     "defenseType": "Light",
@@ -2830,6 +2953,7 @@
   },
   {
     "id": 124,
+    "gid": 20022,
     "school": "Gehenna",
     "attackType": "Piercing",
     "defenseType": "Special",
@@ -2853,6 +2977,7 @@
   },
   {
     "id": 125,
+    "gid": 16012,
     "school": "Gehenna",
     "attackType": "Mystic",
     "defenseType": "Heavy",
@@ -2876,6 +3001,7 @@
   },
   {
     "id": 126,
+    "gid": 10058,
     "school": "Trinity",
     "attackType": "Explosive",
     "defenseType": "Light",
@@ -2899,6 +3025,7 @@
   },
   {
     "id": 127,
+    "gid": 10059,
     "school": "Trinity",
     "attackType": "Piercing",
     "defenseType": "Light",
@@ -2922,6 +3049,7 @@
   },
   {
     "id": 128,
+    "gid": 10060,
     "school": "Gehenna",
     "attackType": "Explosive",
     "defenseType": "Special",
@@ -2945,6 +3073,7 @@
   },
   {
     "id": 129,
+    "gid": 20023,
     "school": "Valkyrie",
     "attackType": "Piercing",
     "defenseType": "Heavy",
@@ -2968,6 +3097,7 @@
   },
   {
     "id": 130,
+    "gid": 10061,
     "school": "Trinity",
     "attackType": "Mystic",
     "defenseType": "Special",
@@ -2991,6 +3121,7 @@
   },
   {
     "id": 131,
+    "gid": 10062,
     "school": "Millennium",
     "attackType": "Explosive",
     "defenseType": "Elastic",
@@ -3014,6 +3145,7 @@
   },
   {
     "id": 132,
+    "gid": 20024,
     "school": "Trinity",
     "attackType": "Explosive",
     "defenseType": "Heavy",
@@ -3037,6 +3169,7 @@
   },
   {
     "id": 133,
+    "gid": 10063,
     "school": "Millennium",
     "attackType": "Mystic",
     "defenseType": "Heavy",
@@ -3060,6 +3193,7 @@
   },
   {
     "id": 134,
+    "gid": 10064,
     "school": "Gehenna",
     "attackType": "Mystic",
     "defenseType": "Special",
@@ -3083,6 +3217,7 @@
   },
   {
     "id": 135,
+    "gid": 20025,
     "school": "Gehenna",
     "attackType": "Explosive",
     "defenseType": "Light",
@@ -3106,6 +3241,7 @@
   },
   {
     "id": 136,
+    "gid": 10065,
     "school": "Hyakkiyako",
     "attackType": "Mystic",
     "defenseType": "Heavy",
@@ -3129,6 +3265,7 @@
   },
   {
     "id": 137,
+    "gid": 10066,
     "school": "Millennium",
     "attackType": "Mystic",
     "defenseType": "Light",
@@ -3152,6 +3289,7 @@
   },
   {
     "id": 138,
+    "gid": 10067,
     "school": "Millennium",
     "attackType": "Explosive",
     "defenseType": "Light",
@@ -3175,6 +3313,7 @@
   },
   {
     "id": 139,
+    "gid": 26009,
     "school": "Millennium",
     "attackType": "Explosive",
     "defenseType": "Elastic",
@@ -3198,6 +3337,7 @@
   },
   {
     "id": 140,
+    "gid": 10068,
     "school": "Trinity",
     "attackType": "Piercing",
     "defenseType": "Heavy",
@@ -3221,6 +3361,7 @@
   },
   {
     "id": 141,
+    "gid": 10069,
     "school": "Shanhaijing",
     "attackType": "Explosive",
     "defenseType": "Heavy",
@@ -3244,6 +3385,7 @@
   },
   {
     "id": 142,
+    "gid": 10070,
     "school": "Shanhaijing",
     "attackType": "Explosive",
     "defenseType": "Heavy",
@@ -3267,6 +3409,7 @@
   },
   {
     "id": 143,
+    "gid": 20026,
     "school": "RedWinter",
     "attackType": "Explosive",
     "defenseType": "Special",
@@ -3290,6 +3433,7 @@
   },
   {
     "id": 144,
+    "gid": 10071,
     "school": "SRT",
     "attackType": "Explosive",
     "defenseType": "Heavy",
@@ -3313,6 +3457,7 @@
   },
   {
     "id": 145,
+    "gid": 10072,
     "school": "SRT",
     "attackType": "Explosive",
     "defenseType": "Heavy",
@@ -3336,6 +3481,7 @@
   },
   {
     "id": 146,
+    "gid": 26010,
     "school": "SRT",
     "attackType": "Explosive",
     "defenseType": "Light",
@@ -3359,6 +3505,7 @@
   },
   {
     "id": 147,
+    "gid": 20027,
     "school": "Abydos",
     "attackType": "Mystic",
     "defenseType": "Light",
@@ -3382,6 +3529,7 @@
   },
   {
     "id": 148,
+    "gid": 10073,
     "school": "Trinity",
     "attackType": "Piercing",
     "defenseType": "Elastic",
@@ -3405,6 +3553,7 @@
   },
   {
     "id": 149,
+    "gid": 20028,
     "school": "Trinity",
     "attackType": "Explosive",
     "defenseType": "Light",
@@ -3428,6 +3577,7 @@
   },
   {
     "id": 150,
+    "gid": 16013,
     "school": "Trinity",
     "attackType": "Mystic",
     "defenseType": "Heavy",
@@ -3451,6 +3601,7 @@
   },
   {
     "id": 151,
+    "gid": 10074,
     "school": "Trinity",
     "attackType": "Sonic",
     "defenseType": "Heavy",
@@ -3474,6 +3625,7 @@
   },
   {
     "id": 152,
+    "gid": 20029,
     "school": "Hyakkiyako",
     "attackType": "Mystic",
     "defenseType": "Special",
@@ -3497,6 +3649,7 @@
   },
   {
     "id": 153,
+    "gid": 10075,
     "school": "RedWinter",
     "attackType": "Piercing",
     "defenseType": "Light",
@@ -3520,6 +3673,7 @@
   },
   {
     "id": 154,
+    "gid": 13013,
     "school": "RedWinter",
     "attackType": "Sonic",
     "defenseType": "Heavy",
@@ -3543,6 +3697,7 @@
   },
   {
     "id": 155,
+    "gid": 10076,
     "school": "Millennium",
     "attackType": "Explosive",
     "defenseType": "Special",
@@ -3566,6 +3721,7 @@
   },
   {
     "id": 156,
+    "gid": 20030,
     "school": "Gehenna",
     "attackType": "Sonic",
     "defenseType": "Heavy",
@@ -3589,6 +3745,7 @@
   },
   {
     "id": 157,
+    "gid": 10077,
     "school": "Trinity",
     "attackType": "Sonic",
     "defenseType": "Heavy",
@@ -3612,6 +3769,7 @@
   },
   {
     "id": 158,
+    "gid": 10078,
     "school": "Gehenna",
     "attackType": "Sonic",
     "defenseType": "Heavy",
@@ -3635,6 +3793,7 @@
   },
   {
     "id": 159,
+    "gid": 20031,
     "school": "RedWinter",
     "attackType": "Piercing",
     "defenseType": "Special",
@@ -3658,6 +3817,7 @@
   },
   {
     "id": 160,
+    "gid": 10079,
     "school": "ETC",
     "attackType": "Piercing",
     "defenseType": "Heavy",
@@ -3681,6 +3841,7 @@
   },
   {
     "id": 161,
+    "gid": 10080,
     "school": "ETC",
     "attackType": "Explosive",
     "defenseType": "Heavy",
@@ -3704,6 +3865,7 @@
   },
   {
     "id": 162,
+    "gid": 26011,
     "school": "ETC",
     "attackType": "Piercing",
     "defenseType": "Special",
@@ -3727,6 +3889,7 @@
   },
   {
     "id": 163,
+    "gid": 10081,
     "school": "Hyakkiyako",
     "attackType": "Sonic",
     "defenseType": "Heavy",
@@ -3750,6 +3913,7 @@
   },
   {
     "id": 164,
+    "gid": 10082,
     "school": "Hyakkiyako",
     "attackType": "Sonic",
     "defenseType": "Heavy",
@@ -3773,6 +3937,7 @@
   },
   {
     "id": 165,
+    "gid": 10083,
     "school": "Hyakkiyako",
     "attackType": "Sonic",
     "defenseType": "Heavy",
@@ -3796,6 +3961,7 @@
   },
   {
     "id": 166,
+    "gid": 20032,
     "school": "Millennium",
     "attackType": "Mystic",
     "defenseType": "Special",
@@ -3819,6 +3985,7 @@
   },
   {
     "id": 167,
+    "gid": 10084,
     "school": "Millennium",
     "attackType": "Piercing",
     "defenseType": "Heavy",
@@ -3842,6 +4009,7 @@
   },
   {
     "id": 168,
+    "gid": 10085,
     "school": "Millennium",
     "attackType": "Explosive",
     "defenseType": "Light",
@@ -3865,6 +4033,7 @@
   },
   {
     "id": 169,
+    "gid": 10087,
     "school": "Gehenna",
     "attackType": "Explosive",
     "defenseType": "Special",
@@ -3888,6 +4057,7 @@
   },
   {
     "id": 170,
+    "gid": 16014,
     "school": "Gehenna",
     "attackType": "Mystic",
     "defenseType": "Heavy",
@@ -3911,6 +4081,7 @@
   },
   {
     "id": 171,
+    "gid": 20033,
     "school": "Gehenna",
     "attackType": "Piercing",
     "defenseType": "Special",
@@ -3934,6 +4105,7 @@
   },
   {
     "id": 172,
+    "gid": 10086,
     "school": "Gehenna",
     "attackType": "Explosive",
     "defenseType": "Elastic",
@@ -3957,6 +4129,7 @@
   },
   {
     "id": 173,
+    "gid": 10088,
     "school": "Gehenna",
     "attackType": "Piercing",
     "defenseType": "Light",
@@ -3980,6 +4153,7 @@
   },
   {
     "id": 174,
+    "gid": 10089,
     "school": "Gehenna",
     "attackType": "Piercing",
     "defenseType": "Heavy",
@@ -4003,6 +4177,7 @@
   },
   {
     "id": 175,
+    "gid": 20034,
     "school": "Gehenna",
     "attackType": "Mystic",
     "defenseType": "Special",
@@ -4026,6 +4201,7 @@
   },
   {
     "id": 176,
+    "gid": 10090,
     "school": "Hyakkiyako",
     "attackType": "Mystic",
     "defenseType": "Special",
@@ -4049,6 +4225,7 @@
   },
   {
     "id": 177,
+    "gid": 20035,
     "school": "Hyakkiyako",
     "attackType": "Piercing",
     "defenseType": "Heavy",
@@ -4072,6 +4249,7 @@
   },
   {
     "id": 178,
+    "gid": 10091,
     "school": "Trinity",
     "attackType": "Explosive",
     "defenseType": "Special",
@@ -4095,6 +4273,7 @@
   },
   {
     "id": 179,
+    "gid": 10092,
     "school": "Trinity",
     "attackType": "Explosive",
     "defenseType": "Special",
@@ -4118,6 +4297,7 @@
   },
   {
     "id": 180,
+    "gid": 16015,
     "school": "Trinity",
     "attackType": "Explosive",
     "defenseType": "Special",
@@ -4141,6 +4321,7 @@
   },
   {
     "id": 181,
+    "gid": 10093,
     "school": "Gehenna",
     "attackType": "Sonic",
     "defenseType": "Light",
@@ -4164,6 +4345,7 @@
   },
   {
     "id": 182,
+    "gid": 10094,
     "school": "Millennium",
     "attackType": "Sonic",
     "defenseType": "Light",
@@ -4187,6 +4369,7 @@
   },
   {
     "id": 183,
+    "gid": 10095,
     "school": "Millennium",
     "attackType": "Sonic",
     "defenseType": "Light",
@@ -4210,6 +4393,7 @@
   },
   {
     "id": 184,
+    "gid": 20036,
     "school": "Abydos",
     "attackType": "Mystic",
     "defenseType": "Heavy",
@@ -4233,6 +4417,7 @@
   },
   {
     "id": 185,
+    "gid": 10096,
     "school": "Valkyrie",
     "attackType": "Explosive",
     "defenseType": "Light",
@@ -4256,6 +4441,7 @@
   },
   {
     "id": 186,
+    "gid": 20037,
     "school": "Valkyrie",
     "attackType": "Explosive",
     "defenseType": "Heavy",
@@ -4279,6 +4465,7 @@
   },
   {
     "id": 187,
+    "gid": 26012,
     "school": "Valkyrie",
     "attackType": "Mystic",
     "defenseType": "Heavy",
@@ -4302,6 +4489,7 @@
   },
   {
     "id": 188,
+    "gid": 10097,
     "school": "SRT",
     "attackType": "Sonic",
     "defenseType": "Special",
@@ -4325,6 +4513,7 @@
   },
   {
     "id": 189,
+    "gid": 10098,
     "school": "Abydos",
     "attackType": "Mystic",
     "defenseType": "Heavy",
@@ -4348,6 +4537,7 @@
   },
   {
     "id": 190,
+    "gid": 10100,
     "school": "Abydos",
     "attackType": "Mystic",
     "defenseType": "Special",
@@ -4371,6 +4561,7 @@
   },
   {
     "id": 191,
+    "gid": 26013,
     "school": "Arius",
     "attackType": "Sonic",
     "defenseType": "Special",
@@ -4394,6 +4585,7 @@
   },
   {
     "id": 192,
+    "gid": 10101,
     "school": "Arius",
     "attackType": "Mystic",
     "defenseType": "Heavy",
@@ -4417,6 +4609,7 @@
   },
   {
     "id": 193,
+    "gid": 10102,
     "school": "Arius",
     "attackType": "Piercing",
     "defenseType": "Heavy",
@@ -4440,6 +4633,7 @@
   },
   {
     "id": 194,
+    "gid": 10103,
     "school": "RedWinter",
     "attackType": "Piercing",
     "defenseType": "Heavy",
@@ -4463,6 +4657,7 @@
   },
   {
     "id": 195,
+    "gid": 20038,
     "school": "RedWinter",
     "attackType": "Mystic",
     "defenseType": "Special",
@@ -4486,6 +4681,7 @@
   },
   {
     "id": 196,
+    "gid": 10104,
     "school": "Shanhaijing",
     "attackType": "Mystic",
     "defenseType": "Heavy",
@@ -4509,6 +4705,7 @@
   },
   {
     "id": 197,
+    "gid": 20039,
     "school": "Shanhaijing",
     "attackType": "Sonic",
     "defenseType": "Elastic",
@@ -4532,6 +4729,7 @@
   },
   {
     "id": 198,
+    "gid": 10105,
     "school": "Trinity",
     "attackType": "Explosive",
     "defenseType": "Heavy",
@@ -4555,6 +4753,7 @@
   },
   {
     "id": 199,
+    "gid": 10106,
     "school": "Trinity",
     "attackType": "Explosive",
     "defenseType": "Heavy",
@@ -4578,6 +4777,7 @@
   },
   {
     "id": 200,
+    "gid": 16016,
     "school": "Trinity",
     "attackType": "Explosive",
     "defenseType": "Heavy",
@@ -4601,6 +4801,7 @@
   },
   {
     "id": 201,
+    "gid": 10107,
     "school": "Gehenna",
     "attackType": "Sonic",
     "defenseType": "Special",
@@ -4624,6 +4825,7 @@
   },
   {
     "id": 202,
+    "gid": 20040,
     "school": "Gehenna",
     "attackType": "Explosive",
     "defenseType": "Heavy",
@@ -4647,6 +4849,7 @@
   },
   {
     "id": 203,
+    "gid": 10108,
     "school": "Millennium",
     "attackType": "Explosive",
     "defenseType": "Heavy",
@@ -4670,6 +4873,7 @@
   },
   {
     "id": 204,
+    "gid": 10109,
     "school": "Millennium",
     "attackType": "Piercing",
     "defenseType": "Light",
@@ -4693,6 +4897,7 @@
   },
   {
     "id": 205,
+    "gid": 10110,
     "school": "Trinity",
     "attackType": "Piercing",
     "defenseType": "Elastic",
@@ -4716,6 +4921,7 @@
   },
   {
     "id": 206,
+    "gid": 10112,
     "school": "Millennium",
     "attackType": "Explosive",
     "defenseType": "Heavy",
@@ -4739,6 +4945,7 @@
   },
   {
     "id": 207,
+    "gid": 26014,
     "school": "Millennium",
     "attackType": "Explosive",
     "defenseType": "Heavy",
@@ -4762,6 +4969,7 @@
   },
   {
     "id": 208,
+    "gid": 10111,
     "school": "Millennium",
     "attackType": "Piercing",
     "defenseType": "Elastic",
@@ -4785,6 +4993,7 @@
   },
   {
     "id": 209,
+    "gid": 20041,
     "school": "Millennium",
     "attackType": "Mystic",
     "defenseType": "Elastic",
@@ -4808,6 +5017,7 @@
   },
   {
     "id": 210,
+    "gid": 20042,
     "school": "Millennium",
     "attackType": "Explosive",
     "defenseType": "Light",
@@ -4831,6 +5041,7 @@
   },
   {
     "id": 211,
+    "gid": 10113,
     "school": "Gehenna",
     "attackType": "Sonic",
     "defenseType": "Heavy",
@@ -4854,6 +5065,7 @@
   },
   {
     "id": 212,
+    "gid": 10114,
     "school": "Gehenna",
     "attackType": "Mystic",
     "defenseType": "Light",
@@ -4877,6 +5089,7 @@
   },
   {
     "id": 213,
+    "gid": 20043,
     "school": "Gehenna",
     "attackType": "Explosive",
     "defenseType": "Light",
@@ -4900,6 +5113,7 @@
   },
   {
     "id": 214,
+    "gid": 10115,
     "school": "Millennium",
     "attackType": "Sonic",
     "defenseType": "Light",
@@ -4923,6 +5137,7 @@
   },
   {
     "id": 215,
+    "gid": 20044,
     "school": "Millennium",
     "attackType": "Piercing",
     "defenseType": "Light",
@@ -4946,6 +5161,7 @@
   },
   {
     "id": 216,
+    "gid": 10116,
     "school": "Arius",
     "attackType": "Sonic",
     "defenseType": "Light",
@@ -4969,6 +5185,7 @@
   },
   {
     "id": 217,
+    "gid": 10117,
     "school": "Highlander",
     "attackType": "Sonic",
     "defenseType": "Light",
@@ -4992,6 +5209,7 @@
   },
   {
     "id": 218,
+    "gid": 10118,
     "school": "Highlander",
     "attackType": "Sonic",
     "defenseType": "Light",
@@ -5015,6 +5233,7 @@
   },
   {
     "id": 219,
+    "gid": 16017,
     "school": "Highlander",
     "attackType": "Sonic",
     "defenseType": "Light",
@@ -5038,6 +5257,7 @@
   },
   {
     "id": 220,
+    "gid": 20045,
     "school": "Hyakkiyako",
     "attackType": "Explosive",
     "defenseType": "Heavy",
@@ -5061,6 +5281,7 @@
   },
   {
     "id": 221,
+    "gid": 10119,
     "school": "Hyakkiyako",
     "attackType": "Sonic",
     "defenseType": "Elastic",
@@ -5084,6 +5305,7 @@
   },
   {
     "id": 222,
+    "gid": 20046,
     "school": "Hyakkiyako",
     "attackType": "Sonic",
     "defenseType": "Heavy",
@@ -5107,6 +5329,7 @@
   },
   {
     "id": 223,
+    "gid": 10120,
     "school": "Trinity",
     "attackType": "Explosive",
     "defenseType": "Special",
@@ -5130,6 +5353,7 @@
   },
   {
     "id": 224,
+    "gid": 10121,
     "school": "Hyakkiyako",
     "attackType": "Piercing",
     "defenseType": "Light",
@@ -5153,6 +5377,7 @@
   },
   {
     "id": 225,
+    "gid": 13014,
     "school": "Hyakkiyako",
     "attackType": "Sonic",
     "defenseType": "Special",
@@ -5176,6 +5401,7 @@
   },
   {
     "id": 226,
+    "gid": 20047,
     "school": "Hyakkiyako",
     "attackType": "Sonic",
     "defenseType": "Heavy",
@@ -5199,6 +5425,7 @@
   },
   {
     "id": 227,
+    "gid": 10123,
     "school": "Trinity",
     "attackType": "Piercing",
     "defenseType": "Special",
@@ -5222,6 +5449,7 @@
   },
   {
     "id": 228,
+    "gid": 10124,
     "school": "Trinity",
     "attackType": "Piercing",
     "defenseType": "Light",
@@ -5245,6 +5473,7 @@
   },
   {
     "id": 229,
+    "gid": 26015,
     "school": "Trinity",
     "attackType": "Sonic",
     "defenseType": "Special",
@@ -5268,6 +5497,7 @@
   },
   {
     "id": 230,
+    "gid": 20048,
     "school": "Trinity",
     "attackType": "Sonic",
     "defenseType": "Elastic",
@@ -5291,6 +5521,7 @@
   },
   {
     "id": 231,
+    "gid": 10122,
     "school": "Trinity",
     "attackType": "Sonic",
     "defenseType": "Special",
@@ -5314,6 +5545,7 @@
   },
   {
     "id": 232,
+    "gid": 10125,
     "school": "WildHunt",
     "attackType": "Sonic",
     "defenseType": "Special",
@@ -5337,6 +5569,7 @@
   },
   {
     "id": 233,
+    "gid": 10126,
     "school": "WildHunt",
     "attackType": "Mystic",
     "defenseType": "Heavy",
@@ -5360,6 +5593,7 @@
   },
   {
     "id": 234,
+    "gid": 20049,
     "school": "Arius",
     "attackType": "Explosive",
     "defenseType": "Special",

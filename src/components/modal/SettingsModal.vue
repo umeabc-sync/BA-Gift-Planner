@@ -109,6 +109,9 @@
   const { toggleCharacterSelectorLazyLoad, toggleShowOnlyOptimalSolution } = settingStore
 
   const availableLanguages = [
+    { code: 'en', name: 'English' },
+    { code: 'ja', name: '日本語' },
+    { code: 'ko', name: '한국어' },
     { code: 'zh-tw', name: '繁體中文' },
     { code: 'zh-cn', name: '简体中文' },
   ]
