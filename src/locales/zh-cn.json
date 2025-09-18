@@ -62,7 +62,7 @@
     "defenseTypeLabel": "装甲属性",
     "schoolLabel": "学园",
     "weaponLabel": "使用武器",
-    "positionLabel": "角色定位",
+    "typeLabel": "角色定位",
     "noResults": "找不到符合条件的学生"
   },
   "settingsModal": {

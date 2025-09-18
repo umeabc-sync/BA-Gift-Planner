@@ -6,8 +6,8 @@
       "options": [{ "value": "Selected" }, { "value": "Unselected" }]
     },
     {
-      "id": "position",
-      "labelKey": "characterSelector.positionLabel",
+      "id": "type",
+      "labelKey": "characterSelector.typeLabel",
       "options": [
         { "value": 0, "label": "STRIKER" },
         { "value": 1, "label": "SPECIAL" }

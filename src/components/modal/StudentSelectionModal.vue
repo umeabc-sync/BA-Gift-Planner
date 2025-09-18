@@ -95,11 +95,11 @@
                           />
                         </template>
 
-                        <span :class="{ 'nexon-font': ['weapon', 'position'].includes(group.id) }">
+                        <span :class="{ 'nexon-font': ['weapon', 'type'].includes(group.id) }">
                           <span
-                            v-if="group.id === 'position'"
-                            :class="`position-type-${option.label.toLowerCase()}`"
-                            class="position-button"
+                            v-if="group.id === 'type'"
+                            :class="`type-${option.label.toLowerCase()}`"
+                            class="type-button"
                           >
                             {{ option.label }}
                           </span>
@@ -188,7 +188,7 @@
   const filterContentWrapper = ref(null)
 
   const getOptionLabel = (group, option) => {
-    if (group.id === 'position') {
+    if (group.id === 'type') {
       return option.label
     }
     if (group.id === 'weapon') {
@@ -784,15 +784,15 @@
     margin-right: 4px;
   }
 
-  .position-type-striker {
+  .type-striker {
     color: #cc1a25;
   }
 
-  .position-type-special {
+  .type-special {
     color: #006bff;
   }
 
-  .filter-group button.active .position-button {
+  .filter-group button.active .type-button {
     color: white;
   }
 
