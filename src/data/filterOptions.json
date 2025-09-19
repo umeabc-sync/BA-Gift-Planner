@@ -6,11 +6,38 @@
       "options": [{ "value": "Selected" }, { "value": "Unselected" }]
     },
     {
-      "id": "position",
-      "labelKey": "characterSelector.positionLabel",
+      "id": "type",
+      "labelKey": "characterSelector.typeLabel",
       "options": [
         { "value": 0, "label": "STRIKER" },
         { "value": 1, "label": "SPECIAL" }
+      ]
+    },
+    {
+      "id": "role",
+      "labelKey": "characterSelector.roleLabel",
+      "options": [
+        { "value": "Tank" },
+        { "value": "Dealer" },
+        { "value": "Healer" },
+        { "value": "Support" },
+        { "value": "TS" }
+      ]
+    },
+    {
+      "id": "rarity",
+      "labelKey": "characterSelector.rarityLabel",
+      "options": [{ "value": 1 }, { "value": 2 }, { "value": 3 }]
+    },
+    {
+      "id": "obtainMethod",
+      "labelKey": "characterSelector.obtainMethodLabel",
+      "options": [
+        { "value": "Regular" },
+        { "value": "Unique" },
+        { "value": "Event" },
+        { "value": "Fest" },
+        { "value": "Archived" }
       ]
     },
     {
@@ -22,6 +49,11 @@
       "id": "defenseType",
       "labelKey": "characterSelector.defenseTypeLabel",
       "options": [{ "value": "Light" }, { "value": "Heavy" }, { "value": "Special" }, { "value": "Elastic" }]
+    },
+    {
+      "id": "position",
+      "labelKey": "characterSelector.positionLabel",
+      "options": [{ "value": "FRONT" }, { "value": "MIDDLE" }, { "value": "BACK" }]
     },
     {
       "id": "school",

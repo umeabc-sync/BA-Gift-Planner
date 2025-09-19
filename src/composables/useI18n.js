@@ -10,13 +10,13 @@ export function useI18n() {
   const loadMessages = async (locale) => {
     isLoaded.value = false
     try {
-      if (locale === null) locale = 'zh-tw' // Make sure components don't try to access null.json during their initial setup.
+      if (locale === null) locale = 'en' // Make sure components don't try to access null.json during their initial setup.
       const module = await import(`@/locales/${locale}.json`)
       loadedMessages.value = module.default
     } catch (error) {
       console.error(`Failed to load locale messages for ${locale}:`, error)
       // Fallback to default if loading fails
-      const defaultModule = await import(`@/locales/zh-tw.json`)
+      const defaultModule = await import(`@/locales/en.json`)
       loadedMessages.value = defaultModule.default
     } finally {
       isLoaded.value = true
