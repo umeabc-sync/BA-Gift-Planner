@@ -287,8 +287,6 @@
       const searchMatch = !searchTerm.value || translatedName.toLowerCase().includes(searchTerm.value.toLowerCase())
 
       const filtersMatch = filterOptions.filters.every((group) => {
-        if (group.id === 'rating') return true // not in student data
-
         const selected = selectedFilters[group.id]
         if (selected.length === 0) return true
 
