@@ -30,21 +30,6 @@
     "Elastic": "彈性裝甲"
   },
   "school": {
-    "Abydos": "阿拜多斯高中",
-    "Arius": "奧利斯分校",
-    "Gehenna": "格黑娜學園",
-    "Hyakkiyako": "百鬼夜行聯合學園",
-    "Millennium": "千年科學學園",
-    "RedWinter": "赤冬聯邦學園",
-    "Shanhaijing": "山海經高級中學",
-    "Trinity": "三一綜合學園",
-    "Valkyrie": "女武神警察學園",
-    "SRT": "SRT特殊學園",
-    "Highlander": "高地人鐵道學園",
-    "WildHunt": "狂獵藝術學園",
-    "ETC": "其他學園"
-  },
-  "schoolAbbr": {
     "Abydos": "阿拜多斯",
     "Arius": "奧利斯",
     "Gehenna": "格黑娜",

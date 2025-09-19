@@ -207,7 +207,7 @@
     if (group.id === 'weapon' || group.id === 'position') {
       return option.value
     }
-    const prefix = group.labelKeyPrefix || group.id
+    const prefix = group.id
     return t(`${prefix}.${option.value}`)
   }
 
