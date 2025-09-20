@@ -58,7 +58,6 @@
     {
       "id": "school",
       "labelKey": "characterSelector.schoolLabel",
-      "labelKeyPrefix": "schoolAbbr",
       "options": [
         { "value": "Abydos" },
         { "value": "Arius" },

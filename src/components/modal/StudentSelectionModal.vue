@@ -207,7 +207,7 @@
     if (group.id === 'weapon' || group.id === 'position') {
       return option.value
     }
-    const prefix = group.labelKeyPrefix || group.id
+    const prefix = group.id
     return t(`${prefix}.${option.value}`)
   }
 
@@ -287,8 +287,6 @@
       const searchMatch = !searchTerm.value || translatedName.toLowerCase().includes(searchTerm.value.toLowerCase())
 
       const filtersMatch = filterOptions.filters.every((group) => {
-        if (group.id === 'rating') return true // not in student data
-
         const selected = selectedFilters[group.id]
         if (selected.length === 0) return true
 
