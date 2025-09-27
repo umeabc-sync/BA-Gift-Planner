@@ -5614,5 +5614,53 @@
         "xl": [6]
       }
     }
+  },
+  {
+    "id": 235,
+    "gid": 10127,
+    "school": "WildHunt",
+    "attackType": "Sonic",
+    "defenseType": "Elastic",
+    "weapon": "SR",
+    "position": "BACK",
+    "type": 0,
+    "role": ["Support"],
+    "rarity": 3,
+    "obtainMethod": "Regular",
+    "favor": {
+      "sr": {
+        "m": [3, 4, 9, 17, 19, 23, 29, 30, 32],
+        "l": [15],
+        "xl": []
+      },
+      "ssr": {
+        "l": [3],
+        "xl": [1]
+      }
+    }
+  },
+  {
+    "id": 236,
+    "gid": 10128,
+    "school": "WildHunt",
+    "attackType": "Sonic",
+    "defenseType": "Special",
+    "weapon": "HG",
+    "position": "MIDDLE",
+    "type": 0,
+    "role": ["Support"],
+    "rarity": 3,
+    "obtainMethod": "Regular",
+    "favor": {
+      "sr": {
+        "m": [5, 6, 7],
+        "l": [21],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [2]
+      }
+    }
   }
 ]
