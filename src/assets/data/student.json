@@ -5662,5 +5662,29 @@
         "xl": [2]
       }
     }
+  },
+  {
+    "id": 237,
+    "gid": 20050,
+    "school": "WildHunt",
+    "attackType": "Mystic",
+    "defenseType": "Special",
+    "weapon": "SMG",
+    "position": "BACK",
+    "type": 1,
+    "role": ["Support"],
+    "rarity": 3,
+    "obtainMethod": "Regular",
+    "favor": {
+      "sr": {
+        "m": [10, 20, 22, 25, 28, 29],
+        "l": [18],
+        "xl": []
+      },
+      "ssr": {
+        "l": [12],
+        "xl": [8]
+      }
+    }
   }
 ]
