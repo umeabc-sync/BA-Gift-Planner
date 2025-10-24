@@ -5686,5 +5686,77 @@
         "xl": [8]
       }
     }
+  },
+  {
+    "id": 238,
+    "gid": 20051,
+    "school": "Trinity",
+    "attackType": "Sonic",
+    "defenseType": "Special",
+    "weapon": "SG",
+    "position": "BACK",
+    "type": 1,
+    "role": ["Healer"],
+    "rarity": 3,
+    "obtainMethod": "Unique",
+    "favor": {
+      "sr": {
+        "m": [3, 8, 9, 10, 11, 12, 13, 15, 16, 18, 20, 22, 23, 25, 26, 32],
+        "l": [4],
+        "xl": []
+      },
+      "ssr": {
+        "l": [4, 12],
+        "xl": [1]
+      }
+    }
+  },
+  {
+    "id": 239,
+    "gid": 10129,
+    "school": "Trinity",
+    "attackType": "Sonic",
+    "defenseType": "Special",
+    "weapon": "AR",
+    "position": "MIDDLE",
+    "type": 0,
+    "role": ["Support"],
+    "rarity": 3,
+    "obtainMethod": "Unique",
+    "favor": {
+      "sr": {
+        "m": [0, 5, 7, 11, 14, 30],
+        "l": [2, 6],
+        "xl": []
+      },
+      "ssr": {
+        "l": [0, 2, 5],
+        "xl": [6]
+      }
+    }
+  },
+  {
+    "id": 240,
+    "gid": 16108,
+    "school": "Trinity",
+    "attackType": "Sonic",
+    "defenseType": "Special",
+    "weapon": "SG",
+    "position": "FRONT",
+    "type": 0,
+    "role": ["Dealer"],
+    "rarity": 1,
+    "obtainMethod": "Event",
+    "favor": {
+      "sr": {
+        "m": [8, 12, 13, 16, 17, 19, 26, 29, 30],
+        "l": [1],
+        "xl": []
+      },
+      "ssr": {
+        "l": [3, 4],
+        "xl": [11]
+      }
+    }
   }
 ]
