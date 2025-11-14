@@ -5758,5 +5758,29 @@
         "xl": [11]
       }
     }
+  },
+  {
+    "id": 241,
+    "gid": 10130,
+    "school": "Arius",
+    "attackType": "Mystic",
+    "defenseType": "Special",
+    "weapon": "AR",
+    "position": "MIDDLE",
+    "type": 0,
+    "role": ["Dealer"],
+    "rarity": 3,
+    "obtainMethod": "Regular",
+    "favor": {
+      "sr": {
+        "m": [2, 5, 7, 12, 19, 29],
+        "l": [17, 26, 30],
+        "xl": []
+      },
+      "ssr": {
+        "l": [3],
+        "xl": [10]
+      }
+    }
   }
 ]
