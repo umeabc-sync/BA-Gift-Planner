@@ -4,7 +4,14 @@
       <img :src="logoUrl" :alt="t('header.title')" />
     </div>
     <div class="controls">
-      <button class="icon-btn" @click="$emit('openModal')">
+      <router-link :to="isBondCalculatorRoute ? '/gift-recommendation' : '/bond-calculator'" class="icon-btn">
+        <component
+          :is="isBondCalculatorRoute ? GiftIcon : BondCalculatorIcon"
+          :alt="t('header.selectStudentsAlt')"
+          draggable="false"
+        />
+      </router-link>
+      <button class="icon-btn" @click="modalStore.openStudentSelectionModal">
         <component :is="AddStudentsIcon" :alt="t('header.selectStudentsAlt')" draggable="false" />
       </button>
       <div class="share-dropdown-container">
@@ -46,11 +53,14 @@
 
 <script setup>
   import { computed, ref, onMounted, onUnmounted } from 'vue'
+  import { useRoute } from 'vue-router'
   import { useSettingStore } from '@store/setting'
+  import { useModalStore } from '@store/modal'
   import { storeToRefs } from 'pinia'
   import { getAssetsFile } from '@utils/getAssetsFile'
   import { getTitleUrl } from '@utils/getTitleUrl'
   import { useI18n } from '@composables/useI18n'
+  import { useToast } from '@composables/useToast'
   import { useWindowSize } from '@vueuse/core'
   import AddStudentsIcon from '@assets/icon/add_students.svg'
   import ShareIcon from '@assets/icon/share.svg'
@@ -58,10 +68,16 @@
   import SunIcon from '@assets/icon/sun.svg'
   import MoonIcon from '@assets/icon/moon.svg'
   import SystemIcon from '@assets/icon/system.svg'
+  // TEMP ICONS
+  import BondCalculatorIcon from '@assets/icon/bond_calculator.svg'
+  import GiftIcon from '@assets/icon/bond_calculator.svg'
 
   const { t, currentLocale: locale } = useI18n()
+  const { addToast } = useToast()
+  const route = useRoute()
+  const modalStore = useModalStore()
 
-  const emit = defineEmits(['openModal', 'openSettingsModal', 'copyShareLink', 'openShareModal'])
+  const isBondCalculatorRoute = computed(() => route.name === 'BondCalculator')
 
   const showShareDropdown = ref(false)
 
@@ -70,12 +86,13 @@
   }
 
   const handleCopyLink = () => {
-    emit('copyShareLink')
+    navigator.clipboard.writeText(window.location.href)
+    addToast(t('toast.link_copied_to_clipboard'), 'success')
     showShareDropdown.value = false
   }
 
   const handleDownloadScreenshot = () => {
-    emit('openShareModal')
+    modalStore.openShareModal()
     showShareDropdown.value = false
   }
 
@@ -112,7 +129,7 @@
 
   const handleSettingsClick = () => {
     isSettingsIconRotating.value = true
-    emit('openSettingsModal')
+    modalStore.openSettingsModal()
   }
 </script>
 
