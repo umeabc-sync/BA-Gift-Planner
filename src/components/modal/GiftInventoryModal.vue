@@ -20,11 +20,15 @@
                   <span>{{ gift.name }}</span>
                 </div>
                 <div class="quantity-control">
-                  <button class="quantity-btn minus" @click="decrementGift(gift.id, gift.isSsr)">-</button>
+                  <button class="quantity-btn" @click="decrementGift(gift.id, gift.isSsr)">
+                    <span class="minus">−</span>
+                  </button>
                   <div class="quantity-display">
                     <span>{{ getGiftQuantity(gift.id, gift.isSsr) }}</span>
                   </div>
-                  <button class="quantity-btn plus" @click="incrementGift(gift.id, gift.isSsr)">+</button>
+                  <button class="quantity-btn" @click="incrementGift(gift.id, gift.isSsr)">
+                    <span class="plus">+</span>
+                  </button>
                 </div>
               </div>
             </div>
@@ -201,10 +205,11 @@
   }
 
   .quantity-btn {
-    background-color: #f3f5f6;
+    background-color: white;
     border: none;
     color: #4d5a6d;
     cursor: pointer;
+    border-radius: 4px;
     width: 40px;
     height: 40px;
     display: flex;
@@ -214,6 +219,7 @@
     transform: skew(-10deg);
     font-size: 1.5rem;
     font-weight: bold;
+    box-shadow: 0 3px 2px rgba(0, 0, 0, 0.15);
   }
 
   .dark-mode .quantity-btn {
@@ -225,16 +231,26 @@
     transform: scale(0.9) skew(-10deg);
   }
 
+  .plus {
+    color: #3dcffd;
+    transform: skew(10deg);
+  }
+
+  .minus {
+    color: #ff6f00;
+    transform: skew(10deg);
+  }
+
   .quantity-display {
     background-color: #4d5a6d;
     color: #f6f7f6;
     width: 80px;
-    height: 35px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
     transform: skew(-10deg);
-    border-radius: 8px;
+    border-radius: 4px;
     font-size: 1.2rem;
     font-weight: bold;
     user-select: none;
