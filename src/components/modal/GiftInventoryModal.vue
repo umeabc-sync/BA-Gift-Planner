@@ -9,28 +9,11 @@
           </div>
           <div class="modal-body">
             <div v-if="allGifts.length > 0" class="gift-list">
-              <div v-for="gift in allGifts" :key="`${gift.isSsr ? 'ssr' : 'sr'}-${gift.id}`" class="gift-item">
-                <div class="gift-info">
-                  <ImageWithLoader
-                    :src="getGiftUrl(gift.id, gift.isSsr)"
-                    class="gift-icon"
-                    object-fit="contain"
-                    loader-type="pulse"
-                  />
-                  <span>{{ gift.name }}</span>
-                </div>
-                <div class="quantity-control">
-                  <button class="quantity-btn" @click="decrementGift(gift.id, gift.isSsr)">
-                    <span class="minus">−</span>
-                  </button>
-                  <div class="quantity-display">
-                    <span>{{ getGiftQuantity(gift.id, gift.isSsr) }}</span>
-                  </div>
-                  <button class="quantity-btn" @click="incrementGift(gift.id, gift.isSsr)">
-                    <span class="plus">+</span>
-                  </button>
-                </div>
-              </div>
+              <GiftInventoryItem
+                v-for="gift in allGifts"
+                :key="`${gift.isSsr ? 'ssr' : 'sr'}-${gift.id}`"
+                :gift="gift"
+              />
             </div>
             <div v-else>
               <p>Loading gifts...</p>
@@ -43,18 +26,14 @@
 </template>
 
 <script setup>
-  import { ref, computed, toRefs } from 'vue'
+  import { computed, toRefs } from 'vue'
   import { useModal } from '@/composables/useModal.js'
   import { useI18n } from '@/composables/useI18n.js'
   import { useSrGiftData } from '@/utils/fetchSrGiftData.js'
   import { useSsrGiftData } from '@/utils/fetchSsrGiftData.js'
-  import { useGiftStore } from '@/store/gift'
-  import { getGiftUrl } from '@utils/getGiftUrl'
-  import ImageWithLoader from '@components/ui/ImageWithLoader.vue'
+  import GiftInventoryItem from '@components/ui/GiftInventoryItem.vue'
 
   const { t, currentLocale: locale } = useI18n()
-  const giftStore = useGiftStore()
-  const { getGiftQuantity, incrementGift, decrementGift } = giftStore
 
   const props = defineProps({
     isVisible: { type: Boolean, default: false },
@@ -177,88 +156,6 @@
     display: flex;
     flex-direction: column;
     gap: 15px;
-  }
-
-  .gift-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .gift-info {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    font-weight: bold;
-    user-select: none;
-  }
-
-  .gift-icon {
-    width: 50px;
-    height: 50px;
-  }
-
-  .quantity-control {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-  }
-
-  .quantity-btn {
-    background-color: white;
-    border: none;
-    color: #4d5a6d;
-    cursor: pointer;
-    border-radius: 4px;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s ease;
-    transform: skew(-10deg);
-    font-size: 1.5rem;
-    font-weight: bold;
-    box-shadow: 0 3px 2px rgba(0, 0, 0, 0.15);
-  }
-
-  .dark-mode .quantity-btn {
-    background-color: #2a4a6e;
-    color: #e0e6ed;
-  }
-
-  .quantity-btn:active {
-    transform: scale(0.9) skew(-10deg);
-  }
-
-  .plus {
-    color: #3dcffd;
-    transform: skew(10deg);
-  }
-
-  .minus {
-    color: #ff6f00;
-    transform: skew(10deg);
-  }
-
-  .quantity-display {
-    background-color: #4d5a6d;
-    color: #f6f7f6;
-    width: 80px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transform: skew(-10deg);
-    border-radius: 4px;
-    font-size: 1.2rem;
-    font-weight: bold;
-    user-select: none;
-  }
-
-  .quantity-display span,
-  .quantity-btn span {
-    transform: skew(10deg);
   }
 
   .modal-fade-enter-active,
