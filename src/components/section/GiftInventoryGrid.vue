@@ -3,7 +3,6 @@
     <div class="gift-grid-header">
       <div class="gift-grid-title">{{ t('bondCalculator.giftInventoryTitle') }}</div>
       <button class="edit-button" @click="openModal">
-        <img :src="PencilIcon" alt="Edit" />
         <span>{{ t('common.edit') }}</span>
       </button>
     </div>
@@ -42,7 +41,6 @@
   import { useGiftStore } from '@/store/gift'
   import { getGiftUrl } from '@utils/getGiftUrl'
   import ImageWithLoader from '@components/ui/ImageWithLoader.vue'
-  import PencilIcon from '@assets/icon/pencil.svg'
 
   const { t, currentLocale: locale } = useI18n()
   const giftStore = useGiftStore()
@@ -113,11 +111,21 @@
     padding: 8px 12px;
     cursor: pointer;
     font-weight: bold;
-    transition: background-color 0.2s;
+    transition: all 0.3s ease;
+    transform: skew(-8deg);
+    box-shadow: 0 3px 2px rgba(0, 0, 0, 0.15);
   }
 
   .edit-button:hover {
-    background-color: #314665;
+    transform: translateY(-2px) skew(-8deg);
+  }
+
+  .edit-button:active {
+    transform: scale(0.95) skew(-8deg);
+  }
+
+  .edit-button span {
+    transform: skew(8deg);
   }
 
   .dark-mode .edit-button {
