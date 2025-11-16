@@ -7,7 +7,7 @@
         object-fit="contain"
         loader-type="pulse"
       />
-      <span>{{ gift.name }}</span>
+      <span class="gift-name">{{ gift.name }}</span>
     </div>
     <div class="quantity-control">
       <button class="quantity-btn" @click="decrement" :disabled="quantity === 0">
@@ -62,11 +62,18 @@
     gap: 15px;
     font-weight: bold;
     user-select: none;
+    min-width: 0; /* Allow the container to shrink and enable text ellipsis on child */
   }
 
   .gift-icon {
     width: 50px;
     height: 50px;
+  }
+
+  .gift-name {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 
   .quantity-control {
