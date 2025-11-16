@@ -3,30 +3,29 @@
   import { useOverlayScrollbars } from 'overlayscrollbars-vue'
   import { runIPGeolocation } from '@utils/ipGeolocation'
   import { useSettingStore } from '@store/setting'
-  import { useModalStore } from '@store/modal'
+  import { useStudentStore } from '@store/student'
+  import { useScreenshotStore } from '@store/screenshot'
   import { storeToRefs } from 'pinia'
   import WelcomeMessage from '@components/section/WelcomeMessage.vue'
   import GiftRecommendation from '@components/section/GiftRecommendation.vue'
   import GiftGridSection from '@components/section/GiftGridSection.vue'
-  import StudentSelectionModal from '@components/modal/StudentSelectionModal.vue'
-  import SettingsModal from '@components/modal/SettingsModal.vue'
-  import ShareModal from '@components/modal/ShareModal.vue'
   import SilentScreenshotRenderer from '@components/utility/SilentScreenshotRenderer.vue'
   import LoadingOverlay from '@components/utility/LoadingOverlay.vue'
   import ToastNotification from '@components/ui/ToastNotification.vue'
-  import { useStudentData } from '@utils/fetchStudentData'
-  import { useSrGiftData } from '@utils/fetchSrGiftData'
-  import { useSsrGiftData } from '@utils/fetchSsrGiftData'
+  import { useSrGiftData } from '@utils/fetchSrGiftData.js'
+  import { useSsrGiftData } from '@utils/fetchSsrGiftData.js'
   import { getPreferenceValue } from '@utils/getPreferenceValue'
   import { useI18n } from '@composables/useI18n'
-  import { useShareableSelection } from '@composables/useShareableSelection'
 
   const { t, isLoaded, currentLocale: locale } = useI18n()
   const settingStore = useSettingStore()
   const { isDarkMode, showOnlyOptimalSolution } = storeToRefs(settingStore)
-  const modalStore = useModalStore()
-  const { isStudentSelectionModalOpen, isSettingsModalOpen, isShareModalOpen } = storeToRefs(modalStore)
-  const { closeStudentSelectionModal, closeSettingsModal, closeShareModal } = modalStore
+
+  const studentStore = useStudentStore()
+  const { selectedStudents } = storeToRefs(studentStore)
+
+  const screenshotStore = useScreenshotStore()
+  const { screenshotRenderStyle, screenshotLayout, screenshotRenderSize } = storeToRefs(screenshotStore)
 
   const [initBodyOverlayScrollbars, getBodyOverlayScrollbarsInstance] = useOverlayScrollbars({
     defer: true,
@@ -39,11 +38,8 @@
   })
 
   // Data Fetching
-  const { data: fetchedStudentsData } = useStudentData()
   const { data: srGiftsData } = useSrGiftData(locale)
   const { data: ssrGiftsData } = useSsrGiftData(locale)
-
-  const studentsData = computed(() => fetchedStudentsData.value || [])
 
   const giftsData = computed(() => {
     if (!srGiftsData.value || !ssrGiftsData.value) {
@@ -55,25 +51,15 @@
     ]
   })
 
-  const selectedStudentIds = ref([])
-  const screenshotRenderStyle = ref('gift-recommendation') // Default style for screenshot rendering
-  const screenshotLayout = ref('ba-style') // Default layout for screenshot rendering
-  const screenshotRenderSize = ref('1') // Default size for screenshot rendering
   const silentScreenshotRendererRef = ref(null)
   const isDownloadingScreenshot = ref(false)
-
-  useShareableSelection(selectedStudentIds, studentsData)
-
-  // Use computed to ensure student names are updated responsively
-  const selectedStudents = computed(() => {
-    return selectedStudentIds.value.map((id) => studentsData.value.find((student) => student.id === id)).filter(Boolean) // Filter out students who may not be found
-  })
 
   onMounted(async () => {
     // Wait for IP location to set locale
     await runIPGeolocation()
     settingStore.initThemeListener()
     initBodyOverlayScrollbars({ target: document.body })
+    screenshotStore.onDownload = handleDownloadShareScreenshot
   })
 
   watch(
@@ -116,15 +102,6 @@
       }
     } finally {
       isDownloadingScreenshot.value = false
-    }
-  }
-
-  function toggleStudent(student) {
-    const index = selectedStudentIds.value.findIndex((id) => id === student.id)
-    if (index > -1) {
-      selectedStudentIds.value.splice(index, 1)
-    } else {
-      selectedStudentIds.value.push(student.id)
     }
   }
 
@@ -301,25 +278,6 @@
     :style="screenshotRenderStyle"
     :layout="screenshotLayout"
     :size="screenshotRenderSize"
-  />
-
-  <StudentSelectionModal
-    :is-modal-open="isStudentSelectionModalOpen"
-    :students-data="studentsData"
-    :selected-students="selectedStudents"
-    @close-modal="closeStudentSelectionModal"
-    @toggle-student="toggleStudent"
-    @reset-selection="selectedStudentIds = []"
-  />
-
-  <SettingsModal :is-visible="isSettingsModalOpen" @close="closeSettingsModal" />
-  <ShareModal
-    :is-visible="isShareModalOpen"
-    v-model:screenshot-style="screenshotRenderStyle"
-    v-model:screenshot-layout="screenshotLayout"
-    v-model:screenshot-size="screenshotRenderSize"
-    @close="closeShareModal"
-    @download-screenshot="handleDownloadShareScreenshot"
   />
 
   <LoadingOverlay :is-visible="isDownloadingScreenshot" />
