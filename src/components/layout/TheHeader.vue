@@ -14,7 +14,7 @@
       <button class="icon-btn" @click="modalStore.openStudentSelectionModal">
         <component :is="AddStudentsIcon" :alt="t('header.selectStudentsAlt')" draggable="false" />
       </button>
-      <div class="share-dropdown-container">
+      <div v-if="isGiftRecommendationRoute" class="share-dropdown-container">
         <button class="icon-btn" @click="toggleShareDropdown">
           <component :is="ShareIcon" :alt="t('header.shareAlt')" draggable="false" />
         </button>
@@ -77,6 +77,7 @@
   const route = useRoute()
   const modalStore = useModalStore()
 
+  const isGiftRecommendationRoute = computed(() => route.name === 'GiftRecommendation')
   const isBondCalculatorRoute = computed(() => route.name === 'BondCalculator')
 
   const showShareDropdown = ref(false)
