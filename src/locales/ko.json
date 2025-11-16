@@ -49,7 +49,8 @@
     "settings": "설정",
     "enabled": "활성화됨",
     "disabled": "비활성화됨",
-    "title": "Sensei 하렘 도구"
+    "title": "Sensei 하렘 도구",
+    "edit": "편집"
   },
   "characterSelector": {
     "title": "학생 선택",
@@ -132,9 +133,15 @@
   "favoriteGiftsModal": {
     "titleSuffix": "의 좋아하는 선물"
   },
+  "giftInventoryModal": {
+    "title": "선물 인벤토리"
+  },
   "toast": {
     "link_copied_to_clipboard": "링크가 클립보드에 복사되었습니다",
     "canvas_exceeds_max_size": "이미지 크기가 너무 큽니다. 더 낮은 배율을 선택하세요"
+  },
+  "bondCalculator": {
+    "giftInventoryTitle": "선물 인벤토리"
   },
   "student": {
     "name": {

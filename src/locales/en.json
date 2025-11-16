@@ -49,7 +49,8 @@
     "settings": "Settings",
     "enabled": "Enabled",
     "disabled": "Disabled",
-    "title": "Sensei Harem Tool"
+    "title": "Sensei Harem Tool",
+    "edit": "Edit"
   },
   "characterSelector": {
     "title": "Select Students",
@@ -132,9 +133,15 @@
   "favoriteGiftsModal": {
     "titleSuffix": "'s Favorite Gifts"
   },
+  "giftInventoryModal": {
+    "title": "Gift Inventory"
+  },
   "toast": {
     "link_copied_to_clipboard": "Link copied to clipboard",
     "canvas_exceeds_max_size": "Image size is too large, please choose a lower multiplier"
+  },
+  "bondCalculator": {
+    "giftInventoryTitle": "Gift Inventory"
   },
   "student": {
     "name": {
