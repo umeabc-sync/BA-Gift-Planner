@@ -14,7 +14,13 @@
         <span class="minus">−</span>
       </button>
       <div class="quantity-display">
-        <span>{{ quantity }}</span>
+        <input
+          class="quantity-input"
+          type="number"
+          v-model.number="quantity"
+          min="0"
+          max="999"
+        />
       </div>
       <button class="quantity-btn" @click="increment" :disabled="quantity === 999">
         <span class="plus">+</span>
@@ -38,7 +44,20 @@
 
   const giftStore = useGiftStore()
 
-  const quantity = computed(() => giftStore.getGiftQuantity(props.gift.id, props.gift.isSsr))
+  const quantity = computed({
+    get() {
+      return giftStore.getGiftQuantity(props.gift.id, props.gift.isSsr)
+    },
+    set(val) {
+      let newQuantity = Number(val)
+      if (isNaN(newQuantity) || newQuantity < 0) {
+        newQuantity = 0
+      } else if (newQuantity > 999) {
+        newQuantity = 999
+      }
+      giftStore.setGiftQuantity(props.gift.id, props.gift.isSsr, newQuantity)
+    },
+  })
 
   const increment = () => {
     giftStore.incrementGift(props.gift.id, props.gift.isSsr)
@@ -138,12 +157,29 @@
     justify-content: center;
     transform: skew(-10deg);
     border-radius: 4px;
-    font-size: 1.2rem;
-    font-weight: bold;
-    user-select: none;
   }
 
-  .quantity-display span,
+  .quantity-display .quantity-input {
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    color: inherit;
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    transform: skew(10deg);
+    -moz-appearance: textfield; /* Firefox */
+  }
+
+  /* Hide number input arrows for Chrome, Safari, Edge, Opera */
+  .quantity-display .quantity-input::-webkit-outer-spin-button,
+  .quantity-display .quantity-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
   .quantity-btn span {
     transform: skew(10deg);
   }

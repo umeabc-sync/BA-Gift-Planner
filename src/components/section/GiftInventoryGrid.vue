@@ -67,7 +67,6 @@
 
 <style scoped>
   .gift-grid-section {
-    margin-top: 40px;
     background: #efefef;
     border: 2px solid #dee2e6;
     border-radius: 20px;
