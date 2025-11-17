@@ -180,7 +180,8 @@
     height: 30px;
     background: #c7c7c7;
     border: 2px solid #ef6dbd;
-    transform: skew(-20deg);
+    border-radius: 4px;
+    transform: skew(-10deg);
     position: relative;
     overflow: hidden;
   }
@@ -197,7 +198,7 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%) skew(20deg);
+    transform: translate(-50%, -50%) skew(10deg);
     color: #fff;
     font-weight: bold;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
