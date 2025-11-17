@@ -13,8 +13,4 @@
   const isModalVisible = ref(false)
 </script>
 
-<style scoped>
-  .bond-calculator-view {
-    padding: 20px;
-  }
-</style>
+<style scoped></style>

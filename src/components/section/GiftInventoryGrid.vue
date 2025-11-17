@@ -145,7 +145,8 @@
   .gift-grid-items {
     display: flex;
     flex-wrap: wrap;
-    gap: 35px 20px;
+    /* gap: 35px 20px; */
+    gap: 15px;
     justify-content: center;
   }
 
