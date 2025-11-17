@@ -141,7 +141,10 @@
     "canvas_exceeds_max_size": "圖片尺寸過大，請選擇較低的倍率"
   },
   "bondCalculator": {
-    "giftInventoryTitle": "禮物庫存"
+    "giftInventoryTitle": "禮物庫存",
+    "editBondTitle": "編輯{name}的羈絆",
+    "bondLevel": "羈絆等級",
+    "bondExp": "羈絆經驗"
   },
   "student": {
     "name": {

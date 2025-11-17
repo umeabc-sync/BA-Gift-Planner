@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import { useStudentData } from '@/utils/fetchStudentData'
-import { useShareableSelection } from '@/composables/useShareableSelection'
 
 export const useStudentStore = defineStore(
   'student',
@@ -9,6 +8,7 @@ export const useStudentStore = defineStore(
     const { data: studentsData } = useStudentData()
 
     const selectedStudentIds = ref([])
+    const studentBondData = ref({})
 
     const selectedStudents = computed(() => {
       if (!studentsData.value) return []
@@ -24,6 +24,17 @@ export const useStudentStore = defineStore(
       }
     }
 
+    function getStudentBondData(studentId) {
+      if (!studentBondData.value[studentId]) {
+        studentBondData.value[studentId] = { level: 1, exp: 0 }
+      }
+      return studentBondData.value[studentId]
+    }
+
+    function updateStudentBond(studentId, level, exp) {
+      studentBondData.value[studentId] = { level, exp }
+    }
+
     function resetSelection() {
       selectedStudentIds.value = []
     }
@@ -32,7 +43,10 @@ export const useStudentStore = defineStore(
       studentsData,
       selectedStudentIds,
       selectedStudents,
+      studentBondData,
       toggleStudent,
+      getStudentBondData,
+      updateStudentBond,
       resetSelection,
     }
   },

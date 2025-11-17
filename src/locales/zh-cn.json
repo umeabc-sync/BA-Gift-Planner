@@ -141,7 +141,10 @@
     "canvas_exceeds_max_size": "图片尺寸过大，请选择较低的倍率"
   },
   "bondCalculator": {
-    "giftInventoryTitle": "礼物库存"
+    "giftInventoryTitle": "礼物库存",
+    "editBondTitle": "编辑{name}的羁绊",
+    "bondLevel": "羁绊等级",
+    "bondExp": "羁绊经验"
   },
   "student": {
     "name": {

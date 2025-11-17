@@ -141,7 +141,10 @@
     "canvas_exceeds_max_size": "画像サイズが大きすぎます、より低い倍率を選択してください"
   },
   "bondCalculator": {
-    "giftInventoryTitle": "贈り物インベントリ"
+    "giftInventoryTitle": "贈り物インベントリ",
+    "editBondTitle": "{name}の絆編集",
+    "bondLevel": "絆レベル",
+    "bondExp": "絆EXP"
   },
   "student": {
     "name": {

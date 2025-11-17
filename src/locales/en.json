@@ -141,7 +141,10 @@
     "canvas_exceeds_max_size": "Image size is too large, please choose a lower multiplier"
   },
   "bondCalculator": {
-    "giftInventoryTitle": "Gift Inventory"
+    "giftInventoryTitle": "Gift Inventory",
+    "editBondTitle": "Edit {name}'s Bond",
+    "bondLevel": "Bond Level",
+    "bondExp": "Bond EXP"
   },
   "student": {
     "name": {

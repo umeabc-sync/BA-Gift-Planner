@@ -141,7 +141,10 @@
     "canvas_exceeds_max_size": "이미지 크기가 너무 큽니다. 더 낮은 배율을 선택하세요"
   },
   "bondCalculator": {
-    "giftInventoryTitle": "선물 인벤토리"
+    "giftInventoryTitle": "선물 인벤토리",
+    "editBondTitle": "{name}의 인연 편집",
+    "bondLevel": "인연 레벨",
+    "bondExp": "인연 EXP"
   },
   "student": {
     "name": {
