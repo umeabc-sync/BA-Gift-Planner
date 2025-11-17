@@ -26,7 +26,8 @@
 </template>
 
 <script setup>
-  import { watch } from 'vue'
+  import { watch, onMounted } from 'vue'
+  import { useOverlayScrollbars } from 'overlayscrollbars-vue'
   import { useSettingStore } from '@store/setting'
   import { useModalStore } from '@store/modal'
   import { useStudentStore } from '@store/student'
@@ -54,11 +55,26 @@
   const screenshotStore = useScreenshotStore()
   const { screenshotRenderStyle, screenshotLayout, screenshotRenderSize, onDownload } = storeToRefs(screenshotStore)
 
+  const [initBodyOverlayScrollbars, getBodyOverlayScrollbarsInstance] = useOverlayScrollbars({
+    defer: true,
+    options: {
+      scrollbars: {
+        theme: isDarkMode.value ? 'os-theme-light' : 'os-theme-dark',
+        clickScroll: true,
+      },
+    },
+  })
+
   function handleDownloadShareScreenshot() {
     if (onDownload.value) {
       onDownload.value()
     }
   }
+
+  onMounted(() => {
+    settingStore.initThemeListener()
+    initBodyOverlayScrollbars({ target: document.body })
+  })
 
   watch(
     [isLoaded, locale],
@@ -77,6 +93,15 @@
         document.body.classList.add('dark-mode')
       } else {
         document.body.classList.remove('dark-mode')
+      }
+
+      const instance = getBodyOverlayScrollbarsInstance()
+      if (instance) {
+        instance.options({
+          scrollbars: {
+            theme: isDark ? 'os-theme-light' : 'os-theme-dark',
+          },
+        })
       }
     },
     { immediate: true }

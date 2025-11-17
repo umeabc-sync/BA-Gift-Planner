@@ -1,6 +1,5 @@
 <script setup>
   import { ref, computed, onMounted, watch } from 'vue'
-  import { useOverlayScrollbars } from 'overlayscrollbars-vue'
   import { runIPGeolocation } from '@utils/ipGeolocation'
   import { useSettingStore } from '@store/setting'
   import { useStudentStore } from '@store/student'
@@ -16,26 +15,19 @@
   import { useSsrGiftData } from '@utils/fetchSsrGiftData.js'
   import { getPreferenceValue } from '@utils/getPreferenceValue'
   import { useI18n } from '@composables/useI18n'
+  import { useShareableSelection } from '@/composables/useShareableSelection'
 
   const { t, isLoaded, currentLocale: locale } = useI18n()
   const settingStore = useSettingStore()
   const { isDarkMode, showOnlyOptimalSolution } = storeToRefs(settingStore)
 
   const studentStore = useStudentStore()
-  const { selectedStudents } = storeToRefs(studentStore)
+  const { selectedStudents, selectedStudentIds, studentsData } = storeToRefs(studentStore)
+
+  useShareableSelection(selectedStudentIds, studentsData)
 
   const screenshotStore = useScreenshotStore()
   const { screenshotRenderStyle, screenshotLayout, screenshotRenderSize } = storeToRefs(screenshotStore)
-
-  const [initBodyOverlayScrollbars, getBodyOverlayScrollbarsInstance] = useOverlayScrollbars({
-    defer: true,
-    options: {
-      scrollbars: {
-        theme: isDarkMode.value ? 'os-theme-light' : 'os-theme-dark',
-        clickScroll: true,
-      },
-    },
-  })
 
   // Data Fetching
   const { data: srGiftsData } = useSrGiftData(locale)
@@ -57,42 +49,8 @@
   onMounted(async () => {
     // Wait for IP location to set locale
     await runIPGeolocation()
-    settingStore.initThemeListener()
-    initBodyOverlayScrollbars({ target: document.body })
     screenshotStore.onDownload = handleDownloadShareScreenshot
   })
-
-  watch(
-    [isLoaded, locale],
-    ([loaded, newLocale]) => {
-      if (loaded && newLocale) {
-        document.title = t('common.title')
-      }
-    },
-    { immediate: true }
-  )
-
-  watch(
-    isDarkMode,
-    (isDark) => {
-      if (isDark) {
-        document.body.classList.add('dark-mode')
-      } else {
-        document.body.classList.remove('dark-mode')
-      }
-
-      // Dynamically update the theme of the OverlayScrollbars instance
-      const instance = getBodyOverlayScrollbarsInstance()
-      if (instance) {
-        instance.options({
-          scrollbars: {
-            theme: isDark ? 'os-theme-light' : 'os-theme-dark',
-          },
-        })
-      }
-    },
-    { immediate: true }
-  )
 
   async function handleDownloadShareScreenshot() {
     isDownloadingScreenshot.value = true

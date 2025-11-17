@@ -26,9 +26,6 @@ export const useStudentStore = defineStore('student', () => {
     selectedStudentIds.value = []
   }
 
-  // Integrate shareable selection logic
-  useShareableSelection(selectedStudentIds, studentsData)
-
   return {
     studentsData,
     selectedStudentIds,
@@ -36,4 +33,4 @@ export const useStudentStore = defineStore('student', () => {
     toggleStudent,
     resetSelection,
   }
-})
+}, { persist: true })
