@@ -29,9 +29,9 @@
 </script>
 
 <style scoped>
-.bond-calculator-view {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
+  .bond-calculator-view {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
 </style>

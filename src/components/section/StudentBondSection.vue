@@ -20,10 +20,7 @@
           </div>
           <div class="bond-exp-bar-container">
             <div class="bond-exp-bar">
-              <div
-                class="bond-exp-progress"
-                :style="{ width: `${expPercentage(student.id)}%` }"
-              ></div>
+              <div class="bond-exp-progress" :style="{ width: `${expPercentage(student.id)}%` }"></div>
               <div class="bond-exp-text">
                 {{ getStudentBondData(student.id).exp }} / {{ maxExpForCurrentLevel(student.id) }}
               </div>
