@@ -10,19 +10,25 @@
       <span class="gift-name">{{ gift.name }}</span>
     </div>
     <div class="quantity-control">
-      <button class="quantity-btn" @click="decrement" :disabled="quantity === 0">
+      <button
+        class="quantity-btn"
+        @mousedown="startChangingQuantity('decrement')"
+        @mouseup="stopChangingQuantity"
+        @mouseleave="stopChangingQuantity"
+        :disabled="quantity === 0"
+      >
         <span class="minus">−</span>
       </button>
       <div class="quantity-display">
-        <input
-          class="quantity-input"
-          type="number"
-          v-model.number="quantity"
-          min="0"
-          max="999"
-        />
+        <input class="quantity-input" type="number" v-model.number="quantity" min="0" max="999" />
       </div>
-      <button class="quantity-btn" @click="increment" :disabled="quantity === 999">
+      <button
+        class="quantity-btn"
+        @mousedown="startChangingQuantity('increment')"
+        @mouseup="stopChangingQuantity"
+        @mouseleave="stopChangingQuantity"
+        :disabled="quantity === 999"
+      >
         <span class="plus">+</span>
       </button>
     </div>
@@ -30,7 +36,7 @@
 </template>
 
 <script setup>
-  import { computed } from 'vue'
+  import { computed, ref } from 'vue'
   import { useGiftStore } from '@/store/gift'
   import { getGiftUrl } from '@utils/getGiftUrl'
   import ImageWithLoader from '@components/ui/ImageWithLoader.vue'
@@ -65,6 +71,29 @@
 
   const decrement = () => {
     giftStore.decrementGift(props.gift.id, props.gift.isSsr)
+  }
+
+  let pressTimer = null
+  let repeatTimer = null
+
+  const startChangingQuantity = (action) => {
+    const func = action === 'increment' ? increment : decrement
+    func() // Execute immediately
+
+    pressTimer = setTimeout(() => {
+      repeatTimer = setInterval(() => {
+        func()
+        // Stop when the limit value is reached.
+        if ((action === 'increment' && quantity.value >= 999) || (action === 'decrement' && quantity.value <= 0)) {
+          stopChangingQuantity()
+        }
+      }, 100) // Execute once every 100ms
+    }, 400) // Repeating starts after 400ms
+  }
+
+  const stopChangingQuantity = () => {
+    clearTimeout(pressTimer)
+    clearInterval(repeatTimer)
   }
 </script>
 
@@ -137,14 +166,21 @@
     color: #828282;
   }
 
+  .plus,
+  .minus {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    transform: skew(10deg);
+  }
+
   .plus {
     color: #3dcffd;
-    transform: skew(10deg);
   }
 
   .minus {
     color: #ff6f00;
-    transform: skew(10deg);
   }
 
   .quantity-display {
