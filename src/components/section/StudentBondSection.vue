@@ -1,7 +1,7 @@
 <template>
   <div v-if="selectedStudents.length > 0" class="student-bond-section">
     <div v-for="student in selectedStudents" :key="student.id" class="student-row">
-      <div class="student-island">
+      <div class="student-island" @click="openEditModal(student)">
         <ImageWithLoader :src="getAvatarUrl(student.id)" class="student-avatar-img" />
       </div>
       <div class="bond-island">
@@ -30,9 +30,6 @@
             </div>
           </div>
         </div>
-        <button class="edit-button" @click="openEditModal(student)">
-          <span>{{ t('common.edit') }}</span>
-        </button>
       </div>
     </div>
   </div>
@@ -95,23 +92,31 @@
     flex-shrink: 0;
     position: relative;
     align-self: center;
+    cursor: pointer;
+    border: 3px solid #466398;
+    background-color: #f7f7f4;
+    overflow: hidden;
+    transition: border-color 0.3s ease;
+  }
+
+  .dark-mode .student-island {
+    border-color: #00a4e4;
+    background-color: #1a2b40;
   }
 
   .student-avatar-img {
     width: 100%;
     height: 100%;
     border-radius: 50%;
+    transition: transform 0.3s ease;
+  }
+
+  .student-island:hover .student-avatar-img {
+    transform: scale(1.1);
   }
 
   .student-avatar-img :deep(img) {
     border-radius: 50%;
-    border: 3px solid #466398;
-    background-color: #f7f7f4;
-  }
-
-  .dark-mode .student-avatar-img :deep(img) {
-    border-color: #00a4e4;
-    background-color: #1a2b40;
   }
 
   .bond-island {

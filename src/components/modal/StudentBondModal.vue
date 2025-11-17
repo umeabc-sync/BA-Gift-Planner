@@ -8,31 +8,22 @@
       <div class="modal-body">
         <div class="form-group">
           <label for="bond-level">{{ t('bondCalculator.bondLevel') }}</label>
-          <input type="number" id="bond-level" v-model.number="editableLevel" min="1" max="100" />
+          <input type="number" id="bond-level" v-model.number="bondLevel" min="1" max="100" />
         </div>
         <div class="form-group">
           <label for="bond-exp">{{ t('bondCalculator.bondExp') }}</label>
           <div class="exp-slider">
-            <input
-              type="range"
-              id="bond-exp"
-              v-model.number="editableExp"
-              :min="0"
-              :max="maxExp"
-            />
-            <span>{{ editableExp }} / {{ maxExp }}</span>
+            <input type="range" id="bond-exp" v-model.number="bondExp" :min="0" :max="maxExp" />
+            <span>{{ bondExp }} / {{ maxExp }}</span>
           </div>
         </div>
-      </div>
-      <div class="modal-footer">
-        <button class="save-button" @click="save">{{ t('common.save') }}</button>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-  import { ref, watch, computed } from 'vue'
+  import { computed } from 'vue'
   import { useI18n } from '@/composables/useI18n.js'
   import { useStudentStore } from '@/store/student'
   import { useBondExpData } from '@/utils/fetchBondExpData'
@@ -48,47 +39,42 @@
   const studentStore = useStudentStore()
   const { data: bondExpTable } = useBondExpData()
 
-  const editableLevel = ref(1)
-  const editableExp = ref(0)
-
-  watch(
-    () => props.student,
-    (newStudent) => {
-      if (newStudent) {
-        const bondData = studentStore.getStudentBondData(newStudent.id)
-        editableLevel.value = bondData.level
-        editableExp.value = bondData.exp
+  const bondLevel = computed({
+    get() {
+      return props.student ? studentStore.getStudentBondData(props.student.id).level : 1
+    },
+    set(value) {
+      if (!props.student) return
+      const currentData = studentStore.getStudentBondData(props.student.id)
+      const newLevel = Math.max(1, Math.min(100, Number(value)))
+      if (newLevel !== currentData.level) {
+        studentStore.updateStudentBond(props.student.id, newLevel, 0)
       }
-    }
-  )
+    },
+  })
+
+  const bondExp = computed({
+    get() {
+      return props.student ? studentStore.getStudentBondData(props.student.id).exp : 0
+    },
+    set(value) {
+      if (!props.student) return
+      const currentData = studentStore.getStudentBondData(props.student.id)
+      const newExp = Math.max(0, Math.min(maxExp.value, Number(value)))
+      if (newExp !== currentData.exp) {
+        studentStore.updateStudentBond(props.student.id, currentData.level, newExp)
+      }
+    },
+  })
 
   const maxExp = computed(() => {
     if (!bondExpTable.value || !props.student) return 0
-    const rankInfo = bondExpTable.value.find((r) => r.rank === editableLevel.value)
+    const rankInfo = bondExpTable.value.find((r) => r.rank === bondLevel.value)
     return rankInfo ? rankInfo.exp : 0
-  })
-
-  watch(editableLevel, (newLevel, oldLevel) => {
-    if (newLevel !== oldLevel) {
-      editableExp.value = 0
-    }
-    if (newLevel > 100) editableLevel.value = 100
-    if (newLevel < 1) editableLevel.value = 1
-  })
-
-  watch(editableExp, (newExp) => {
-    if (newExp > maxExp.value) {
-      editableExp.value = maxExp.value
-    }
   })
 
   const close = () => {
     emit('close')
-  }
-
-  const save = () => {
-    studentStore.updateStudentBond(props.student.id, editableLevel.value, editableExp.value)
-    close()
   }
 </script>
 
@@ -178,30 +164,5 @@
 
   .exp-slider input[type='range'] {
     flex-grow: 1;
-  }
-
-  .modal-footer {
-    display: flex;
-    justify-content: flex-end;
-    padding-top: 10px;
-    border-top: 1px solid #eee;
-  }
-
-  .dark-mode .modal-footer {
-    border-top-color: #2a4a6e;
-  }
-
-  .save-button {
-    background-color: #466398;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    cursor: pointer;
-    font-weight: bold;
-  }
-
-  .dark-mode .save-button {
-    background-color: #00a4e4;
   }
 </style>
