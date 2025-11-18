@@ -60,7 +60,6 @@
 
   const studentStore = useStudentStore()
   const { selectedStudents } = storeToRefs(studentStore)
-  const { getStudentBondData } = studentStore
 
   const giftPlannerStore = useGiftPlannerStore()
 
