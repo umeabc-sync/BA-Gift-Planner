@@ -37,8 +37,8 @@
             </div>
           </div>
         </div>
-        <button class="give-gift-button" @click="openGiftModal(student)">
-          <ImageWithLoader src="/src/assets/icon/gift.webp" />
+        <button class="icon-btn" @click="openGiftModal(student)">
+          <component :is="GiftIcon" alt="Give Gift" draggable="false" />
         </button>
       </div>
     </div>
@@ -55,6 +55,7 @@
   import { useBondExpData } from '@/utils/fetchBondExpData'
   import ImageWithLoader from '@components/ui/ImageWithLoader.vue'
   import GiftGivingModal from '@components/modal/GiftGivingModal.vue'
+  import GiftIcon from '@assets/icon/gift_icon.svg'
 
   const studentStore = useStudentStore()
   const { selectedStudents } = storeToRefs(studentStore)
@@ -172,42 +173,53 @@
     border-color: #2a4a6e;
   }
 
-  .give-gift-button {
-    flex-shrink: 0;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background-color: #466398;
-    border: 2px solid #fff;
+  .icon-btn {
+    background-color: #77ddff;
+    background-image: linear-gradient(to bottom right, #63d0fd 0%, transparent 50%),
+      linear-gradient(to top left, #63d0fd 0%, transparent 50%);
+    border: none;
+    color: #314665;
+    fill: #314665;
     cursor: pointer;
-    display: grid;
-    place-items: center;
+    border-radius: 12px;
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     transition: all 0.3s ease;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transform: skew(-8deg);
+    box-shadow: 0 3px 2px rgba(0, 0, 0, 0.15);
+    flex-shrink: 0;
   }
 
-  .dark-mode .give-gift-button {
-    background-color: #00a4e4;
+  .icon-btn:hover {
+    transform: translateY(-2px) skew(-8deg);
   }
 
-  .give-gift-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  .icon-btn:active {
+    transform: scale(0.95) skew(-8deg);
   }
 
-  .give-gift-button:active {
-    transform: scale(0.95);
+  .dark-mode .icon-btn {
+    background-color: #00aeef;
+    background-image: linear-gradient(to bottom right, #09a4f2 0%, transparent 50%),
+      linear-gradient(to top left, #09a4f2 0%, transparent 50%);
+    color: #e0f4ff;
+    fill: #e0f4ff;
   }
 
-  .give-gift-button :deep(img) {
-    width: 60%;
-    height: 60%;
+  .icon-btn svg {
+    width: 24px;
+    height: 24px;
+    transform: skew(8deg);
   }
 
   .bond-info {
     display: flex;
     align-items: center;
     gap: 20px;
+    margin-right: 20px;
     flex-grow: 1;
   }
 
