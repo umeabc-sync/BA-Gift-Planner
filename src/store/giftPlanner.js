@@ -124,7 +124,7 @@ export const useGiftPlannerStore = defineStore(
             expPerGift = gift.exp
           }
         } else {
-          expPerGift = getPreferenceValue(student, giftId, isSsr)
+          expPerGift = getPreferenceValue(student, gift)
         }
         gainedExp += expPerGift * quantity
       }
