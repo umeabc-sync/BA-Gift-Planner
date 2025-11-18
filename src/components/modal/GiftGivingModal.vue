@@ -19,11 +19,11 @@
                     :inherit-background="false"
                   />
                   <div class="gift-icon-bg"></div>
-                  <div class="quantity-badge">/ {{ giftStore.getGiftQuantity(gift.id, gift.isSsr) }}</div>
+                  <div class="quantity-badge">{{ giftPlannerStore.getAvailableCount(gift.id, gift.isSsr) }} / {{ giftStore.getGiftQuantity(gift.id, gift.isSsr) }}</div>
                 </div>
 
                 <div class="quantity-control">
-                  <button @click="setMin(gift)" class="min-max-btn">
+                  <button @click="setMin(gift)" class="min-max-btn" :disabled="getAssigned(gift) === 0">
                     <span class="min">MIN</span>
                   </button>
                   <button @click="decrement(gift)" :disabled="getAssigned(gift) === 0" class="quantity-btn">
@@ -42,7 +42,7 @@
                   <button @click="increment(gift)" :disabled="getMax(gift) === getAssigned(gift)" class="quantity-btn">
                     <span class="plus">＋</span>
                   </button>
-                  <button @click="setMax(gift)" class="min-max-btn">
+                  <button @click="setMax(gift)" class="min-max-btn" :disabled="giftPlannerStore.getAvailableCount(gift.id, gift.isSsr) === 0">
                     <span class="max">MAX</span>
                   </button>
                 </div>
