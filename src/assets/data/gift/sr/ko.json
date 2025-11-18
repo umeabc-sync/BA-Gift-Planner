@@ -143,6 +143,6 @@
     "id": 35,
     "name": "선물 선택 상자",
     "isSpecial": true,
-    "exp": 60
+    "exp": -1
   }
 ]

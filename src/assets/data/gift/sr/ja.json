@@ -143,6 +143,6 @@
     "id": 35,
     "name": "贈り物選択ボックス",
     "isSpecial": true,
-    "exp": 60
+    "exp": -1
   }
 ]

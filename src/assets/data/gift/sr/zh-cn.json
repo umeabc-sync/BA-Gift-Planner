@@ -143,6 +143,6 @@
     "id": 35,
     "name": "礼物选择盒",
     "isSpecial": true,
-    "exp": 60
+    "exp": -1
   }
 ]
