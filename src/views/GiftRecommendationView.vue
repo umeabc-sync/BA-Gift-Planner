@@ -40,7 +40,7 @@
     return [
       ...srGiftsData.value.map((g) => ({ ...g, isSsr: false })),
       ...ssrGiftsData.value.map((g) => ({ ...g, isSsr: true })),
-    ]
+    ].filter((gift) => !gift.isSpecial)
   })
 
   const silentScreenshotRendererRef = ref(null)

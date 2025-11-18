@@ -138,5 +138,11 @@
   {
     "id": 34,
     "name": "Summer Floaty"
+  },
+  {
+    "id": 35,
+    "name": "Gift Choice Box",
+    "isSpecial": true,
+    "exp": 60
   }
 ]
