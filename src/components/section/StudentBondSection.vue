@@ -35,12 +35,10 @@
 <script setup>
   import { useStudentStore } from '@/store/student'
   import { storeToRefs } from 'pinia'
-  import { useI18n } from '@/composables/useI18n.js'
   import { getAvatarUrl } from '@utils/getAvatarUrl'
   import { useBondExpData } from '@/utils/fetchBondExpData'
   import ImageWithLoader from '@components/ui/ImageWithLoader.vue'
 
-  const { t } = useI18n()
   const studentStore = useStudentStore()
   const { selectedStudents } = storeToRefs(studentStore)
   const { getStudentBondData } = studentStore

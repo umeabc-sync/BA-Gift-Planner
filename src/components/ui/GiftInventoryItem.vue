@@ -36,7 +36,7 @@
 </template>
 
 <script setup>
-  import { computed, ref } from 'vue'
+  import { computed } from 'vue'
   import { useGiftStore } from '@/store/gift'
   import { getGiftUrl } from '@utils/getGiftUrl'
   import ImageWithLoader from '@components/ui/ImageWithLoader.vue'

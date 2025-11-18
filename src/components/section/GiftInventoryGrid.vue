@@ -114,7 +114,8 @@
     color: #e0f4ff;
   }
 
-  .edit-button, .convert-button {
+  .edit-button,
+  .convert-button {
     position: absolute;
     display: flex;
     align-items: center;
@@ -140,15 +141,18 @@
     background-color: #28a745; /* Green color for convert button */
   }
 
-  .edit-button:hover, .convert-button:hover {
+  .edit-button:hover,
+  .convert-button:hover {
     transform: translateY(-2px) skew(-8deg);
   }
 
-  .edit-button:active, .convert-button:active {
+  .edit-button:active,
+  .convert-button:active {
     transform: scale(0.95) skew(-8deg);
   }
 
-  .edit-button span, .convert-button span {
+  .edit-button span,
+  .convert-button span {
     transform: skew(8deg);
   }
 

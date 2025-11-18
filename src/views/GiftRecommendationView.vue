@@ -82,9 +82,13 @@
     return analyzedGifts.value.filter((gift) => gift.analysis.shouldSynthesize)
   })
 
-  watch(synthesisGifts, (newSynthesisGifts) => {
-    setSynthesisGifts(newSynthesisGifts)
-  }, { immediate: true, deep: true })
+  watch(
+    synthesisGifts,
+    (newSynthesisGifts) => {
+      setSynthesisGifts(newSynthesisGifts)
+    },
+    { immediate: true, deep: true }
+  )
 
   const genericSsrGifts = computed(() => {
     return analyzedGifts.value.filter((gift) => gift.analysis.isGeneric)
