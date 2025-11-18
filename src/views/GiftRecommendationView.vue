@@ -5,6 +5,7 @@
   import { useStudentStore } from '@store/student'
   import { useScreenshotStore } from '@store/screenshot'
   import { useGiftStore } from '@store/gift'
+  import { useGiftAnalysisStore } from '@store/giftAnalysis'
   import { storeToRefs } from 'pinia'
   import WelcomeMessage from '@components/section/WelcomeMessage.vue'
   import GiftRecommendation from '@components/section/GiftRecommendation.vue'
@@ -12,15 +13,12 @@
   import SilentScreenshotRenderer from '@components/utility/SilentScreenshotRenderer.vue'
   import LoadingOverlay from '@components/utility/LoadingOverlay.vue'
   import ToastNotification from '@components/ui/ToastNotification.vue'
-  import { useSrGiftData } from '@utils/fetchSrGiftData.js'
-  import { useSsrGiftData } from '@utils/fetchSsrGiftData.js'
   import { useI18n } from '@composables/useI18n'
   import { useShareableSelection } from '@/composables/useShareableSelection'
-  import { analyzeGift } from '@utils/analyzeGift'
 
-  const { t, currentLocale: locale } = useI18n()
+  const { t } = useI18n()
   const settingStore = useSettingStore()
-  const { isDarkMode, showOnlyOptimalSolution } = storeToRefs(settingStore)
+  const { isDarkMode } = storeToRefs(settingStore)
 
   const studentStore = useStudentStore()
   const { selectedStudents, selectedStudentIds, studentsData } = storeToRefs(studentStore)
@@ -28,24 +26,13 @@
   const giftStore = useGiftStore()
   const { setSynthesisGifts } = giftStore
 
+  const giftAnalysisStore = useGiftAnalysisStore()
+  const { analyzedGifts } = storeToRefs(giftAnalysisStore)
+
   useShareableSelection(selectedStudentIds, studentsData)
 
   const screenshotStore = useScreenshotStore()
   const { screenshotRenderStyle, screenshotLayout, screenshotRenderSize } = storeToRefs(screenshotStore)
-
-  // Data Fetching
-  const { data: srGiftsData } = useSrGiftData(locale)
-  const { data: ssrGiftsData } = useSsrGiftData(locale)
-
-  const giftsData = computed(() => {
-    if (!srGiftsData.value || !ssrGiftsData.value) {
-      return []
-    }
-    return [
-      ...srGiftsData.value.map((g) => ({ ...g, isSsr: false })),
-      ...ssrGiftsData.value.map((g) => ({ ...g, isSsr: true })),
-    ].filter((gift) => !gift.isSpecial)
-  })
 
   const silentScreenshotRendererRef = ref(null)
   const isDownloadingScreenshot = ref(false)
@@ -66,17 +53,6 @@
       isDownloadingScreenshot.value = false
     }
   }
-
-  const analyzedGifts = computed(() => {
-    if (selectedStudents.value.length === 0) {
-      return []
-    }
-
-    return giftsData.value.map((gift) => {
-      const analysis = analyzeGift(gift, showOnlyOptimalSolution.value, selectedStudents.value)
-      return { ...gift, analysis }
-    })
-  })
 
   const synthesisGifts = computed(() => {
     return analyzedGifts.value.filter((gift) => gift.analysis.shouldSynthesize)

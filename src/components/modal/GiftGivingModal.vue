@@ -10,7 +10,7 @@
           <div class="modal-body">
             <div v-if="sortedGifts.length > 0" class="gift-list">
               <div v-for="gift in sortedGifts" :key="gift.key" class="gift-wrapper">
-                <div class="gift-grid-item" :class="[gift.isSsr ? 'gift-purple' : 'gift-yellow']">
+                <div class="gift-grid-item" :class="[gift.isSsr ? 'gift-purple' : 'gift-yellow', getGiftStyle(gift)]">
                   <ImageWithLoader
                     :src="getGiftUrl(gift.id, gift.isSsr)"
                     class="gift-icon"
@@ -55,6 +55,7 @@
   import { computed, toRefs } from 'vue'
   import { useGiftPlannerStore } from '@/store/giftPlanner'
   import { useGiftStore } from '@/store/gift'
+  import { useGiftAnalysisStore } from '@/store/giftAnalysis'
   import { getGiftUrl } from '@utils/getGiftUrl'
   import ImageWithLoader from '@components/ui/ImageWithLoader.vue'
   import QuantityControl from '@components/ui/QuantityControl.vue'
@@ -72,9 +73,36 @@
 
   const giftPlannerStore = useGiftPlannerStore()
   const giftStore = useGiftStore()
+  const giftAnalysisStore = useGiftAnalysisStore()
 
   const { show } = toRefs(props)
   useModal(show, close)
+
+  const getGiftStyle = (gift) => {
+    // Special gifts are always treated as conflicts
+    if (gift.isSpecial) {
+      return 'conflict'
+    }
+
+    const analysis = giftAnalysisStore.getGiftAnalysis(gift)
+
+    if (!analysis || !analysis.characters) {
+      return 'other-gift'
+    }
+
+    const optimalCharacters = analysis.characters.filter((c) => c.isOptimal)
+    console.log(optimalCharacters)
+
+    if (optimalCharacters[0].id === props.student.id) {
+      if (optimalCharacters.length === 1) {
+        return 'best-no-conflict'
+      } else {
+        return 'conflict'
+      }
+    }
+
+    return 'other-gift'
+  }
 
   const sortedGifts = computed(() => {
     if (!giftPlannerStore.allGifts) return []
@@ -397,6 +425,24 @@
   .reset-button > span {
     transform: skew(8deg);
     display: inline-block;
+  }
+
+  .best-no-conflict {
+    animation: glow 1.5s infinite;
+  }
+
+  .other-gift {
+    opacity: 0.6;
+  }
+
+  @keyframes glow {
+    0%,
+    100% {
+      box-shadow: 0 0 10px #fdef66;
+    }
+    50% {
+      box-shadow: 0 0 20px 5px #fdef66;
+    }
   }
 
   .modal-fade-enter-active,
