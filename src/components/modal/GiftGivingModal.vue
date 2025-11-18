@@ -9,23 +9,25 @@
           </div>
           <div class="modal-body">
             <div v-if="sortedGifts.length > 0" class="gift-list">
-              <div v-for="gift in sortedGifts" :key="gift.key" class="gift-item">
-                <div class="gift-info">
+              <div v-for="gift in sortedGifts" :key="gift.key" class="gift-wrapper">
+                <div class="gift-grid-item" :class="[gift.isSsr ? 'gift-purple' : 'gift-yellow']">
                   <ImageWithLoader
                     :src="getGiftUrl(gift.id, gift.isSsr)"
                     class="gift-icon"
                     object-fit="contain"
                     loader-type="pulse"
+                    :inherit-background="false"
                   />
-                  <div class="available-quantity">/ {{ giftStore.getGiftQuantity(gift.id, gift.isSsr) }}</div>
+                  <div class="gift-icon-bg"></div>
+                  <div class="quantity-badge">/ {{ giftStore.getGiftQuantity(gift.id, gift.isSsr) }}</div>
                 </div>
+
                 <div class="quantity-control">
-                  <button
-                    @click="decrement(gift)"
-                    :disabled="getAssigned(gift) === 0"
-                    class="quantity-btn"
-                  >
-                    <span class="minus">−</span>
+                  <button @click="setMin(gift)" class="min-max-btn">
+                    <span class="min">MIN</span>
+                  </button>
+                  <button @click="decrement(gift)" :disabled="getAssigned(gift) === 0" class="quantity-btn">
+                    <span class="minus">－</span>
                   </button>
                   <div class="quantity-display">
                     <input
@@ -42,7 +44,10 @@
                     :disabled="getMax(gift) === getAssigned(gift)"
                     class="quantity-btn"
                   >
-                    <span class="plus">+</span>
+                    <span class="plus">＋</span>
+                  </button>
+                  <button @click="setMax(gift)" class="min-max-btn">
+                    <span class="max">MAX</span>
                   </button>
                 </div>
               </div>
@@ -120,14 +125,27 @@
     giftPlannerStore.setAssignment(props.student.id, gift.id, gift.isSsr, currentAmount - 1)
   }
 
+  const setMin = (gift) => {
+    if (!props.student) return
+    giftPlannerStore.setAssignment(props.student.id, gift.id, gift.isSsr, 0)
+  }
+
+  const setMax = (gift) => {
+    if (!props.student) return
+    giftPlannerStore.setAssignment(props.student.id, gift.id, gift.isSsr, getMax(gift))
+  }
+
   const setAmount = (event, gift) => {
     if (!props.student) return
-    const value = parseInt(event.target.value, 10)
-    if (isNaN(value)) {
-      giftPlannerStore.setAssignment(props.student.id, gift.id, gift.isSsr, 0)
-    } else {
-      giftPlannerStore.setAssignment(props.student.id, gift.id, gift.isSsr, value)
+    let value = parseInt(event.target.value, 10)
+    if (isNaN(value) || value < 0) {
+      value = 0
     }
+    const max = getMax(gift)
+    if (value > max) {
+      value = max
+    }
+    giftPlannerStore.setAssignment(props.student.id, gift.id, gift.isSsr, value)
   }
 
   function close() {
@@ -239,66 +257,166 @@
     padding: 10px 0;
   }
 
-  .gift-item {
+  .gift-wrapper {
+    background: #efefef;
+    border-radius: 12px;
+    padding: 15px;
+    border: 2px solid #dee2e6;
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
+    gap: 15px;
   }
 
-  .gift-info {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+  .dark-mode .gift-wrapper {
+    background: #1f3048;
+    border-color: #2a4a6e;
+  }
+
+  .gift-grid-item {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .gift-grid-item > *,
+  .gift-grid-item::before,
+  .gift-grid-item::after {
+    grid-column: 1 / 1;
+    grid-row: 1 / 1;
+  }
+
+  .gift-grid-item::before {
+    content: '';
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    z-index: 1;
+  }
+
+  .gift-yellow::before {
+    background-color: #c7a579;
+    background-image: linear-gradient(to bottom right, #a97d51 0%, transparent 50%),
+      linear-gradient(to top left, #a97d51 0%, transparent 50%);
+  }
+
+  .gift-purple::before {
+    background-color: #9e82d6;
+    background-image: linear-gradient(to bottom right, #7a5bbe 0%, transparent 50%),
+      linear-gradient(to top left, #7a5bbe 0%, transparent 50%);
+  }
+
+  .gift-icon-bg {
+    width: 90%;
+    height: 90%;
+    border-radius: 50%;
+    z-index: 2;
+  }
+
+  .gift-yellow .gift-icon-bg {
+    background-color: #c7a579;
+  }
+
+  .gift-purple .gift-icon-bg {
+    background-color: #9e82d6;
+  }
+
+  .dark-mode .gift-grid-item::after {
+    content: '';
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    background: rgba(0, 0, 0, 0.15);
+    z-index: 3;
   }
 
   .gift-icon {
-    width: 50px;
-    height: 50px;
+    width: 90%;
+    height: 90%;
+    z-index: 4;
   }
 
-  .available-quantity {
-    font-size: 14px;
-    color: #888;
+  .quantity-badge {
+    position: absolute;
+    bottom: -5px;
+    right: -10px;
+    background: #212529;
+    color: white;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 3px 8px;
+    z-index: 5;
+    border: 2px solid white;
   }
 
-  .dark-mode .available-quantity {
-    color: #aaa;
+  .dark-mode .quantity-badge {
+    background: #dee2e6;
+    color: #201e2e;
+    border-color: #1f3048;
   }
 
   .quantity-control {
     display: flex;
     align-items: center;
     gap: 5px;
+    flex-grow: 1;
+    justify-content: center;
   }
 
   .quantity-btn {
+    font-family: inherit;
     background-color: white;
     border: none;
     color: #4d5a6d;
     cursor: pointer;
     border-radius: 4px;
-    width: 40px;
-    height: 40px;
+    width: 35px;
+    height: 35px;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: all 0.2s ease;
     transform: skew(-10deg);
     font-size: 1.5rem;
-    font-weight: bold;
     box-shadow: 0 3px 2px rgba(0, 0, 0, 0.15);
   }
 
-  .dark-mode .quantity-btn {
+  .min-max-btn {
+    font-family: inherit;
+    background-color: white;
+    border: none;
+    color: #496f8f;
+    cursor: pointer;
+    border-radius: 4px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    transform: skew(-10deg);
+    font-size: 1.5rem;
+    box-shadow: 0 3px 2px rgba(0, 0, 0, 0.15);
+    padding: 5px 8px;
+  }
+
+  .dark-mode .quantity-btn,
+  .dark-mode .min-max-btn {
     background-color: #2a4a6e;
     color: #e0e6ed;
   }
 
-  .quantity-btn:active {
+  .quantity-btn:active,
+  .min-max-btn:active {
     transform: scale(0.9) skew(-10deg);
   }
 
-  .quantity-btn:disabled {
+  .quantity-btn:disabled,
+  .min-max-btn:disabled {
     background-color: #e2e3e3;
     cursor: not-allowed;
   }
@@ -309,7 +427,9 @@
   }
 
   .plus,
-  .minus {
+  .minus,
+  .min,
+  .max {
     user-select: none;
     transform: skew(10deg);
   }
@@ -325,8 +445,8 @@
   .quantity-display {
     background-color: #4d5a6d;
     color: #f6f7f6;
-    width: 80px;
-    height: 40px;
+    width: 60px;
+    height: 35px;
     display: flex;
     align-items: center;
     justify-content: center;
