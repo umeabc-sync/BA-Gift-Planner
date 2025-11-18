@@ -147,6 +147,10 @@
     "bondExp": "羈絆經驗",
     "convertToChoiceBox": "轉換為自選箱"
   },
+  "giftGivingModal": {
+    "title": "贈送禮物",
+    "reset": "重設"
+  },
   "student": {
     "name": {
       "1": "亞瑠",

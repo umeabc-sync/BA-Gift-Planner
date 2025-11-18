@@ -133,6 +133,10 @@
   "favoriteGiftsModal": {
     "titleSuffix": "喜欢的礼物"
   },
+  "giftGivingModal": {
+    "title": "赠送礼物",
+    "reset": "重置"
+  },
   "giftInventoryModal": {
     "title": "礼物库存"
   },

@@ -133,6 +133,10 @@
   "favoriteGiftsModal": {
     "titleSuffix": "'s Favorite Gifts"
   },
+  "giftGivingModal": {
+    "title": "Give Gift",
+    "reset": "Reset"
+  },
   "giftInventoryModal": {
     "title": "Gift Inventory"
   },

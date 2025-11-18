@@ -133,6 +133,10 @@
   "favoriteGiftsModal": {
     "titleSuffix": "の好きな贈り物"
   },
+  "giftGivingModal": {
+    "title": "贈り物をあげる",
+    "reset": "リセット"
+  },
   "giftInventoryModal": {
     "title": "贈り物インベントリ"
   },

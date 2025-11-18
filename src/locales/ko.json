@@ -133,6 +133,10 @@
   "favoriteGiftsModal": {
     "titleSuffix": "의 좋아하는 선물"
   },
+  "giftGivingModal": {
+    "title": "선물하기",
+    "reset": "초기화"
+  },
   "giftInventoryModal": {
     "title": "선물 인벤토리"
   },
