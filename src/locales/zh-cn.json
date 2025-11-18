@@ -144,7 +144,8 @@
     "giftInventoryTitle": "礼物库存",
     "editBondTitle": "编辑{name}的羁绊",
     "bondLevel": "羁绊等级",
-    "bondExp": "羁绊经验"
+    "bondExp": "羁绊经验",
+    "convertToChoiceBox": "转换为自选箱"
   },
   "student": {
     "name": {

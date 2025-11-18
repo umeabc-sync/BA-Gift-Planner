@@ -144,7 +144,8 @@
     "giftInventoryTitle": "선물 인벤토리",
     "editBondTitle": "{name}의 인연 편집",
     "bondLevel": "인연 레벨",
-    "bondExp": "인연 EXP"
+    "bondExp": "인연 EXP",
+    "convertToChoiceBox": "선택 상자로 변환"
   },
   "student": {
     "name": {

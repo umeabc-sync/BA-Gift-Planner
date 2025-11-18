@@ -144,7 +144,8 @@
     "giftInventoryTitle": "Gift Inventory",
     "editBondTitle": "Edit {name}'s Bond",
     "bondLevel": "Bond Level",
-    "bondExp": "Bond EXP"
+    "bondExp": "Bond EXP",
+    "convertToChoiceBox": "Convert to Choice Box"
   },
   "student": {
     "name": {

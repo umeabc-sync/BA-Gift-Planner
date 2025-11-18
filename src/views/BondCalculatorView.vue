@@ -1,6 +1,6 @@
 <template>
   <div class="bond-calculator-view">
-    <GiftInventoryGrid @open-modal="isInventoryModalVisible = true" />
+    <GiftInventoryGrid :synthesis-gifts="synthesisGifts" @open-modal="isInventoryModalVisible = true" />
     <StudentBondSection @open-modal="openBondModal" />
     <GiftInventoryModal :is-visible="isInventoryModalVisible" @close="isInventoryModalVisible = false" />
     <StudentBondModal
@@ -13,14 +13,19 @@
 
 <script setup>
   import { ref } from 'vue'
+  import { storeToRefs } from 'pinia'
   import GiftInventoryGrid from '@components/section/GiftInventoryGrid.vue'
   import GiftInventoryModal from '@components/modal/GiftInventoryModal.vue'
   import StudentBondSection from '@components/section/StudentBondSection.vue'
   import StudentBondModal from '@components/modal/StudentBondModal.vue'
+  import { useGiftStore } from '@store/gift'
 
   const isInventoryModalVisible = ref(false)
   const isBondModalVisible = ref(false)
   const selectedStudentForBondEdit = ref(null)
+
+  const giftStore = useGiftStore()
+  const { synthesisGifts } = storeToRefs(giftStore)
 
   const openBondModal = (student) => {
     selectedStudentForBondEdit.value = student

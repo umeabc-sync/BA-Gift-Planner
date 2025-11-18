@@ -144,7 +144,8 @@
     "giftInventoryTitle": "禮物庫存",
     "editBondTitle": "編輯{name}的羈絆",
     "bondLevel": "羈絆等級",
-    "bondExp": "羈絆經驗"
+    "bondExp": "羈絆經驗",
+    "convertToChoiceBox": "轉換為自選箱"
   },
   "student": {
     "name": {

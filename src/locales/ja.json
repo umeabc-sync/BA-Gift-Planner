@@ -144,7 +144,8 @@
     "giftInventoryTitle": "贈り物インベントリ",
     "editBondTitle": "{name}の絆編集",
     "bondLevel": "絆レベル",
-    "bondExp": "絆EXP"
+    "bondExp": "絆EXP",
+    "convertToChoiceBox": "選択ボックスに変換"
   },
   "student": {
     "name": {
