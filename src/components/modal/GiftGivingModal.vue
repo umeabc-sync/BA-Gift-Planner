@@ -4,7 +4,7 @@
       <div v-if="show" class="modal-overlay" @click.self="close">
         <div class="modal-content">
           <div class="modal-header">
-            <div class="modal-title">{{ t('give_gift_to') }} {{ student.name }}</div>
+            <div class="modal-title">{{ t('giftGivingModal.title') }} {{ student.name }}</div>
             <button class="close-button" @click="close">×</button>
           </div>
           <div class="modal-body">
@@ -39,11 +39,7 @@
                       class="quantity-input"
                     />
                   </div>
-                  <button
-                    @click="increment(gift)"
-                    :disabled="getMax(gift) === getAssigned(gift)"
-                    class="quantity-btn"
-                  >
+                  <button @click="increment(gift)" :disabled="getMax(gift) === getAssigned(gift)" class="quantity-btn">
                     <span class="plus">＋</span>
                   </button>
                   <button @click="setMax(gift)" class="min-max-btn">
@@ -56,7 +52,7 @@
           </div>
           <div class="modal-footer">
             <button @click="reset" class="reset-button">
-              <span>{{ t('reset') }}</span>
+              <span>{{ t('giftGivingModal.reset') }}</span>
             </button>
           </div>
         </div>
@@ -399,7 +395,7 @@
     justify-content: center;
     transition: all 0.2s ease;
     transform: skew(-10deg);
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     box-shadow: 0 3px 2px rgba(0, 0, 0, 0.15);
     padding: 5px 8px;
   }
@@ -546,4 +542,3 @@
     }
   }
 </style>
-
