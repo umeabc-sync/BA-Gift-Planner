@@ -19,33 +19,23 @@
                     :inherit-background="false"
                   />
                   <div class="gift-icon-bg"></div>
-                  <div class="quantity-badge">{{ giftPlannerStore.getAvailableCount(gift.id, gift.isSsr) }} / {{ giftStore.getGiftQuantity(gift.id, gift.isSsr) }}</div>
+                  <div class="quantity-badge">
+                    {{ giftPlannerStore.getAvailableCount(gift.id, gift.isSsr) }} /
+                    {{ giftStore.getGiftQuantity(gift.id, gift.isSsr) }}
+                  </div>
                 </div>
 
-                <div class="quantity-control">
-                  <button @click="setMin(gift)" class="min-max-btn" :disabled="getAssigned(gift) === 0">
-                    <span class="min">MIN</span>
-                  </button>
-                  <button @click="decrement(gift)" :disabled="getAssigned(gift) === 0" class="quantity-btn">
-                    <span class="minus">－</span>
-                  </button>
-                  <div class="quantity-display">
-                    <input
-                      type="number"
-                      :value="getAssigned(gift)"
-                      @input="setAmount($event, gift)"
-                      min="0"
-                      :max="getMax(gift)"
-                      class="quantity-input"
-                    />
-                  </div>
-                  <button @click="increment(gift)" :disabled="getMax(gift) === getAssigned(gift)" class="quantity-btn">
-                    <span class="plus">＋</span>
-                  </button>
-                  <button @click="setMax(gift)" class="min-max-btn" :disabled="giftPlannerStore.getAvailableCount(gift.id, gift.isSsr) === 0">
-                    <span class="max">MAX</span>
-                  </button>
-                </div>
+                <QuantityControl
+                  :value="getAssigned(gift)"
+                  :max="getMax(gift)"
+                  :available="giftPlannerStore.getAvailableCount(gift.id, gift.isSsr)"
+                  @update:value="setAmount(gift, $event)"
+                  @increment="increment(gift)"
+                  @decrement="decrement(gift)"
+                  @set-min="setMin(gift)"
+                  @set-max="setMax(gift)"
+                  :show-min-max="true"
+                />
               </div>
             </div>
             <p v-else>Loading gifts...</p>
@@ -67,6 +57,7 @@
   import { useGiftStore } from '@/store/gift'
   import { getGiftUrl } from '@utils/getGiftUrl'
   import ImageWithLoader from '@components/ui/ImageWithLoader.vue'
+  import QuantityControl from '@components/ui/QuantityControl.vue'
   import { useI18n } from '@/composables/useI18n.js'
   import { useModal } from '@/composables/useModal'
 
@@ -131,17 +122,17 @@
     giftPlannerStore.setAssignment(props.student.id, gift.id, gift.isSsr, getMax(gift))
   }
 
-  const setAmount = (event, gift) => {
+  const setAmount = (gift, value) => {
     if (!props.student) return
-    let value = parseInt(event.target.value, 10)
-    if (isNaN(value) || value < 0) {
-      value = 0
+    let newAmount = value
+    if (isNaN(newAmount) || newAmount < 0) {
+      newAmount = 0
     }
     const max = getMax(gift)
-    if (value > max) {
-      value = max
+    if (newAmount > max) {
+      newAmount = max
     }
-    giftPlannerStore.setAssignment(props.student.id, gift.id, gift.isSsr, value)
+    giftPlannerStore.setAssignment(props.student.id, gift.id, gift.isSsr, newAmount)
   }
 
   function close() {
@@ -354,120 +345,6 @@
     background: #dee2e6;
     color: #201e2e;
     border-color: #1f3048;
-  }
-
-  .quantity-control {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    flex-grow: 1;
-    justify-content: center;
-  }
-
-  .quantity-btn {
-    font-family: inherit;
-    background-color: white;
-    border: none;
-    color: #4d5a6d;
-    cursor: pointer;
-    border-radius: 4px;
-    width: 35px;
-    height: 35px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s ease;
-    transform: skew(-10deg);
-    font-size: 1.5rem;
-    box-shadow: 0 3px 2px rgba(0, 0, 0, 0.15);
-  }
-
-  .min-max-btn {
-    font-family: inherit;
-    background-color: white;
-    border: none;
-    color: #496f8f;
-    cursor: pointer;
-    border-radius: 4px;
-    height: 35px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s ease;
-    transform: skew(-10deg);
-    font-size: 1.25rem;
-    box-shadow: 0 3px 2px rgba(0, 0, 0, 0.15);
-    padding: 5px 8px;
-  }
-
-  .dark-mode .quantity-btn,
-  .dark-mode .min-max-btn {
-    background-color: #2a4a6e;
-    color: #e0e6ed;
-  }
-
-  .quantity-btn:active,
-  .min-max-btn:active {
-    transform: scale(0.9) skew(-10deg);
-  }
-
-  .quantity-btn:disabled,
-  .min-max-btn:disabled {
-    background-color: #e2e3e3;
-    cursor: not-allowed;
-  }
-
-  .quantity-btn:disabled .minus,
-  .quantity-btn:disabled .plus {
-    color: #828282;
-  }
-
-  .plus,
-  .minus,
-  .min,
-  .max {
-    user-select: none;
-    transform: skew(10deg);
-  }
-
-  .plus {
-    color: #3dcffd;
-  }
-
-  .minus {
-    color: #ff6f00;
-  }
-
-  .quantity-display {
-    background-color: #4d5a6d;
-    color: #f6f7f6;
-    width: 60px;
-    height: 35px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transform: skew(-10deg);
-    border-radius: 4px;
-  }
-
-  .quantity-display .quantity-input {
-    width: 100%;
-    height: 100%;
-    background-color: transparent;
-    border: none;
-    outline: none;
-    color: inherit;
-    text-align: center;
-    font-size: 1.2rem;
-    font-weight: bold;
-    transform: skew(10deg);
-    -moz-appearance: textfield;
-  }
-
-  .quantity-display .quantity-input::-webkit-outer-spin-button,
-  .quantity-display .quantity-input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
   }
 
   .modal-footer {

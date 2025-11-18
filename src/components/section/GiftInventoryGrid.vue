@@ -2,9 +2,6 @@
   <div v-if="allGifts.length > 0" class="gift-grid-section">
     <div class="gift-grid-header">
       <div class="gift-grid-title">{{ t('bondCalculator.giftInventoryTitle') }}</div>
-      <button v-if="canConvertSynthesisGifts" class="convert-button" @click="convertGifts">
-        <span>{{ t('bondCalculator.convertToChoiceBox') }}</span>
-      </button>
       <button class="edit-button" @click="openModal">
         <span>{{ t('common.edit') }}</span>
       </button>
@@ -38,7 +35,6 @@
 
 <script setup>
   import { computed } from 'vue'
-  import { storeToRefs } from 'pinia'
   import { useI18n } from '@/composables/useI18n.js'
   import { useSrGiftData } from '@/utils/fetchSrGiftData.js'
   import { useSsrGiftData } from '@/utils/fetchSsrGiftData.js'
@@ -48,8 +44,7 @@
 
   const { t, currentLocale: locale } = useI18n()
   const giftStore = useGiftStore()
-  const { getGiftQuantity, convertSynthesisGifts } = giftStore
-  const { synthesisGifts } = storeToRefs(giftStore)
+  const { getGiftQuantity } = giftStore
 
   const emit = defineEmits(['open-modal'])
 
@@ -68,18 +63,6 @@
     const ssr = ssrGifts.value.map((g) => ({ ...g, isSsr: true })).sort((a, b) => a.id - b.id)
     return [...sr, ...ssr]
   })
-
-  const canConvertSynthesisGifts = computed(() => {
-    const totalGiftQuantity = synthesisGifts.value.reduce((total, gift) => {
-      const quantity = getGiftQuantity(gift.id, gift.isSsr)
-      return total + quantity
-    }, 0) // The initial total number is 0
-    return totalGiftQuantity >= 2
-  })
-
-  const convertGifts = () => {
-    convertSynthesisGifts()
-  }
 </script>
 
 <style scoped>
@@ -114,8 +97,7 @@
     color: #e0f4ff;
   }
 
-  .edit-button,
-  .convert-button {
+  .edit-button {
     position: absolute;
     display: flex;
     align-items: center;
@@ -136,32 +118,20 @@
     right: 0;
   }
 
-  .convert-button {
-    left: 0;
-    background-color: #28a745; /* Green color for convert button */
-  }
-
-  .edit-button:hover,
-  .convert-button:hover {
+  .edit-button:hover {
     transform: translateY(-2px) skew(-8deg);
   }
 
-  .edit-button:active,
-  .convert-button:active {
+  .edit-button:active {
     transform: scale(0.95) skew(-8deg);
   }
 
-  .edit-button span,
-  .convert-button span {
+  .edit-button span {
     transform: skew(8deg);
   }
 
   .dark-mode .edit-button {
     background-color: #00a4e4;
-  }
-
-  .dark-mode .convert-button {
-    background-color: #218838; /* Darker green for dark mode */
   }
 
   .dark-mode .edit-button:hover {

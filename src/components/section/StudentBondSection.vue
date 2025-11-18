@@ -56,7 +56,7 @@
   import ImageWithLoader from '@components/ui/ImageWithLoader.vue'
   import GiftGivingModal from '@components/modal/GiftGivingModal.vue'
   import GiftIcon from '@assets/icon/gift_icon.svg'
-import { getAssetsFile } from '@/utils/getAssetsFile'
+  import { getAssetsFile } from '@/utils/getAssetsFile'
 
   const studentStore = useStudentStore()
   const { selectedStudents } = storeToRefs(studentStore)
