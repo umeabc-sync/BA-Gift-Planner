@@ -15,54 +15,95 @@
                 loader-type="pulse"
                 :inherit-background="false"
               />
-              <span class="bond-level-text">{{ getStudentBondData(student.id).level }}</span>
+              <span class="bond-level-text" :class="{ 'level-up': bondStatus(student.id).levelUp }">
+                {{ bondStatus(student.id).displayLevel }}
+              </span>
             </div>
           </div>
           <div class="bond-exp-bar-container">
             <div class="bond-exp-bar">
-              <div class="bond-exp-progress" :style="{ width: `${expPercentage(student.id)}%` }"></div>
+              <div
+                class="bond-exp-progress-preview"
+                :class="{ flash: bondStatus(student.id).gainedExp > 0 }"
+                :style="{ width: `${bondStatus(student.id).newExpPercentage}%` }"
+              ></div>
+              <div
+                class="bond-exp-progress"
+                :style="{ width: `${bondStatus(student.id).originalExpPercentage}%` }"
+              ></div>
               <div class="bond-exp-text">
-                {{ getStudentBondData(student.id).exp }} / {{ maxExpForCurrentLevel(student.id) }}
+                {{ bondStatus(student.id).displayExp }} / {{ bondStatus(student.id).displayMaxExp }}
               </div>
             </div>
           </div>
         </div>
+        <button class="give-gift-button" @click="openGiftModal(student)">
+          <ImageWithLoader src="/src/assets/icon/gift.webp" />
+        </button>
       </div>
     </div>
+    <GiftGivingModal :show="isGiftModalOpen" :student="giftingStudent" @close="closeGiftModal" />
   </div>
 </template>
 
 <script setup>
+  import { ref, computed } from 'vue'
   import { useStudentStore } from '@/store/student'
+  import { useGiftPlannerStore } from '@/store/giftPlanner'
   import { storeToRefs } from 'pinia'
   import { getAvatarUrl } from '@utils/getAvatarUrl'
   import { useBondExpData } from '@/utils/fetchBondExpData'
   import ImageWithLoader from '@components/ui/ImageWithLoader.vue'
+  import GiftGivingModal from '@components/modal/GiftGivingModal.vue'
 
   const studentStore = useStudentStore()
   const { selectedStudents } = storeToRefs(studentStore)
   const { getStudentBondData } = studentStore
 
+  const giftPlannerStore = useGiftPlannerStore()
+
   const { data: bondExpTable } = useBondExpData()
 
   const emit = defineEmits(['open-modal'])
+
+  const isGiftModalOpen = ref(false)
+  const giftingStudent = ref(null)
+
+  const openGiftModal = (student) => {
+    giftingStudent.value = student
+    isGiftModalOpen.value = true
+  }
+
+  const closeGiftModal = () => {
+    isGiftModalOpen.value = false
+  }
 
   const openEditModal = (student) => {
     emit('open-modal', student)
   }
 
-  const maxExpForCurrentLevel = (studentId) => {
+  const maxExpForLevel = (level) => {
     if (!bondExpTable.value) return 0
-    const level = getStudentBondData(studentId).level
     const rankInfo = bondExpTable.value.find((r) => r.rank === level)
     return rankInfo ? rankInfo.exp : 0
   }
 
-  const expPercentage = (studentId) => {
-    const maxExp = maxExpForCurrentLevel(studentId)
-    if (maxExp === 0) return 0
-    return (getStudentBondData(studentId).exp / maxExp) * 100
-  }
+  const bondStatus = computed(() => (studentId) => {
+    const preview = giftPlannerStore.calculatePreviewBond(studentId)
+
+    const originalMaxExp = maxExpForLevel(preview.level)
+    const newMaxExp = maxExpForLevel(preview.newLevel)
+
+    return {
+      levelUp: preview.newLevel > preview.level,
+      displayLevel: preview.newLevel,
+      displayExp: preview.newExp,
+      displayMaxExp: newMaxExp,
+      gainedExp: preview.gainedExp,
+      originalExpPercentage: preview.newLevel > preview.level ? 0 : (preview.exp / originalMaxExp) * 100,
+      newExpPercentage: (preview.newExp / newMaxExp) * 100,
+    }
+  })
 </script>
 
 <style scoped>
@@ -131,6 +172,38 @@
     border-color: #2a4a6e;
   }
 
+  .give-gift-button {
+    flex-shrink: 0;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #466398;
+    border: 2px solid #fff;
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  .dark-mode .give-gift-button {
+    background-color: #00a4e4;
+  }
+
+  .give-gift-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  .give-gift-button:active {
+    transform: scale(0.95);
+  }
+
+  .give-gift-button :deep(img) {
+    width: 60%;
+    height: 60%;
+  }
+
   .bond-info {
     display: flex;
     align-items: center;
@@ -168,6 +241,12 @@
     color: #fff; /* Adjust color to be visible on the heart image */
     z-index: 1;
     text-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    transition: color 0.3s ease;
+  }
+
+  .bond-level-text.level-up {
+    color: #ffdf00;
+    animation: level-up-glow 1.5s infinite;
   }
 
   .bond-exp-bar-container {
@@ -190,6 +269,20 @@
     position: absolute;
     left: 0;
     top: 0;
+    transition: width 0.5s ease-in-out;
+  }
+
+  .bond-exp-progress-preview {
+    background: #a8ffc5;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    transition: width 0.5s ease-in-out;
+  }
+
+  .bond-exp-progress-preview.flash {
+    animation: flash 1.5s infinite;
   }
 
   .bond-exp-text {
@@ -202,36 +295,30 @@
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
   }
 
-  .edit-button {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background-color: #466398;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    padding: 8px 12px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: all 0.3s ease;
-    transform: skew(-8deg);
-    box-shadow: 0 3px 2px rgba(0, 0, 0, 0.15);
+  @keyframes level-up-glow {
+    0%,
+    100% {
+      text-shadow:
+        0 0 5px #fff,
+        0 0 10px #ffdf00,
+        0 0 15px #ffdf00;
+    }
+    50% {
+      text-shadow:
+        0 0 10px #fff,
+        0 0 20px #ffdf00,
+        0 0 30px #ffdf00;
+    }
   }
 
-  .edit-button:hover {
-    transform: translateY(-2px) skew(-8deg);
-  }
-
-  .edit-button:active {
-    transform: scale(0.95) skew(-8deg);
-  }
-
-  .edit-button span {
-    transform: skew(8deg);
-  }
-
-  .dark-mode .edit-button {
-    background-color: #00a4e4;
+  @keyframes flash {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.6;
+    }
   }
 
   @media (max-width: 768px) {
