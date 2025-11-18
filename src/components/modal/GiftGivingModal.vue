@@ -1,56 +1,78 @@
 <template>
-  <div v-if="show" class="modal-overlay" @click.self="close">
-    <div class="modal-container">
-      <div class="modal-header">
-        <h3>{{ t('give_gift_to') }} {{ student.name }}</h3>
-        <button class="close-button" @click="close">&times;</button>
-      </div>
-      <div class="modal-body">
-        <div v-if="sortedGifts.length > 0" class="gift-list">
-          <div v-for="gift in sortedGifts" :key="gift.key" class="gift-item">
-            <div class="gift-info">
-              <ImageWithLoader :src="getGiftUrl(gift.id, gift.isSsr)" class="gift-icon" />
-              <span class="gift-name">{{ gift.name }}</span>
+  <teleport to="body">
+    <transition name="modal-fade">
+      <div v-if="show" class="modal-overlay" @click.self="close">
+        <div class="modal-content">
+          <div class="modal-header">
+            <div class="modal-title">{{ t('give_gift_to') }} {{ student.name }}</div>
+            <button class="close-button" @click="close">×</button>
+          </div>
+          <div class="modal-body">
+            <div v-if="sortedGifts.length > 0" class="gift-list">
+              <div v-for="gift in sortedGifts" :key="gift.key" class="gift-item">
+                <div class="gift-info">
+                  <ImageWithLoader
+                    :src="getGiftUrl(gift.id, gift.isSsr)"
+                    class="gift-icon"
+                    object-fit="contain"
+                    loader-type="pulse"
+                  />
+                  <div class="available-quantity">/ {{ giftStore.getGiftQuantity(gift.id, gift.isSsr) }}</div>
+                </div>
+                <div class="quantity-control">
+                  <button
+                    @click="decrement(gift)"
+                    :disabled="getAssigned(gift) === 0"
+                    class="quantity-btn"
+                  >
+                    <span class="minus">−</span>
+                  </button>
+                  <div class="quantity-display">
+                    <input
+                      type="number"
+                      :value="getAssigned(gift)"
+                      @input="setAmount($event, gift)"
+                      min="0"
+                      :max="getMax(gift)"
+                      class="quantity-input"
+                    />
+                  </div>
+                  <button
+                    @click="increment(gift)"
+                    :disabled="getMax(gift) === getAssigned(gift)"
+                    class="quantity-btn"
+                  >
+                    <span class="plus">+</span>
+                  </button>
+                </div>
+              </div>
             </div>
-            <div class="quantity-control">
-              <button @click="decrement(gift)" :disabled="getAssigned(gift) === 0" class="quantity-btn">-</button>
-              <input
-                type="number"
-                :value="getAssigned(gift)"
-                @input="setAmount($event, gift)"
-                min="0"
-                :max="getMax(gift)"
-                class="quantity-input"
-              />
-              <button @click="increment(gift)" :disabled="getMax(gift) === getAssigned(gift)" class="quantity-btn">
-                +
-              </button>
-            </div>
-            <div class="available-quantity">/ {{ giftStore.getGiftQuantity(gift.id, gift.isSsr) }}</div>
+            <p v-else>Loading gifts...</p>
+          </div>
+          <div class="modal-footer">
+            <button @click="reset" class="reset-button">
+              <span>{{ t('reset') }}</span>
+            </button>
           </div>
         </div>
-        <p v-else>Loading gifts...</p>
       </div>
-      <div class="modal-footer">
-        <button @click="reset">{{ t('reset') }}</button>
-        <button @click="close">{{ t('confirm') }}</button>
-      </div>
-    </div>
-  </div>
+    </transition>
+  </teleport>
 </template>
 
 <script setup>
-  import { computed } from 'vue'
+  import { computed, toRefs } from 'vue'
   import { useGiftPlannerStore } from '@/store/giftPlanner'
   import { useGiftStore } from '@/store/gift'
   import { getGiftUrl } from '@utils/getGiftUrl'
   import ImageWithLoader from '@components/ui/ImageWithLoader.vue'
   import { useI18n } from '@/composables/useI18n.js'
+  import { useModal } from '@/composables/useModal'
 
   const { t } = useI18n()
 
   const props = defineProps({
-    show: Boolean,
+    show: { type: Boolean, default: false },
     student: Object,
   })
 
@@ -59,9 +81,13 @@
   const giftPlannerStore = useGiftPlannerStore()
   const giftStore = useGiftStore()
 
+  const { show } = toRefs(props)
+  useModal(show, close)
+
   const sortedGifts = computed(() => {
     if (!giftPlannerStore.allGifts) return []
     return giftPlannerStore.allGifts
+      .filter((g) => giftStore.getGiftQuantity(g.id, g.isSsr) > 0)
       .map((g) => ({ ...g, key: `${g.isSsr ? 'ssr' : 'sr'}-${g.id}` }))
       .sort((a, b) => {
         if (a.isSsr !== b.isSsr) return a.isSsr ? -1 : 1
@@ -104,7 +130,7 @@
     }
   }
 
-  const close = () => {
+  function close() {
     emit('close')
   }
 
@@ -116,59 +142,93 @@
 </script>
 
 <style scoped>
-  /* Styles will be similar to other modals */
   .modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.6);
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000;
+    z-index: 2000;
+    backdrop-filter: blur(5px);
   }
 
-  .modal-container {
-    background-color: #fff;
-    border-radius: 8px;
+  .modal-content {
+    background: #f8f9fa;
+    border-radius: 15px;
     width: 90%;
-    max-width: 800px;
+    max-width: 550px;
     max-height: 80vh;
     display: flex;
     flex-direction: column;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.4);
+    animation: slide-down 0.3s ease-out;
   }
 
-  .dark-mode .modal-container {
-    background-color: #2a3b50;
+  .dark-mode .modal-content {
+    background: #1a2b40;
+    color: #e0e6ed;
   }
 
   .modal-header {
-    padding: 16px;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid #dee2e6;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
+    background: linear-gradient(45deg, #cde6f8, #f7fafb);
+    border-radius: 15px 15px 0 0;
+    position: relative;
+    user-select: none;
+  }
+
+  .modal-header .modal-title {
+    padding: 10px 0px 5px 0px;
+    text-align: center;
+    color: #2d4663;
+    flex-grow: 0;
+    font-size: 1.5rem;
+    font-weight: bold;
+    border-bottom: 5px solid #fdef66;
   }
 
   .dark-mode .modal-header {
-    border-bottom: 1px solid #3a506b;
+    background: linear-gradient(45deg, #223d5a, #1a2b40);
+    border-bottom-color: #2a4a6e;
   }
 
-  .modal-header h3 {
-    margin: 0;
+  .dark-mode .modal-header .modal-title {
+    color: #e0f4ff;
+    border-bottom-color: #fdef66;
   }
 
   .close-button {
     background: none;
     border: none;
-    font-size: 24px;
+    font-size: 2rem;
+    color: #2d4663;
     cursor: pointer;
+    line-height: 1;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .dark-mode .close-button {
+    color: #e0f4ff;
+  }
+
+  .close-button:hover {
+    opacity: 1;
   }
 
   .modal-body {
-    padding: 16px;
+    padding: 10px 20px;
     overflow-y: auto;
   }
 
@@ -176,13 +236,13 @@
     display: flex;
     flex-direction: column;
     gap: 15px;
+    padding: 10px 0;
   }
 
   .gift-item {
-    display: grid;
-    grid-template-columns: 1fr auto auto;
+    display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: 10px;
   }
 
   .gift-info {
@@ -192,12 +252,17 @@
   }
 
   .gift-icon {
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
   }
 
-  .gift-name {
-    font-weight: bold;
+  .available-quantity {
+    font-size: 14px;
+    color: #888;
+  }
+
+  .dark-mode .available-quantity {
+    color: #aaa;
   }
 
   .quantity-control {
@@ -207,60 +272,158 @@
   }
 
   .quantity-btn {
-    width: 30px;
-    height: 30px;
-    border: 1px solid #ccc;
-    border-radius: 50%;
-    background-color: #f0f0f0;
+    background-color: white;
+    border: none;
+    color: #4d5a6d;
     cursor: pointer;
-    font-size: 18px;
+    border-radius: 4px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    transform: skew(-10deg);
+    font-size: 1.5rem;
+    font-weight: bold;
+    box-shadow: 0 3px 2px rgba(0, 0, 0, 0.15);
   }
 
   .dark-mode .quantity-btn {
-    background-color: #3a506b;
-    border-color: #5a7a9b;
-  }
-
-  .quantity-input {
-    width: 50px;
-    text-align: center;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 5px;
-  }
-
-  .dark-mode .quantity-input {
-    background-color: #1a2b40;
-    border-color: #3a506b;
+    background-color: #2a4a6e;
     color: #e0e6ed;
   }
 
-  .available-quantity {
-    width: 50px;
-    text-align: left;
-    color: #888;
+  .quantity-btn:active {
+    transform: scale(0.9) skew(-10deg);
   }
 
-  .dark-mode .available-quantity {
-    color: #aaa;
+  .quantity-btn:disabled {
+    background-color: #e2e3e3;
+    cursor: not-allowed;
+  }
+
+  .quantity-btn:disabled .minus,
+  .quantity-btn:disabled .plus {
+    color: #828282;
+  }
+
+  .plus,
+  .minus {
+    user-select: none;
+    transform: skew(10deg);
+  }
+
+  .plus {
+    color: #3dcffd;
+  }
+
+  .minus {
+    color: #ff6f00;
+  }
+
+  .quantity-display {
+    background-color: #4d5a6d;
+    color: #f6f7f6;
+    width: 80px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: skew(-10deg);
+    border-radius: 4px;
+  }
+
+  .quantity-display .quantity-input {
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    color: inherit;
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    transform: skew(10deg);
+    -moz-appearance: textfield;
+  }
+
+  .quantity-display .quantity-input::-webkit-outer-spin-button,
+  .quantity-display .quantity-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
   }
 
   .modal-footer {
-    padding: 16px;
-    border-top: 1px solid #eee;
+    padding: 15px 20px;
     display: flex;
     justify-content: flex-end;
-    gap: 10px;
+    border-top: 1px solid #dee2e6;
   }
 
   .dark-mode .modal-footer {
-    border-top: 1px solid #3a506b;
+    border-top: 1px solid #2a4a6e;
   }
 
-  button {
-    padding: 8px 16px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
+  .reset-button {
+    background-color: #77ddff;
+    background-image: linear-gradient(to bottom right, #63d0fd 0%, transparent 50%),
+      linear-gradient(to top left, #63d0fd 0%, transparent 50%);
+    border: none;
+    color: #314665;
     cursor: pointer;
+    border-radius: 12px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    transform: skew(-8deg);
+    box-shadow: 0 3px 2px rgba(0, 0, 0, 0.15);
+    font-family: inherit;
+    font-weight: bold;
+    font-size: 1rem;
+    padding: 0 25px;
+  }
+
+  .reset-button:hover {
+    transform: translateY(-2px) skew(-8deg);
+  }
+
+  .reset-button:active {
+    transform: scale(0.95) skew(-8deg);
+  }
+
+  .dark-mode .reset-button {
+    background-color: #00aeef;
+    background-image: linear-gradient(to bottom right, #09a4f2 0%, transparent 50%),
+      linear-gradient(to top left, #09a4f2 0%, transparent 50%);
+    color: #e0f4ff;
+  }
+
+  .reset-button > span {
+    transform: skew(8deg);
+    display: inline-block;
+  }
+
+  .modal-fade-enter-active,
+  .modal-fade-leave-active {
+    transition: opacity 0.3s ease;
+  }
+  .modal-fade-enter-from,
+  .modal-fade-leave-to {
+    opacity: 0;
+  }
+
+  @keyframes slide-down {
+    from {
+      transform: translateY(-30px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
   }
 </style>
+
