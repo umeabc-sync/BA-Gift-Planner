@@ -1,83 +1,78 @@
 <template>
-  <teleport to="body">
-    <transition name="modal-fade">
-      <div v-if="isVisible" class="modal-overlay" @click.self="closeModal">
-        <div class="modal-content">
-          <div class="modal-header">
-            <div class="modal-title">{{ t('common.settings') }}</div>
-            <button class="close-button" @click="closeModal">×</button>
+  <BaseModal :is-visible="isVisible" @close="closeModal" max-width="500px">
+    <template #header>
+      <div class="modal-title">{{ t('common.settings') }}</div>
+    </template>
+    <template #body>
+      <div ref="modalBodyRef" class="settings-body">
+        <!-- Language Settings -->
+        <div class="setting-group">
+          <h4 class="setting-group-title">{{ t('settingsModal.language') }}</h4>
+          <div class="language-selector">
+            <button ref="dropdownToggleRef" class="lang-dropdown-toggle" @click="toggleMenu">
+              <span>{{ currentLanguageName }}</span>
+              <span class="caret" :class="{ open: isOpen }"></span>
+            </button>
+            <transition name="dropdown">
+              <ul v-if="isOpen" ref="languageMenuRef" class="language-menu" :style="menuStyle">
+                <li
+                  v-for="lang in availableLanguages"
+                  :key="lang.code"
+                  :class="{ active: locale === lang.code }"
+                  @click="
+                    () => {
+                      handleLocaleChange(lang.code)
+                      isOpen = false
+                    }
+                  "
+                >
+                  <span>{{ lang.name }}</span>
+                </li>
+              </ul>
+            </transition>
           </div>
-          <div ref="modalBodyRef" class="modal-body">
-            <!-- Language Settings -->
-            <div class="setting-group">
-              <h4 class="setting-group-title">{{ t('settingsModal.language') }}</h4>
-              <div class="language-selector">
-                <button ref="dropdownToggleRef" class="lang-dropdown-toggle" @click="toggleMenu">
-                  <span>{{ currentLanguageName }}</span>
-                  <span class="caret" :class="{ open: isOpen }"></span>
-                </button>
-                <transition name="dropdown">
-                  <ul v-if="isOpen" ref="languageMenuRef" class="language-menu" :style="menuStyle">
-                    <li
-                      v-for="lang in availableLanguages"
-                      :key="lang.code"
-                      :class="{ active: locale === lang.code }"
-                      @click="
-                        () => {
-                          handleLocaleChange(lang.code)
-                          isOpen = false
-                        }
-                      "
-                    >
-                      <span>{{ lang.name }}</span>
-                    </li>
-                  </ul>
-                </transition>
-              </div>
-            </div>
+        </div>
 
-            <!-- Show Only Optimal Solution Settings -->
-            <div class="setting-group">
-              <h4 class="setting-group-title">{{ t('settingsModal.showOnlyOptimalSolution') }}</h4>
-              <div class="toggle-button-group">
-                <button
-                  :class="['toggle-button', 'off', { active: !isShowOnlyOptimalSolutionEnabled }]"
-                  @click="isShowOnlyOptimalSolutionEnabled && toggleShowOnlyOptimalSolution()"
-                >
-                  <span>{{ t('common.disabled') }}</span>
-                </button>
-                <button
-                  :class="['toggle-button', 'on', { active: isShowOnlyOptimalSolutionEnabled }]"
-                  @click="!isShowOnlyOptimalSolutionEnabled && toggleShowOnlyOptimalSolution()"
-                >
-                  <span>{{ t('common.enabled') }}</span>
-                </button>
-              </div>
-            </div>
+        <!-- Show Only Optimal Solution Settings -->
+        <div class="setting-group">
+          <h4 class="setting-group-title">{{ t('settingsModal.showOnlyOptimalSolution') }}</h4>
+          <div class="toggle-button-group">
+            <button
+              :class="['toggle-button', 'off', { active: !isShowOnlyOptimalSolutionEnabled }]"
+              @click="isShowOnlyOptimalSolutionEnabled && toggleShowOnlyOptimalSolution()"
+            >
+              <span>{{ t('common.disabled') }}</span>
+            </button>
+            <button
+              :class="['toggle-button', 'on', { active: isShowOnlyOptimalSolutionEnabled }]"
+              @click="!isShowOnlyOptimalSolutionEnabled && toggleShowOnlyOptimalSolution()"
+            >
+              <span>{{ t('common.enabled') }}</span>
+            </button>
+          </div>
+        </div>
 
-            <!-- Lazy Load Settings -->
-            <div class="setting-group">
-              <h4 class="setting-group-title">{{ t('settingsModal.characterSelectorLazyLoad') }}</h4>
-              <div class="toggle-button-group">
-                <button
-                  :class="['toggle-button', 'off', { active: !isLazyLoadEnabled }]"
-                  @click="isLazyLoadEnabled && toggleLazyLoad()"
-                >
-                  <span>{{ t('common.disabled') }}</span>
-                </button>
-                <button
-                  :class="['toggle-button', 'on', { active: isLazyLoadEnabled }]"
-                  @click="!isLazyLoadEnabled && toggleLazyLoad()"
-                >
-                  <span>{{ t('common.enabled') }}</span>
-                </button>
-              </div>
-            </div>
+        <!-- Lazy Load Settings -->
+        <div class="setting-group">
+          <h4 class="setting-group-title">{{ t('settingsModal.characterSelectorLazyLoad') }}</h4>
+          <div class="toggle-button-group">
+            <button
+              :class="['toggle-button', 'off', { active: !isLazyLoadEnabled }]"
+              @click="isLazyLoadEnabled && toggleLazyLoad()"
+            >
+              <span>{{ t('common.disabled') }}</span>
+            </button>
+            <button
+              :class="['toggle-button', 'on', { active: isLazyLoadEnabled }]"
+              @click="!isLazyLoadEnabled && toggleLazyLoad()"
+            >
+              <span>{{ t('common.enabled') }}</span>
+            </button>
           </div>
         </div>
       </div>
-    </transition>
-  </teleport>
+    </template>
+  </BaseModal>
 </template>
 
 <script setup>
@@ -86,6 +81,7 @@
   import { storeToRefs } from 'pinia'
   import { useI18n } from '@/composables/useI18n.js'
   import { useModal } from '@/composables/useModal.js'
+  import BaseModal from '@components/ui/BaseModal.vue'
 
   const { t, currentLocale: locale } = useI18n()
 
@@ -195,95 +191,8 @@
 </script>
 
 <style scoped>
-  .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 2000;
-    backdrop-filter: blur(5px);
-  }
-
-  .modal-content {
-    background: #f8f9fa;
-    /* Abandoned */
-    /* background: linear-gradient(135deg, #f8f9fa 75%, #d4e4ed); */
-    border-radius: 15px;
-    width: 90%;
-    max-width: 500px;
-    max-height: 80vh;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.4);
-    animation: slide-down 0.3s ease-out;
-  }
-
-  .dark-mode .modal-content {
-    background: #1a2b40;
-    color: #e0e6ed;
-  }
-
-  .modal-header {
-    border-bottom: 1px solid #dee2e6;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: linear-gradient(45deg, #cde6f8, #f7fafb);
-    border-radius: 15px 15px 0 0;
-    position: relative;
-  }
-
-  .modal-header .modal-title {
-    padding: 10px 0px 5px 0px;
-    text-align: center;
-    color: #2d4663;
-    flex-grow: 0;
-    font-size: 1.5rem;
-    font-weight: bold;
-    border-bottom: 5px solid #fdef66;
-    user-select: none;
-  }
-
-  .dark-mode .modal-header {
-    background: linear-gradient(45deg, #223d5a, #1a2b40);
-    border-bottom-color: #2a4a6e;
-  }
-
-  .dark-mode .modal-header .modal-title {
-    color: #e0f4ff;
-    border-bottom-color: #fdef66;
-  }
-
-  .dark-mode .close-button {
-    color: #e0f4ff;
-  }
-
-  .close-button {
-    background: none;
-    border: none;
-    font-size: 2rem;
-    color: #2d4663;
-    cursor: pointer;
-    line-height: 1;
-    opacity: 0.8;
-    transition: opacity 0.2s;
-    position: absolute;
-    right: 20px;
-    top: 50%;
-    transform: translateY(-50%);
-  }
-  .close-button:hover {
-    opacity: 1;
-  }
-
-  .modal-body {
+  .settings-body {
     padding: 20px;
-    overflow-y: auto;
   }
 
   .setting-group {
@@ -449,15 +358,6 @@
   .dropdown-leave-to {
     opacity: 0;
     transform: translateY(-10px) skew(-8deg);
-  }
-
-  .modal-fade-enter-active,
-  .modal-fade-leave-active {
-    transition: opacity 0.3s ease;
-  }
-  .modal-fade-enter-from,
-  .modal-fade-leave-to {
-    opacity: 0;
   }
 
   .toggle-button-group {

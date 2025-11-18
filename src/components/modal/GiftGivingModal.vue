@@ -1,54 +1,51 @@
 <template>
-  <teleport to="body">
-    <transition name="modal-fade">
-      <div v-if="show" class="modal-overlay" @click.self="close">
-        <div class="modal-content">
-          <div class="modal-header">
-            <div class="modal-title">{{ t('giftGivingModal.title') }} {{ student.name }}</div>
-            <button class="close-button" @click="close">×</button>
-          </div>
-          <div class="modal-body">
-            <div v-if="sortedGifts.length > 0" class="gift-list">
-              <div v-for="gift in sortedGifts" :key="gift.key" class="gift-wrapper">
-                <div class="gift-grid-item" :class="[gift.isSsr ? 'gift-purple' : 'gift-yellow', getGiftStyle(gift)]">
-                  <ImageWithLoader
-                    :src="getGiftUrl(gift.id, gift.isSsr)"
-                    class="gift-icon"
-                    object-fit="contain"
-                    loader-type="pulse"
-                    :inherit-background="false"
-                  />
-                  <div class="gift-icon-bg"></div>
-                  <div class="quantity-badge">
-                    {{ giftPlannerStore.getAvailableCount(gift.id, gift.isSsr) }} /
-                    {{ giftStore.getGiftQuantity(gift.id, gift.isSsr) }}
-                  </div>
-                </div>
-
-                <QuantityControl
-                  :value="getAssigned(gift)"
-                  :max="getMax(gift)"
-                  :available="giftPlannerStore.getAvailableCount(gift.id, gift.isSsr)"
-                  @update:value="setAmount(gift, $event)"
-                  @increment="increment(gift)"
-                  @decrement="decrement(gift)"
-                  @set-min="setMin(gift)"
-                  @set-max="setMax(gift)"
-                  :show-min-max="true"
-                />
+  <BaseModal :is-visible="show" @close="close" max-width="550px">
+    <template #header>
+      <div class="modal-title">{{ t('giftGivingModal.title') }} {{ student.name }}</div>
+    </template>
+    <template #body>
+      <div class="gift-giving-body">
+        <div v-if="sortedGifts.length > 0" class="gift-list">
+          <div v-for="gift in sortedGifts" :key="gift.key" class="gift-wrapper">
+            <div class="gift-grid-item" :class="[gift.isSsr ? 'gift-purple' : 'gift-yellow', getGiftStyle(gift)]">
+              <ImageWithLoader
+                :src="getGiftUrl(gift.id, gift.isSsr)"
+                class="gift-icon"
+                object-fit="contain"
+                loader-type="pulse"
+                :inherit-background="false"
+              />
+              <div class="gift-icon-bg"></div>
+              <div class="quantity-badge">
+                {{ giftPlannerStore.getAvailableCount(gift.id, gift.isSsr) }} /
+                {{ giftStore.getGiftQuantity(gift.id, gift.isSsr) }}
               </div>
             </div>
-            <p v-else>Loading gifts...</p>
-          </div>
-          <div class="modal-footer">
-            <button @click="reset" class="reset-button">
-              <span>{{ t('giftGivingModal.reset') }}</span>
-            </button>
+
+            <QuantityControl
+              :value="getAssigned(gift)"
+              :max="getMax(gift)"
+              :available="giftPlannerStore.getAvailableCount(gift.id, gift.isSsr)"
+              @update:value="setAmount(gift, $event)"
+              @increment="increment(gift)"
+              @decrement="decrement(gift)"
+              @set-min="setMin(gift)"
+              @set-max="setMax(gift)"
+              :show-min-max="true"
+            />
           </div>
         </div>
+        <p v-else>Loading gifts...</p>
       </div>
-    </transition>
-  </teleport>
+    </template>
+    <template #footer>
+      <div class="gift-giving-footer">
+        <button @click="reset" class="reset-button">
+          <span>{{ t('giftGivingModal.reset') }}</span>
+        </button>
+      </div>
+    </template>
+  </BaseModal>
 </template>
 
 <script setup>
@@ -61,6 +58,7 @@
   import QuantityControl from '@components/ui/QuantityControl.vue'
   import { useI18n } from '@/composables/useI18n.js'
   import { useModal } from '@/composables/useModal'
+  import BaseModal from '@components/ui/BaseModal.vue'
 
   const { t } = useI18n()
 
@@ -175,94 +173,8 @@
 </script>
 
 <style scoped>
-  .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 2000;
-    backdrop-filter: blur(5px);
-  }
-
-  .modal-content {
-    background: #f8f9fa;
-    border-radius: 15px;
-    width: 90%;
-    max-width: 550px;
-    max-height: 80vh;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.4);
-    animation: slide-down 0.3s ease-out;
-  }
-
-  .dark-mode .modal-content {
-    background: #1a2b40;
-    color: #e0e6ed;
-  }
-
-  .modal-header {
-    border-bottom: 1px solid #dee2e6;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: linear-gradient(45deg, #cde6f8, #f7fafb);
-    border-radius: 15px 15px 0 0;
-    position: relative;
-    user-select: none;
-  }
-
-  .modal-header .modal-title {
-    padding: 10px 0px 5px 0px;
-    text-align: center;
-    color: #2d4663;
-    flex-grow: 0;
-    font-size: 1.5rem;
-    font-weight: bold;
-    border-bottom: 5px solid #fdef66;
-  }
-
-  .dark-mode .modal-header {
-    background: linear-gradient(45deg, #223d5a, #1a2b40);
-    border-bottom-color: #2a4a6e;
-  }
-
-  .dark-mode .modal-header .modal-title {
-    color: #e0f4ff;
-    border-bottom-color: #fdef66;
-  }
-
-  .close-button {
-    background: none;
-    border: none;
-    font-size: 2rem;
-    color: #2d4663;
-    cursor: pointer;
-    line-height: 1;
-    opacity: 0.8;
-    transition: opacity 0.2s;
-    position: absolute;
-    right: 20px;
-    top: 50%;
-    transform: translateY(-50%);
-  }
-
-  .dark-mode .close-button {
-    color: #e0f4ff;
-  }
-
-  .close-button:hover {
-    opacity: 1;
-  }
-
-  .modal-body {
+  .gift-giving-body {
     padding: 10px 20px;
-    overflow-y: auto;
   }
 
   .gift-list {
@@ -375,15 +287,8 @@
     border-color: #1f3048;
   }
 
-  .modal-footer {
+  .gift-giving-footer {
     padding: 15px 20px;
-    display: flex;
-    justify-content: flex-end;
-    border-top: 1px solid #dee2e6;
-  }
-
-  .dark-mode .modal-footer {
-    border-top: 1px solid #2a4a6e;
   }
 
   .reset-button {
@@ -442,26 +347,6 @@
     }
     50% {
       box-shadow: 0 0 20px 5px #fdef66;
-    }
-  }
-
-  .modal-fade-enter-active,
-  .modal-fade-leave-active {
-    transition: opacity 0.3s ease;
-  }
-  .modal-fade-enter-from,
-  .modal-fade-leave-to {
-    opacity: 0;
-  }
-
-  @keyframes slide-down {
-    from {
-      transform: translateY(-30px);
-      opacity: 0;
-    }
-    to {
-      transform: translateY(0);
-      opacity: 1;
     }
   }
 </style>
