@@ -47,14 +47,20 @@ export const useGiftStore = defineStore(
     function convertSynthesisGifts() {
       let totalSynthesisGiftQuantity = 0
       const synthesisGiftKeys = []
+      let firstOwnedSynthesisGift = null
 
       // Calculate total quantity and collect keys
       synthesisGifts.value.forEach((gift) => {
         const key = getKey(gift.id, gift.isSsr)
         const quantity = quantities.value[key] || 0
+        if (quantity > 0 && !firstOwnedSynthesisGift) {
+          firstOwnedSynthesisGift = { id: gift.id, isSsr: gift.isSsr }
+        }
         totalSynthesisGiftQuantity += quantity
         synthesisGiftKeys.push({ key, id: gift.id, isSsr: gift.isSsr })
       })
+
+      if (totalSynthesisGiftQuantity < 2) return
 
       const choiceBoxesToCreate = Math.floor(totalSynthesisGiftQuantity / 2)
       const remainder = totalSynthesisGiftQuantity % 2
@@ -71,11 +77,10 @@ export const useGiftStore = defineStore(
       }
 
       // Handle remainder
-      if (remainder === 1 && synthesisGiftKeys.length > 0) {
-        // Put the remainder back into the first synthesis gift
-        const firstSynthesisGift = synthesisGiftKeys[0]
-        const key = getKey(firstSynthesisGift.id, firstSynthesisGift.isSsr)
-        quantities.value[key] = (quantities.value[key] || 0) + 1
+      if (remainder === 1 && firstOwnedSynthesisGift) {
+        // Put the remainder back into the first synthesis gift that was owned
+        const key = getKey(firstOwnedSynthesisGift.id, firstOwnedSynthesisGift.isSsr)
+        quantities.value[key] = 1
       }
     }
 
