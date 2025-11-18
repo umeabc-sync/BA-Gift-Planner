@@ -9,7 +9,7 @@
           <div class="bond-level-container">
             <div class="bond-heart-image-wrapper">
               <ImageWithLoader
-                src="/src/assets/icon/bond_heart.png"
+                :src="getAssetsFile('icon/bond_heart.webp')"
                 class="bond-heart-image"
                 object-fit="contain"
                 loader-type="pulse"
@@ -56,6 +56,7 @@
   import ImageWithLoader from '@components/ui/ImageWithLoader.vue'
   import GiftGivingModal from '@components/modal/GiftGivingModal.vue'
   import GiftIcon from '@assets/icon/gift_icon.svg'
+import { getAssetsFile } from '@/utils/getAssetsFile'
 
   const studentStore = useStudentStore()
   const { selectedStudents } = storeToRefs(studentStore)
