@@ -1,11 +1,11 @@
 <template>
   <div v-if="selectedStudents.length > 0" class="student-bond-section">
     <div v-for="student in selectedStudents" :key="student.id" class="student-row">
-      <div class="student-island" @click="openEditModal(student)">
+      <div class="student-island">
         <ImageWithLoader :src="getAvatarUrl(student.id)" class="student-avatar-img" />
       </div>
       <div class="bond-island">
-        <div class="bond-info">
+        <div class="bond-info" @click="openEditModal(student)">
           <div class="bond-level-container">
             <div class="bond-heart-image-wrapper">
               <ImageWithLoader
@@ -221,6 +221,10 @@
     gap: 20px;
     margin-right: 20px;
     flex-grow: 1;
+  }
+
+  .bond-info:hover {
+    cursor: pointer;
   }
 
   .bond-level-container {
