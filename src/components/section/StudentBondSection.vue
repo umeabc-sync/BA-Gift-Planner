@@ -271,34 +271,58 @@
 
   .bond-exp-bar {
     height: 30px;
-    background: #c7c7c7;
+    background-color: #f0f0f0;
     border: 2px solid #ef6dbd;
-    border-radius: 4px;
+    border-radius: 6px;
     transform: skew(-10deg);
     position: relative;
     overflow: hidden;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1); /* The inner shadow makes it appear concave. */
+  }
+
+  .dark-mode .bond-exp-bar {
+    background-color: #2a3b55;
+    border-color: #ef6dbd;
+    box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.4);
   }
 
   .bond-exp-progress {
-    background: #ffbed8;
+    background: linear-gradient(180deg, #ffcfe3 0%, #ffbed8 40%, #f09bbd 100%);
     height: 100%;
     position: absolute;
     left: 0;
     top: 0;
-    transition: width 0.5s ease-in-out;
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    border-right: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow: 2px 0 5px rgba(239, 109, 189, 0.3);
+    z-index: 2;
   }
 
   .bond-exp-progress-preview {
-    background: #a8ffc5;
+    background-color: #7df4a8;
+    background-image: linear-gradient(
+      45deg,
+      rgba(255, 255, 255, 0.4) 25%,
+      transparent 25%,
+      transparent 50%,
+      rgba(255, 255, 255, 0.4) 50%,
+      rgba(255, 255, 255, 0.4) 75%,
+      transparent 75%,
+      transparent
+    );
+    background-size: 20px 20px; /* Control stripe size */
     height: 100%;
     position: absolute;
     left: 0;
     top: 0;
-    transition: width 0.5s ease-in-out;
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1; /* In the lower tier of the original experience points */
+    opacity: 0; /* Hides by default, only shows when the width increases. */
   }
 
   .bond-exp-progress-preview.flash {
-    animation: flash 1.5s infinite;
+    opacity: 1;
+    animation: barber-pole 1s linear infinite;
   }
 
   .bond-exp-text {
@@ -308,7 +332,16 @@
     transform: translate(-50%, -50%) skew(10deg);
     color: #fff;
     font-weight: bold;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    text-shadow:
+      -1px -1px 0 #e05ca3,
+      1px -1px 0 #e05ca3,
+      -1px 1px 0 #e05ca3,
+      1px 1px 0 #e05ca3,
+      0 2px 4px rgba(0, 0, 0, 0.3);
+    z-index: 10; /* Top layer */
+    white-space: nowrap;
   }
 
   @keyframes level-up-glow {
@@ -327,13 +360,12 @@
     }
   }
 
-  @keyframes flash {
-    0%,
-    100% {
-      opacity: 1;
+  @keyframes barber-pole {
+    0% {
+      background-position: 0 0;
     }
-    50% {
-      opacity: 0.6;
+    100% {
+      background-position: 20px 0;
     }
   }
 
