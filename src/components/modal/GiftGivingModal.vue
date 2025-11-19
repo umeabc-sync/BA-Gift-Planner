@@ -90,7 +90,6 @@
     }
 
     const optimalCharacters = analysis.characters.filter((c) => c.isOptimal)
-    console.log(optimalCharacters)
 
     if (optimalCharacters[0].id === props.student.id) {
       if (optimalCharacters.length === 1) {
@@ -105,11 +104,37 @@
 
   const sortedGifts = computed(() => {
     if (!giftPlannerStore.allGifts) return []
+
+    const giftPriorityMap = {
+      'best-no-conflict': 0,
+      conflict: 2,
+      'other-gift': 3,
+    }
+
     return giftPlannerStore.allGifts
       .filter((g) => giftStore.getGiftQuantity(g.id, g.isSsr) > 0)
-      .map((g) => ({ ...g, key: `${g.isSsr ? 'ssr' : 'sr'}-${g.id}` }))
+      .map((g) => {
+        const style = getGiftStyle(g)
+        console.log(g)
+        let priority = giftPriorityMap[style] !== undefined ? giftPriorityMap[style] : 99 // Default to low priority for unknown styles
+
+        // Special case for Gift Choice Box (SR)
+        if (g.id === 35 && !g.isSsr) {
+          priority = 1
+        }
+
+        return { ...g, key: `${g.isSsr ? 'ssr' : 'sr'}-${g.id}`, priority }
+      })
       .sort((a, b) => {
-        if (a.isSsr !== b.isSsr) return a.isSsr ? -1 : 1
+        // Primary sort: by custom priority
+        if (a.priority !== b.priority) {
+          return a.priority - b.priority
+        }
+        // Secondary sort: by isSsr (SSR first)
+        if (a.isSsr !== b.isSsr) {
+          return a.isSsr ? -1 : 1
+        }
+        // Tertiary sort: by id
         return a.id - b.id
       })
   })
