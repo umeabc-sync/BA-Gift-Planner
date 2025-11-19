@@ -1,25 +1,22 @@
 <template>
-  <div v-if="isVisible" class="modal-overlay" @click.self="close">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3>{{ t('bondCalculator.editBondTitle', { name: t(`student.name.${student.id}`) }) }}</h3>
-        <button class="close-button" @click="close">&times;</button>
+  <PinkBaseModal :is-visible="isVisible" :max-width="'500px'" @close="close">
+    <template #header>
+      <h3>{{ t('bondCalculator.editBondTitle', { name: t(`student.name.${student.id}`) }) }}</h3>
+    </template>
+    <template #body>
+      <div class="form-group">
+        <label for="bond-level">{{ t('bondCalculator.bondLevel') }}</label>
+        <input type="number" id="bond-level" v-model.number="bondLevel" min="1" max="100" />
       </div>
-      <div class="modal-body">
-        <div class="form-group">
-          <label for="bond-level">{{ t('bondCalculator.bondLevel') }}</label>
-          <input type="number" id="bond-level" v-model.number="bondLevel" min="1" max="100" />
-        </div>
-        <div class="form-group">
-          <label for="bond-exp">{{ t('bondCalculator.bondExp') }}</label>
-          <div class="exp-slider">
-            <input type="range" id="bond-exp" v-model.number="bondExp" :min="0" :max="maxExp" />
-            <span>{{ bondExp }} / {{ maxExp }}</span>
-          </div>
+      <div class="form-group">
+        <label for="bond-exp">{{ t('bondCalculator.bondExp') }}</label>
+        <div class="exp-slider">
+          <input type="range" id="bond-exp" v-model.number="bondExp" :min="0" :max="maxExp" />
+          <span>{{ bondExp }} / {{ maxExp }}</span>
         </div>
       </div>
-    </div>
-  </div>
+    </template>
+  </PinkBaseModal>
 </template>
 
 <script setup>
@@ -27,6 +24,7 @@
   import { useI18n } from '@/composables/useI18n.js'
   import { useStudentStore } from '@/store/student'
   import { useBondExpData } from '@/utils/fetchBondExpData'
+  import PinkBaseModal from '@components/ui/PinkBaseModal.vue'
 
   const props = defineProps({
     isVisible: Boolean,
@@ -79,60 +77,6 @@
 </script>
 
 <style scoped>
-  .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-  }
-
-  .modal-content {
-    background: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    width: 90%;
-    max-width: 500px;
-  }
-
-  .dark-mode .modal-content {
-    background: #1f3048;
-    color: #e0e6ed;
-  }
-
-  .modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 10px;
-  }
-
-  .dark-mode .modal-header {
-    border-bottom-color: #2a4a6e;
-  }
-
-  .close-button {
-    background: none;
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
-    color: #333;
-  }
-
-  .dark-mode .close-button {
-    color: #e0e6ed;
-  }
-
-  .modal-body {
-    padding: 20px 0;
-  }
-
   .form-group {
     margin-bottom: 20px;
   }
@@ -141,6 +85,11 @@
     display: block;
     margin-bottom: 5px;
     font-weight: bold;
+    color: #34495e;
+  }
+
+  .dark-mode .form-group label {
+    color: #e0e6ed;
   }
 
   .form-group input[type='number'] {
@@ -148,6 +97,8 @@
     padding: 8px;
     border-radius: 5px;
     border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    color: #2c3e50;
   }
 
   .dark-mode .form-group input[type='number'] {
@@ -164,5 +115,55 @@
 
   .exp-slider input[type='range'] {
     flex-grow: 1;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 8px;
+    background: #ddd;
+    border-radius: 5px;
+    outline: none;
+    transition: opacity 0.2s;
+  }
+
+  .dark-mode .exp-slider input[type='range'] {
+    background: #2a4a6e;
+  }
+
+  .exp-slider input[type='range']::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #fb9eb1;
+    cursor: pointer;
+    border: 2px solid #fff;
+  }
+
+  .dark-mode .exp-slider input[type='range']::-webkit-slider-thumb {
+    background: #fd7591;
+    border-color: #1f3048;
+  }
+
+  .exp-slider input[type='range']::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #fb9eb1;
+    cursor: pointer;
+    border: 2px solid #fff;
+  }
+
+  .dark-mode .exp-slider input[type='range']::-moz-range-thumb {
+    background: #fd7591;
+    border-color: #1f3048;
+  }
+
+  .exp-slider span {
+    font-weight: bold;
+    color: #2c3e50;
+  }
+
+  .dark-mode .exp-slider span {
+    color: #e0e6ed;
   }
 </style>
