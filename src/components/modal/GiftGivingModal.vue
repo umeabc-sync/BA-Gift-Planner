@@ -31,6 +31,7 @@
               @decrement="decrement(gift)"
               @set-min="setMin(gift)"
               @set-max="setMax(gift)"
+              :use-continuous="true"
               :show-min-max="true"
             />
           </div>
