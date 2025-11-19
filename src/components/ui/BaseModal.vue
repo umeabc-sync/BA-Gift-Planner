@@ -89,6 +89,11 @@
     flex-shrink: 0;
   }
 
+  .dark-mode .modal-header {
+    background: linear-gradient(45deg, #223d5a, #1a2b40);
+    border-bottom-color: #2a4a6e;
+  }
+
   .modal-header .modal-title-wrapper {
     padding: 10px 0px 5px 0px;
     text-align: center;
