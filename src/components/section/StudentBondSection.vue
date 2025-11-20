@@ -421,16 +421,48 @@
     .student-row {
       flex-direction: column;
       align-items: center;
+      gap: 12px;
     }
 
     .bond-island {
       width: 100%;
+      padding: 12px 15px;
+      gap: 10px;
     }
 
     .bond-info {
-      flex-direction: column;
-      align-items: stretch;
-      width: 100%;
+      flex-direction: row;
+      align-items: center;
+      width: auto;
+      margin-right: 5px;
+      gap: 10px;
+    }
+
+    .bond-heart-image-wrapper {
+      width: 48px;
+      height: 48px;
+    }
+
+    .bond-level-text {
+      font-size: 18px;
+    }
+
+    .bond-exp-bar {
+      height: 24px;
+    }
+
+    .bond-exp-text {
+      font-size: 12px;
+    }
+
+    .icon-btn {
+      width: 38px;
+      height: 38px;
+    }
+
+    .icon-btn svg {
+      width: 20px;
+      height: 20px;
     }
   }
 </style>
