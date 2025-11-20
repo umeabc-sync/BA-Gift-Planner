@@ -313,18 +313,27 @@
   }
 
   .bond-exp-progress-preview {
-    background-color: #7df4a8;
+    /* Multiple backgrounds are used here:
+        Layer 1: Striped animation (retaining semi-transparent white)
+        Layer 2: Pink gradient at the bottom (copied from bond-exp-progress)
+    */
     background-image: linear-gradient(
-      45deg,
-      rgba(255, 255, 255, 0.4) 25%,
-      transparent 25%,
-      transparent 50%,
-      rgba(255, 255, 255, 0.4) 50%,
-      rgba(255, 255, 255, 0.4) 75%,
-      transparent 75%,
-      transparent
-    );
-    background-size: 20px 20px;
+        45deg,
+        rgba(255, 255, 255, 0.4) 25%,
+        transparent 25%,
+        transparent 50%,
+        rgba(255, 255, 255, 0.4) 50%,
+        rgba(255, 255, 255, 0.4) 75%,
+        transparent 75%,
+        transparent
+      ),
+      linear-gradient(180deg, #ffcfe3 0%, #ffbed8 40%, #f09bbd 100%);
+
+    /* Set the sizes for the two background layers separately: stripes 20px, gradient 100%. */
+    background-size:
+      20px 20px,
+      100% 100%;
+
     height: 100%;
     position: absolute;
     left: 0;
@@ -382,6 +391,7 @@
       background-position: 0 0;
     }
     100% {
+      /* This will cause the stripes to shift, and also the gradient below, but because the gradient is vertical, the horizontal shift is not noticeable, so there is no visual problem. */
       background-position: 20px 0;
     }
   }
