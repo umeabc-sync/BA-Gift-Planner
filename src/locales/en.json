@@ -76,7 +76,8 @@
     "theme": "Theme",
     "light": "Light",
     "dark": "Dark",
-    "system": "System"
+    "system": "System",
+    "vibrantProgressBar": "Vibrant Progress Bar Color"
   },
   "shareModal": {
     "title": "Screenshot Settings",

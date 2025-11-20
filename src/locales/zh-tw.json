@@ -76,7 +76,8 @@
     "theme": "主題",
     "light": "明亮",
     "dark": "暗黑",
-    "system": "跟隨系統"
+    "system": "跟隨系統",
+    "vibrantProgressBar": "更顯眼的進度條配色"
   },
   "shareModal": {
     "title": "截圖設定",

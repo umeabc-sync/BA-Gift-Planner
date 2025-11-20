@@ -76,7 +76,8 @@
     "theme": "テーマ",
     "light": "ライト",
     "dark": "ダーク",
-    "system": "システム"
+    "system": "システム",
+    "vibrantProgressBar": "より目立つ進捗バーの色"
   },
   "shareModal": {
     "title": "スクショ設定",

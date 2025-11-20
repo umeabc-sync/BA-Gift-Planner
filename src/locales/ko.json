@@ -76,7 +76,8 @@
     "theme": "테마",
     "light": "밝게",
     "dark": "어둡게",
-    "system": "시스템"
+    "system": "시스템",
+    "vibrantProgressBar": "더 눈에 띄는 진행 바 색상"
   },
   "shareModal": {
     "title": "스크린샷 설정",
