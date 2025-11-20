@@ -49,8 +49,8 @@
   const props = defineProps({
     value: { type: Number, required: true },
     min: { type: Number, default: 0 },
-    max: { type: Number, default: 999 },
-    available: { type: Number, default: 999 },
+    max: { type: Number, default: 9999 },
+    available: { type: Number, default: 9999 },
     showMinMax: { type: Boolean, default: false },
     useContinuous: { type: Boolean, default: false },
     disabled: { type: Boolean, default: false },
