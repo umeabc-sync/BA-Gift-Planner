@@ -42,25 +42,21 @@
     </template>
     <template #footer>
       <div class="gift-giving-footer">
-        <div class="dropdown-container" :class="{ 'z-active': isMenuOpen }">
-          <button ref="toggleRef" class="custom-dropdown-toggle quick-give-toggle" @click.stop="toggleMenu">
-            <span>Quick Give</span>
-            <span class="caret" :class="{ open: isMenuOpen }"></span>
-          </button>
-
-          <transition name="dropdown-up">
-            <ul v-if="isMenuOpen" ref="menuRef" class="custom-dropdown-menu drop-up">
-              <li @click="handleAction(giveBestNoConflict)">
-                <span>{{ t('giftGivingModal.quickGive.bestNoConflict') }}</span>
-              </li>
-              <li @click="handleAction(giveAllSuitable)">
-                <span>{{ t('giftGivingModal.quickGive.allSuitable') }}</span>
-              </li>
-              <li @click="handleAction(giveAll)">
-                <span>{{ t('giftGivingModal.quickGive.all') }}</span>
-              </li>
-            </ul>
-          </transition>
+        <div class="dropdown-wrapper">
+          <CustomDropdown direction="up">
+            <template #toggle>
+              <span>Quick Give</span>
+            </template>
+            <li @click="giveBestNoConflict">
+              <span>{{ t('giftGivingModal.quickGive.bestNoConflict') }}</span>
+            </li>
+            <li @click="giveAllSuitable">
+              <span>{{ t('giftGivingModal.quickGive.allSuitable') }}</span>
+            </li>
+            <li @click="giveAll">
+              <span>{{ t('giftGivingModal.quickGive.all') }}</span>
+            </li>
+          </CustomDropdown>
         </div>
 
         <button @click="reset" class="reset-button">
@@ -72,7 +68,7 @@
 </template>
 
 <script setup>
-  import { computed, toRefs, ref, onMounted, onUnmounted } from 'vue'
+  import { computed, toRefs } from 'vue'
   import { useGiftPlannerStore } from '@/store/giftPlanner'
   import { useGiftStore } from '@/store/gift'
   import { useGiftAnalysisStore } from '@/store/giftAnalysis'
@@ -82,6 +78,7 @@
   import { useI18n } from '@/composables/useI18n.js'
   import { useModal } from '@/composables/useModal'
   import BaseModal from '@components/ui/BaseModal.vue'
+  import CustomDropdown from '@components/ui/CustomDropdown.vue'
 
   const { t } = useI18n()
 
@@ -98,40 +95,6 @@
 
   const { show } = toRefs(props)
   useModal(show, close)
-
-  // --- Menu Logic (Referenced from SettingsModal) ---
-  const isMenuOpen = ref(false)
-  const toggleRef = ref(null)
-  const menuRef = ref(null)
-
-  const toggleMenu = () => {
-    isMenuOpen.value = !isMenuOpen.value
-  }
-
-  const handleClickOutside = (event) => {
-    if (isMenuOpen.value) {
-      const isClickInsideToggle = toggleRef.value && toggleRef.value.contains(event.target)
-      const isClickInsideMenu = menuRef.value && menuRef.value.contains(event.target)
-
-      if (!isClickInsideToggle && !isClickInsideMenu) {
-        isMenuOpen.value = false
-      }
-    }
-  }
-
-  onMounted(() => {
-    document.addEventListener('click', handleClickOutside)
-  })
-
-  onUnmounted(() => {
-    document.removeEventListener('click', handleClickOutside)
-  })
-
-  const handleAction = (actionFn) => {
-    actionFn()
-    isMenuOpen.value = false
-  }
-  // --------------------------------------------------
 
   const getGiftStyle = (gift) => {
     if (gift.isSpecial) return 'conflict'
@@ -372,154 +335,10 @@
     flex-wrap: wrap;
   }
 
-  /* --- Dropdown Logic Start (Copied & Adapted from SettingsModal) --- */
-  .dropdown-container {
-    position: relative;
+  .dropdown-wrapper {
     flex-grow: 1;
     max-width: 250px;
-    z-index: 10;
   }
-
-  /* When the menu is open, raise its level to avoid it being obscured by other elements. */
-  .dropdown-container.z-active {
-    z-index: 100;
-  }
-
-  .custom-dropdown-toggle {
-    background-color: #77ddff;
-    background-image: linear-gradient(to bottom right, #63d0fd 0%, transparent 50%),
-      linear-gradient(to top left, #63d0fd 0%, transparent 50%);
-    border: none;
-    color: #314665;
-    cursor: pointer;
-    border-radius: 12px;
-    width: 100%;
-    height: 42px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-    transform: skew(-8deg);
-    box-shadow: 0 3px 2px rgba(0, 0, 0, 0.15);
-    font-family: inherit;
-    font-weight: bold;
-    font-size: 0.9rem;
-    padding: 0 20px;
-  }
-
-  .custom-dropdown-toggle:hover {
-    transform: translateY(-2px) skew(-8deg);
-  }
-
-  .custom-dropdown-toggle:active {
-    transform: scale(0.95) skew(-8deg);
-  }
-
-  .dark-mode .custom-dropdown-toggle {
-    background-color: #00aeef;
-    background-image: linear-gradient(to bottom right, #09a4f2 0%, transparent 50%),
-      linear-gradient(to top left, #09a4f2 0%, transparent 50%);
-    color: #e0f4ff;
-  }
-
-  .custom-dropdown-toggle > * {
-    transform: skew(8deg);
-    display: inline-block;
-  }
-
-  /* Caret (Arrow) */
-  .caret {
-    margin-left: 10px;
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-    border-top: 5px solid #314665;
-    transition: transform 0.3s ease;
-  }
-
-  .dark-mode .caret {
-    border-top-color: #e0f4ff;
-  }
-
-  .caret.open {
-    transform: skew(8deg) rotate(180deg);
-  }
-
-  /* Menu Style */
-  .custom-dropdown-menu {
-    position: absolute;
-    width: 100%;
-    background-color: #f8f9fa;
-    border-radius: 12px;
-    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
-    overflow: hidden;
-    z-index: 101;
-    border: 1px solid #dee2e6;
-    transform: skew(-8deg);
-    padding: 5px;
-    list-style: none;
-    margin: 0;
-  }
-
-  /* Drop-up Specific Styles (Drive upwards) */
-  .custom-dropdown-menu.drop-up {
-    bottom: 100%;
-    left: 0;
-    margin-bottom: 6px;
-    transform-origin: bottom center;
-    box-shadow: 0 -5px 25px rgba(0, 0, 0, 0.2);
-  }
-
-  .dark-mode .custom-dropdown-menu {
-    background-color: #1a2b40;
-    border-color: #2a4a6e;
-  }
-
-  .custom-dropdown-menu li {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 15px;
-    text-align: left;
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 0.9rem;
-    color: #314665;
-    transition: background-color 0.2s ease;
-    border-radius: 8px;
-    width: 100%;
-    font-weight: bold;
-  }
-
-  .custom-dropdown-menu li > span {
-    transform: skew(8deg);
-  }
-
-  .dark-mode .custom-dropdown-menu li {
-    color: #e0e6ed;
-  }
-
-  .custom-dropdown-menu li:hover {
-    background-color: #e9ecef;
-  }
-
-  .dark-mode .custom-dropdown-menu li:hover {
-    background-color: #2a4a6e;
-  }
-
-  /* Dropdown Up Animation */
-  .dropdown-up-enter-active,
-  .dropdown-up-leave-active {
-    transition:
-      opacity 0.2s ease,
-      transform 0.2s ease;
-  }
-  .dropdown-up-enter-from,
-  .dropdown-up-leave-to {
-    opacity: 0;
-    transform: translateY(10px) skew(-8deg);
-  }
-  /* --- Dropdown Logic End --- */
 
   .reset-button {
     background-color: #77ddff;
@@ -581,8 +400,8 @@
   }
 
   @media (max-width: 550px) {
-    .dropdown-container {
-      max-width: none; /* Mobile version allows buttons to adapt to different widths */
+    .dropdown-wrapper {
+      max-width: none;
     }
   }
 
