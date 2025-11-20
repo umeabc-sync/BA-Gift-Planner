@@ -375,7 +375,11 @@
     height: 45px;
     border-radius: 50%;
     object-fit: cover;
-    border: 2px solid #fdef66;
+    border: 2px solid #466398;
+  }
+
+  .dark-mode .student-avatar {
+    border-color: #00a4e4;
   }
 
   .student-info-wrapper h3 {
