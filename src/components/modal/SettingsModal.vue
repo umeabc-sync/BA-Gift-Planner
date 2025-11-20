@@ -4,17 +4,17 @@
       <div class="modal-title">{{ t('common.settings') }}</div>
     </template>
     <template #body>
-      <div ref="modalBodyRef" class="settings-body">
+      <div class="settings-body">
         <!-- Language Settings -->
         <div class="setting-group">
           <h4 class="setting-group-title">{{ t('settingsModal.language') }}</h4>
-          <div class="language-selector">
+          <div class="language-selector" :class="{ 'z-active': isLangMenuOpen }">
             <button ref="langDropdownToggleRef" class="custom-dropdown-toggle" @click="toggleLangMenu">
               <span>{{ currentLanguageName }}</span>
               <span class="caret" :class="{ open: isLangMenuOpen }"></span>
             </button>
             <transition name="dropdown">
-              <ul v-if="isLangMenuOpen" ref="languageMenuRef" class="custom-dropdown-menu" :style="langMenuStyle">
+              <ul v-if="isLangMenuOpen" ref="languageMenuRef" class="custom-dropdown-menu">
                 <li
                   v-for="lang in availableLanguages"
                   :key="lang.code"
@@ -36,13 +36,13 @@
         <!-- Theme Settings -->
         <div class="setting-group">
           <h4 class="setting-group-title">{{ t('settingsModal.theme') }}</h4>
-          <div class="language-selector">
+          <div class="language-selector" :class="{ 'z-active': isThemeMenuOpen }">
             <button ref="themeDropdownToggleRef" class="custom-dropdown-toggle" @click="toggleThemeMenu">
               <span>{{ currentThemeName }}</span>
               <span class="caret" :class="{ open: isThemeMenuOpen }"></span>
             </button>
             <transition name="dropdown">
-              <ul v-if="isThemeMenuOpen" ref="themeMenuRef" class="custom-dropdown-menu" :style="themeMenuStyle">
+              <ul v-if="isThemeMenuOpen" ref="themeMenuRef" class="custom-dropdown-menu">
                 <li
                   v-for="themeOption in availableThemes"
                   :key="themeOption.value"
@@ -118,7 +118,7 @@
 </template>
 
 <script setup>
-  import { ref, computed, toRefs, watch, nextTick } from 'vue'
+  import { ref, computed, toRefs, watch } from 'vue'
   import { useSettingStore } from '@/store/setting'
   import { storeToRefs } from 'pinia'
   import { useI18n } from '@/composables/useI18n.js'
@@ -165,67 +165,17 @@
   const isLangMenuOpen = ref(false)
   const langDropdownToggleRef = ref(null)
   const languageMenuRef = ref(null)
-  const langMenuStyle = ref({})
 
   const isThemeMenuOpen = ref(false)
   const themeDropdownToggleRef = ref(null)
   const themeMenuRef = ref(null)
-  const themeMenuStyle = ref({})
-
-  const modalBodyRef = ref(null)
-
-  const updateMenuPosition = (menuType) => {
-    let isOpen, dropdownToggleRef, menuStyleRef
-
-    if (menuType === 'language') {
-      isOpen = isLangMenuOpen.value
-      dropdownToggleRef = langDropdownToggleRef.value
-      menuStyleRef = langMenuStyle
-    } else {
-      isOpen = isThemeMenuOpen.value
-      dropdownToggleRef = themeDropdownToggleRef.value
-      menuStyleRef = themeMenuStyle
-    }
-
-    if (!isOpen || !dropdownToggleRef) {
-      return
-    }
-
-    const rect = dropdownToggleRef.getBoundingClientRect()
-    menuStyleRef.value = {
-      position: 'fixed',
-      top: `${rect.bottom + 110}px`,
-      left: `${rect.left - 16}px`,
-      width: `${rect.width}px`,
-    }
-  }
-  const updateLangMenuPosition = () => updateMenuPosition('language')
-  const updateThemeMenuPosition = () => updateMenuPosition('theme')
 
   const toggleLangMenu = () => {
-    if (!isLangMenuOpen.value) {
-      isLangMenuOpen.value = true
-      nextTick(() => {
-        nextTick(() => {
-          updateLangMenuPosition()
-        })
-      })
-    } else {
-      isLangMenuOpen.value = false
-    }
+    isLangMenuOpen.value = !isLangMenuOpen.value
   }
 
   const toggleThemeMenu = () => {
-    if (!isThemeMenuOpen.value) {
-      isThemeMenuOpen.value = true
-      nextTick(() => {
-        nextTick(() => {
-          updateThemeMenuPosition()
-        })
-      })
-    } else {
-      isThemeMenuOpen.value = false
-    }
+    isThemeMenuOpen.value = !isThemeMenuOpen.value
   }
 
   const closeAllMenus = () => {
@@ -248,17 +198,13 @@
     }
   }
 
+  // Monitor menu status and only handle external close events.
   watch(isLangMenuOpen, (isMenuOpen) => {
     if (isMenuOpen) {
       isThemeMenuOpen.value = false // Close other menu
       document.addEventListener('click', handleClickOutside, true)
-      modalBodyRef.value?.addEventListener('scroll', updateLangMenuPosition)
-      window.addEventListener('resize', updateLangMenuPosition)
     } else {
       document.removeEventListener('click', handleClickOutside, true)
-      modalBodyRef.value?.removeEventListener('scroll', updateLangMenuPosition)
-      window.removeEventListener('resize', updateLangMenuPosition)
-      langMenuStyle.value = {}
     }
   })
 
@@ -266,13 +212,8 @@
     if (isMenuOpen) {
       isLangMenuOpen.value = false // Close other menu
       document.addEventListener('click', handleClickOutside, true)
-      modalBodyRef.value?.addEventListener('scroll', updateThemeMenuPosition)
-      window.addEventListener('resize', updateThemeMenuPosition)
     } else {
       document.removeEventListener('click', handleClickOutside, true)
-      modalBodyRef.value?.removeEventListener('scroll', updateThemeMenuPosition)
-      window.removeEventListener('resize', updateThemeMenuPosition)
-      themeMenuStyle.value = {}
     }
   })
 
@@ -309,6 +250,8 @@
 <style scoped>
   .settings-body {
     padding: 20px;
+    overflow-y: auto;
+    max-height: 70vh;
   }
 
   .setting-group {
@@ -317,6 +260,7 @@
     align-items: center;
     padding: 15px 0;
     border-bottom: 1px solid #e9ecef;
+    position: relative;
   }
 
   .setting-group:last-child {
@@ -334,15 +278,14 @@
     border-bottom-color: #2a4a6e;
   }
 
-  .setting-group-title-wrapper {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
   .language-selector {
     position: relative;
     min-width: 180px;
+    z-index: 1;
+  }
+
+  .language-selector.z-active {
+    z-index: 10;
   }
 
   .custom-dropdown-toggle {
@@ -404,16 +347,22 @@
   }
 
   .custom-dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    margin-top: 6px;
     background-color: #f8f9fa;
     border-radius: 12px;
     box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
     overflow: hidden;
-    z-index: 2001;
+    z-index: 100;
     border: 1px solid #dee2e6;
     transform: skew(-8deg);
+    transform-origin: top center;
     padding: 5px;
     list-style: none;
-    margin: 0;
+    margin-bottom: 0;
   }
 
   .dark-mode .custom-dropdown-menu {
@@ -463,6 +412,7 @@
     background-color: #00a4e4;
   }
 
+  /* Animation fix: The skew state must be maintained when entering and exiting. */
   .dropdown-enter-active,
   .dropdown-leave-active {
     transition:
@@ -482,7 +432,6 @@
 
   .toggle-button {
     padding: 10px 24px;
-    /* border: none; */
     border: 1px solid #dee2e6;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -492,7 +441,6 @@
     white-space: nowrap;
     background-color: #e6f2f6;
     transform: skew(-8deg);
-    /* box-shadow: 0 3px 2px rgba(0, 0, 0, 0.1); */
   }
 
   .dark-mode .toggle-button {
