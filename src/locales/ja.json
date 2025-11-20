@@ -144,6 +144,18 @@
     "link_copied_to_clipboard": "リンクがクリップボードにコピーされました",
     "canvas_exceeds_max_size": "画像サイズが大きすぎます、より低い倍率を選択してください"
   },
+  "bondGapCalculator": {
+    "title": "絆目標計算",
+    "setTargetLevel": "目標レベル設定",
+    "beforeGift": "贈り物前",
+    "afterGift": "贈り物後",
+    "levelGap": "レベル差",
+    "expGap": "経験値差",
+    "interactionsNeeded": "必要な交流",
+    "dormInteraction": "なでなで",
+    "schedule": "スケジュール",
+    "noInteractionsNeeded": "交流の必要なし"
+  },
   "bondCalculator": {
     "giftInventoryTitle": "贈り物インベントリ",
     "editBondTitle": "{name}の絆編集",

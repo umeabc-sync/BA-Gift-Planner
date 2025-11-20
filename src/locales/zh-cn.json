@@ -144,6 +144,18 @@
     "link_copied_to_clipboard": "已将连结複製到剪贴簿",
     "canvas_exceeds_max_size": "图片尺寸过大，请选择较低的倍率"
   },
+  "bondGapCalculator": {
+    "title": "羁绊目标测算",
+    "setTargetLevel": "设置目标等级",
+    "beforeGift": "赠送前",
+    "afterGift": "赠送后",
+    "levelGap": "等级差距",
+    "expGap": "经验值差距",
+    "interactionsNeeded": "所需互动",
+    "dormInteraction": "摸头",
+    "schedule": "日程",
+    "noInteractionsNeeded": "无需互动"
+  },
   "bondCalculator": {
     "giftInventoryTitle": "礼物库存",
     "editBondTitle": "编辑{name}的羁绊",

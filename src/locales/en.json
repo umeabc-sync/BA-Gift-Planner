@@ -144,6 +144,18 @@
     "link_copied_to_clipboard": "Link copied to clipboard",
     "canvas_exceeds_max_size": "Image size is too large, please choose a lower multiplier"
   },
+  "bondGapCalculator": {
+    "title": "Bond Gap Calculator",
+    "setTargetLevel": "Set Target Level",
+    "beforeGift": "Before Gift",
+    "afterGift": "After Gift",
+    "levelGap": "Level Gap",
+    "expGap": "EXP Gap",
+    "interactionsNeeded": "Interactions Needed",
+    "dormInteraction": "Patting Head",
+    "schedule": "Schedule",
+    "noInteractionsNeeded": "No interactions needed"
+  },
   "bondCalculator": {
     "giftInventoryTitle": "Gift Inventory",
     "editBondTitle": "Edit {name}'s Bond",

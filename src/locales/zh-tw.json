@@ -140,6 +140,18 @@
     "link_copied_to_clipboard": "已將連結複製到剪貼簿",
     "canvas_exceeds_max_size": "圖片尺寸過大，請選擇較低的倍率"
   },
+  "bondGapCalculator": {
+    "title": "羈絆目標試算",
+    "setTargetLevel": "設定目標等級",
+    "beforeGift": "贈送前",
+    "afterGift": "贈送後",
+    "levelGap": "等級差距",
+    "expGap": "經驗值差距",
+    "interactionsNeeded": "所需互動",
+    "dormInteraction": "摸頭",
+    "schedule": "課程表",
+    "noInteractionsNeeded": "無需任何互動"
+  },
   "bondCalculator": {
     "giftInventoryTitle": "禮物庫存",
     "editBondTitle": "編輯{name}的羈絆",

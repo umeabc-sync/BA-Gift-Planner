@@ -144,6 +144,18 @@
     "link_copied_to_clipboard": "링크가 클립보드에 복사되었습니다",
     "canvas_exceeds_max_size": "이미지 크기가 너무 큽니다. 더 낮은 배율을 선택하세요"
   },
+  "bondGapCalculator": {
+    "title": "인연 목표 계산기",
+    "setTargetLevel": "목표 레벨 설정",
+    "beforeGift": "선물 전",
+    "afterGift": "선물 후",
+    "levelGap": "레벨 차이",
+    "expGap": "경험치 차이",
+    "interactionsNeeded": "필요한 상호작용",
+    "dormInteraction": "쓰다듬기",
+    "schedule": "스케줄",
+    "noInteractionsNeeded": "상호작용 필요 없음"
+  },
   "bondCalculator": {
     "giftInventoryTitle": "선물 인벤토리",
     "editBondTitle": "{name}의 인연 편집",
