@@ -1,13 +1,13 @@
 <template>
   <div class="quantity-control">
-    <button v-if="showMinMax" @click="$emit('setMin')" class="min-max-btn" :disabled="value === 0 || disabled">
+    <button v-if="showMinMax" @click="$emit('setMin')" class="min-max-btn" :disabled="value === min || disabled">
       <span class="min">MIN</span>
     </button>
     <button
       @mousedown="startChangingQuantity('decrement')"
       @mouseup="stopChangingQuantity"
       @mouseleave="stopChangingQuantity"
-      :disabled="value === 0 || disabled"
+      :disabled="value <= min || disabled"
       class="quantity-btn"
     >
       <span class="minus">－</span>
@@ -17,7 +17,7 @@
         type="number"
         :value="value"
         @input="$emit('update:value', parseInput($event))"
-        :min="0"
+        :min="min"
         :max="max"
         class="quantity-input"
         :disabled="disabled"
@@ -27,7 +27,7 @@
       @mousedown="startChangingQuantity('increment')"
       @mouseup="stopChangingQuantity"
       @mouseleave="stopChangingQuantity"
-      :disabled="value === max || disabled"
+      :disabled="value >= max || disabled"
       class="quantity-btn"
     >
       <span class="plus">＋</span>
@@ -48,6 +48,7 @@
 
   const props = defineProps({
     value: { type: Number, required: true },
+    min: { type: Number, default: 0 },
     max: { type: Number, default: 999 },
     available: { type: Number, default: 999 },
     showMinMax: { type: Boolean, default: false },
@@ -76,7 +77,10 @@
     pressTimer.value = setTimeout(() => {
       repeatTimer.value = setInterval(() => {
         func()
-        if ((action === 'increment' && props.value >= props.max) || (action === 'decrement' && props.value <= 0)) {
+        if (
+          (action === 'increment' && props.value >= props.max) ||
+          (action === 'decrement' && props.value <= props.min)
+        ) {
           stopChangingQuantity()
         }
       }, 100)
@@ -91,8 +95,8 @@
 
   const parseInput = (event) => {
     let numValue = parseInt(event.target.value, 10)
-    if (isNaN(numValue) || numValue < 0) {
-      numValue = 0
+    if (isNaN(numValue) || numValue < props.min) {
+      numValue = props.min
     }
     if (numValue > props.max) {
       numValue = props.max
