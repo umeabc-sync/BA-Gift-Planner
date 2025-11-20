@@ -76,11 +76,13 @@ import { useModal } from '@/composables/useModal.js'
 import { useGiftPlannerStore } from '@/store/giftPlanner'
 import { useGiftStore } from '@/store/gift'
 import { useBondExpData } from '@/utils/fetchBondExpData'
+import { useSrGiftData } from '@/utils/fetchSrGiftData'
+import { useSsrGiftData } from '@/utils/fetchSsrGiftData'
 import { getPreferenceValue } from '@/utils/getPreferenceValue'
 import BaseModal from '@components/ui/BaseModal.vue'
 import { getAvatarUrl } from '@/utils/getAvatarUrl'
 
-const { t } = useI18n()
+const { t, currentLocale: locale } = useI18n()
 
 const props = defineProps({
   isVisible: { type: Boolean, default: false },
@@ -97,10 +99,10 @@ const { isVisible, student } = toRefs(props)
 useModal(isVisible, closeModal)
 
 const giftPlannerStore = useGiftPlannerStore()
-const { plannedGifts } = storeToRefs(giftPlannerStore)
+const { allGifts } = storeToRefs(giftPlannerStore)
 
-const giftStore = useGiftStore()
-const { srGifts, ssrGifts } = storeToRefs(giftStore)
+const { data: srGifts } = useSrGiftData(locale)
+const { data: ssrGifts } = useSsrGiftData(locale)
 
 const { data: bondExpTable } = useBondExpData()
 const targetLevel = ref(null)
@@ -144,22 +146,29 @@ const getLevelFromExp = (totalExp) => {
 
 
 const expFromPlannedGifts = computed(() => {
-    if (!student.value) return 0
-    const studentPlannedGifts = plannedGifts.value[student.value.id]
-    if (!studentPlannedGifts) return 0
+    if (!student.value || !allGifts.value) return 0
+    
+    const studentAssignments = giftPlannerStore.getStudentAssignments(student.value.id)
+    if (!studentAssignments || Object.keys(studentAssignments).length === 0) return 0
 
-    return Object.entries(studentPlannedGifts).reduce((total, [giftId, quantity]) => {
-        const gift = giftStore.getGiftById(giftId)
-        if (gift) {
-            const value = getPreferenceValue(student.value, gift)
-            total += value * quantity
-        }
-        return total
-    }, 0)
+    let gainedExp = 0
+    for (const giftKey in studentAssignments) {
+        const quantity = studentAssignments[giftKey]
+        const [rarity, idStr] = giftKey.split('-')
+        const giftId = parseInt(idStr)
+        const isSsr = rarity === 'ssr'
+
+        const gift = allGifts.value.find((g) => g.id === giftId && g.isSsr === isSsr)
+        if (!gift) continue
+        
+        const expPerGift = getPreferenceValue(student.value, gift)
+        gainedExp += expPerGift * quantity
+    }
+    return gainedExp
 })
 
 const studentGiftPreferences = computed(() => {
-    if (!student.value) return { sr: [], ssr: [] }
+    if (!student.value || !srGifts.value || !ssrGifts.value) return { sr: [], ssr: [] }
 
     const srPrefs = srGifts.value.map(gift => getPreferenceValue(student.value, gift))
     const ssrPrefs = ssrGifts.value.map(gift => getPreferenceValue(student.value, gift))
