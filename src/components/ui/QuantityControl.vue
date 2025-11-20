@@ -167,9 +167,23 @@
     cursor: not-allowed;
   }
 
+  .dark-mode .quantity-btn:disabled,
+  .dark-mode .min-max-btn:disabled {
+    background-color: #3b506b;
+  }
+
   .quantity-btn:disabled .minus,
-  .quantity-btn:disabled .plus {
+  .quantity-btn:disabled .plus,
+  .min-max-btn:disabled .min,
+  .min-max-btn:disabled .max {
     color: #828282;
+  }
+
+  .dark-mode .quantity-btn:disabled .minus,
+  .dark-mode .quantity-btn:disabled .plus,
+  .dark-mode .min-max-btn:disabled .min,
+  .dark-mode .min-max-btn:disabled .max {
+    color: #8e9ba9; /* Visible text color for disabled in dark mode */
   }
 
   .plus,
