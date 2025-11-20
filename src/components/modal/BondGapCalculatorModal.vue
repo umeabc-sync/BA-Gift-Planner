@@ -43,12 +43,16 @@
               <h5>{{ t('bondGapCalculator.actionsNeeded') }}</h5>
               <div v-if="calculations.before.expGap > 0" class="action-grid">
                 <div class="action-item">
-                  <div class="icon-placeholder">☕</div>
+                  <div class="action-icon-wrapper normal">
+                    <img :src="getAssetsFile('icon/cafe.webp')" class="action-icon" />
+                  </div>
                   <span class="action-name">{{ t('bondGapCalculator.dormInteraction') }}</span>
                   <span class="action-count">x{{ calculations.before.actions.dorm }}</span>
                 </div>
                 <div class="action-item">
-                  <div class="icon-placeholder">📅</div>
+                  <div class="action-icon-wrapper normal">
+                    <img :src="getAssetsFile('icon/schedule.webp')" class="action-icon" />
+                  </div>
                   <span class="action-name">{{ t('bondGapCalculator.schedule') }}</span>
                   <span class="action-count">x{{ calculations.before.actions.schedule }}</span>
                 </div>
@@ -87,12 +91,16 @@
               <h5>{{ t('bondGapCalculator.actionsNeeded') }}</h5>
               <div v-if="calculations.after.expGap > 0" class="action-grid">
                 <div class="action-item">
-                  <div class="icon-placeholder">☕</div>
+                  <div class="action-icon-wrapper normal">
+                    <img :src="getAssetsFile('icon/cafe.webp')" class="action-icon" />
+                  </div>
                   <span class="action-name">{{ t('bondGapCalculator.dormInteraction') }}</span>
                   <span class="action-count">x{{ calculations.after.actions.dorm }}</span>
                 </div>
                 <div class="action-item">
-                  <div class="icon-placeholder">📅</div>
+                  <div class="action-icon-wrapper normal">
+                    <img :src="getAssetsFile('icon/schedule.webp')" class="action-icon" />
+                  </div>
                   <span class="action-name">{{ t('bondGapCalculator.schedule') }}</span>
                   <span class="action-count">x{{ calculations.after.actions.schedule }}</span>
                 </div>
@@ -129,6 +137,7 @@
   import { useStudentStore } from '@/store/student'
   import { useBondExpData } from '@/utils/fetchBondExpData'
   import { getInteractionUrl } from '@/utils/getInteractionUrl'
+  import { getAssetsFile } from '@/utils/getAssetsFile'
   import { getAvatarUrl } from '@/utils/getAvatarUrl'
   import BaseModal from '@components/ui/BaseModal.vue'
   import QuantityControl from '@components/ui/QuantityControl.vue'
@@ -535,7 +544,6 @@
     border-color: #2a4a6e;
   }
 
-  .icon-placeholder,
   .action-icon-wrapper {
     width: 40px;
     height: 40px;
@@ -546,21 +554,17 @@
     border-radius: 50%;
   }
 
-  .icon-placeholder {
-    background: #e2e6ea;
+  .action-icon-wrapper.normal {
+    background-color: #e2e6ea;
   }
-  .dark-mode .icon-placeholder {
-    background: #2a4a6e;
-  }
-
   .action-icon-wrapper.sr {
     background-color: #c7a579;
   }
   .action-icon-wrapper.ssr {
     background-color: #9e82d6;
   }
-  .dark-mode .action-icon-wrapper.sr,
-  .dark-mode .action-icon-wrapper.ssr {
+
+  .dark-mode .action-icon-wrapper.normal {
     background-color: #2a4a6e;
   }
 
