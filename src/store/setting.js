@@ -43,6 +43,10 @@ export const useSettingStore = defineStore(
       locale.value = newLocale
     }
 
+    function setTheme(newTheme) {
+      theme.value = newTheme
+    }
+
     function initThemeListener() {
       window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
         osPrefersDark.value = e.matches
@@ -61,6 +65,7 @@ export const useSettingStore = defineStore(
       toggleShowOnlyOptimalSolution,
       toggleVibrantProgressBar,
       setLocale,
+      setTheme,
       initThemeListener,
     }
   },
