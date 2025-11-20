@@ -26,100 +26,38 @@
           </div>
         </div>
 
-        <div class="results-grid" :class="{ 'single-column': !calculations.after }">
-          <div class="result-column" v-if="calculations.before">
-            <h4 class="column-header">{{ t('bondGapCalculator.beforeGift') }}</h4>
+        <div class="results-grid" :class="{ 'single-column': resultColumns.length === 1 }">
+          <div class="result-column" v-for="col in resultColumns" :key="col.key">
+            <h4 class="column-header">{{ col.title }}</h4>
             <div class="result-card">
               <div class="stat-row">
                 <span class="label">{{ t('bondGapCalculator.levelGap') }}</span>
-                <span class="value highlight">{{ calculations.before.levelGap }}</span>
+                <span class="value highlight">{{ col.data.levelGap }}</span>
               </div>
               <div class="stat-row">
                 <span class="label">{{ t('bondGapCalculator.expGap') }}</span>
-                <span class="value">{{ calculations.before.expGap.toLocaleString() }}</span>
+                <span class="value">{{ col.data.expGap.toLocaleString() }}</span>
               </div>
             </div>
-            <div class="action-section">
-              <h5>{{ t('bondGapCalculator.actionsNeeded') }}</h5>
-              <div v-if="calculations.before.expGap > 0" class="action-grid">
-                <div class="action-item">
-                  <div class="action-icon-wrapper normal">
-                    <img :src="getAssetsFile('icon/cafe.webp')" class="action-icon" />
+            <div class="interaction-section">
+              <h5>{{ t('bondGapCalculator.interactionsNeeded') }}</h5>
+              <div v-if="col.data.expGap > 0" class="interaction-grid">
+                <div v-for="item in col.data.interactions" :key="item.key" class="interaction-item">
+                  <div class="interaction-icon-wrapper" :class="item.type">
+                    <img
+                      v-if="item.icon"
+                      :src="item.icon"
+                      class="interaction-icon"
+                      :class="{ small: item.smallIcon }"
+                    />
                   </div>
-                  <span class="action-name">{{ t('bondGapCalculator.dormInteraction') }}</span>
-                  <span class="action-count">x{{ calculations.before.actions.dorm }}</span>
-                </div>
-                <div class="action-item">
-                  <div class="action-icon-wrapper normal">
-                    <img :src="getAssetsFile('icon/schedule.webp')" class="action-icon" />
-                  </div>
-                  <span class="action-name">{{ t('bondGapCalculator.schedule') }}</span>
-                  <span class="action-count">x{{ calculations.before.actions.schedule }}</span>
-                </div>
-                <div v-for="pref in studentGiftPreferences.sr" :key="`before-sr-${pref}`" class="action-item">
-                  <div class="action-icon-wrapper sr">
-                    <img v-if="expToTier(pref)" :src="getInteractionUrl(expToTier(pref))" class="action-icon" />
-                  </div>
-                  <span class="action-name">SR (+{{ pref }})</span>
-                  <span class="action-count">x{{ calculations.before.actions[`sr_${pref}`] }}</span>
-                </div>
-                <div v-for="pref in studentGiftPreferences.ssr" :key="`before-ssr-${pref}`" class="action-item">
-                  <div class="action-icon-wrapper ssr">
-                    <img v-if="expToTier(pref)" :src="getInteractionUrl(expToTier(pref))" class="action-icon" />
-                  </div>
-                  <span class="action-name">SSR (+{{ pref }})</span>
-                  <span class="action-count">x{{ calculations.before.actions[`ssr_${pref}`] }}</span>
+                  <span class="interaction-name">{{ item.name }}</span>
+                  <span class="interaction-count">x{{ item.count }}</span>
                 </div>
               </div>
-              <p v-else class="no-actions-needed">{{ t('bondGapCalculator.noActionsNeeded') }}</p>
-            </div>
-          </div>
-
-          <div class="result-column" v-if="calculations.after">
-            <h4 class="column-header">{{ t('bondGapCalculator.afterGift') }}</h4>
-            <div class="result-card">
-              <div class="stat-row">
-                <span class="label">{{ t('bondGapCalculator.levelGap') }}</span>
-                <span class="value highlight">{{ calculations.after.levelGap }}</span>
-              </div>
-              <div class="stat-row">
-                <span class="label">{{ t('bondGapCalculator.expGap') }}</span>
-                <span class="value">{{ calculations.after.expGap.toLocaleString() }}</span>
-              </div>
-            </div>
-            <div class="action-section">
-              <h5>{{ t('bondGapCalculator.actionsNeeded') }}</h5>
-              <div v-if="calculations.after.expGap > 0" class="action-grid">
-                <div class="action-item">
-                  <div class="action-icon-wrapper normal">
-                    <img :src="getAssetsFile('icon/cafe.webp')" class="action-icon" />
-                  </div>
-                  <span class="action-name">{{ t('bondGapCalculator.dormInteraction') }}</span>
-                  <span class="action-count">x{{ calculations.after.actions.dorm }}</span>
-                </div>
-                <div class="action-item">
-                  <div class="action-icon-wrapper normal">
-                    <img :src="getAssetsFile('icon/schedule.webp')" class="action-icon" />
-                  </div>
-                  <span class="action-name">{{ t('bondGapCalculator.schedule') }}</span>
-                  <span class="action-count">x{{ calculations.after.actions.schedule }}</span>
-                </div>
-                <div v-for="pref in studentGiftPreferences.sr" :key="`after-sr-${pref}`" class="action-item">
-                  <div class="action-icon-wrapper sr">
-                    <img v-if="expToTier(pref)" :src="getInteractionUrl(expToTier(pref))" class="action-icon" />
-                  </div>
-                  <span class="action-name">SR (+{{ pref }})</span>
-                  <span class="action-count">x{{ calculations.after.actions[`sr_${pref}`] }}</span>
-                </div>
-                <div v-for="pref in studentGiftPreferences.ssr" :key="`after-ssr-${pref}`" class="action-item">
-                  <div class="action-icon-wrapper ssr">
-                    <img v-if="expToTier(pref)" :src="getInteractionUrl(expToTier(pref))" class="action-icon" />
-                  </div>
-                  <span class="action-name">SSR (+{{ pref }})</span>
-                  <span class="action-count">x{{ calculations.after.actions[`ssr_${pref}`] }}</span>
-                </div>
-              </div>
-              <p v-else class="no-actions-needed">{{ t('bondGapCalculator.noActionsNeeded') }}</p>
+              <p v-else class="no-interactions-needed">
+                {{ t('bondGapCalculator.noInteractionsNeeded') }}
+              </p>
             </div>
           </div>
         </div>
@@ -319,30 +257,57 @@
 
     const calculateGaps = (state) => {
       if (!state || targetLevel.value <= state.level) {
-        return { levelGap: targetLevel.value - (state?.level ?? 0), expGap: 0, actions: {} }
+        return { levelGap: targetLevel.value - (state?.level ?? 0), expGap: 0, interactions: [] }
       }
 
       const expGap = totalTargetExp - state.totalExp
       if (expGap <= 0) {
-        return { levelGap: targetLevel.value - state.level, expGap: 0, actions: {} }
+        return { levelGap: targetLevel.value - state.level, expGap: 0, interactions: [] }
       }
 
-      const actions = {
-        dorm: Math.ceil(expGap / 15),
-        schedule: Math.ceil(expGap / 31.25),
-      }
-
-      studentGiftPreferences.value.sr.forEach((pref) => {
-        if (pref > 0) actions[`sr_${pref}`] = Math.ceil(expGap / pref)
-      })
-      studentGiftPreferences.value.ssr.forEach((pref) => {
-        if (pref > 0) actions[`ssr_${pref}`] = Math.ceil(expGap / pref)
-      })
+      const allInteractions = [
+        {
+          type: 'normal',
+          name: t('bondGapCalculator.dormInteraction'),
+          icon: getAssetsFile('icon/cafe.webp'),
+          smallIcon: true,
+          count: Math.ceil(expGap / 15),
+          key: 'dorm',
+        },
+        {
+          type: 'normal',
+          name: t('bondGapCalculator.schedule'),
+          icon: getAssetsFile('icon/schedule.webp'),
+          smallIcon: true,
+          count: Math.ceil(expGap / 31.25),
+          key: 'schedule',
+        },
+        ...studentGiftPreferences.value.sr
+          .filter((p) => p > 0)
+          .map((pref) => ({
+            type: 'sr',
+            name: `SR (+${pref})`,
+            icon: expToTier(pref) ? getInteractionUrl(expToTier(pref)) : null,
+            smallIcon: false,
+            count: Math.ceil(expGap / pref),
+            key: `sr-${pref}`,
+          })),
+        ...studentGiftPreferences.value.ssr
+          .filter((p) => p > 0)
+          .map((pref) => ({
+            type: 'ssr',
+            name: `SSR (+${pref})`,
+            icon: expToTier(pref) ? getInteractionUrl(expToTier(pref)) : null,
+            smallIcon: false,
+            count: Math.ceil(expGap / pref),
+            key: `ssr-${pref}`,
+          })),
+      ]
 
       return {
         levelGap: targetLevel.value - state.level,
         expGap,
-        actions,
+        interactions: allInteractions,
       }
     }
 
@@ -350,6 +315,26 @@
       before: calculateGaps(beforeGiftState.value),
       after: afterGiftState.value ? calculateGaps(afterGiftState.value) : null,
     }
+  })
+
+  const resultColumns = computed(() => {
+    if (!calculations.value) return []
+    const cols = []
+    if (calculations.value.before) {
+      cols.push({
+        key: 'before',
+        title: t('bondGapCalculator.beforeGift'),
+        data: calculations.value.before,
+      })
+    }
+    if (calculations.value.after) {
+      cols.push({
+        key: 'after',
+        title: t('bondGapCalculator.afterGift'),
+        data: calculations.value.after,
+      })
+    }
+    return cols
   })
 </script>
 
@@ -467,7 +452,7 @@
   }
 
   .result-card,
-  .action-section {
+  .interaction-section {
     background: #efefef;
     border-radius: 12px;
     padding: 15px;
@@ -475,7 +460,7 @@
   }
 
   .dark-mode .result-card,
-  .dark-mode .action-section {
+  .dark-mode .interaction-section {
     background: #1f3048;
     border-color: #2a4a6e;
   }
@@ -501,11 +486,11 @@
     color: #ffab91;
   }
 
-  .action-section {
+  .interaction-section {
     flex-grow: 1;
   }
 
-  .action-section h5 {
+  .interaction-section h5 {
     margin: 0 0 15px 0;
     font-size: 1rem;
     text-align: center;
@@ -513,17 +498,17 @@
     border-bottom: 1px solid #dee2e6;
     padding-bottom: 8px;
   }
-  .dark-mode .action-section h5 {
+  .dark-mode .interaction-section h5 {
     border-bottom-color: #2a4a6e;
   }
 
-  .action-grid {
+  .interaction-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
     gap: 12px;
   }
 
-  .action-item {
+  .interaction-item {
     background: #f8f9fa;
     border: 1px solid #e9ecef;
     border-radius: 8px;
@@ -535,16 +520,16 @@
     text-align: center;
     transition: transform 0.2s;
   }
-  .action-item:hover {
+  .interaction-item:hover {
     transform: translateY(-2px);
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
   }
-  .dark-mode .action-item {
+  .dark-mode .interaction-item {
     background: #1a2b40;
     border-color: #2a4a6e;
   }
 
-  .action-icon-wrapper {
+  .interaction-icon-wrapper {
     width: 40px;
     height: 40px;
     font-size: 24px;
@@ -554,27 +539,31 @@
     border-radius: 50%;
   }
 
-  .action-icon-wrapper.normal {
+  .interaction-icon-wrapper.normal {
     background-color: #e2e6ea;
   }
-  .action-icon-wrapper.sr {
+  .interaction-icon-wrapper.sr {
     background-color: #c7a579;
   }
-  .action-icon-wrapper.ssr {
+  .interaction-icon-wrapper.ssr {
     background-color: #9e82d6;
   }
 
-  .dark-mode .action-icon-wrapper.normal {
+  .dark-mode .interaction-icon-wrapper.normal {
     background-color: #2a4a6e;
   }
 
-  .action-icon {
+  .interaction-icon {
     width: 90%;
     height: 90%;
     object-fit: contain;
   }
+  .interaction-icon.small {
+    width: 75%;
+    height: 75%;
+  }
 
-  .action-name {
+  .interaction-name {
     font-size: 0.75rem;
     color: #6c757d;
     line-height: 1.1;
@@ -582,11 +571,11 @@
     display: flex;
     align-items: center;
   }
-  .dark-mode .action-name {
+  .dark-mode .interaction-name {
     color: #aab2bd;
   }
 
-  .action-count {
+  .interaction-count {
     font-weight: 700;
     font-size: 1.1rem;
     color: #2d4663;
@@ -595,12 +584,12 @@
     border-radius: 10px;
     min-width: 40px;
   }
-  .dark-mode .action-count {
+  .dark-mode .interaction-count {
     color: #e0f4ff;
     background: #2a4a6e;
   }
 
-  .no-actions-needed {
+  .no-interactions-needed {
     text-align: center;
     color: #28a745;
     font-weight: bold;
