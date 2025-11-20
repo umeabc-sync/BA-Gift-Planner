@@ -1,9 +1,12 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
+import { useGiftPlannerStore } from './giftPlanner'
 
 export const useGiftStore = defineStore(
   'gift',
   () => {
+    const giftPlannerStore = useGiftPlannerStore()
+
     // State
     const quantities = ref({})
     const synthesisGifts = ref([])
@@ -31,7 +34,7 @@ export const useGiftStore = defineStore(
 
     function decrementGift(giftId, isSsr) {
       const key = getKey(giftId, isSsr)
-      if (quantities.value[key] && quantities.value[key] > 0) {
+      if (quantities.value[key] > 0 && giftPlannerStore.totalAssigned[key] !== quantities.value[key]) {
         quantities.value[key]--
         if (quantities.value[key] === 0) {
           delete quantities.value[key]
