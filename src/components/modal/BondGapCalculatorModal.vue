@@ -12,7 +12,7 @@
 
         <div class="target-level-setter">
           <label for="target-level-input">{{ t('bondGapCalculator.setTargetLevel') }}</label>
-          <input id="target-level-input" type="number" v-model.number="targetLevel" min="1" max="100" />
+          <input id="target-level-input" type="number" v-model.number="targetLevel" :min="targetLevel" max="100" />
         </div>
 
         <div class="results-grid" :class="{ 'single-column': !calculations.after }">
