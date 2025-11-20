@@ -77,7 +77,7 @@
     "light": "ライト",
     "dark": "ダーク",
     "system": "システム",
-    "vibrantProgressBar": "より目立つ進捗バーの色"
+    "vibrantProgressBar": "より目立つ経験値バーの色"
   },
   "shareModal": {
     "title": "スクショ設定",
