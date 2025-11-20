@@ -170,25 +170,9 @@
   }
 
   const expFromPlannedGifts = computed(() => {
-    if (!student.value || !allGifts.value) return 0
-
-    const studentAssignments = giftPlannerStore.getStudentAssignments(student.value.id)
-    if (!studentAssignments || Object.keys(studentAssignments).length === 0) return 0
-
-    let gainedExp = 0
-    for (const giftKey in studentAssignments) {
-      const quantity = studentAssignments[giftKey]
-      const [rarity, idStr] = giftKey.split('-')
-      const giftId = parseInt(idStr)
-      const isSsr = rarity === 'ssr'
-
-      const gift = allGifts.value.find((g) => g.id === giftId && g.isSsr === isSsr)
-      if (!gift) continue
-
-      const expPerGift = getPreferenceValue(student.value, gift)
-      gainedExp += expPerGift * quantity
-    }
-    return gainedExp
+    if (!student.value) return 0
+    const preview = giftPlannerStore.calculatePreviewBond(student.value.id)
+    return preview.gainedExp
   })
 
   const studentGiftPreferences = computed(() => {
