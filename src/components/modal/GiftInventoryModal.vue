@@ -33,7 +33,7 @@
     </template>
     <template #footer>
       <div class="gift-inventory-footer">
-        <button @click="convertGifts" class="convert-button" :disabled="!canConvertSynthesisGifts">
+        <button @click="convertGifts" class="convert-button" :class="{ 'no-to-convert': !canConvertSynthesisGifts }">
           <span>{{ t('bondCalculator.convertToChoiceBox') }}</span>
         </button>
       </div>
@@ -262,6 +262,19 @@
     background-image: linear-gradient(to bottom right, #e4522f 0%, transparent 50%),
       linear-gradient(to top left, #e4522f 0%, transparent 50%);
     color: #e0f4ff;
+  }
+
+  .convert-button.no-to-convert {
+    background-color: #daedf4;
+    background-image: linear-gradient(to bottom right, #c9e1ed 0%, transparent 50%),
+      linear-gradient(to top left, #c9e1ed 0%, transparent 50%);
+  }
+
+  .dark-mode .convert-button.no-to-convert {
+    background-color: #3d4852;
+    background-image: linear-gradient(to bottom right, #2d3748 0%, transparent 50%),
+      linear-gradient(to top left, #2d3748 0%, transparent 50%);
+    color: #9ca3af;
   }
 
   .convert-button > span {
