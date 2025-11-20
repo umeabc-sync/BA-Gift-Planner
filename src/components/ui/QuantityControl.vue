@@ -15,7 +15,7 @@
     >
       <span class="minus">－</span>
     </button>
-    <div class="quantity-display">
+    <div class="quantity-display" :class="{ small: props.smallDisplay }">
       <input
         type="number"
         :value="value"
@@ -59,6 +59,7 @@
     available: { type: Number, default: 9999 },
     showMinMax: { type: Boolean, default: false },
     useContinuous: { type: Boolean, default: false },
+    smallDisplay: { type: Boolean, default: false },
     disabled: { type: Boolean, default: false },
   })
 
@@ -228,6 +229,9 @@
     justify-content: center;
     transform: skew(-10deg);
     border-radius: 4px;
+  }
+  .quantity-display.small {
+    width: clamp(40px, calc(100% - 20px), 80px);
   }
 
   .quantity-display .quantity-input {
