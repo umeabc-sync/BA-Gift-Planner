@@ -263,6 +263,12 @@
     position: relative;
   }
 
+  .setting-group:nth-child(1) { z-index: 20; }
+  .setting-group:nth-child(2) { z-index: 19; }
+  .setting-group:nth-child(3) { z-index: 18; }
+  .setting-group:nth-child(4) { z-index: 17; }
+  .setting-group:nth-child(5) { z-index: 16; }
+
   .setting-group:last-child {
     border-bottom: none;
   }
@@ -349,7 +355,7 @@
   .custom-dropdown-menu {
     position: absolute;
     top: 100%;
-    left: 0;
+    left: -2px;
     width: 100%;
     margin-top: 6px;
     background-color: #f8f9fa;
