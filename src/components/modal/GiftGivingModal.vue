@@ -45,7 +45,7 @@
         <div class="dropdown-wrapper">
           <CustomDropdown direction="up">
             <template #toggle>
-              <span>Quick Give</span>
+              <span>{{ t('giftGivingModal.quickGive.title') }}</span>
             </template>
             <li @click="giveBestNoConflict">
               <span>{{ t('giftGivingModal.quickGive.bestNoConflict') }}</span>

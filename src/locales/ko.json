@@ -138,12 +138,10 @@
     "title": "선물하기",
     "reset": "초기화",
     "quickGive": {
+      "title": "빠른 선물",
       "bestNoConflict": "최적",
-      "bestNoConflictTooltip": "적합한 모든 선물 주기 (경쟁 없음)",
-      "allSuitable": "선호 선물 모두",
-      "allSuitableTooltip": "적합한 모든 선물 주기 (경쟁 무시)",
-      "all": "전부",
-      "allTooltip": "창고의 모든 선물 주기"
+      "allSuitable": "모든 선호 선물",
+      "all": "모두"
     }
   },
   "giftInventoryModal": {

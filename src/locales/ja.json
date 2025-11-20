@@ -138,12 +138,10 @@
     "title": "贈り物をあげる",
     "reset": "リセット",
     "quickGive": {
+      "title": "クイック贈呈",
       "bestNoConflict": "最適",
-      "bestNoConflictTooltip": "最適な贈り物（競合なし）をすべて贈る",
-      "allSuitable": "すべての好物",
-      "allSuitableTooltip": "すべての好物（競合あり）を贈る",
-      "all": "すべて",
-      "allTooltip": "倉庫内のすべての贈り物を贈る"
+      "allSuitable": "すべての推奨",
+      "all": "すべて"
     }
   },
   "giftInventoryModal": {

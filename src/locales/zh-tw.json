@@ -164,12 +164,10 @@
     "title": "贈送禮物",
     "reset": "重設",
     "quickGive": {
-      "bestNoConflict": "贈送最優",
-      "bestNoConflictTooltip": "贈送所有適合的禮物（沒有與其他學生衝突）",
-      "allSuitable": "贈送所有偏好",
-      "allSuitableTooltip": "贈送所有適合的禮物（不管是否與其他學生衝突）",
-      "all": "贈送全部",
-      "allTooltip": "贈送倉庫裡所有的禮物"
+      "title": "快速贈送",
+      "bestNoConflict": "最優",
+      "allSuitable": "所有偏好",
+      "all": "全部"
     }
   },
   "student": {
