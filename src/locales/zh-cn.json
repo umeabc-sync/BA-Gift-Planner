@@ -136,7 +136,15 @@
   },
   "giftGivingModal": {
     "title": "赠送礼物",
-    "reset": "重置"
+    "reset": "重置",
+    "quickGive": {
+      "bestNoConflict": "赠送最优",
+      "bestNoConflictTooltip": "赠送所有合适的礼物（没有与其他学生冲突）",
+      "allSuitable": "赠送所有偏好",
+      "allSuitableTooltip": "赠送所有合适的礼物（不管是否与其他学生冲突）",
+      "all": "赠送全部",
+      "allTooltip": "赠送仓库里所有的礼物"
+    }
   },
   "giftInventoryModal": {
     "title": "礼物库存"

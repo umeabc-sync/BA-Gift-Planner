@@ -136,7 +136,15 @@
   },
   "giftGivingModal": {
     "title": "Give Gift",
-    "reset": "Reset"
+    "reset": "Reset",
+    "quickGive": {
+      "bestNoConflict": "Optimal",
+      "bestNoConflictTooltip": "Give all suitable gifts (no conflicts)",
+      "allSuitable": "All Preferred",
+      "allSuitableTooltip": "Give all suitable gifts (with conflicts)",
+      "all": "All",
+      "allTooltip": "Give entire warehouse"
+    }
   },
   "giftInventoryModal": {
     "title": "Gift Inventory"
