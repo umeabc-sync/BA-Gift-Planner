@@ -114,12 +114,16 @@
     return studentStore.getStudentBondData(props.student.id)
   })
 
+  const studentLevel = computed(() => {
+    if (!student.value) return null
+    return studentStore.getStudentBondData(student.value.id).level
+  })
+
   watch(
-    [student, bondExpTable],
-    ([newStudent, newTable]) => {
-      if (newStudent && newTable && newTable.length > 0) {
-        const currentLevel = studentStore.getStudentBondData(newStudent.id).level
-        minLevel.value = Math.min(currentLevel + 1, maxLevel.value)
+    studentLevel,
+    (newLevel) => {
+      if (newLevel != null) {
+        minLevel.value = Math.min(newLevel + 1, maxLevel.value)
         targetLevel.value = minLevel.value
         initialTargetLevel.value = minLevel
       }
