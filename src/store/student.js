@@ -1,11 +1,13 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import { useStudentData } from '@/utils/fetchStudentData'
+import { useGiftPlannerStore } from './giftPlanner'
 
 export const useStudentStore = defineStore(
   'student',
   () => {
     const { data: studentsData } = useStudentData()
+    const giftPlannerStore = useGiftPlannerStore()
 
     const selectedStudentIds = ref([])
     const studentBondData = ref({})
@@ -19,6 +21,7 @@ export const useStudentStore = defineStore(
       const index = selectedStudentIds.value.findIndex((id) => id === student.id)
       if (index > -1) {
         selectedStudentIds.value.splice(index, 1)
+        giftPlannerStore.clearStudentAssignments(student.id)
       } else {
         selectedStudentIds.value.push(student.id)
       }
