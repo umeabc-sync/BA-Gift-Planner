@@ -21,6 +21,7 @@
 
             <QuantityControl
               :value="getGiftQuantity(gift.id, gift.isSsr)"
+              :min="totalAssigned[`${gift.isSsr ? 'ssr' : 'sr'}-${gift.id}`] || 0"
               @update:value="setGiftQuantity(gift.id, gift.isSsr, $event)"
               @increment="incrementGift(gift.id, gift.isSsr)"
               @decrement="decrementGift(gift.id, gift.isSsr)"
@@ -49,6 +50,7 @@
   import { useSrGiftData } from '@/utils/fetchSrGiftData.js'
   import { useSsrGiftData } from '@/utils/fetchSsrGiftData.js'
   import { useGiftStore } from '@/store/gift'
+  import { useGiftPlannerStore } from '@/store/giftPlanner'
   import { getGiftUrl } from '@utils/getGiftUrl'
   import ImageWithLoader from '@components/ui/ImageWithLoader.vue'
   import QuantityControl from '@components/ui/QuantityControl.vue'
@@ -63,8 +65,10 @@
   const emit = defineEmits(['close'])
 
   const giftStore = useGiftStore()
+  const giftPlannerStore = useGiftPlannerStore()
   const { getGiftQuantity, setGiftQuantity, incrementGift, decrementGift, convertSynthesisGifts } = giftStore
   const { synthesisGifts } = storeToRefs(giftStore)
+  const { totalAssigned } = storeToRefs(giftPlannerStore)
 
   const close = () => {
     emit('close')

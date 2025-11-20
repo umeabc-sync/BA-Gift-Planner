@@ -16,7 +16,9 @@ export const useGiftStore = defineStore(
     // Actions
     function setGiftQuantity(giftId, isSsr, quantity) {
       const key = getKey(giftId, isSsr)
-      const newQuantity = Math.max(0, quantity)
+      const minQuantity = giftPlannerStore.totalAssigned[key] || 0
+      const newQuantity = Math.max(minQuantity, quantity)
+
       if (newQuantity === 0) {
         delete quantities.value[key]
       } else {
@@ -34,7 +36,9 @@ export const useGiftStore = defineStore(
 
     function decrementGift(giftId, isSsr) {
       const key = getKey(giftId, isSsr)
-      if (quantities.value[key] > 0 && giftPlannerStore.totalAssigned[key] !== quantities.value[key]) {
+      const minQuantity = giftPlannerStore.totalAssigned[key] || 0
+
+      if (quantities.value[key] > minQuantity) {
         quantities.value[key]--
         if (quantities.value[key] === 0) {
           delete quantities.value[key]
