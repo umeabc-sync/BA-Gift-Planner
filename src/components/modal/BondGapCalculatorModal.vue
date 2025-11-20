@@ -117,9 +117,6 @@
   const giftPlannerStore = useGiftPlannerStore()
   const { allGifts } = storeToRefs(giftPlannerStore)
 
-  const { data: srGifts } = useSrGiftData(locale)
-  const { data: ssrGifts } = useSsrGiftData(locale)
-
   const { data: bondExpTable } = useBondExpData()
   const targetLevel = ref(null)
 
@@ -176,10 +173,37 @@
   })
 
   const studentGiftPreferences = computed(() => {
-    if (!student.value || !srGifts.value || !ssrGifts.value) return { sr: [], ssr: [] }
+    if (!student.value || !allGifts.value) return { sr: [], ssr: [] }
 
-    const srPrefs = srGifts.value.map((gift) => getPreferenceValue(student.value, gift))
-    const ssrPrefs = ssrGifts.value.map((gift) => getPreferenceValue(student.value, { ...gift, isSsr: true }))
+    const srPrefs = [20]
+    const ssrPrefs = [120]
+
+    const srFavorTiers = { m: 40, l: 60, xl: 80 }
+    const ssrFavorTiers = { l: 180, xl: 240 }
+
+    // Check favorite tiers
+    for (const [tier, exp] of Object.entries(srFavorTiers)) {
+      if (student.value.favor.sr[tier]?.length > 0) {
+        srPrefs.push(exp)
+      }
+    }
+
+    for (const [tier, exp] of Object.entries(ssrFavorTiers)) {
+      if (student.value.favor.ssr[tier]?.length > 0) {
+        ssrPrefs.push(exp)
+      }
+    }
+
+    // Account for special gifts with fixed EXP
+    allGifts.value.forEach(gift => {
+      if (gift.isSpecial && gift.exp > 0) { // exp > 0 ignores dynamic choice boxes with exp: -1
+        if (gift.isSsr) {
+          ssrPrefs.push(gift.exp)
+        } else {
+          srPrefs.push(gift.exp)
+        }
+      }
+    })
 
     return {
       sr: [...new Set(srPrefs)].sort((a, b) => a - b),
