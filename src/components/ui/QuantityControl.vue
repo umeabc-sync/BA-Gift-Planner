@@ -7,6 +7,9 @@
       @mousedown="startChangingQuantity('decrement')"
       @mouseup="stopChangingQuantity"
       @mouseleave="stopChangingQuantity"
+      @touchstart.prevent="startChangingQuantity('decrement')"
+      @touchend="stopChangingQuantity"
+      @touchcancel="stopChangingQuantity"
       :disabled="value <= min || disabled"
       class="quantity-btn"
     >
@@ -27,6 +30,9 @@
       @mousedown="startChangingQuantity('increment')"
       @mouseup="stopChangingQuantity"
       @mouseleave="stopChangingQuantity"
+      @touchstart.prevent="startChangingQuantity('increment')"
+      @touchend="stopChangingQuantity"
+      @touchcancel="stopChangingQuantity"
       :disabled="value >= max || disabled"
       class="quantity-btn"
     >
