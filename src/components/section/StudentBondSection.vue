@@ -1,7 +1,7 @@
 <template>
   <div v-if="selectedStudents.length > 0" class="student-bond-section">
     <div v-for="student in selectedStudents" :key="student.id" class="student-row">
-      <div class="student-island">
+      <div class="student-island" @click="openGapModal(student)">
         <ImageWithLoader :src="getAvatarUrl(student.id)" class="student-avatar-img" />
       </div>
       <div class="bond-island">
@@ -43,6 +43,11 @@
       </div>
     </div>
     <GiftGivingModal :show="isGiftModalOpen" :student="giftingStudent" @close="closeGiftModal" />
+    <BondGapCalculatorModal
+      :is-visible="isGapModalVisible"
+      :student="selectedStudentForGap"
+      @close="isGapModalVisible = false"
+    />
   </div>
 </template>
 
@@ -55,6 +60,7 @@
   import { useBondExpData } from '@/utils/fetchBondExpData'
   import ImageWithLoader from '@components/ui/ImageWithLoader.vue'
   import GiftGivingModal from '@components/modal/GiftGivingModal.vue'
+  import BondGapCalculatorModal from '@components/modal/BondGapCalculatorModal.vue'
   import GiftIcon from '@assets/icon/gift_icon.svg'
   import { getAssetsFile } from '@/utils/getAssetsFile'
 
@@ -70,6 +76,9 @@
   const isGiftModalOpen = ref(false)
   const giftingStudent = ref(null)
 
+  const isGapModalVisible = ref(false)
+  const selectedStudentForGap = ref(null)
+
   const openGiftModal = (student) => {
     giftingStudent.value = student
     isGiftModalOpen.value = true
@@ -81,6 +90,11 @@
 
   const openEditModal = (student) => {
     emit('open-modal', student)
+  }
+  
+  const openGapModal = (student) => {
+    selectedStudentForGap.value = student
+    isGapModalVisible.value = true
   }
 
   const maxExpForLevel = (level) => {
