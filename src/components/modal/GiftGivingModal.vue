@@ -375,4 +375,11 @@
       box-shadow: 0 0 20px 5px #fdef66;
     }
   }
+
+  @media (max-width: 420px) {
+    .gift-wrapper {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
 </style>
