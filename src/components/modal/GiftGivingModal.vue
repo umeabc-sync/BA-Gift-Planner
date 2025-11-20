@@ -23,6 +23,7 @@
             </div>
 
             <QuantityControl
+              class="quantity-control"
               :value="getAssigned(gift)"
               :max="getMax(gift)"
               :available="giftPlannerStore.getAvailableCount(gift.id, gift.isSsr)"
@@ -380,6 +381,10 @@
     .gift-wrapper {
       flex-direction: column;
       align-items: center;
+    }
+
+    .quantity-control {
+      width: 100%;
     }
   }
 </style>
