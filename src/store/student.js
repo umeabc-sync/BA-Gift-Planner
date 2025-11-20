@@ -24,6 +24,7 @@ export const useStudentStore = defineStore(
         giftPlannerStore.clearStudentAssignments(student.id)
       } else {
         selectedStudentIds.value.push(student.id)
+        selectedStudentIds.value.sort((a, b) => a - b)
       }
     }
 
