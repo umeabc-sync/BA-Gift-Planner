@@ -9,12 +9,12 @@
         <div class="setting-group">
           <h4 class="setting-group-title">{{ t('settingsModal.language') }}</h4>
           <div class="language-selector">
-            <button ref="dropdownToggleRef" class="lang-dropdown-toggle" @click="toggleMenu">
+            <button ref="langDropdownToggleRef" class="custom-dropdown-toggle" @click="toggleLangMenu">
               <span>{{ currentLanguageName }}</span>
-              <span class="caret" :class="{ open: isOpen }"></span>
+              <span class="caret" :class="{ open: isLangMenuOpen }"></span>
             </button>
             <transition name="dropdown">
-              <ul v-if="isOpen" ref="languageMenuRef" class="language-menu" :style="menuStyle">
+              <ul v-if="isLangMenuOpen" ref="languageMenuRef" class="custom-dropdown-menu" :style="langMenuStyle">
                 <li
                   v-for="lang in availableLanguages"
                   :key="lang.code"
@@ -22,11 +22,34 @@
                   @click="
                     () => {
                       handleLocaleChange(lang.code)
-                      isOpen = false
+                      isLangMenuOpen = false
                     }
                   "
                 >
                   <span>{{ lang.name }}</span>
+                </li>
+              </ul>
+            </transition>
+          </div>
+        </div>
+
+        <!-- Theme Settings -->
+        <div class="setting-group">
+          <h4 class="setting-group-title">{{ t('settingsModal.theme') }}</h4>
+          <div class="language-selector">
+            <button ref="themeDropdownToggleRef" class="custom-dropdown-toggle" @click="toggleThemeMenu">
+              <span>{{ currentThemeName }}</span>
+              <span class="caret" :class="{ open: isThemeMenuOpen }"></span>
+            </button>
+            <transition name="dropdown">
+              <ul v-if="isThemeMenuOpen" ref="themeMenuRef" class="custom-dropdown-menu" :style="themeMenuStyle">
+                <li
+                  v-for="themeOption in availableThemes"
+                  :key="themeOption.value"
+                  :class="{ active: theme === themeOption.value }"
+                  @click="handleThemeChange(themeOption.value)"
+                >
+                  <span>{{ themeOption.name }}</span>
                 </li>
               </ul>
             </transition>
@@ -119,6 +142,7 @@
   const {
     enableCharacterSelectorLazyLoad: isLazyLoadEnabled,
     showOnlyOptimalSolution: isShowOnlyOptimalSolutionEnabled,
+    theme,
     useVibrantProgressBar: isVibrantProgressBarEnabled,
   } = storeToRefs(settingStore)
 
@@ -132,70 +156,142 @@
     { code: 'zh-cn', name: '简体中文' },
   ]
 
-  const isOpen = ref(false)
-  const dropdownToggleRef = ref(null)
-  const languageMenuRef = ref(null)
-  const modalBodyRef = ref(null)
-  const menuStyle = ref({})
+  const availableThemes = computed(() => [
+    { value: 'light', name: t('settingsModal.light') },
+    { value: 'dark', name: t('settingsModal.dark') },
+    { value: 'system', name: t('settingsModal.system') },
+  ])
 
-  const updateMenuPosition = () => {
-    if (!isOpen.value || !dropdownToggleRef.value) {
-      return // Return only when the menu is closed or the button does not exist, without resetting the style
+  const isLangMenuOpen = ref(false)
+  const langDropdownToggleRef = ref(null)
+  const languageMenuRef = ref(null)
+  const langMenuStyle = ref({})
+
+  const isThemeMenuOpen = ref(false)
+  const themeDropdownToggleRef = ref(null)
+  const themeMenuRef = ref(null)
+  const themeMenuStyle = ref({})
+
+  const modalBodyRef = ref(null)
+
+  const updateMenuPosition = (menuType) => {
+    let isOpen, dropdownToggleRef, menuStyleRef
+
+    if (menuType === 'language') {
+      isOpen = isLangMenuOpen.value
+      dropdownToggleRef = langDropdownToggleRef.value
+      menuStyleRef = langMenuStyle
+    } else {
+      isOpen = isThemeMenuOpen.value
+      dropdownToggleRef = themeDropdownToggleRef.value
+      menuStyleRef = themeMenuStyle
     }
 
-    const rect = dropdownToggleRef.value.getBoundingClientRect()
-    menuStyle.value = {
+    if (!isOpen || !dropdownToggleRef) {
+      return
+    }
+
+    const rect = dropdownToggleRef.getBoundingClientRect()
+    menuStyleRef.value = {
       position: 'fixed',
       top: `${rect.bottom + 110}px`,
       left: `${rect.left - 16}px`,
       width: `${rect.width}px`,
     }
   }
+  const updateLangMenuPosition = () => updateMenuPosition('language')
+  const updateThemeMenuPosition = () => updateMenuPosition('theme')
 
-  const toggleMenu = () => {
-    if (!isOpen.value) {
-      isOpen.value = true
-      // Using two nextTicks ensures the DOM is fully updated
+  const toggleLangMenu = () => {
+    if (!isLangMenuOpen.value) {
+      isLangMenuOpen.value = true
       nextTick(() => {
         nextTick(() => {
-          updateMenuPosition()
+          updateLangMenuPosition()
         })
       })
     } else {
-      isOpen.value = false
+      isLangMenuOpen.value = false
     }
   }
 
-  const closeMenu = () => {
-    isOpen.value = false
+  const toggleThemeMenu = () => {
+    if (!isThemeMenuOpen.value) {
+      isThemeMenuOpen.value = true
+      nextTick(() => {
+        nextTick(() => {
+          updateThemeMenuPosition()
+        })
+      })
+    } else {
+      isThemeMenuOpen.value = false
+    }
+  }
+
+  const closeAllMenus = () => {
+    isLangMenuOpen.value = false
+    isThemeMenuOpen.value = false
   }
 
   const handleClickOutside = (event) => {
-    const isClickInsideButton = dropdownToggleRef.value && dropdownToggleRef.value.contains(event.target)
-    const isClickInsideMenu = languageMenuRef.value && languageMenuRef.value.contains(event.target)
+    const isClickInsideLangButton = langDropdownToggleRef.value && langDropdownToggleRef.value.contains(event.target)
+    const isClickInsideLangMenu = languageMenuRef.value && languageMenuRef.value.contains(event.target)
+    const isClickInsideThemeButton = themeDropdownToggleRef.value && themeDropdownToggleRef.value.contains(event.target)
+    const isClickInsideThemeMenu = themeMenuRef.value && themeMenuRef.value.contains(event.target)
 
-    if (!isClickInsideButton && !isClickInsideMenu) {
-      closeMenu()
+    if (!isClickInsideLangButton && !isClickInsideLangMenu && !isClickInsideThemeButton && !isClickInsideThemeMenu) {
+      closeAllMenus()
+    } else if (isLangMenuOpen.value && !isClickInsideLangButton && !isClickInsideLangMenu) {
+      isLangMenuOpen.value = false
+    } else if (isThemeMenuOpen.value && !isClickInsideThemeButton && !isClickInsideThemeMenu) {
+      isThemeMenuOpen.value = false
     }
   }
 
-  watch(isOpen, (isMenuOpen) => {
+  watch(isLangMenuOpen, (isMenuOpen) => {
     if (isMenuOpen) {
+      isThemeMenuOpen.value = false // Close other menu
       document.addEventListener('click', handleClickOutside, true)
-      modalBodyRef.value?.addEventListener('scroll', updateMenuPosition)
-      window.addEventListener('resize', updateMenuPosition)
+      modalBodyRef.value?.addEventListener('scroll', updateLangMenuPosition)
+      window.addEventListener('resize', updateLangMenuPosition)
     } else {
       document.removeEventListener('click', handleClickOutside, true)
-      modalBodyRef.value?.removeEventListener('scroll', updateMenuPosition)
-      window.removeEventListener('resize', updateMenuPosition)
-      // Reset style when menu is closed
-      menuStyle.value = {}
+      modalBodyRef.value?.removeEventListener('scroll', updateLangMenuPosition)
+      window.removeEventListener('resize', updateLangMenuPosition)
+      langMenuStyle.value = {}
+    }
+  })
+
+  watch(isThemeMenuOpen, (isMenuOpen) => {
+    if (isMenuOpen) {
+      isLangMenuOpen.value = false // Close other menu
+      document.addEventListener('click', handleClickOutside, true)
+      modalBodyRef.value?.addEventListener('scroll', updateThemeMenuPosition)
+      window.addEventListener('resize', updateThemeMenuPosition)
+    } else {
+      document.removeEventListener('click', handleClickOutside, true)
+      modalBodyRef.value?.removeEventListener('scroll', updateThemeMenuPosition)
+      window.removeEventListener('resize', updateThemeMenuPosition)
+      themeMenuStyle.value = {}
     }
   })
 
   const currentLanguageName = computed(() => {
     return availableLanguages.find((lang) => lang.code === locale.value)?.name || ''
   })
+
+  const currentThemeName = computed(() => {
+    return availableThemes.value.find((t) => t.value === theme.value)?.name || ''
+  })
+
+  const handleThemeChange = (newTheme) => {
+    if (theme.value === newTheme) {
+      isThemeMenuOpen.value = false
+      return
+    }
+    settingStore.setTheme(newTheme)
+    isThemeMenuOpen.value = false
+  }
 
   const handleLocaleChange = (newLocale) => {
     if (locale.value === newLocale) {
@@ -249,7 +345,7 @@
     min-width: 180px;
   }
 
-  .lang-dropdown-toggle {
+  .custom-dropdown-toggle {
     background-color: #77ddff;
     background-image: linear-gradient(to bottom right, #63d0fd 0%, transparent 50%),
       linear-gradient(to top left, #63d0fd 0%, transparent 50%);
@@ -271,22 +367,22 @@
     padding: 0 20px;
   }
 
-  .lang-dropdown-toggle:hover {
+  .custom-dropdown-toggle:hover {
     transform: translateY(-2px) skew(-8deg);
   }
 
-  .lang-dropdown-toggle:active {
+  .custom-dropdown-toggle:active {
     transform: scale(0.95) skew(-8deg);
   }
 
-  .dark-mode .lang-dropdown-toggle {
+  .dark-mode .custom-dropdown-toggle {
     background-color: #00aeef;
     background-image: linear-gradient(to bottom right, #09a4f2 0%, transparent 50%),
       linear-gradient(to top left, #09a4f2 0%, transparent 50%);
     color: #e0f4ff;
   }
 
-  .lang-dropdown-toggle > * {
+  .custom-dropdown-toggle > * {
     transform: skew(8deg);
     display: inline-block;
   }
@@ -307,7 +403,7 @@
     transform: skew(8deg) rotate(180deg);
   }
 
-  .language-menu {
+  .custom-dropdown-menu {
     background-color: #f8f9fa;
     border-radius: 12px;
     box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
@@ -320,12 +416,12 @@
     margin: 0;
   }
 
-  .dark-mode .language-menu {
+  .dark-mode .custom-dropdown-menu {
     background-color: #1a2b40;
     border-color: #2a4a6e;
   }
 
-  .language-menu li {
+  .custom-dropdown-menu li {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -342,28 +438,28 @@
     font-weight: bold;
   }
 
-  .language-menu li > * {
+  .custom-dropdown-menu li > * {
     transform: skew(8deg);
   }
 
-  .dark-mode .language-menu li {
+  .dark-mode .custom-dropdown-menu li {
     color: #e0e6ed;
   }
 
-  .language-menu li:hover {
+  .custom-dropdown-menu li:hover {
     background-color: #e9ecef;
   }
 
-  .dark-mode .language-menu li:hover {
+  .dark-mode .custom-dropdown-menu li:hover {
     background-color: #2a4a6e;
   }
 
-  .language-menu li.active {
+  .custom-dropdown-menu li.active {
     background-color: #466398;
     color: white;
   }
 
-  .dark-mode .language-menu li.active {
+  .dark-mode .custom-dropdown-menu li.active {
     background-color: #00a4e4;
   }
 

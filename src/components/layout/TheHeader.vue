@@ -42,11 +42,6 @@
           draggable="false"
         />
       </button>
-      <button class="icon-btn theme-toggle-btn" @click="toggleTheme">
-        <Transition name="icon-fade-slide" mode="out-in">
-          <component :is="themeIcon" :key="theme" />
-        </Transition>
-      </button>
     </div>
   </header>
 </template>
@@ -65,9 +60,6 @@
   import AddStudentsIcon from '@assets/icon/add_students.svg'
   import ShareIcon from '@assets/icon/share.svg'
   import GearIcon from '@assets/icon/gear.svg'
-  import SunIcon from '@assets/icon/sun.svg'
-  import MoonIcon from '@assets/icon/moon.svg'
-  import SystemIcon from '@assets/icon/system.svg'
   // TEMP ICONS
   import BondCalculatorIcon from '@assets/icon/bond_calculator.svg'
   import GiftIcon from '@assets/icon/bond_calculator.svg'
@@ -113,13 +105,6 @@
 
   const settingStore = useSettingStore()
   const { theme } = storeToRefs(settingStore)
-  const { toggleTheme } = settingStore
-
-  const themeIcon = computed(() => {
-    if (theme.value === 'light') return SunIcon
-    if (theme.value === 'dark') return MoonIcon
-    return SystemIcon
-  })
 
   const { width } = useWindowSize()
   const isMobile = computed(() => width.value <= 768)
@@ -238,37 +223,6 @@
 
   .settings-btn:hover svg {
     transform: skew(8deg) rotate(90deg);
-  }
-
-  .theme-toggle-btn {
-    padding: 0;
-  }
-
-  .theme-toggle-btn svg {
-    width: 24px;
-    height: 24px;
-    color: #314665;
-  }
-
-  .dark-mode .theme-toggle-btn svg {
-    color: #e0f4ff;
-  }
-
-  .icon-fade-slide-enter-active,
-  .icon-fade-slide-leave-active {
-    transition:
-      opacity 0.15s ease-in-out,
-      transform 0.15s ease-in-out;
-  }
-
-  .icon-fade-slide-enter-from {
-    opacity: 0;
-    transform: skew(8deg) rotateY(90deg);
-  }
-
-  .icon-fade-slide-leave-to {
-    opacity: 0;
-    transform: skew(8deg) rotateY(-90deg);
   }
 
   .share-dropdown-container {
