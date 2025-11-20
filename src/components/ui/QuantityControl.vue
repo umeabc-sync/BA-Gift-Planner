@@ -215,7 +215,7 @@
   .quantity-display {
     background-color: #4d5a6d;
     color: #f6f7f6;
-    width: 60px;
+    width: clamp(60px, calc(100% - 20px), 120px);
     height: 35px;
     display: flex;
     align-items: center;
