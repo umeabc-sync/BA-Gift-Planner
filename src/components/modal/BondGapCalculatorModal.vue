@@ -90,7 +90,6 @@
   import { useModal } from '@/composables/useModal.js'
   import { useGiftPlannerStore } from '@/store/giftPlanner'
   import { useStudentStore } from '@/store/student'
-  import { useGiftStore } from '@/store/gift'
   import { useBondExpData } from '@/utils/fetchBondExpData'
   import { useSrGiftData } from '@/utils/fetchSrGiftData'
   import { useSsrGiftData } from '@/utils/fetchSsrGiftData'
@@ -196,11 +195,11 @@
     if (!student.value || !srGifts.value || !ssrGifts.value) return { sr: [], ssr: [] }
 
     const srPrefs = srGifts.value.map((gift) => getPreferenceValue(student.value, gift))
-    const ssrPrefs = ssrGifts.value.map((gift) => getPreferenceValue(student.value, gift))
+    const ssrPrefs = ssrGifts.value.map((gift) => getPreferenceValue(student.value, { ...gift, isSsr: true }))
 
     return {
-      sr: [...new Set(srPrefs)].sort((a, b) => b - a),
-      ssr: [...new Set(ssrPrefs)].sort((a, b) => b - a),
+      sr: [...new Set(srPrefs)].sort((a, b) => a - b),
+      ssr: [...new Set(ssrPrefs)].sort((a, b) => a - b),
     }
   })
 
