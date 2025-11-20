@@ -70,6 +70,25 @@
             </button>
           </div>
         </div>
+
+        <!-- Vibrant Progress Bar Settings -->
+        <div class="setting-group">
+          <h4 class="setting-group-title">更顯眼的進度條配色</h4>
+          <div class="toggle-button-group">
+            <button
+              :class="['toggle-button', 'off', { active: !isVibrantProgressBarEnabled }]"
+              @click="isVibrantProgressBarEnabled && toggleVibrantProgressBar()"
+            >
+              <span>{{ t('common.disabled') }}</span>
+            </button>
+            <button
+              :class="['toggle-button', 'on', { active: isVibrantProgressBarEnabled }]"
+              @click="!isVibrantProgressBarEnabled && toggleVibrantProgressBar()"
+            >
+              <span>{{ t('common.enabled') }}</span>
+            </button>
+          </div>
+        </div>
       </div>
     </template>
   </BaseModal>
@@ -100,9 +119,10 @@
   const {
     enableCharacterSelectorLazyLoad: isLazyLoadEnabled,
     showOnlyOptimalSolution: isShowOnlyOptimalSolutionEnabled,
+    useVibrantProgressBar: isVibrantProgressBarEnabled,
   } = storeToRefs(settingStore)
 
-  const { toggleCharacterSelectorLazyLoad, toggleShowOnlyOptimalSolution } = settingStore
+  const { toggleCharacterSelectorLazyLoad, toggleShowOnlyOptimalSolution, toggleVibrantProgressBar } = settingStore
 
   const availableLanguages = [
     { code: 'en', name: 'English' },

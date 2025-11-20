@@ -24,7 +24,10 @@
             <div class="bond-exp-bar">
               <div
                 class="bond-exp-progress-preview"
-                :class="{ flash: bondStatus(student.id).gainedExp > 0 }"
+                :class="{
+                  flash: bondStatus(student.id).gainedExp > 0,
+                  vibrant: isVibrantProgressBarEnabled,
+                }"
                 :style="{ width: `${bondStatus(student.id).newExpPercentage}%` }"
               ></div>
               <div
@@ -63,11 +66,15 @@
   import BondGapCalculatorModal from '@components/modal/BondGapCalculatorModal.vue'
   import GiftIcon from '@assets/icon/gift_icon.svg'
   import { getAssetsFile } from '@/utils/getAssetsFile'
+  import { useSettingStore } from '@/store/setting'
 
   const studentStore = useStudentStore()
   const { selectedStudents } = storeToRefs(studentStore)
 
   const giftPlannerStore = useGiftPlannerStore()
+
+  const settingStore = useSettingStore()
+  const { useVibrantProgressBar: isVibrantProgressBarEnabled } = storeToRefs(settingStore)
 
   const { data: bondExpTable } = useBondExpData()
 
@@ -346,6 +353,20 @@
   .bond-exp-progress-preview.flash {
     opacity: 1;
     animation: barber-pole 1s linear infinite;
+  }
+
+  .bond-exp-progress-preview.vibrant {
+    background-image: linear-gradient(
+        45deg,
+        rgba(255, 255, 255, 0.4) 25%,
+        transparent 25%,
+        transparent 50%,
+        rgba(255, 255, 255, 0.4) 50%,
+        rgba(255, 255, 255, 0.4) 75%,
+        transparent 75%,
+        transparent
+      ),
+      linear-gradient(180deg, #adffc9 0%, #95f9b8 40%, #7df4a8 100%);
   }
 
   .bond-exp-text {
