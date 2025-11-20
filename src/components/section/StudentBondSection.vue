@@ -91,7 +91,7 @@
   const openEditModal = (student) => {
     emit('open-modal', student)
   }
-  
+
   const openGapModal = (student) => {
     selectedStudentForGap.value = student
     isGapModalVisible.value = true
