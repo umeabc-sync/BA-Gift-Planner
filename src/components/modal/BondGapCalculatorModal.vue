@@ -193,10 +193,11 @@
 
   const expToTier = (exp) => {
     const map = {
+      20: 's',
       40: 'm',
       60: 'l',
       80: 'xl',
-      120: 'l',
+      120: 'm',
       180: 'l',
       240: 'xl',
     }
@@ -215,6 +216,7 @@
     let level = 1
     let remainingExp = totalExp
 
+    // Find the highest level that the totalExp can reach
     for (let i = bondExpTable.value.length - 1; i >= 0; i--) {
       if (totalExp >= bondExpTable.value[i].total) {
         level = bondExpTable.value[i].rank
@@ -223,6 +225,7 @@
       }
     }
 
+    // If totalExp is less than any entry, it must be level 1 with that exp
     if (level === 1 && totalExp < bondExpTable.value[0].total) {
       return { level: 1, remainingExp: totalExp }
     }
@@ -245,6 +248,7 @@
     const srFavorTiers = { m: 40, l: 60, xl: 80 }
     const ssrFavorTiers = { l: 180, xl: 240 }
 
+    // Check favorite tiers
     for (const [tier, exp] of Object.entries(srFavorTiers)) {
       if (student.value.favor.sr[tier]?.length > 0) {
         srPrefs.push(exp)
@@ -257,9 +261,11 @@
       }
     }
 
+    // Account for special gifts with fixed EXP
     allGifts.value.forEach((gift) => {
       if (gift.isSpecial && gift.exp > 0) {
-        if (gift.isSsr) {
+        // exp > 0 ignores dynamic choice boxes with exp: -1
+        if (gift.isSsr && gift.exp >= 120) {
           ssrPrefs.push(gift.exp)
         } else {
           srPrefs.push(gift.exp)
