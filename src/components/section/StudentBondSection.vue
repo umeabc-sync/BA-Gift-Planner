@@ -249,8 +249,8 @@
 
   .bond-heart-image-wrapper {
     position: relative;
-    width: 60px; /* Adjust size as needed */
-    height: 60px; /* Adjust size as needed */
+    width: 60px;
+    height: 60px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -268,15 +268,15 @@
     position: relative;
     font-size: 24px;
     font-weight: bold;
-    color: #fff; /* Adjust color to be visible on the heart image */
+    color: #fff;
     z-index: 1;
     text-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-    transition: color 0.3s ease;
+    transition: all 0.3s ease;
   }
 
   .bond-level-text.level-up {
-    color: #ffdf00;
-    animation: level-up-glow 1.5s infinite;
+    color: #fff;
+    animation: level-up-pulse 1.2s ease-in-out infinite;
   }
 
   .bond-exp-bar-container {
@@ -291,7 +291,7 @@
     transform: skew(-10deg);
     position: relative;
     overflow: hidden;
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1); /* The inner shadow makes it appear concave. */
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
   }
 
   .dark-mode .bond-exp-bar {
@@ -324,14 +324,14 @@
       transparent 75%,
       transparent
     );
-    background-size: 20px 20px; /* Control stripe size */
+    background-size: 20px 20px;
     height: 100%;
     position: absolute;
     left: 0;
     top: 0;
     transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: 1; /* In the lower tier of the original experience points */
-    opacity: 0; /* Hides by default, only shows when the width increases. */
+    z-index: 1;
+    opacity: 0;
   }
 
   .bond-exp-progress-preview.flash {
@@ -354,23 +354,26 @@
       -1px 1px 0 #e05ca3,
       1px 1px 0 #e05ca3,
       0 2px 4px rgba(0, 0, 0, 0.3);
-    z-index: 10; /* Top layer */
+    z-index: 10;
     white-space: nowrap;
   }
 
-  @keyframes level-up-glow {
+  @keyframes level-up-pulse {
     0%,
     100% {
+      transform: scale(1);
       text-shadow:
-        0 0 5px #fff,
-        0 0 10px #ffdf00,
-        0 0 15px #ffdf00;
+        0 0 8px rgba(255, 255, 255, 0.8),
+        0 0 15px rgba(239, 109, 189, 0.6),
+        0 0 20px rgba(239, 109, 189, 0.4);
     }
     50% {
+      transform: scale(1.15);
       text-shadow:
-        0 0 10px #fff,
-        0 0 20px #ffdf00,
-        0 0 30px #ffdf00;
+        0 0 12px rgba(255, 255, 255, 1),
+        0 0 25px rgba(239, 109, 189, 0.8),
+        0 0 35px rgba(239, 109, 189, 0.6),
+        0 0 45px rgba(255, 207, 227, 0.4);
     }
   }
 
