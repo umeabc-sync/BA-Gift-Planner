@@ -62,26 +62,36 @@
   let repeatTimer = ref(null)
 
   const startChangingQuantity = (action) => {
-    if (!props.useContinuous) {
+    const func = action === 'increment' ? () => emit('increment') : () => emit('decrement')
+
+    const performChange = () => {
       if (action === 'increment') {
-        emit('increment')
+        if (props.value < props.max) {
+          func()
+        }
       } else {
-        emit('decrement')
+        if (props.value > props.min) {
+          func()
+        }
       }
+    }
+
+    if (!props.useContinuous) {
+      performChange()
       return
     }
 
-    const func = action === 'increment' ? () => emit('increment') : () => emit('decrement')
-    func()
+    performChange()
 
     pressTimer.value = setTimeout(() => {
       repeatTimer.value = setInterval(() => {
-        func()
         if (
           (action === 'increment' && props.value >= props.max) ||
           (action === 'decrement' && props.value <= props.min)
         ) {
           stopChangingQuantity()
+        } else {
+          performChange()
         }
       }, 100)
     }, 400)
