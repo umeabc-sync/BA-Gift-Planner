@@ -165,6 +165,7 @@
   },
   "bondCalculator": {
     "giftInventoryTitle": "禮物庫存",
+    "giftPlannerTitle": "禮物規劃",
     "editBondTitle": "編輯{name}的羈絆",
     "convertToChoiceBox": "轉換為自選箱"
   },

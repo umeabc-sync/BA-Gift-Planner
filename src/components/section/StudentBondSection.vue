@@ -147,7 +147,6 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
-    margin-top: 20px;
   }
   .student-row {
     display: flex;

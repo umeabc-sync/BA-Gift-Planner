@@ -165,6 +165,7 @@
   },
   "bondCalculator": {
     "giftInventoryTitle": "Gift Inventory",
+    "giftPlannerTitle": "Gift Planner",
     "editBondTitle": "Edit {name}'s Bond",
     "convertToChoiceBox": "Convert to Choice Box"
   },

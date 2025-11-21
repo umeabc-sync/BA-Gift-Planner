@@ -1,11 +1,14 @@
 <template>
   <div class="gift-planner-actions">
+    <div class="gift-planner-header">
+      <div class="gift-planner-title">{{ t('bondCalculator.giftPlannerTitle') }}</div>
+    </div>
     <div class="actions-container">
       <button @click="handleReset" class="action-button reset-button">
-        {{ t('giftPlannerActions.reset') }}
+        <span>{{ t('giftPlannerActions.reset') }}</span>
       </button>
       <button @click="handleApply" class="action-button apply-button">
-        {{ t('giftPlannerActions.apply') }}
+        <span>{{ t('giftPlannerActions.apply') }}</span>
       </button>
     </div>
   </div>
@@ -33,46 +36,104 @@
 
 <style scoped>
   .gift-planner-actions {
-    background-color: var(--color-background-soft);
-    padding: 15px;
-    border-radius: 12px;
+    background: #efefef;
+    border: 2px solid #dee2e6;
+    border-radius: 20px;
+    padding: 15px 25px;
     margin: 0 auto;
     width: 100%;
-    max-width: 900px;
     box-sizing: border-box;
+    transition: all 0.3s ease;
+  }
+
+  .dark-mode .gift-planner-actions {
+    background: #1f3048;
+    border-color: #2a4a6e;
+  }
+
+  .gift-planner-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    position: relative;
+  }
+
+  .gift-planner-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #314665;
+    text-align: center;
+  }
+
+  .dark-mode .gift-planner-title {
+    color: #e0f4ff;
   }
 
   .actions-container {
     display: flex;
     justify-content: center;
-    gap: 20px;
+    gap: 30px;
   }
 
   .action-button {
+    position: relative;
     border: none;
-    color: white;
-    padding: 10px 25px;
-    border-radius: 8px;
-    font-size: 1rem;
+    color: #314665;
+    padding: 0 30px;
+    height: 44px;
+    border-radius: 12px;
+    font-size: 1.1rem;
     font-weight: bold;
     cursor: pointer;
-    transition: all 0.3s ease;
-    min-width: 150px;
+    transition: all 0.2s ease;
+    min-width: 140px;
+    transform: skew(-8deg);
+    box-shadow: 0 3px 2px rgba(0, 0, 0, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .action-button span {
+    transform: skew(8deg);
+    z-index: 2;
+    letter-spacing: 1px;
+    display: inline-block;
+  }
+
+  .action-button:hover {
+    transform: translateY(-2px) skew(-8deg);
+  }
+
+  .action-button:active {
+    transform: scale(0.95) skew(-8deg);
   }
 
   .reset-button {
-    background-color: #f44336; /* Red */
+    background-color: #f4e94c;
+    background-image: linear-gradient(to bottom right, #f9da3b 0%, transparent 50%),
+      linear-gradient(to top left, #f9da3b 0%, transparent 50%);
   }
 
-  .reset-button:hover {
-    background-color: #d32f2f;
+  .dark-mode .reset-button {
+    background-color: #e57758;
+    background-image: linear-gradient(to bottom right, #e4522f 0%, transparent 50%),
+      linear-gradient(to top left, #e4522f 0%, transparent 50%);
+    color: #e0f4ff;
   }
 
   .apply-button {
-    background-color: #4caf50; /* Green */
+    background-color: #77ddff;
+    background-image: linear-gradient(to bottom right, #63d0fd 0%, transparent 50%),
+      linear-gradient(to top left, #63d0fd 0%, transparent 50%);
   }
 
-  .apply-button:hover {
-    background-color: #388e3c;
+  .dark-mode .apply-button {
+    background-color: #00aeef;
+    background-image: linear-gradient(to bottom right, #09a4f2 0%, transparent 50%),
+      linear-gradient(to top left, #09a4f2 0%, transparent 50%);
+    color: #e0f4ff;
   }
 </style>

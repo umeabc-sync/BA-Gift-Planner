@@ -165,6 +165,7 @@
   },
   "bondCalculator": {
     "giftInventoryTitle": "선물 인벤토리",
+    "giftPlannerTitle": "선물 계획",
     "editBondTitle": "{name}의 인연 편집",
     "convertToChoiceBox": "선택 상자로 변환"
   },

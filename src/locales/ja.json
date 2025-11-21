@@ -165,6 +165,7 @@
   },
   "bondCalculator": {
     "giftInventoryTitle": "贈り物インベントリ",
+    "giftPlannerTitle": "贈り物計画",
     "editBondTitle": "{name}の絆編集",
     "convertToChoiceBox": "選択ボックスに変換"
   },

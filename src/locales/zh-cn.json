@@ -165,6 +165,7 @@
   },
   "bondCalculator": {
     "giftInventoryTitle": "礼物库存",
+    "giftPlannerTitle": "礼物规划",
     "editBondTitle": "编辑{name}的羁绊",
     "convertToChoiceBox": "转换为自选箱"
   },
