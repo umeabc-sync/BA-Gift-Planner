@@ -107,8 +107,7 @@ export const useGiftPlannerStore = defineStore(
         const giftId = parseInt(idStr)
         const isSsr = rarity === 'ssr'
 
-        const currentQuantity = giftStore.getGiftQuantity(giftId, isSsr)
-        giftStore.setGiftQuantity(giftId, isSsr, currentQuantity - quantity)
+        giftStore.consumeGift(giftId, isSsr, quantity)
       }
 
       clearAssignments()

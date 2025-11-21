@@ -46,6 +46,18 @@ export const useGiftStore = defineStore(
       }
     }
 
+    function consumeGift(giftId, isSsr, quantityToConsume) {
+      const key = getKey(giftId, isSsr)
+      const currentQuantity = quantities.value[key] || 0
+      const newQuantity = Math.max(0, currentQuantity - quantityToConsume)
+
+      if (newQuantity === 0) {
+        delete quantities.value[key]
+      } else {
+        quantities.value[key] = newQuantity
+      }
+    }
+
     function getGiftQuantity(giftId, isSsr) {
       const key = getKey(giftId, isSsr)
       return quantities.value[key] || 0
@@ -101,6 +113,7 @@ export const useGiftStore = defineStore(
       setGiftQuantity,
       incrementGift,
       decrementGift,
+      consumeGift,
       getGiftQuantity,
       convertSynthesisGifts,
       setSynthesisGifts,
