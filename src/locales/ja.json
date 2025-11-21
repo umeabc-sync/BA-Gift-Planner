@@ -175,6 +175,12 @@
     "dormInteraction": "なでなで",
     "scheduleRank": "スケジュール Rank{rank}"
   },
+  "giftPlannerActions": {
+    "reset": "計画をリセット",
+    "apply": "計画を適用",
+    "resetConfirmation": "現在のギフト計画をリセットしてもよろしいですか？保存されていない変更はすべて失われます。",
+    "applyConfirmation": "現在のギフト計画を適用してもよろしいですか？これにより、生徒の絆レベルが更新され、インベントリからギフトが消費されます。"
+  },
   "student": {
     "name": {
       "1": "アル",

@@ -1,6 +1,7 @@
 <template>
   <div class="bond-calculator-view">
     <GiftInventoryGrid :synthesis-gifts="synthesisGifts" @open-modal="isInventoryModalVisible = true" />
+    <GiftPlannerActions />
     <StudentBondSection @open-modal="openBondModal" />
     <GiftInventoryModal :show="isInventoryModalVisible" @close="isInventoryModalVisible = false" />
     <StudentBondModal
@@ -18,6 +19,7 @@
   import GiftInventoryModal from '@components/modal/GiftInventoryModal.vue'
   import StudentBondSection from '@components/section/StudentBondSection.vue'
   import StudentBondModal from '@components/modal/StudentBondModal.vue'
+  import GiftPlannerActions from '@components/section/GiftPlannerActions.vue'
   import { useGiftStore } from '@store/gift'
 
   const isInventoryModalVisible = ref(false)

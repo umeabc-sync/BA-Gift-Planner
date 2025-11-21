@@ -175,6 +175,12 @@
     "dormInteraction": "Patting Head",
     "scheduleRank": "Schedule Rank {rank}"
   },
+  "giftPlannerActions": {
+    "reset": "Reset Plan",
+    "apply": "Apply Plan",
+    "resetConfirmation": "Are you sure you want to reset the current gift plan? All unsaved changes will be lost.",
+    "applyConfirmation": "Are you sure you want to apply the current gift plan? This will update student bond levels and consume the gifts from your inventory."
+  },
   "student": {
     "name": {
       "1": "Aru",

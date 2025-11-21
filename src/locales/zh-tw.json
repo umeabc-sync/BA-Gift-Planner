@@ -134,6 +134,16 @@
   "favoriteGiftsModal": {
     "titleSuffix": "喜歡的禮物"
   },
+  "giftGivingModal": {
+    "title": "贈送禮物",
+    "reset": "重設",
+    "quickGive": {
+      "title": "快速贈送",
+      "bestNoConflict": "最優",
+      "allSuitable": "所有偏好",
+      "all": "全部"
+    }
+  },
   "giftInventoryModal": {
     "title": "禮物庫存"
   },
@@ -158,15 +168,11 @@
     "editBondTitle": "編輯{name}的羈絆",
     "convertToChoiceBox": "轉換為自選箱"
   },
-  "giftGivingModal": {
-    "title": "贈送禮物",
-    "reset": "重設",
-    "quickGive": {
-      "title": "快速贈送",
-      "bestNoConflict": "最優",
-      "allSuitable": "所有偏好",
-      "all": "全部"
-    }
+  "giftPlannerActions": {
+    "reset": "重設計畫",
+    "apply": "套用計畫",
+    "resetConfirmation": "您確定要重設目前的禮物計畫嗎？所有未儲存的變更將會遺失。",
+    "applyConfirmation": "您確定要套用目前的禮物計畫嗎？這將會更新學生的羈絆等級並從您的庫存中消耗禮物。"
   },
   "studentBondModal": {
     "bondLevel": "羈絆等級",

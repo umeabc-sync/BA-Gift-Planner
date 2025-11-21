@@ -175,6 +175,12 @@
     "dormInteraction": "摸头",
     "scheduleRank": "日程 Rank{rank}"
   },
+  "giftPlannerActions": {
+    "reset": "重置计划",
+    "apply": "应用计划",
+    "resetConfirmation": "您确定要重置当前的礼物计划吗？所有未保存的更改都将丢失。",
+    "applyConfirmation": "您确定要应用当前的礼物计划吗？这将更新学生的羁绊等级并从您的库存中消耗礼物。"
+  },
   "student": {
     "name": {
       "1": "爱露",

@@ -175,6 +175,12 @@
     "dormInteraction": "쓰다듬기",
     "scheduleRank": "스케줄 Rank {rank}"
   },
+  "giftPlannerActions": {
+    "reset": "계획 초기화",
+    "apply": "계획 적용",
+    "resetConfirmation": "현재 선물 계획을 초기화하시겠습니까? 저장되지 않은 모든 변경 사항이 손실됩니다.",
+    "applyConfirmation": "현재 선물 계획을 적용하시겠습니까? 학생의 인연 레벨이 업데이트되고 인벤토리에서 선물이 소모됩니다."
+  },
   "student": {
     "name": {
       "1": "아루",

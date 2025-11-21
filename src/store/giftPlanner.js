@@ -88,6 +88,32 @@ export const useGiftPlannerStore = defineStore(
       }
     }
 
+    function applyAssignments() {
+      if (Object.keys(assignments.value).length === 0) {
+        return
+      }
+
+      // Update student bond levels
+      for (const studentId in assignments.value) {
+        const studentIdNum = parseInt(studentId)
+        const newBond = calculatePreviewBond.value(studentIdNum)
+        studentStore.updateStudentBond(studentIdNum, newBond.newLevel, newBond.newExp)
+      }
+
+      // Update gift quantities
+      for (const giftKey in totalAssigned.value) {
+        const quantity = totalAssigned.value[giftKey]
+        const [rarity, idStr] = giftKey.split('-')
+        const giftId = parseInt(idStr)
+        const isSsr = rarity === 'ssr'
+
+        const currentQuantity = giftStore.getGiftQuantity(giftId, isSsr)
+        giftStore.setGiftQuantity(giftId, isSsr, currentQuantity - quantity)
+      }
+
+      clearAssignments()
+    }
+
     const getStudentAssignments = (studentId) => {
       return assignments.value[studentId] || {}
     }
@@ -165,6 +191,7 @@ export const useGiftPlannerStore = defineStore(
       setAssignment,
       clearAssignments,
       clearStudentAssignments,
+      applyAssignments,
       getStudentAssignments,
       calculatePreviewBond,
       allGifts,
