@@ -4,10 +4,10 @@
       <div class="gift-planner-title">{{ t('bondCalculator.giftPlannerTitle') }}</div>
     </div>
     <div class="actions-container">
-      <button @click="handleReset" class="action-button reset-button">
+      <button @click="handleReset" class="action-button reset-button" :class="{ 'no-plan-exists': isNoAssignments }">
         <span>{{ t('giftPlannerActions.reset') }}</span>
       </button>
-      <button @click="handleApply" class="action-button apply-button">
+      <button @click="handleApply" class="action-button apply-button" :class="{ 'no-plan-exists': isNoAssignments }">
         <span>{{ t('giftPlannerActions.apply') }}</span>
       </button>
     </div>
@@ -15,19 +15,26 @@
 </template>
 
 <script setup>
+  import { computed } from 'vue'
+  import { storeToRefs } from 'pinia'
   import { useGiftPlannerStore } from '@/store/giftPlanner'
   import { useI18n } from '@/composables/useI18n'
 
   const { t } = useI18n()
   const giftPlannerStore = useGiftPlannerStore()
+  const { assignments } = storeToRefs(giftPlannerStore)
+
+  const isNoAssignments = computed(() => Object.keys(assignments.value).length === 0)
 
   const handleReset = () => {
+    if (isNoAssignments.value) return
     if (confirm(t('giftPlannerActions.resetConfirmation'))) {
       giftPlannerStore.clearAssignments()
     }
   }
 
   const handleApply = () => {
+    if (isNoAssignments.value) return
     if (confirm(t('giftPlannerActions.applyConfirmation'))) {
       giftPlannerStore.applyAssignments()
     }
@@ -78,6 +85,8 @@
 
   .action-button {
     position: relative;
+    font-family: inherit;
+    font-weight: bold;
     border: none;
     color: #314665;
     padding: 0 30px;
@@ -135,5 +144,19 @@
     background-image: linear-gradient(to bottom right, #09a4f2 0%, transparent 50%),
       linear-gradient(to top left, #09a4f2 0%, transparent 50%);
     color: #e0f4ff;
+  }
+
+  .action-button.no-plan-exists {
+    background-color: #daedf4;
+    background-image: linear-gradient(to bottom right, #c9e1ed 0%, transparent 50%),
+      linear-gradient(to top left, #c9e1ed 0%, transparent 50%);
+    cursor: not-allowed;
+  }
+
+  .dark-mode .action-button.no-plan-exists {
+    background-color: #3d4852;
+    background-image: linear-gradient(to bottom right, #2d3748 0%, transparent 50%),
+      linear-gradient(to top left, #2d3748 0%, transparent 50%);
+    color: #9ca3af;
   }
 </style>
