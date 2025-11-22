@@ -116,6 +116,19 @@
     const originalMaxExp = maxExpForLevel(preview.level)
     const newMaxExp = maxExpForLevel(preview.newLevel)
 
+    // Handle max bond level edge case
+    if (preview.newLevel === 100) {
+      return {
+        levelUp: preview.newLevel > preview.level,
+        displayLevel: preview.newLevel,
+        displayExp: '--',
+        displayMaxExp: '--',
+        gainedExp: preview.gainedExp,
+        originalExpPercentage: 100,
+        newExpPercentage: 100,
+      }
+    }
+
     return {
       levelUp: preview.newLevel > preview.level,
       displayLevel: preview.newLevel,

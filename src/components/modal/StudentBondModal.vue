@@ -26,9 +26,9 @@
           <div class="exp-header">
             <label class="control-label">{{ t('bondCalculator.bondExp') }}</label>
             <span class="exp-text">
-              <span class="current">{{ bondExp }}</span>
+              <span class="current">{{ displayBondExp }}</span>
               <span class="separator">/</span>
-              <span class="max">{{ maxExp }}</span>
+              <span class="max">{{ displayMaxBondExp }}</span>
             </span>
           </div>
 
@@ -40,6 +40,7 @@
               :max="maxExp"
               class="custom-range"
               :style="sliderStyle"
+              :disabled="bondLevel === 100"
             />
           </div>
         </div>
@@ -110,6 +111,14 @@
     if (!bondExpTable.value || !props.student) return 0
     const rankInfo = bondExpTable.value.find((r) => r.rank === bondLevel.value)
     return rankInfo ? rankInfo.exp : 0
+  })
+
+  const displayBondExp = computed(() => {
+    return bondLevel.value === 100 ? '--' : bondExp.value
+  })
+
+  const displayMaxBondExp = computed(() => {
+    return bondLevel.value === 100 ? '--' : maxExp.value
   })
 
   // Dynamic style for slider background fill
