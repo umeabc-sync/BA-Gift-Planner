@@ -183,8 +183,6 @@
 <style scoped>
   .settings-body {
     padding: 20px;
-    overflow-y: auto;
-    max-height: 70vh;
   }
 
   .setting-group {
