@@ -5782,5 +5782,53 @@
         "xl": [10]
       }
     }
+  },
+  {
+    "id": 242,
+    "gid": 10131,
+    "school": "RedWinter",
+    "attackType": "Mystic",
+    "defenseType": "Light",
+    "weapon": "HG",
+    "position": "MIDDLE",
+    "type": 0,
+    "role": ["Healer"],
+    "rarity": 3,
+    "obtainMethod": "Regular",
+    "favor": {
+      "sr": {
+        "m": [3, 4, 15, 32],
+        "l": [9, 23, 31],
+        "xl": []
+      },
+      "ssr": {
+        "l": [1],
+        "xl": [10]
+      }
+    }
+  },
+  {
+    "id": 243,
+    "gid": 20052,
+    "school": "RedWinter",
+    "attackType": "Explosive",
+    "defenseType": "Light",
+    "weapon": "HG",
+    "position": "BACK",
+    "type": 1,
+    "role": ["Support"],
+    "rarity": 3,
+    "obtainMethod": "Regular",
+    "favor": {
+      "sr": {
+        "m": [3, 4, 9, 15, 17, 19, 23, 30, 32],
+        "l": [29],
+        "xl": []
+      },
+      "ssr": {
+        "l": [1],
+        "xl": [3]
+      }
+    }
   }
 ]
