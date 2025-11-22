@@ -62,7 +62,7 @@
   import GearIcon from '@assets/icon/gear.svg'
   // TEMP ICONS
   import BondCalculatorIcon from '@assets/icon/bond_calculator.svg'
-  import GiftIcon from '@assets/icon/bond_calculator.svg'
+  import GiftIcon from '@assets/icon/gift_icon.svg'
 
   const { t, currentLocale: locale } = useI18n()
   const { addToast } = useToast()
