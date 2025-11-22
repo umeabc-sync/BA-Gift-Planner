@@ -124,7 +124,8 @@
         displayExp: '--',
         displayMaxExp: '--',
         gainedExp: preview.gainedExp,
-        originalExpPercentage: 100,
+        originalExpPercentage: preview.newLevel > preview.level
+          ? 0 : 100,
         newExpPercentage: 100,
       }
     }
