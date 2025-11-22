@@ -9,7 +9,7 @@
     <template #body>
       <div class="bond-editor-container">
         <div class="control-card">
-          <label class="control-label">{{ t('bondCalculator.bondLevel') }}</label>
+          <label class="control-label">{{ t('studentBondModal.bondLevel') }}</label>
           <div class="stepper-control">
             <button class="step-btn" @click="adjustLevel(-1)" :disabled="bondLevel <= 1">－</button>
 
@@ -24,7 +24,7 @@
 
         <div class="control-card">
           <div class="exp-header">
-            <label class="control-label">{{ t('bondCalculator.bondExp') }}</label>
+            <label class="control-label">{{ t('studentBondModal.bondExp') }}</label>
             <span class="exp-text">
               <span class="current">{{ displayBondExp }}</span>
               <span class="separator">/</span>
@@ -46,23 +46,27 @@
         </div>
 
         <div class="control-card">
-          <label class="control-label">快捷增加羈絆經驗</label>
+          <label class="control-label">{{ t('studentBondModal.quickAddExp') }}</label>
           <div class="quick-add-grid">
             <button class="quick-add-btn" @click="addExp(15)" :disabled="bondLevel === 100">
-              <img :src="getAssetsFile('icon/cafe.webp')" class="quick-add-icon" alt="摸頭" />
-              <span>摸頭 +15</span>
+              <img
+                :src="getAssetsFile('icon/cafe.webp')"
+                class="quick-add-icon"
+                alt="Cafe Interaction"
+              />
+              <span>{{ t('studentBondModal.dormInteraction') }}</span>
             </button>
             <button class="quick-add-btn" @click="addExp(15)" :disabled="bondLevel === 100">
-              <img :src="getAssetsFile('icon/schedule.webp')" class="quick-add-icon" alt="課程表" />
-              <span>課程表 Rank1-10 +15</span>
+              <img :src="getAssetsFile('icon/schedule.webp')" class="quick-add-icon" alt="Schedule Rank1-10" />
+              <span>{{ t('studentBondModal.scheduleRank', { rank: '1-10' }) }}</span>
             </button>
             <button class="quick-add-btn" @click="addExp(20)" :disabled="bondLevel === 100">
-              <img :src="getAssetsFile('icon/schedule.webp')" class="quick-add-icon" alt="課程表" />
-              <span>課程表 Rank11 +20</span>
+              <img :src="getAssetsFile('icon/schedule.webp')" class="quick-add-icon" alt="Schedule Rank11" />
+              <span>{{ t('studentBondModal.scheduleRank', { rank: '11' }) }}</span>
             </button>
             <button class="quick-add-btn" @click="addExp(25)" :disabled="bondLevel === 100">
-              <img :src="getAssetsFile('icon/schedule.webp')" class="quick-add-icon" alt="課程表" />
-              <span>課程表 Rank12 +25</span>
+              <img :src="getAssetsFile('icon/schedule.webp')" class="quick-add-icon" alt="Schedule Rank12" />
+              <span>{{ t('studentBondModal.scheduleRank', { rank: '12' }) }}</span>
             </button>
           </div>
         </div>

@@ -166,9 +166,14 @@
   "bondCalculator": {
     "giftInventoryTitle": "선물 인벤토리",
     "editBondTitle": "{name}의 인연 편집",
+    "convertToChoiceBox": "선택 상자로 변환"
+  },
+  "studentBondModal": {
     "bondLevel": "인연 레벨",
     "bondExp": "인연 EXP",
-    "convertToChoiceBox": "선택 상자로 변환"
+    "quickAddExp": "인연 경험치 쾌속 증가",
+    "dormInteraction": "쓰다듬기",
+    "scheduleRank": "스케줄 Rank {rank}"
   },
   "student": {
     "name": {

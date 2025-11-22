@@ -156,8 +156,6 @@
   "bondCalculator": {
     "giftInventoryTitle": "禮物庫存",
     "editBondTitle": "編輯{name}的羈絆",
-    "bondLevel": "羈絆等級",
-    "bondExp": "羈絆經驗",
     "convertToChoiceBox": "轉換為自選箱"
   },
   "giftGivingModal": {
@@ -169,6 +167,13 @@
       "allSuitable": "所有偏好",
       "all": "全部"
     }
+  },
+  "studentBondModal": {
+    "bondLevel": "羈絆等級",
+    "bondExp": "羈絆經驗",
+    "quickAddExp": "快捷增加羈絆經驗",
+    "dormInteraction": "摸頭",
+    "scheduleRank": "課程表 Rank{rank}"
   },
   "student": {
     "name": {

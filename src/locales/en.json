@@ -166,9 +166,14 @@
   "bondCalculator": {
     "giftInventoryTitle": "Gift Inventory",
     "editBondTitle": "Edit {name}'s Bond",
+    "convertToChoiceBox": "Convert to Choice Box"
+  },
+  "studentBondModal": {
     "bondLevel": "Bond Level",
     "bondExp": "Bond EXP",
-    "convertToChoiceBox": "Convert to Choice Box"
+    "quickAddExp": "Quick Add Bond EXP",
+    "dormInteraction": "Patting Head",
+    "scheduleRank": "Schedule Rank {rank}"
   },
   "student": {
     "name": {

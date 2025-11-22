@@ -166,9 +166,14 @@
   "bondCalculator": {
     "giftInventoryTitle": "礼物库存",
     "editBondTitle": "编辑{name}的羁绊",
+    "convertToChoiceBox": "转换为自选箱"
+  },
+  "studentBondModal": {
     "bondLevel": "羁绊等级",
     "bondExp": "羁绊经验",
-    "convertToChoiceBox": "转换为自选箱"
+    "quickAddExp": "快捷增加羁绊经验",
+    "dormInteraction": "摸头",
+    "scheduleRank": "日程 Rank{rank}"
   },
   "student": {
     "name": {

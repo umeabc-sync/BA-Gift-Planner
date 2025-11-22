@@ -166,9 +166,14 @@
   "bondCalculator": {
     "giftInventoryTitle": "贈り物インベントリ",
     "editBondTitle": "{name}の絆編集",
+    "convertToChoiceBox": "選択ボックスに変換"
+  },
+  "studentBondModal": {
     "bondLevel": "絆レベル",
     "bondExp": "絆EXP",
-    "convertToChoiceBox": "選択ボックスに変換"
+    "quickAddExp": "絆経験値のクイック追加",
+    "dormInteraction": "なでなで",
+    "scheduleRank": "スケジュール Rank{rank}"
   },
   "student": {
     "name": {
