@@ -44,6 +44,28 @@
             />
           </div>
         </div>
+
+        <div class="control-card">
+          <label class="control-label">快捷增加羈絆經驗</label>
+          <div class="quick-add-grid">
+            <button class="quick-add-btn" @click="addExp(15)" :disabled="bondLevel === 100">
+              <img :src="getAssetsFile('icon/cafe.webp')" class="quick-add-icon" alt="摸頭" />
+              <span>摸頭 +15</span>
+            </button>
+            <button class="quick-add-btn" @click="addExp(15)" :disabled="bondLevel === 100">
+              <img :src="getAssetsFile('icon/schedule.webp')" class="quick-add-icon" alt="課程表" />
+              <span>課程表 Rank1-10 +15</span>
+            </button>
+            <button class="quick-add-btn" @click="addExp(20)" :disabled="bondLevel === 100">
+              <img :src="getAssetsFile('icon/schedule.webp')" class="quick-add-icon" alt="課程表" />
+              <span>課程表 Rank11 +20</span>
+            </button>
+            <button class="quick-add-btn" @click="addExp(25)" :disabled="bondLevel === 100">
+              <img :src="getAssetsFile('icon/schedule.webp')" class="quick-add-icon" alt="課程表" />
+              <span>課程表 Rank12 +25</span>
+            </button>
+          </div>
+        </div>
       </div>
     </template>
   </PinkBaseModal>
@@ -55,6 +77,7 @@
   import { useStudentStore } from '@/store/student'
   import { useBondExpData } from '@/utils/fetchBondExpData'
   import PinkBaseModal from '@components/ui/PinkBaseModal.vue'
+  import { getAssetsFile } from '@/utils/getAssetsFile.js'
 
   const props = defineProps({
     isVisible: Boolean,
@@ -106,6 +129,34 @@
       }
     },
   })
+
+  const addExp = (amount) => {
+    if (!props.student || bondLevel.value === 100) return
+
+    let currentLevel = bondLevel.value
+    let currentExp = bondExp.value
+    let newTotalExp = currentExp + amount
+
+    while (currentLevel < 100) {
+      const rankInfo = bondExpTable.value.find((r) => r.rank === currentLevel)
+      if (!rankInfo || rankInfo.exp === 0) break // Not found or max level with 0 exp to next
+
+      const maxForLevel = rankInfo.exp
+
+      if (newTotalExp >= maxForLevel) {
+        currentLevel++
+        newTotalExp -= maxForLevel
+        if (currentLevel === 100) {
+          newTotalExp = 0 // At max level, exp is 0.
+          break
+        }
+      } else {
+        break
+      }
+    }
+
+    studentStore.updateStudentBond(props.student.id, currentLevel, newTotalExp)
+  }
 
   const maxExp = computed(() => {
     if (!bondExpTable.value || !props.student) return 0
@@ -313,6 +364,52 @@
     transition: transform 0.1s;
   }
 
+  .quick-add-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .quick-add-btn {
+    font-family: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 5px;
+    border-radius: 10px;
+    border: none;
+    background: #fff;
+    color: #fb9eb1;
+    font-size: 0.85rem;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    transition: all 0.2s;
+    text-align: center;
+    line-height: 1.2;
+  }
+
+  .quick-add-btn:hover:not(:disabled) {
+    background: #fb9eb1;
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(251, 158, 177, 0.3);
+  }
+
+  .quick-add-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: #e0e0e0;
+    color: #aaa;
+  }
+
+  .quick-add-icon {
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+  }
+
   /* --- Dark Mode Overrides --- */
   .dark-mode .control-card {
     background: #2a4a6e; /* Slightly lighter than modal bg */
@@ -368,5 +465,20 @@
 
   .dark-mode .exp-text .current {
     color: #fd7591;
+  }
+
+  .dark-mode .quick-add-btn {
+    background: #3b5c85;
+    color: #fd7591;
+  }
+
+  .dark-mode .quick-add-btn:hover:not(:disabled) {
+    background: #fd7591;
+    color: white;
+  }
+
+  .dark-mode .quick-add-btn:disabled {
+    background: #2a3b55;
+    color: #4a5b75;
   }
 </style>
