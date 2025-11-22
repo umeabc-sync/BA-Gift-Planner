@@ -135,39 +135,6 @@
   .modal-body {
     overflow-y: auto;
     flex-grow: 1;
-    scrollbar-width: thin;
-    scrollbar-color: #bdc3c7 #f8f9fa;
-  }
-
-  .dark-mode .modal-body {
-    scrollbar-color: #7f8c8d #1a2b40;
-  }
-
-  .modal-body::-webkit-scrollbar {
-    width: 12px;
-  }
-
-  .modal-body::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  .modal-body::-webkit-scrollbar-thumb {
-    background-color: #bdc3c7;
-    border-radius: 10px;
-    border: 3px solid #f8f9fa;
-  }
-
-  .dark-mode .modal-body::-webkit-scrollbar-thumb {
-    background-color: #7f8c8d;
-    border-color: #1a2b40;
-  }
-
-  .modal-body::-webkit-scrollbar-thumb:hover {
-    background-color: #a9a9a9;
-  }
-
-  .dark-mode .modal-body::-webkit-scrollbar-thumb:hover {
-    background-color: #95a5a6;
   }
 
   .modal-footer {
