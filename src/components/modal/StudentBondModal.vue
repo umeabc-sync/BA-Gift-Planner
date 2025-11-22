@@ -56,17 +56,19 @@
               />
               <span>{{ t('studentBondModal.dormInteraction') }}</span>
             </button>
-            <button class="quick-add-btn" @click="addExp(15)" :disabled="bondLevel === 100">
-              <img :src="getAssetsFile('icon/schedule.webp')" class="quick-add-icon" alt="Schedule Rank1-10" />
-              <span>{{ t('studentBondModal.scheduleRank', { rank: '1-10' }) }}</span>
-            </button>
-            <button class="quick-add-btn" @click="addExp(20)" :disabled="bondLevel === 100">
-              <img :src="getAssetsFile('icon/schedule.webp')" class="quick-add-icon" alt="Schedule Rank11" />
-              <span>{{ t('studentBondModal.scheduleRank', { rank: '11' }) }}</span>
-            </button>
-            <button class="quick-add-btn" @click="addExp(25)" :disabled="bondLevel === 100">
-              <img :src="getAssetsFile('icon/schedule.webp')" class="quick-add-icon" alt="Schedule Rank12" />
-              <span>{{ t('studentBondModal.scheduleRank', { rank: '12' }) }}</span>
+            <button
+              v-for="button in scheduleButtons"
+              :key="button.rank"
+              class="quick-add-btn"
+              @click="addExp(button.exp)"
+              :disabled="bondLevel === 100"
+            >
+              <img
+                :src="getAssetsFile('icon/schedule.webp')"
+                class="quick-add-icon"
+                :alt="`Schedule Rank ${button.rank}`"
+              />
+              <span>{{ t('studentBondModal.scheduleRank', { rank: button.rank }) }}</span>
             </button>
           </div>
         </div>
@@ -93,6 +95,12 @@
   const { t } = useI18n()
   const studentStore = useStudentStore()
   const { data: bondExpTable } = useBondExpData()
+
+  const scheduleButtons = [
+    { exp: 15, rank: '1-10' },
+    { exp: 20, rank: '11' },
+    { exp: 25, rank: '12' },
+  ]
 
   // Bond Level Logic
   const bondLevel = computed({
