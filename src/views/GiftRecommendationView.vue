@@ -1,6 +1,5 @@
 <script setup>
   import { ref, computed, onMounted, watch } from 'vue'
-  import { runIPGeolocation } from '@utils/ipGeolocation'
   import { useSettingStore } from '@store/setting'
   import { useStudentStore } from '@store/student'
   import { useScreenshotStore } from '@store/screenshot'
@@ -38,8 +37,6 @@
   const isDownloadingScreenshot = ref(false)
 
   onMounted(async () => {
-    // Wait for IP location to set locale
-    await runIPGeolocation()
     screenshotStore.onDownload = handleDownloadShareScreenshot
   })
 
