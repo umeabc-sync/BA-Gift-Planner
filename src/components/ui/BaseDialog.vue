@@ -17,7 +17,7 @@
               <span>{{ t('common.cancel') }}</span>
             </button>
             <button class="btn btn-ok" :class="{ pink: pink }" @click="handleOk">
-              <span>{{ t('common.ok') }}</span>
+              <span>OK</span>
             </button>
           </div>
         </div>
