@@ -50,7 +50,12 @@
     "enabled": "Enabled",
     "disabled": "Disabled",
     "title": "Sensei Harem Tool",
-    "edit": "Edit"
+    "edit": "Edit",
+    "ok": "OK",
+    "cancel": "Cancel"
+  },
+  "dialog": {
+    "notificationTitle": "Notification"
   },
   "characterSelector": {
     "title": "Select Students",

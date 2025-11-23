@@ -50,7 +50,12 @@
     "enabled": "启用",
     "disabled": "禁用",
     "title": "Sensei 海王工具",
-    "edit": "编辑"
+    "edit": "编辑",
+    "ok": "确认",
+    "cancel": "取消"
+  },
+  "dialog": {
+    "notificationTitle": "通知"
   },
   "characterSelector": {
     "title": "选择学生",

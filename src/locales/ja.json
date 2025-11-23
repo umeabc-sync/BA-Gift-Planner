@@ -50,7 +50,12 @@
     "enabled": "有効",
     "disabled": "無効",
     "title": "Sensei ハーレムツール",
-    "edit": "編集"
+    "edit": "編集",
+    "ok": "確認",
+    "cancel": "キャンセル"
+  },
+  "dialog": {
+    "notificationTitle": "通知"
   },
   "characterSelector": {
     "title": "生徒を選択",
