@@ -6,6 +6,8 @@
     <div class="developer-credits">
       Developed by © 2025
       <a href="https://github.com/Yuuzi261" target="_blank" rel="noopener noreferrer">Yuuzi</a>
+      &
+      <a href="https://github.com/FuseFairy" target="_blank" rel="noopener noreferrer">Zhuang</a>
       <span v-if="appVersion"> 🥑 {{ appVersion }}</span>
     </div>
   </div>
