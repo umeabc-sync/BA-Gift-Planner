@@ -38,12 +38,19 @@
           <span>{{ t('bondCalculator.convertToChoiceBox') }}</span>
         </button>
       </div>
+      <BaseDialog
+        :is-visible="isConfirmVisible"
+        :text="t('bondCalculator.convertConfirmation')"
+        :show-cancel="true"
+        @close="isConfirmVisible = false"
+        @ok="confirmConvert"
+      />
     </template>
   </BaseModal>
 </template>
 
 <script setup>
-  import { computed, toRefs } from 'vue'
+  import { computed, toRefs, ref } from 'vue'
   import { storeToRefs } from 'pinia'
   import { useModal } from '@/composables/useModal.js'
   import { useI18n } from '@/composables/useI18n.js'
@@ -55,6 +62,7 @@
   import ImageWithLoader from '@components/ui/ImageWithLoader.vue'
   import QuantityControl from '@components/ui/QuantityControl.vue'
   import BaseModal from '@components/ui/BaseModal.vue'
+  import BaseDialog from '@components/ui/BaseDialog.vue'
 
   const { t, currentLocale: locale } = useI18n()
 
@@ -69,6 +77,8 @@
   const { getGiftQuantity, setGiftQuantity, incrementGift, decrementGift, convertSynthesisGifts } = giftStore
   const { synthesisGifts } = storeToRefs(giftStore)
   const { totalAssigned } = storeToRefs(giftPlannerStore)
+
+  const isConfirmVisible = ref(false)
 
   const close = () => {
     emit('close')
@@ -99,7 +109,14 @@
   })
 
   const convertGifts = () => {
+    if (canConvertSynthesisGifts.value) {
+      isConfirmVisible.value = true
+    }
+  }
+
+  const confirmConvert = () => {
     convertSynthesisGifts()
+    isConfirmVisible.value = false
   }
 </script>
 

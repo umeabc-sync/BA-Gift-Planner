@@ -172,7 +172,8 @@
     "giftInventoryTitle": "贈り物インベントリ",
     "giftPlannerTitle": "贈り物計画",
     "editBondTitle": "{name}の絆編集",
-    "convertToChoiceBox": "選択ボックスに変換"
+    "convertToChoiceBox": "選択ボックスに変換",
+    "convertConfirmation": "この操作は、合成に推奨されるすべての贈り物をギフト選択ボックスに変換し、元に戻すことはできません。続行しますか？"
   },
   "studentBondModal": {
     "bondLevel": "絆レベル",

@@ -172,7 +172,8 @@
     "giftInventoryTitle": "Gift Inventory",
     "giftPlannerTitle": "Gift Planner",
     "editBondTitle": "Edit {name}'s Bond",
-    "convertToChoiceBox": "Convert to Choice Box"
+    "convertToChoiceBox": "Convert to Choice Box",
+    "convertConfirmation": "This action will convert all recommended synthesis gifts into gift selection boxes and cannot be undone. Are you sure you want to continue?"
   },
   "studentBondModal": {
     "bondLevel": "Bond Level",

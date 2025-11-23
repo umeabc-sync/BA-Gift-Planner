@@ -172,7 +172,8 @@
     "giftInventoryTitle": "礼物库存",
     "giftPlannerTitle": "礼物规划",
     "editBondTitle": "编辑{name}的羁绊",
-    "convertToChoiceBox": "转换为自选箱"
+    "convertToChoiceBox": "转换为自选箱",
+    "convertConfirmation": "此操作会将所有建议用于合成的礼物转换为礼物自选箱，且无法复原。确定要继续吗？"
   },
   "studentBondModal": {
     "bondLevel": "羁绊等级",

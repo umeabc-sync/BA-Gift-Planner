@@ -172,7 +172,8 @@
     "giftInventoryTitle": "禮物庫存",
     "giftPlannerTitle": "禮物規劃",
     "editBondTitle": "編輯{name}的羈絆",
-    "convertToChoiceBox": "轉換為自選箱"
+    "convertToChoiceBox": "轉換為自選箱",
+    "convertConfirmation": "此操作會將所有建議拿去合成的禮物都轉換為禮物自選箱，並且無法復原，確定繼續嗎？"
   },
   "giftPlannerActions": {
     "reset": "重設計畫",

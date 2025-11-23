@@ -172,7 +172,8 @@
     "giftInventoryTitle": "선물 인벤토리",
     "giftPlannerTitle": "선물 계획",
     "editBondTitle": "{name}의 인연 편집",
-    "convertToChoiceBox": "선택 상자로 변환"
+    "convertToChoiceBox": "선택 상자로 변환",
+    "convertConfirmation": "이 작업은 합성에 권장되는 모든 선물을 선물 선택 상자로 변환하며 되돌릴 수 없습니다. 계속하시겠습니까?"
   },
   "studentBondModal": {
     "bondLevel": "인연 레벨",
