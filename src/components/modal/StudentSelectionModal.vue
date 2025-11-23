@@ -1008,8 +1008,6 @@
     opacity: 0;
   }
 
-
-
   /* 響應式設計 */
   @media (max-width: 768px) {
     .student-grid {

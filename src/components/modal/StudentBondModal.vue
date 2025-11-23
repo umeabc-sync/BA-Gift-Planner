@@ -49,11 +49,7 @@
           <label class="control-label">{{ t('studentBondModal.quickAddExp') }}</label>
           <div class="quick-add-grid">
             <button class="quick-add-btn" @click="addExp(15)" :disabled="bondLevel === 100">
-              <img
-                :src="getAssetsFile('icon/cafe.webp')"
-                class="quick-add-icon"
-                alt="Cafe Interaction"
-              />
+              <img :src="getAssetsFile('icon/cafe.webp')" class="quick-add-icon" alt="Cafe Interaction" />
               <span>{{ t('studentBondModal.dormInteraction') }}</span>
             </button>
             <button
