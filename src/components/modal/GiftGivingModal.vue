@@ -37,7 +37,10 @@
             />
           </div>
         </div>
-        <p v-else>Loading gifts...</p>
+        <div v-else class="empty-state">
+          <warningIcon class="empty-icon" />
+          <p class="empty-text">EMPTY</p>
+        </div>
       </div>
     </template>
     <template #footer>
@@ -79,6 +82,7 @@
   import { useModal } from '@/composables/useModal'
   import BaseModal from '@components/ui/BaseModal.vue'
   import CustomDropdown from '@components/ui/CustomDropdown.vue'
+  import warningIcon from '@/assets/icon/warning.svg'
 
   const { t } = useI18n()
 
@@ -323,6 +327,32 @@
     background: #dee2e6;
     color: #201e2e;
     border-color: #1f3048;
+  }
+
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 200px;
+    padding: 20px;
+  }
+
+  .empty-icon {
+    width: 64px;
+    height: 64px;
+    transform: scaleX(1.25);
+    opacity: 0.4;
+  }
+
+  .empty-text {
+    font-family: 'NEXON Football Gothic';
+    font-weight: bold;
+    font-style: italic;
+    font-size: 1.75rem;
+    margin-right: 8px;
+    margin-top: -8px;
+    color: #a0a0a0;
   }
 
   /* Footer Styles */
