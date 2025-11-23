@@ -86,6 +86,7 @@
     border-radius: 15px;
     width: 90%;
     max-width: var(--max-width);
+    min-height: 300px;
     display: flex;
     flex-direction: column;
     box-shadow: 0 5px 25px rgba(0, 0, 0, 0.4);
@@ -157,9 +158,13 @@
     padding: 20px;
     text-align: center;
     font-size: 1.1rem;
+    line-height: 1.5;
     overflow-y: auto;
     flex-grow: 1;
     color: #314665;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .dark-mode .modal-body {
@@ -276,4 +281,3 @@
     }
   }
 </style>
-

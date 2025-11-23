@@ -16,13 +16,15 @@
       :text="t('giftPlannerActions.resetConfirmation')"
       :show-cancel="true"
       @close="isResetDialogVisible = false"
-      @ok="confirmReset" />
+      @ok="confirmReset"
+    />
     <BaseDialog
       :is-visible="isApplyDialogVisible"
       :text="t('giftPlannerActions.applyConfirmation')"
       :show-cancel="true"
       @close="isApplyDialogVisible = false"
-      @ok="confirmApply" />
+      @ok="confirmApply"
+    />
   </div>
 </template>
 
