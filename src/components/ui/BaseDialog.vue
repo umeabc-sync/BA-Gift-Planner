@@ -236,29 +236,17 @@
     color: #e0f4ff;
   }
 
-  .btn-ok.pink {
-    background-color: #ff77c7;
-    background-image: linear-gradient(to bottom right, #fd63b9 0%, transparent 50%),
-      linear-gradient(to top left, #fd63b9 0%, transparent 50%);
-  }
-
-  .dark-mode .btn-ok.pink {
-    background-color: #ef009d;
-    background-image: linear-gradient(to bottom right, #f209a4 0%, transparent 50%),
-      linear-gradient(to top left, #f209a4 0%, transparent 50%);
-  }
-
   .btn-cancel {
-    background-color: #f4e94c;
-    background-image: linear-gradient(to bottom right, #f9da3b 0%, transparent 50%),
-      linear-gradient(to top left, #f9da3b 0%, transparent 50%);
+    background-color: #daedf4;
+    background-image: linear-gradient(to bottom right, #c9e1ed 0%, transparent 50%),
+      linear-gradient(to top left, #c9e1ed 0%, transparent 50%);
   }
 
   .dark-mode .btn-cancel {
-    background-color: #e57758;
-    background-image: linear-gradient(to bottom right, #e4522f 0%, transparent 50%),
-      linear-gradient(to top left, #e4522f 0%, transparent 50%);
-    color: #e0f4ff;
+    background-color: #3d4852;
+    background-image: linear-gradient(to bottom right, #2d3748 0%, transparent 50%),
+      linear-gradient(to top left, #2d3748 0%, transparent 50%);
+    color: #9ca3af;
   }
 
   .modal-fade-enter-active,
