@@ -50,5 +50,29 @@
   {
     "id": 12,
     "name": "Board Game \"The Life\""
+  },
+  {
+    "id": 13,
+    "name": "Refreshing Bouquet",
+    "isSpecial": true,
+    "exp": 240
+  },
+  {
+    "id": 14,
+    "name": "Beautiful Bouquet",
+    "isSpecial": true,
+    "exp": 240
+  },
+  {
+    "id": 15,
+    "name": "Hatsune Miku Photo Card",
+    "isSpecial": true,
+    "exp": 60
+  },
+  {
+    "id": 16,
+    "name": "Shiny Bouquet",
+    "isSpecial": true,
+    "exp": 60
   }
 ]

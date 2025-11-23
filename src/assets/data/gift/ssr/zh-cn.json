@@ -50,5 +50,29 @@
   {
     "id": 12,
     "name": "桌游《人生》"
+  },
+  {
+    "id": 13,
+    "name": "清新的花束",
+    "isSpecial": true,
+    "exp": 240
+  },
+  {
+    "id": 14,
+    "name": "美丽花束",
+    "isSpecial": true,
+    "exp": 240
+  },
+  {
+    "id": 15,
+    "name": "初音未来的拍立得",
+    "isSpecial": true,
+    "exp": 60
+  },
+  {
+    "id": 16,
+    "name": "闪烁的花束",
+    "isSpecial": true,
+    "exp": 60
   }
 ]

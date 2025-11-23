@@ -1,218 +1,210 @@
 <template>
-  <teleport to="body">
-    <transition name="modal-fade">
-      <div v-if="isVisible" class="modal-overlay" @click.self="closeModal">
-        <div class="modal-content">
-          <!-- Header -->
-          <div class="modal-header">
-            <div class="modal-title">{{ t('shareModal.title') }}</div>
-            <button class="close-button" @click="closeModal">×</button>
+  <BaseModal :is-visible="isVisible" @close="closeModal" max-width="520px">
+    <template #header>
+      <div class="modal-title">{{ t('shareModal.title') }}</div>
+    </template>
+    <template #body>
+      <div class="share-modal-body">
+        <!-- Screenshot Style Card -->
+        <div class="setting-card">
+          <div class="card-header">
+            <div class="card-icon style-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
+                <line x1="8" y1="21" x2="16" y2="21" />
+                <line x1="12" y1="17" x2="12" y2="21" />
+              </svg>
+            </div>
+            <div>
+              <h4 class="card-title">{{ t('shareModal.screenshotStyle') }}</h4>
+              <p class="card-description">{{ t('shareModal.screenshotStyleDesc') }}</p>
+            </div>
           </div>
-
-          <!-- Body -->
-          <div class="modal-body">
-            <!-- Screenshot Style Card -->
-            <div class="setting-card">
-              <div class="card-header">
-                <div class="card-icon style-icon">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
-                    <line x1="8" y1="21" x2="16" y2="21" />
-                    <line x1="12" y1="17" x2="12" y2="21" />
-                  </svg>
-                </div>
-                <div>
-                  <h4 class="card-title">{{ t('shareModal.screenshotStyle') }}</h4>
-                  <p class="card-description">{{ t('shareModal.screenshotStyleDesc') }}</p>
-                </div>
+          <div class="card-content">
+            <div class="option-grid">
+              <div class="option-item" :class="{ active: screenshotStyle === 'gift-recommendation' }">
+                <input
+                  id="gift-style"
+                  type="radio"
+                  name="screenshotStyle"
+                  value="gift-recommendation"
+                  :checked="screenshotStyle === 'gift-recommendation'"
+                  @change="updateScreenshotStyle"
+                />
+                <label for="gift-style" class="option-label">
+                  <div class="option-icon">
+                    <img :src="getAssetsFile('icon/gift.webp')" draggable="false" />
+                  </div>
+                  <div class="option-text-content">
+                    <span class="option-title">{{ t('shareModal.giftRecommendation') }}</span>
+                    <span class="option-desc">{{ t('shareModal.giftRecommendationDesc') }}</span>
+                  </div>
+                </label>
               </div>
-              <div class="card-content">
-                <div class="option-grid">
-                  <div class="option-item" :class="{ active: screenshotStyle === 'gift-recommendation' }">
-                    <input
-                      id="gift-style"
-                      type="radio"
-                      name="screenshotStyle"
-                      value="gift-recommendation"
-                      :checked="screenshotStyle === 'gift-recommendation'"
-                      @change="updateScreenshotStyle"
-                    />
-                    <label for="gift-style" class="option-label">
-                      <div class="option-icon">
-                        <img :src="getAssetsFile('icon/gift.webp')" draggable="false" />
-                      </div>
-                      <div class="option-text-content">
-                        <span class="option-title">{{ t('shareModal.giftRecommendation') }}</span>
-                        <span class="option-desc">{{ t('shareModal.giftRecommendationDesc') }}</span>
-                      </div>
-                    </label>
+              <div class="option-item" :class="{ active: screenshotStyle === 'student-preference' }">
+                <input
+                  id="student-style"
+                  type="radio"
+                  name="screenshotStyle"
+                  value="student-preference"
+                  :checked="screenshotStyle === 'student-preference'"
+                  @change="updateScreenshotStyle"
+                />
+                <label for="student-style" class="option-label">
+                  <div class="option-icon">
+                    <img :src="getAssetsFile('icon/student_favor.webp')" draggable="false" />
                   </div>
-                  <div class="option-item" :class="{ active: screenshotStyle === 'student-preference' }">
-                    <input
-                      id="student-style"
-                      type="radio"
-                      name="screenshotStyle"
-                      value="student-preference"
-                      :checked="screenshotStyle === 'student-preference'"
-                      @change="updateScreenshotStyle"
-                    />
-                    <label for="student-style" class="option-label">
-                      <div class="option-icon">
-                        <img :src="getAssetsFile('icon/student_favor.webp')" draggable="false" />
-                      </div>
-                      <div class="option-text-content">
-                        <span class="option-title">{{ t('shareModal.studentPreference') }}</span>
-                        <span class="option-desc">{{ t('shareModal.studentPreferenceDesc') }}</span>
-                      </div>
-                    </label>
+                  <div class="option-text-content">
+                    <span class="option-title">{{ t('shareModal.studentPreference') }}</span>
+                    <span class="option-desc">{{ t('shareModal.studentPreferenceDesc') }}</span>
                   </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Screenshot Layout Card -->
-            <div class="setting-card">
-              <div class="card-header">
-                <div class="card-icon style-icon">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                    <line x1="3" y1="9" x2="21" y2="9"></line>
-                    <line x1="9" y1="21" x2="9" y2="9"></line>
-                  </svg>
-                </div>
-                <div>
-                  <h4 class="card-title">{{ t('shareModal.screenshotLayout') }}</h4>
-                  <p class="card-description">{{ t('shareModal.screenshotLayoutDesc') }}</p>
-                </div>
-              </div>
-              <div class="card-content">
-                <div class="option-grid">
-                  <div class="option-item" :class="{ active: screenshotLayout === 'classic' }">
-                    <input
-                      id="layout-classic"
-                      type="radio"
-                      name="screenshotLayout"
-                      value="classic"
-                      :checked="screenshotLayout === 'classic'"
-                      @change="updateScreenshotLayout"
-                    />
-                    <label for="layout-classic" class="option-label">
-                      <div class="option-text-content">
-                        <span class="option-title">{{ t('shareModal.layoutClassic') }}</span>
-                        <span class="option-desc">{{ t('shareModal.layoutClassicDesc') }}</span>
-                      </div>
-                    </label>
-                  </div>
-                  <div class="option-item" :class="{ active: screenshotLayout === 'ba-style' }">
-                    <input
-                      id="layout-ba-style"
-                      type="radio"
-                      name="screenshotLayout"
-                      value="ba-style"
-                      :checked="screenshotLayout === 'ba-style'"
-                      @change="updateScreenshotLayout"
-                    />
-                    <label for="layout-ba-style" class="option-label">
-                      <div class="option-text-content">
-                        <span class="option-title">{{ t('shareModal.layoutBAStyle') }}</span>
-                        <span class="option-desc">{{ t('shareModal.layoutBAStyleDesc') }}</span>
-                      </div>
-                    </label>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Screenshot Size Card -->
-            <div class="setting-card">
-              <div class="card-header">
-                <div class="card-icon size-icon">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M15 3h6v6" />
-                    <path d="M9 21H3v-6" />
-                    <path d="M21 3l-7 7" />
-                    <path d="M3 21l7-7" />
-                  </svg>
-                </div>
-                <div>
-                  <h4 class="card-title">{{ t('shareModal.screenshotSize') }}</h4>
-                  <p class="card-description">{{ t('shareModal.screenshotSizeDesc') }}</p>
-                </div>
-              </div>
-              <div class="card-content">
-                <div class="option-grid">
-                  <div class="option-item" :class="{ active: screenshotSize == 1 }">
-                    <input
-                      id="size-1x"
-                      type="radio"
-                      name="screenshotSize"
-                      value="1"
-                      :checked="screenshotSize == 1"
-                      @change="updateScreenshotSize"
-                    />
-                    <label for="size-1x" class="option-label">
-                      <div class="size-preview size-1x"></div>
-                      <span class="option-title">1x</span>
-                      <span class="option-desc">{{ t('shareModal.screenshotSizeNormal') }}</span>
-                    </label>
-                  </div>
-                  <div class="option-item" :class="{ active: screenshotSize == 2 }">
-                    <input
-                      id="size-2x"
-                      type="radio"
-                      name="screenshotSize"
-                      value="2"
-                      :checked="screenshotSize == 2"
-                      @change="updateScreenshotSize"
-                    />
-                    <label for="size-2x" class="option-label">
-                      <div class="size-preview size-2x"></div>
-                      <span class="option-title">2x</span>
-                      <span class="option-desc">{{ t('shareModal.screenshotSizeClear') }}</span>
-                    </label>
-                  </div>
-                  <div class="option-item" :class="{ active: screenshotSize == 4 }">
-                    <input
-                      id="size-4x"
-                      type="radio"
-                      name="screenshotSize"
-                      value="4"
-                      :checked="screenshotSize == 4"
-                      @change="updateScreenshotSize"
-                    />
-                    <label for="size-4x" class="option-label">
-                      <div class="size-preview size-4x"></div>
-                      <span class="option-title">4x</span>
-                      <span class="option-desc">{{ t('shareModal.screenshotSizeSuperClear') }}</span>
-                    </label>
-                  </div>
-                </div>
+                </label>
               </div>
             </div>
           </div>
+        </div>
 
-          <!-- Footer -->
-          <div class="modal-footer">
-            <div class="footer-info">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="12" cy="12" r="10" />
-                <path d="M12 6v6l4 2" />
+        <!-- Screenshot Layout Card -->
+        <div class="setting-card">
+          <div class="card-header">
+            <div class="card-icon style-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="3" y1="9" x2="21" y2="9"></line>
+                <line x1="9" y1="21" x2="9" y2="9"></line>
               </svg>
-              <span>{{ t('shareModal.readyForDownload') }}</span>
             </div>
-            <button class="download-button" @click="handleDownload">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                <polyline points="7,10 12,15 17,10" />
-                <line x1="12" y1="15" x2="12" y2="3" />
+            <div>
+              <h4 class="card-title">{{ t('shareModal.screenshotLayout') }}</h4>
+              <p class="card-description">{{ t('shareModal.screenshotLayoutDesc') }}</p>
+            </div>
+          </div>
+          <div class="card-content">
+            <div class="option-grid">
+              <div class="option-item" :class="{ active: screenshotLayout === 'classic' }">
+                <input
+                  id="layout-classic"
+                  type="radio"
+                  name="screenshotLayout"
+                  value="classic"
+                  :checked="screenshotLayout === 'classic'"
+                  @change="updateScreenshotLayout"
+                />
+                <label for="layout-classic" class="option-label">
+                  <div class="option-text-content">
+                    <span class="option-title">{{ t('shareModal.layoutClassic') }}</span>
+                    <span class="option-desc">{{ t('shareModal.layoutClassicDesc') }}</span>
+                  </div>
+                </label>
+              </div>
+              <div class="option-item" :class="{ active: screenshotLayout === 'ba-style' }">
+                <input
+                  id="layout-ba-style"
+                  type="radio"
+                  name="screenshotLayout"
+                  value="ba-style"
+                  :checked="screenshotLayout === 'ba-style'"
+                  @change="updateScreenshotLayout"
+                />
+                <label for="layout-ba-style" class="option-label">
+                  <div class="option-text-content">
+                    <span class="option-title">{{ t('shareModal.layoutBAStyle') }}</span>
+                    <span class="option-desc">{{ t('shareModal.layoutBAStyleDesc') }}</span>
+                  </div>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Screenshot Size Card -->
+        <div class="setting-card">
+          <div class="card-header">
+            <div class="card-icon size-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M15 3h6v6" />
+                <path d="M9 21H3v-6" />
+                <path d="M21 3l-7 7" />
+                <path d="M3 21l7-7" />
               </svg>
-              <span>{{ t('shareModal.download') }}</span>
-            </button>
+            </div>
+            <div>
+              <h4 class="card-title">{{ t('shareModal.screenshotSize') }}</h4>
+              <p class="card-description">{{ t('shareModal.screenshotSizeDesc') }}</p>
+            </div>
+          </div>
+          <div class="card-content">
+            <div class="option-grid">
+              <div class="option-item" :class="{ active: screenshotSize == 1 }">
+                <input
+                  id="size-1x"
+                  type="radio"
+                  name="screenshotSize"
+                  value="1"
+                  :checked="screenshotSize == 1"
+                  @change="updateScreenshotSize"
+                />
+                <label for="size-1x" class="option-label">
+                  <div class="size-preview size-1x"></div>
+                  <span class="option-title">1x</span>
+                  <span class="option-desc">{{ t('shareModal.screenshotSizeNormal') }}</span>
+                </label>
+              </div>
+              <div class="option-item" :class="{ active: screenshotSize == 2 }">
+                <input
+                  id="size-2x"
+                  type="radio"
+                  name="screenshotSize"
+                  value="2"
+                  :checked="screenshotSize == 2"
+                  @change="updateScreenshotSize"
+                />
+                <label for="size-2x" class="option-label">
+                  <div class="size-preview size-2x"></div>
+                  <span class="option-title">2x</span>
+                  <span class="option-desc">{{ t('shareModal.screenshotSizeClear') }}</span>
+                </label>
+              </div>
+              <div class="option-item" :class="{ active: screenshotSize == 4 }">
+                <input
+                  id="size-4x"
+                  type="radio"
+                  name="screenshotSize"
+                  value="4"
+                  :checked="screenshotSize == 4"
+                  @change="updateScreenshotSize"
+                />
+                <label for="size-4x" class="option-label">
+                  <div class="size-preview size-4x"></div>
+                  <span class="option-title">4x</span>
+                  <span class="option-desc">{{ t('shareModal.screenshotSizeSuperClear') }}</span>
+                </label>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </transition>
-  </teleport>
+    </template>
+    <template #footer>
+      <div class="share-modal-footer">
+        <div class="footer-info">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10" />
+            <path d="M12 6v6l4 2" />
+          </svg>
+          <span>{{ t('shareModal.readyForDownload') }}</span>
+        </div>
+        <button class="download-button" @click="handleDownload">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+            <polyline points="7,10 12,15 17,10" />
+            <line x1="12" y1="15" x2="12" y2="3" />
+          </svg>
+          <span>{{ t('shareModal.download') }}</span>
+        </button>
+      </div>
+    </template>
+  </BaseModal>
 </template>
 
 <script setup>
@@ -220,6 +212,7 @@
   import { useI18n } from '@/composables/useI18n.js'
   import { useModal } from '@/composables/useModal.js'
   import { getAssetsFile } from '@/utils/getAssetsFile'
+  import BaseModal from '@components/ui/BaseModal.vue'
 
   const { t } = useI18n()
 
@@ -262,107 +255,12 @@
 </script>
 
 <style scoped>
-  .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 2000;
-    backdrop-filter: blur(5px);
-  }
-
-  .modal-content {
-    background: #ffffff;
-    border-radius: 15px;
-    width: 90%;
-    max-width: 520px;
-    max-height: 85vh;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
-    animation: slide-down 0.3s ease-out;
-    overflow: hidden;
-  }
-
-  .dark-mode .modal-content {
-    background: #1a2b40;
-    color: #e0e6ed;
-  }
-
-  /* Header Styles */
-  .modal-header {
-    background: linear-gradient(45deg, #cde6f8, #f7fafb);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 15px 15px 0 0;
-    position: relative;
-  }
-
-  .modal-header .modal-title {
-    padding: 10px 0px 5px 0px;
-    text-align: center;
-    color: #2d4663;
-    flex-grow: 0;
-    font-size: 1.5rem;
-    font-weight: bold;
-    border-bottom: 5px solid #fdef66;
-    user-select: none;
-  }
-
-  .dark-mode .modal-header {
-    background: linear-gradient(45deg, #223d5a, #1a2b40);
-    border-bottom-color: #2a4a6e;
-  }
-
-  .modal-title {
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin: 0;
-    line-height: 1.2;
-  }
-
-  .dark-mode .modal-header .modal-title {
-    color: #e0f4ff;
-    border-bottom-color: #fdef66;
-  }
-
-  .dark-mode .close-button {
-    color: #e0f4ff;
-  }
-
-  .close-button {
-    background: none;
-    border: none;
-    font-size: 2rem;
-    color: #2d4663;
-    cursor: pointer;
-    opacity: 0.8;
-    transition: opacity 0.2s;
-    position: absolute;
-    right: 20px;
-    top: 50%;
-    transform: translateY(-50%);
-  }
-
-  .close-button:hover {
-    opacity: 1;
-  }
-
-  /* Body Styles */
-  .modal-body {
+  .share-modal-body {
     padding: 24px;
-    overflow-y: auto;
-    flex: 1;
     background: #f8f9fa;
   }
 
-  .dark-mode .modal-body {
+  .dark-mode .share-modal-body {
     background: #1a2b40;
   }
 
@@ -595,18 +493,17 @@
     color: rgba(223, 229, 236, 0.8);
   }
 
-  /* Footer Styles */
-  .modal-footer {
+  .share-modal-footer {
     padding: 24px;
-    border-top: 1px solid #e9ecef;
     display: flex;
     justify-content: space-between;
     align-items: center;
     background: white;
+    width: 100%;
+    box-sizing: border-box;
   }
 
-  .dark-mode .modal-footer {
-    border-top-color: #2a4a6e;
+  .dark-mode .share-modal-footer {
     background: #1a2b40;
   }
 
@@ -682,16 +579,6 @@
     transform: scale(0.95) skew(-8deg);
   }
 
-  /* Transitions */
-  .modal-fade-enter-active,
-  .modal-fade-leave-active {
-    transition: opacity 0.3s ease;
-  }
-  .modal-fade-enter-from,
-  .modal-fade-leave-to {
-    opacity: 0;
-  }
-
   /* Responsive Design */
   @media (max-width: 768px) {
     .setting-card {
@@ -702,7 +589,7 @@
       gap: 4px;
     }
 
-    .modal-footer {
+    .share-modal-footer {
       padding: 20px;
       flex-direction: column;
       gap: 16px;

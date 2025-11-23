@@ -49,7 +49,12 @@
     "settings": "설정",
     "enabled": "활성화됨",
     "disabled": "비활성화됨",
-    "title": "Sensei 하렘 도구"
+    "title": "Sensei 하렘 도구",
+    "edit": "편집",
+    "cancel": "취소"
+  },
+  "dialog": {
+    "notificationTitle": "알림"
   },
   "characterSelector": {
     "title": "학생 선택",
@@ -75,7 +80,8 @@
     "theme": "테마",
     "light": "밝게",
     "dark": "어둡게",
-    "system": "시스템"
+    "system": "시스템",
+    "vibrantProgressBar": "더 눈에 띄는 경험치 바 색상"
   },
   "shareModal": {
     "title": "스크린샷 설정",
@@ -132,9 +138,54 @@
   "favoriteGiftsModal": {
     "titleSuffix": "의 좋아하는 선물"
   },
+  "giftGivingModal": {
+    "title": "선물하기",
+    "reset": "초기화",
+    "quickGive": {
+      "title": "빠른 선물",
+      "bestNoConflict": "최적",
+      "allSuitable": "모든 선호 선물",
+      "all": "모두"
+    }
+  },
+  "giftInventoryModal": {
+    "title": "선물 인벤토리"
+  },
   "toast": {
     "link_copied_to_clipboard": "링크가 클립보드에 복사되었습니다",
     "canvas_exceeds_max_size": "이미지 크기가 너무 큽니다. 더 낮은 배율을 선택하세요"
+  },
+  "bondGapCalculator": {
+    "title": "인연 목표 계산기",
+    "setTargetLevel": "목표 레벨 설정",
+    "beforeGift": "선물 전",
+    "afterGift": "선물 후",
+    "levelGap": "레벨 차이",
+    "expGap": "경험치 차이",
+    "interactionsNeeded": "필요한 상호작용",
+    "dormInteraction": "쓰다듬기",
+    "schedule": "스케줄",
+    "noInteractionsNeeded": "상호작용 필요 없음"
+  },
+  "bondCalculator": {
+    "giftInventoryTitle": "선물 인벤토리",
+    "giftPlannerTitle": "선물 계획",
+    "editBondTitle": "{name}의 인연 편집",
+    "convertToChoiceBox": "선택 상자로 변환",
+    "convertConfirmation": "이 작업은 합성에 권장되는 모든 선물을 선물 선택 상자로 변환하며 되돌릴 수 없습니다. 계속하시겠습니까?"
+  },
+  "studentBondModal": {
+    "bondLevel": "인연 레벨",
+    "bondExp": "인연 EXP",
+    "quickAddExp": "인연 경험치 쾌속 증가",
+    "dormInteraction": "쓰다듬기",
+    "scheduleRank": "스케줄 Rank {rank}"
+  },
+  "giftPlannerActions": {
+    "reset": "계획 초기화",
+    "apply": "계획 적용",
+    "resetConfirmation": "현재 선물 계획을 초기화하시겠습니까? 저장되지 않은 모든 변경 사항이 손실됩니다.",
+    "applyConfirmation": "현재 선물 계획을 적용하시겠습니까? 학생의 인연 레벨이 업데이트되고 인벤토리에서 선물이 소모됩니다."
   },
   "student": {
     "name": {

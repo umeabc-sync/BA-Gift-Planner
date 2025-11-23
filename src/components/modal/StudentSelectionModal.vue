@@ -425,13 +425,7 @@
   .scrollable-section {
     flex-grow: 1;
     overflow-y: auto;
-    scrollbar-width: thin;
-    scrollbar-color: #bdc3c7 #f8f9fa;
     mask-image: linear-gradient(to bottom, transparent, black 15px);
-  }
-
-  .dark-mode .scrollable-section {
-    scrollbar-color: #7f8c8d #1a2b40;
   }
 
   .modal-body-content-padding {
@@ -525,8 +519,6 @@
     padding: 0 20px;
     min-height: 0;
     overflow-y: hidden;
-    scrollbar-width: thin;
-    scrollbar-color: #bdc3c7 #f8f9fa;
   }
 
   .filter-content-wrapper::after {
@@ -534,10 +526,6 @@
     display: block;
     height: 15px;
     flex-shrink: 0;
-  }
-
-  .dark-mode .filter-content-wrapper {
-    scrollbar-color: #7f8c8d #1a2b40;
   }
 
   .filter-controls.is-open:not(.is-animating) .filter-content-wrapper {
@@ -1018,39 +1006,6 @@
   .modal-fade-enter-from,
   .modal-fade-leave-to {
     opacity: 0;
-  }
-
-  .scrollable-section::-webkit-scrollbar,
-  .filter-content-wrapper::-webkit-scrollbar {
-    width: 12px;
-  }
-
-  .scrollable-section::-webkit-scrollbar-track,
-  .filter-content-wrapper::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  .scrollable-section::-webkit-scrollbar-thumb,
-  .filter-content-wrapper::-webkit-scrollbar-thumb {
-    background-color: #bdc3c7;
-    border-radius: 10px;
-    border: 3px solid #f8f9fa;
-  }
-
-  .dark-mode .scrollable-section::-webkit-scrollbar-thumb,
-  .dark-mode .filter-content-wrapper::-webkit-scrollbar-thumb {
-    background-color: #7f8c8d;
-    border-color: #1a2b40;
-  }
-
-  .scrollable-section::-webkit-scrollbar-thumb:hover,
-  .filter-content-wrapper::-webkit-scrollbar-thumb:hover {
-    background-color: #a9a9a9;
-  }
-
-  .dark-mode .scrollable-section::-webkit-scrollbar-thumb:hover,
-  .dark-mode .filter-content-wrapper::-webkit-scrollbar-thumb:hover {
-    background-color: #95a5a6;
   }
 
   /* 響應式設計 */

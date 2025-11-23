@@ -2,6 +2,7 @@ import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import directives from './directives'
+import router from './router'
 import 'overlayscrollbars/overlayscrollbars.css'
 import './assets/css/fonts.css'
 import './assets/css/tooltip.css'
@@ -18,5 +19,6 @@ pinia.use(piniaPluginPersistedstate)
 
 app.use(pinia)
 app.use(directives)
+app.use(router)
 
 app.mount('#app')

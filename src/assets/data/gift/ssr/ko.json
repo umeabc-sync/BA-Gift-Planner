@@ -50,5 +50,29 @@
   {
     "id": 12,
     "name": "보드 게임 <더 인생>"
+  },
+  {
+    "id": 13,
+    "name": "싱그러운 꽃다발",
+    "isSpecial": true,
+    "exp": 240
+  },
+  {
+    "id": 14,
+    "name": "아름다운 꽃다발",
+    "isSpecial": true,
+    "exp": 240
+  },
+  {
+    "id": 15,
+    "name": "하츠네 미쿠의 포토 카드",
+    "isSpecial": true,
+    "exp": 60
+  },
+  {
+    "id": 16,
+    "name": "반짝이는 꽃다발",
+    "isSpecial": true,
+    "exp": 60
   }
 ]
