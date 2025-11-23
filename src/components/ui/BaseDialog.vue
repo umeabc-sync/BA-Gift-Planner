@@ -3,11 +3,9 @@
     <transition name="modal-fade">
       <div v-if="isVisible" class="modal-overlay" @click.self="closeModal">
         <div class="modal-content" :style="contentStyle">
-          <div v-if="$slots.header || title" class="modal-header">
+          <div class="modal-header">
             <div class="modal-title-wrapper">
-              <slot name="header">
-                <h2>{{ title || t('dialog.notificationTitle') }}</h2>
-              </slot>
+              <slot name="header">{{ title || t('dialog.notificationTitle') }}</slot>
             </div>
             <button class="close-button" @click="closeModal">×</button>
           </div>
@@ -16,10 +14,10 @@
           </div>
           <div class="modal-actions" :class="{ 'has-cancel': showCancel }">
             <button v-if="showCancel" class="btn btn-cancel" @click="handleCancel">
-              {{ t('common.cancel') }}
+              <span>{{ t('common.cancel') }}</span>
             </button>
-            <button class="btn btn-ok" @click="handleOk">
-              {{ t('common.ok') }}
+            <button class="btn btn-ok" :class="{ pink: pink }" @click="handleOk">
+              <span>{{ t('common.ok') }}</span>
             </button>
           </div>
         </div>
@@ -117,19 +115,18 @@
     border-bottom-color: #2a4a6e;
   }
 
-    .modal-header h2 {
-        margin: 0;
-        padding: 10px 0px 5px 0px;
-        text-align: center;
-        color: #2d4663;
-        flex-grow: 0;
-        font-size: 1.5rem;
-        font-weight: bold;
-        border-bottom: 5px solid #fdef66;
-        user-select: none;
-    }
+  .modal-title-wrapper {
+    padding: 10px 0px 5px 0px;
+    text-align: center;
+    color: #2d4663;
+    flex-grow: 0;
+    font-size: 1.5rem;
+    font-weight: bold;
+    border-bottom: 5px solid #fdef66;
+    user-select: none;
+  }
 
-  .dark-mode .modal-header h2 {
+  .dark-mode .modal-title-wrapper {
     color: #e0f4ff;
     border-bottom-color: #fdef66;
   }
@@ -162,60 +159,102 @@
     font-size: 1.1rem;
     overflow-y: auto;
     flex-grow: 1;
+    color: #314665;
+  }
+
+  .dark-mode .modal-body {
+    color: #e0f4ff;
   }
 
   .modal-actions {
     display: flex;
     justify-content: center;
     padding: 0 20px 20px;
-    gap: 10px;
+    gap: 20px;
   }
 
-    .modal-actions.has-cancel {
-        justify-content: space-between;
-    }
+  .modal-actions.has-cancel {
+    justify-content: space-between;
+  }
 
   .btn {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 8px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s, color 0.3s;
+    position: relative;
+    font-family: inherit;
     font-weight: bold;
-    min-width: 100px;
+    border: none;
+    color: #314665;
+    padding: 0 30px;
+    height: 44px;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-width: 140px;
+    transform: skew(-8deg);
+    box-shadow: 0 3px 2px rgba(0, 0, 0, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
   }
 
-    .modal-actions.has-cancel .btn {
-        flex: 1;
-    }
+  .btn span {
+    transform: skew(8deg);
+    z-index: 2;
+    letter-spacing: 1px;
+    display: inline-block;
+  }
+
+  .btn:hover {
+    transform: translateY(-2px) skew(-8deg);
+  }
+
+  .btn:active {
+    transform: scale(0.95) skew(-8deg);
+  }
+
+  .modal-actions.has-cancel .btn {
+    flex: 1;
+  }
 
   .btn-ok {
-    background-color: #4a90e2;
-    color: white;
+    background-color: #77ddff;
+    background-image: linear-gradient(to bottom right, #63d0fd 0%, transparent 50%),
+      linear-gradient(to top left, #63d0fd 0%, transparent 50%);
   }
 
-  .btn-ok:hover {
-    background-color: #357abd;
+  .dark-mode .btn-ok {
+    background-color: #00aeef;
+    background-image: linear-gradient(to bottom right, #09a4f2 0%, transparent 50%),
+      linear-gradient(to top left, #09a4f2 0%, transparent 50%);
+    color: #e0f4ff;
+  }
+
+  .btn-ok.pink {
+    background-color: #ff77c7;
+    background-image: linear-gradient(to bottom right, #fd63b9 0%, transparent 50%),
+      linear-gradient(to top left, #fd63b9 0%, transparent 50%);
+  }
+
+  .dark-mode .btn-ok.pink {
+    background-color: #ef009d;
+    background-image: linear-gradient(to bottom right, #f209a4 0%, transparent 50%),
+      linear-gradient(to top left, #f209a4 0%, transparent 50%);
   }
 
   .btn-cancel {
-    background-color: #e0e0e0;
-    color: #333;
-  }
-
-  .btn-cancel:hover {
-    background-color: #c7c7c7;
+    background-color: #f4e94c;
+    background-image: linear-gradient(to bottom right, #f9da3b 0%, transparent 50%),
+      linear-gradient(to top left, #f9da3b 0%, transparent 50%);
   }
 
   .dark-mode .btn-cancel {
-    background-color: #555;
-    color: #eee;
-   }
-
-   .dark-mode .btn-cancel:hover {
-    background-color: #666;
-    }
+    background-color: #e57758;
+    background-image: linear-gradient(to bottom right, #e4522f 0%, transparent 50%),
+      linear-gradient(to top left, #e4522f 0%, transparent 50%);
+    color: #e0f4ff;
+  }
 
   .modal-fade-enter-active,
   .modal-fade-leave-active {
@@ -237,3 +276,4 @@
     }
   }
 </style>
+

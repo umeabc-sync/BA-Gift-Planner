@@ -11,14 +11,27 @@
         <span>{{ t('giftPlannerActions.apply') }}</span>
       </button>
     </div>
+    <BaseDialog
+      :is-visible="isResetDialogVisible"
+      :text="t('giftPlannerActions.resetConfirmation')"
+      :show-cancel="true"
+      @close="isResetDialogVisible = false"
+      @ok="confirmReset" />
+    <BaseDialog
+      :is-visible="isApplyDialogVisible"
+      :text="t('giftPlannerActions.applyConfirmation')"
+      :show-cancel="true"
+      @close="isApplyDialogVisible = false"
+      @ok="confirmApply" />
   </div>
 </template>
 
 <script setup>
-  import { computed } from 'vue'
+  import { computed, ref } from 'vue'
   import { storeToRefs } from 'pinia'
   import { useGiftPlannerStore } from '@/store/giftPlanner'
   import { useI18n } from '@/composables/useI18n'
+  import BaseDialog from '@components/ui/BaseDialog.vue'
 
   const { t } = useI18n()
   const giftPlannerStore = useGiftPlannerStore()
@@ -26,18 +39,27 @@
 
   const isNoAssignments = computed(() => Object.keys(assignments.value).length === 0)
 
+  const isResetDialogVisible = ref(false)
+  const isApplyDialogVisible = ref(false)
+
   const handleReset = () => {
     if (isNoAssignments.value) return
-    if (confirm(t('giftPlannerActions.resetConfirmation'))) {
-      giftPlannerStore.clearAssignments()
-    }
+    isResetDialogVisible.value = true
   }
 
   const handleApply = () => {
     if (isNoAssignments.value) return
-    if (confirm(t('giftPlannerActions.applyConfirmation'))) {
-      giftPlannerStore.applyAssignments()
-    }
+    isApplyDialogVisible.value = true
+  }
+
+  const confirmReset = () => {
+    giftPlannerStore.clearAssignments()
+    isResetDialogVisible.value = false
+  }
+
+  const confirmApply = () => {
+    giftPlannerStore.applyAssignments()
+    isApplyDialogVisible.value = false
   }
 </script>
 
