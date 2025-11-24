@@ -10,7 +10,7 @@
 
 <p align="left">
   <a href="https://vuejs.org/"><img alt="Vue.js" src="https://img.shields.io/badge/Vue.js-3-4FC08D?style=flat-square"></a>
-  <a href="https://vitejs.dev/"><img alt="Vite" src="https://img.shields.io/badge/Vite-6-646CFF?style=flat-square"></a>
+  <a href="https://vitejs.dev/"><img alt="Vite" src="https://img.shields.io/badge/Vite-7-646CFF?style=flat-square"></a>
   <a href="https://opensource.org/licenses/MIT"><img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square"></a>
 </p>
 
@@ -83,6 +83,7 @@ These features make bond calculation simple. It's convenient whether you want to
 *   **Frontend Framework**: [Vue 3](https://vuejs.org/) (Composition API)
 *   **Build Tool**: [Vite](https://vitejs.dev/)
 *   **State Management**: [Pinia](https://pinia.vuejs.org/)
+*   **Routing**: [Vue Router](https://router.vuejs.org/)
 *   **Code Style**: [Prettier](https://prettier.io/)
 *   **Linter**: [ESLint](https://eslint.org/)
 *   **Deployment Platform**: [CloudFlare](https://www.cloudflare.com/)
@@ -134,16 +135,19 @@ Please ensure you have [Node.js](https://nodejs.org/) (version 18.x or higher is
 ## 📁 Project Structure
 
 ```
-BA-Character-Rating/
+BA-Gift-Planner/
 ├── public/            # Public assets, not processed by Vite
 ├── src/
 │   ├── assets/        # Static assets like images, fonts, and data JSONs
 │   ├── components/    # Reusable Vue components
 │   ├── composables/   # Composable functions (Hooks)
-│   ├── data/          # Data for character selector filter options
+│   ├── data/          # Application data
+│   ├── directives/    # Custom directives
 │   ├── locales/       # i18n language files
+│   ├── router/        # Vue Router configuration
 │   ├── store/         # Pinia state management
 │   ├── utils/         # Shared utility functions
+│   ├── views/         # Page components
 │   ├── App.vue        # Main component
 │   ├── main.js        # Application entry point
 │   └── style.css      # Global styles

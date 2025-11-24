@@ -10,7 +10,7 @@
 
 <p align="left">
   <a href="https://vuejs.org/"><img alt="Vue.js" src="https://img.shields.io/badge/Vue.js-3-4FC08D?style=flat-square"></a>
-  <a href="https://vitejs.dev/"><img alt="Vite" src="https://img.shields.io/badge/Vite-6-646CFF?style=flat-square"></a>
+  <a href="https://vitejs.dev/"><img alt="Vite" src="https://img.shields.io/badge/Vite-7-646CFF?style=flat-square"></a>
   <a href="https://opensource.org/licenses/MIT"><img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square"></a>
 </p>
 
@@ -83,6 +83,7 @@
 *   **前端框架**: [Vue 3](https://vuejs.org/) (Composition API)
 *   **构建工具**: [Vite](https://vitejs.dev/)
 *   **状态管理**: [Pinia](https://pinia.vuejs.org/)
+*   **路由**: [Vue Router](https://router.vuejs.org/)
 *   **代码风格**: [Prettier](https://prettier.io/)
 *   **代码检查**: [ESLint](https://eslint.org/)
 *   **部署平台**: [CloudFlare](https://www.cloudflare.com/)
@@ -134,23 +135,26 @@
 ## 📁 项目结构
 
 ```
-BA-Character-Rating/
+BA-Gift-Planner/
 ├── public/            # 公共资源，不会被 Vite 处理
 ├── src/
 │   ├── assets/        # 图片、字体、数据 JSON 等静态资源
 │   ├── components/    # 可重复使用的 Vue 组件
 │   ├── composables/   # 可组合的函数 (Hooks)
-│   ├── data/          # 存放角色选择器 Filter 选项数据
+│   ├── data/          # 应用程序数据
+│   ├── directives/    # 自定义指令
 │   ├── locales/       # i18n 语言文件
+│   ├── router/        # Vue 路由配置
 │   ├── store/         # Pinia 状态管理
 │   ├── utils/         # 共用工具函数
+│   ├── views/         # 页面组件
 │   ├── App.vue        # 主组件
 │   ├── main.js        # 应用程序入口点
 │   └── style.css      # 全局样式
 ├── .env               # 全局变量
 ├── .prettierrc.json   # Prettier 配置文件
 ├── eslint.config.js   # ESLint 配置文件
-├── index.html         # 网页标头
+├── index.html         # HTML 入口文件
 ├── package.json       # 项目依赖与脚本
 └── vite.config.js     # Vite 配置文件
 ```

@@ -10,7 +10,7 @@
 
 <p align="left">
   <a href="https://vuejs.org/"><img alt="Vue.js" src="https://img.shields.io/badge/Vue.js-3-4FC08D?style=flat-square"></a>
-  <a href="https://vitejs.dev/"><img alt="Vite" src="https://img.shields.io/badge/Vite-6-646CFF?style=flat-square"></a>
+  <a href="https://vitejs.dev/"><img alt="Vite" src="https://img.shields.io/badge/Vite-7-646CFF?style=flat-square"></a>
   <a href="https://opensource.org/licenses/MIT"><img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square"></a>
 </p>
 
@@ -83,6 +83,7 @@
 *   **フロントエンドフレームワーク**: [Vue 3](https://vuejs.org/) (Composition API)
 *   **ビルドツール**: [Vite](https://vitejs.dev/)
 *   **状態管理**: [Pinia](https://pinia.vuejs.org/)
+*   **ルーティング**: [Vue Router](https://router.vuejs.org/)
 *   **コードスタイル**: [Prettier](https://prettier.io/)
 *   **リンター**: [ESLint](https://eslint.org/)
 *   **デプロイプラットフォーム**: [CloudFlare](https://www.cloudflare.com/)
@@ -134,16 +135,19 @@
 ## 📁 プロジェクト構造
 
 ```
-BA-Character-Rating/
+BA-Gift-Planner/
 ├── public/            # Viteで処理されない公開アセット
 ├── src/
 │   ├── assets/        # 画像、フォント、データJSONなどの静的アセット
 │   ├── components/    # 再利用可能なVueコンポーネント
 │   ├── composables/   # コンポーザブル関数 (Hooks)
-│   ├── data/          # 生徒選択フィルターオプションのデータ
+│   ├── data/          # アプリケーションデータ
+│   ├── directives/    # カスタムディレクティブ
 │   ├── locales/       # i18n言語ファイル
+│   ├── router/        # Vueルーターの設定
 │   ├── store/         # Pinia状態管理
 │   ├── utils/         # 共有ユーティリティ関数
+│   ├── views/         # ページコンポーネント
 │   ├── App.vue        # メインコンポーネント
 │   ├── main.js        # アプリケーションのエントリーポイント
 │   └── style.css      # グローバルスタイル

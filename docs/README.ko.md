@@ -10,7 +10,7 @@
 
 <p align="left">
   <a href="https://vuejs.org/"><img alt="Vue.js" src="https://img.shields.io/badge/Vue.js-3-4FC08D?style=flat-square"></a>
-  <a href="https://vitejs.dev/"><img alt="Vite" src="https://img.shields.io/badge/Vite-6-646CFF?style=flat-square"></a>
+  <a href="https://vitejs.dev/"><img alt="Vite" src="https://img.shields.io/badge/Vite-7-646CFF?style=flat-square"></a>
   <a href="https://opensource.org/licenses/MIT"><img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square"></a>
 </p>
 
@@ -83,6 +83,7 @@
 *   **프론트엔드 프레임워크**: [Vue 3](https://vuejs.org/) (Composition API)
 *   **빌드 도구**: [Vite](https://vitejs.dev/)
 *   **상태 관리**: [Pinia](https://pinia.vuejs.org/)
+*   **라우팅**: [Vue Router](https://router.vuejs.org/)
 *   **코드 스타일**: [Prettier](https://prettier.io/)
 *   **린터**: [ESLint](https://eslint.org/)
 *   **배포 플랫폼**: [CloudFlare](https://www.cloudflare.com/)
@@ -134,16 +135,19 @@
 ## 📁 프로젝트 구조
 
 ```
-BA-Character-Rating/
+BA-Gift-Planner/
 ├── public/            # Vite에서 처리하지 않는 공용 자산
 ├── src/
 │   ├── assets/        # 이미지, 폰트, 데이터 JSON 등 정적 자산
 │   ├── components/    # 재사용 가능한 Vue 컴포넌트
 │   ├── composables/   # 컴포저블 함수 (Hooks)
-│   ├── data/          # 학생 선택기 필터 옵션 데이터
+│   ├── data/          # 애플리케이션 데이터
+│   ├── directives/    # 커스텀 디렉티브
 │   ├── locales/       # i18n 언어 파일
+│   ├── router/        # Vue 라우터 설정
 │   ├── store/         # Pinia 상태 관리
 │   ├── utils/         # 공용 유틸리티 함수
+│   ├── views/         # 페이지 컴포넌트
 │   ├── App.vue        # 메인 컴포넌트
 │   ├── main.js        # 애플리케이션 진입점
 │   └── style.css      # 전역 스타일
