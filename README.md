@@ -28,25 +28,55 @@ This is a gift planner designed for players of the mobile game "Blue Archive". B
 ## ✨ Key Features
 
 > [!NOTE]
-> The screenshot version is v0.3.2. Please forgive me for not having an English interface for the screenshots at the moment. The current plan is to support Traditional Chinese, Simplified Chinese (both already supported), English, Japanese, and Korean. If you would like to help me add these or other languages, please submit a [PR](https://github.com/Yuuzi261/BA-Gift-Planner/pulls).
+> The website currently supports English, Japanese, Traditional Chinese, Simplified Chinese, and Korean. If you would like to help me add support for other languages, please submit a [PR](https://github.com/Yuuzi261/BA-Gift-Planner/pulls).
+
+### Gift Recommendation Page
 
 1️⃣ Open the character selector and choose your ~~waifus😋~~... I mean, students.
 
-![Character Selector Screenshot](./docs/1.png)
+![Character Selector Screenshot](./docs/imgs/1.png)
 
 2️⃣ Close the character selector to see the results (yes, it's that simple!). Here, I'm only showing a part of the results.
 
-![Results Display](./docs/2.png)
+![Results Display](./docs/imgs/2.png)
 
 Students who are not the best choice will have a semi-transparent + dashed border effect. If you don't want to see non-optimal choices, you can change the settings in the settings interface:
 
-![Settings Interface](./docs/3.png)
+![Settings Interface](./docs/imgs/3.png)
 
 3️⃣ Check which gifts can be given freely (SSR) or used to craft a Gift Selection Box (SR).
 
-![](./docs/4.png)
+![](./docs/imgs/4.png)
 
 4️⃣ Alright, now you can open the game and start building relationships with your students. No more worrying about giving the wrong gift or not knowing which gifts can be used for crafting! 🎉
+
+### Bond Calculator Page
+
+1️⃣ Set Gift Inventory
+
+![](./docs/imgs/5.png)
+
+2️⃣ Set Student's Bond Level and EXP
+
+![](./docs/imgs/6.png)
+
+3️⃣ Start creating a gift plan
+
+![](./docs/imgs/7.png)
+
+4️⃣ Instantly Preview the Plan's Effect
+
+![](./docs/imgs/8.png)
+
+5️⃣ Set a Target Level and Check the Gap
+
+![](./docs/imgs/9.png)
+
+6️⃣ Apply the Plan
+
+![](./docs/imgs/10.png)
+
+These features make bond calculation simple. It's convenient whether you want to sync your in-game progress for meticulous affection planning, simply set approximate values to see how far you are from your goal, or find out what you can achieve with your current gift inventory.
 
 ## 🛠️ Main Development Frameworks & Packages
 
