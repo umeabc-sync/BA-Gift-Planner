@@ -50,5 +50,29 @@
   {
     "id": 12,
     "name": "桌遊「The．人生」"
+  },
+  {
+    "id": 13,
+    "name": "清新的花束",
+    "isSpecial": true,
+    "exp": 240
+  },
+  {
+    "id": 14,
+    "name": "美麗的花束",
+    "isSpecial": true,
+    "exp": 240
+  },
+  {
+    "id": 15,
+    "name": "初音未來的寫真卡",
+    "isSpecial": true,
+    "exp": 60
+  },
+  {
+    "id": 16,
+    "name": "閃耀花束",
+    "isSpecial": true,
+    "exp": 60
   }
 ]

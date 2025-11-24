@@ -49,7 +49,12 @@
     "settings": "設定",
     "enabled": "有効",
     "disabled": "無効",
-    "title": "Sensei ハーレムツール"
+    "title": "Sensei ハーレムツール",
+    "edit": "編集",
+    "cancel": "キャンセル"
+  },
+  "dialog": {
+    "notificationTitle": "通知"
   },
   "characterSelector": {
     "title": "生徒を選択",
@@ -75,7 +80,8 @@
     "theme": "テーマ",
     "light": "ライト",
     "dark": "ダーク",
-    "system": "システム"
+    "system": "システム",
+    "vibrantProgressBar": "より目立つ経験値バーの色"
   },
   "shareModal": {
     "title": "スクショ設定",
@@ -132,9 +138,54 @@
   "favoriteGiftsModal": {
     "titleSuffix": "の好きな贈り物"
   },
+  "giftGivingModal": {
+    "title": "贈り物をあげる",
+    "reset": "リセット",
+    "quickGive": {
+      "title": "クイック贈呈",
+      "bestNoConflict": "最適",
+      "allSuitable": "すべての推奨",
+      "all": "すべて"
+    }
+  },
+  "giftInventoryModal": {
+    "title": "贈り物インベントリ"
+  },
   "toast": {
     "link_copied_to_clipboard": "リンクがクリップボードにコピーされました",
     "canvas_exceeds_max_size": "画像サイズが大きすぎます、より低い倍率を選択してください"
+  },
+  "bondGapCalculator": {
+    "title": "絆目標計算",
+    "setTargetLevel": "目標レベル設定",
+    "beforeGift": "贈り物前",
+    "afterGift": "贈り物後",
+    "levelGap": "レベル差",
+    "expGap": "経験値差",
+    "interactionsNeeded": "必要な交流",
+    "dormInteraction": "なでなで",
+    "schedule": "スケジュール",
+    "noInteractionsNeeded": "交流の必要なし"
+  },
+  "bondCalculator": {
+    "giftInventoryTitle": "贈り物インベントリ",
+    "giftPlannerTitle": "贈り物計画",
+    "editBondTitle": "{name}の絆編集",
+    "convertToChoiceBox": "選択ボックスに変換",
+    "convertConfirmation": "この操作は、合成に推奨されるすべての贈り物をギフト選択ボックスに変換し、元に戻すことはできません。続行しますか？"
+  },
+  "studentBondModal": {
+    "bondLevel": "絆レベル",
+    "bondExp": "絆EXP",
+    "quickAddExp": "絆経験値のクイック追加",
+    "dormInteraction": "なでなで",
+    "scheduleRank": "スケジュール Rank{rank}"
+  },
+  "giftPlannerActions": {
+    "reset": "計画をリセット",
+    "apply": "計画を適用",
+    "resetConfirmation": "現在のギフト計画をリセットしてもよろしいですか？保存されていない変更はすべて失われます。",
+    "applyConfirmation": "現在のギフト計画を適用してもよろしいですか？これにより、生徒の絆レベルが更新され、インベントリからギフトが消費されます。"
   },
   "student": {
     "name": {

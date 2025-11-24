@@ -49,7 +49,12 @@
     "settings": "Settings",
     "enabled": "Enabled",
     "disabled": "Disabled",
-    "title": "Sensei Harem Tool"
+    "title": "Sensei Harem Tool",
+    "edit": "Edit",
+    "cancel": "Cancel"
+  },
+  "dialog": {
+    "notificationTitle": "Notification"
   },
   "characterSelector": {
     "title": "Select Students",
@@ -75,7 +80,8 @@
     "theme": "Theme",
     "light": "Light",
     "dark": "Dark",
-    "system": "System"
+    "system": "System",
+    "vibrantProgressBar": "Vibrant Experience Bar Color"
   },
   "shareModal": {
     "title": "Screenshot Settings",
@@ -132,9 +138,54 @@
   "favoriteGiftsModal": {
     "titleSuffix": "'s Favorite Gifts"
   },
+  "giftGivingModal": {
+    "title": "Give Gift",
+    "reset": "Reset",
+    "quickGive": {
+      "title": "Quick Give",
+      "bestNoConflict": "Optimal",
+      "allSuitable": "All Preferred",
+      "all": "All"
+    }
+  },
+  "giftInventoryModal": {
+    "title": "Gift Inventory"
+  },
   "toast": {
     "link_copied_to_clipboard": "Link copied to clipboard",
     "canvas_exceeds_max_size": "Image size is too large, please choose a lower multiplier"
+  },
+  "bondGapCalculator": {
+    "title": "Bond Gap Calculator",
+    "setTargetLevel": "Set Target Level",
+    "beforeGift": "Before Gift",
+    "afterGift": "After Gift",
+    "levelGap": "Level Gap",
+    "expGap": "EXP Gap",
+    "interactionsNeeded": "Interactions Needed",
+    "dormInteraction": "Patting Head",
+    "schedule": "Schedule",
+    "noInteractionsNeeded": "No interactions needed"
+  },
+  "bondCalculator": {
+    "giftInventoryTitle": "Gift Inventory",
+    "giftPlannerTitle": "Gift Planner",
+    "editBondTitle": "Edit {name}'s Bond",
+    "convertToChoiceBox": "Convert to Choice Box",
+    "convertConfirmation": "This action will convert all recommended synthesis gifts into gift selection boxes and cannot be undone. Are you sure you want to continue?"
+  },
+  "studentBondModal": {
+    "bondLevel": "Bond Level",
+    "bondExp": "Bond EXP",
+    "quickAddExp": "Quick Add Bond EXP",
+    "dormInteraction": "Patting Head",
+    "scheduleRank": "Schedule Rank {rank}"
+  },
+  "giftPlannerActions": {
+    "reset": "Reset Plan",
+    "apply": "Apply Plan",
+    "resetConfirmation": "Are you sure you want to reset the current gift plan? All unsaved changes will be lost.",
+    "applyConfirmation": "Are you sure you want to apply the current gift plan? This will update student bond levels and consume the gifts from your inventory."
   },
   "student": {
     "name": {

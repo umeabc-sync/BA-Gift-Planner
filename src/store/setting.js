@@ -10,6 +10,7 @@ export const useSettingStore = defineStore(
     const locale = ref(null)
     const showOnlyOptimalSolution = ref(false)
     const enableCharacterSelectorLazyLoad = ref(true)
+    const useVibrantProgressBar = ref(false)
 
     // Getters (Computed)
     const isDarkMode = computed(() => {
@@ -34,8 +35,16 @@ export const useSettingStore = defineStore(
       showOnlyOptimalSolution.value = !showOnlyOptimalSolution.value
     }
 
+    function toggleVibrantProgressBar() {
+      useVibrantProgressBar.value = !useVibrantProgressBar.value
+    }
+
     function setLocale(newLocale) {
       locale.value = newLocale
+    }
+
+    function setTheme(newTheme) {
+      theme.value = newTheme
     }
 
     function initThemeListener() {
@@ -50,10 +59,13 @@ export const useSettingStore = defineStore(
       isDarkMode,
       enableCharacterSelectorLazyLoad,
       showOnlyOptimalSolution,
+      useVibrantProgressBar,
       toggleTheme,
       toggleCharacterSelectorLazyLoad,
       toggleShowOnlyOptimalSolution,
+      toggleVibrantProgressBar,
       setLocale,
+      setTheme,
       initThemeListener,
     }
   },

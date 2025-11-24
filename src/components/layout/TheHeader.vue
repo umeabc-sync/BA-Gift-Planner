@@ -4,10 +4,17 @@
       <img :src="logoUrl" :alt="t('header.title')" />
     </div>
     <div class="controls">
-      <button class="icon-btn" @click="$emit('openModal')">
+      <router-link :to="isBondCalculatorRoute ? '/gift-recommendation' : '/bond-calculator'" class="icon-btn">
+        <component
+          :is="isBondCalculatorRoute ? GiftIcon : BondCalculatorIcon"
+          :alt="t('header.selectStudentsAlt')"
+          draggable="false"
+        />
+      </router-link>
+      <button class="icon-btn" @click="modalStore.openStudentSelectionModal">
         <component :is="AddStudentsIcon" :alt="t('header.selectStudentsAlt')" draggable="false" />
       </button>
-      <div class="share-dropdown-container">
+      <div v-if="isGiftRecommendationRoute" class="share-dropdown-container">
         <button class="icon-btn" @click="toggleShareDropdown">
           <component :is="ShareIcon" :alt="t('header.shareAlt')" draggable="false" />
         </button>
@@ -35,33 +42,35 @@
           draggable="false"
         />
       </button>
-      <button class="icon-btn theme-toggle-btn" @click="toggleTheme">
-        <Transition name="icon-fade-slide" mode="out-in">
-          <component :is="themeIcon" :key="theme" />
-        </Transition>
-      </button>
     </div>
   </header>
 </template>
 
 <script setup>
   import { computed, ref, onMounted, onUnmounted } from 'vue'
+  import { useRoute } from 'vue-router'
   import { useSettingStore } from '@store/setting'
+  import { useModalStore } from '@store/modal'
   import { storeToRefs } from 'pinia'
   import { getAssetsFile } from '@utils/getAssetsFile'
   import { getTitleUrl } from '@utils/getTitleUrl'
   import { useI18n } from '@composables/useI18n'
+  import { useToast } from '@composables/useToast'
   import { useWindowSize } from '@vueuse/core'
   import AddStudentsIcon from '@assets/icon/add_students.svg'
   import ShareIcon from '@assets/icon/share.svg'
   import GearIcon from '@assets/icon/gear.svg'
-  import SunIcon from '@assets/icon/sun.svg'
-  import MoonIcon from '@assets/icon/moon.svg'
-  import SystemIcon from '@assets/icon/system.svg'
+  // TEMP ICONS
+  import BondCalculatorIcon from '@assets/icon/bond_calculator.svg'
+  import GiftIcon from '@assets/icon/gift_icon.svg'
 
   const { t, currentLocale: locale } = useI18n()
+  const { addToast } = useToast()
+  const route = useRoute()
+  const modalStore = useModalStore()
 
-  const emit = defineEmits(['openModal', 'openSettingsModal', 'copyShareLink', 'openShareModal'])
+  const isGiftRecommendationRoute = computed(() => route.name === 'GiftRecommendation')
+  const isBondCalculatorRoute = computed(() => route.name === 'BondCalculator')
 
   const showShareDropdown = ref(false)
 
@@ -70,12 +79,13 @@
   }
 
   const handleCopyLink = () => {
-    emit('copyShareLink')
+    navigator.clipboard.writeText(window.location.href)
+    addToast(t('toast.link_copied_to_clipboard'), 'success')
     showShareDropdown.value = false
   }
 
   const handleDownloadScreenshot = () => {
-    emit('openShareModal')
+    modalStore.openShareModal()
     showShareDropdown.value = false
   }
 
@@ -95,13 +105,6 @@
 
   const settingStore = useSettingStore()
   const { theme } = storeToRefs(settingStore)
-  const { toggleTheme } = settingStore
-
-  const themeIcon = computed(() => {
-    if (theme.value === 'light') return SunIcon
-    if (theme.value === 'dark') return MoonIcon
-    return SystemIcon
-  })
 
   const { width } = useWindowSize()
   const isMobile = computed(() => width.value <= 768)
@@ -112,7 +115,7 @@
 
   const handleSettingsClick = () => {
     isSettingsIconRotating.value = true
-    emit('openSettingsModal')
+    modalStore.openSettingsModal()
   }
 </script>
 
@@ -220,37 +223,6 @@
 
   .settings-btn:hover svg {
     transform: skew(8deg) rotate(90deg);
-  }
-
-  .theme-toggle-btn {
-    padding: 0;
-  }
-
-  .theme-toggle-btn svg {
-    width: 24px;
-    height: 24px;
-    color: #314665;
-  }
-
-  .dark-mode .theme-toggle-btn svg {
-    color: #e0f4ff;
-  }
-
-  .icon-fade-slide-enter-active,
-  .icon-fade-slide-leave-active {
-    transition:
-      opacity 0.15s ease-in-out,
-      transform 0.15s ease-in-out;
-  }
-
-  .icon-fade-slide-enter-from {
-    opacity: 0;
-    transform: skew(8deg) rotateY(90deg);
-  }
-
-  .icon-fade-slide-leave-to {
-    opacity: 0;
-    transform: skew(8deg) rotateY(-90deg);
   }
 
   .share-dropdown-container {

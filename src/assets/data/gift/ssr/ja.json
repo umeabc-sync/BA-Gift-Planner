@@ -50,5 +50,29 @@
   {
     "id": 12,
     "name": "ボードゲーム「ザ・人生」"
+  },
+  {
+    "id": 13,
+    "name": "さわやかな花束",
+    "isSpecial": true,
+    "exp": 240
+  },
+  {
+    "id": 14,
+    "name": "美しい花束",
+    "isSpecial": true,
+    "exp": 240
+  },
+  {
+    "id": 15,
+    "name": "初音ミクのフォトカード",
+    "isSpecial": true,
+    "exp": 60
+  },
+  {
+    "id": 16,
+    "name": "きらめきの花束",
+    "isSpecial": true,
+    "exp": 60
   }
 ]

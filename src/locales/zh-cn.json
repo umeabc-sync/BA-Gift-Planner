@@ -49,7 +49,12 @@
     "settings": "设置",
     "enabled": "启用",
     "disabled": "禁用",
-    "title": "Sensei 海王工具"
+    "title": "Sensei 海王工具",
+    "edit": "编辑",
+    "cancel": "取消"
+  },
+  "dialog": {
+    "notificationTitle": "通知"
   },
   "characterSelector": {
     "title": "选择学生",
@@ -75,7 +80,8 @@
     "theme": "主题",
     "light": "明亮",
     "dark": "暗黑",
-    "system": "跟随系统"
+    "system": "跟随系统",
+    "vibrantProgressBar": "更显眼的经验条配色"
   },
   "shareModal": {
     "title": "截图设定",
@@ -132,9 +138,54 @@
   "favoriteGiftsModal": {
     "titleSuffix": "喜欢的礼物"
   },
+  "giftGivingModal": {
+    "title": "赠送礼物",
+    "reset": "重置",
+    "quickGive": {
+      "title": "快速赠送",
+      "bestNoConflict": "最优",
+      "allSuitable": "所有偏好",
+      "all": "全部"
+    }
+  },
+  "giftInventoryModal": {
+    "title": "礼物库存"
+  },
   "toast": {
     "link_copied_to_clipboard": "已将连结複製到剪贴簿",
     "canvas_exceeds_max_size": "图片尺寸过大，请选择较低的倍率"
+  },
+  "bondGapCalculator": {
+    "title": "羁绊目标测算",
+    "setTargetLevel": "设置目标等级",
+    "beforeGift": "赠送前",
+    "afterGift": "赠送后",
+    "levelGap": "等级差距",
+    "expGap": "经验值差距",
+    "interactionsNeeded": "所需互动",
+    "dormInteraction": "摸头",
+    "schedule": "日程",
+    "noInteractionsNeeded": "无需互动"
+  },
+  "bondCalculator": {
+    "giftInventoryTitle": "礼物库存",
+    "giftPlannerTitle": "礼物规划",
+    "editBondTitle": "编辑{name}的羁绊",
+    "convertToChoiceBox": "转换为自选箱",
+    "convertConfirmation": "此操作会将所有建议用于合成的礼物转换为礼物自选箱，且无法复原。确定要继续吗？"
+  },
+  "studentBondModal": {
+    "bondLevel": "羁绊等级",
+    "bondExp": "羁绊经验",
+    "quickAddExp": "快捷增加羁绊经验",
+    "dormInteraction": "摸头",
+    "scheduleRank": "日程 Rank{rank}"
+  },
+  "giftPlannerActions": {
+    "reset": "重置计划",
+    "apply": "应用计划",
+    "resetConfirmation": "您确定要重置当前的礼物计划吗？所有未保存的更改都将丢失。",
+    "applyConfirmation": "您确定要应用当前的礼物计划吗？这将更新学生的羁绊等级并从您的库存中消耗礼物。"
   },
   "student": {
     "name": {

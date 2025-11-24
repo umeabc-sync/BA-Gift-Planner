@@ -49,7 +49,12 @@
     "settings": "設定",
     "enabled": "啟用",
     "disabled": "禁用",
-    "title": "Sensei 海王工具"
+    "title": "Sensei 海王工具",
+    "edit": "編輯",
+    "cancel": "取消"
+  },
+  "dialog": {
+    "notificationTitle": "通知"
   },
   "characterSelector": {
     "title": "選擇學生",
@@ -75,7 +80,8 @@
     "theme": "主題",
     "light": "明亮",
     "dark": "暗黑",
-    "system": "跟隨系統"
+    "system": "跟隨系統",
+    "vibrantProgressBar": "更顯眼的經驗條配色"
   },
   "shareModal": {
     "title": "截圖設定",
@@ -132,9 +138,54 @@
   "favoriteGiftsModal": {
     "titleSuffix": "喜歡的禮物"
   },
+  "giftGivingModal": {
+    "title": "贈送禮物",
+    "reset": "重設",
+    "quickGive": {
+      "title": "快速贈送",
+      "bestNoConflict": "最優",
+      "allSuitable": "所有偏好",
+      "all": "全部"
+    }
+  },
+  "giftInventoryModal": {
+    "title": "禮物庫存"
+  },
   "toast": {
     "link_copied_to_clipboard": "已將連結複製到剪貼簿",
     "canvas_exceeds_max_size": "圖片尺寸過大，請選擇較低的倍率"
+  },
+  "bondGapCalculator": {
+    "title": "羈絆目標試算",
+    "setTargetLevel": "設定目標等級",
+    "beforeGift": "贈送前",
+    "afterGift": "贈送後",
+    "levelGap": "等級差距",
+    "expGap": "經驗值差距",
+    "interactionsNeeded": "所需互動",
+    "dormInteraction": "摸頭",
+    "schedule": "課程表",
+    "noInteractionsNeeded": "無需任何互動"
+  },
+  "bondCalculator": {
+    "giftInventoryTitle": "禮物庫存",
+    "giftPlannerTitle": "禮物規劃",
+    "editBondTitle": "編輯{name}的羈絆",
+    "convertToChoiceBox": "轉換為自選箱",
+    "convertConfirmation": "此操作會將所有建議拿去合成的禮物都轉換為禮物自選箱，並且無法復原，確定繼續嗎？"
+  },
+  "giftPlannerActions": {
+    "reset": "重設計畫",
+    "apply": "套用計畫",
+    "resetConfirmation": "您確定要重設目前的禮物計畫嗎？所有未儲存的變更將會遺失。",
+    "applyConfirmation": "您確定要套用目前的禮物計畫嗎？這將會更新學生的羈絆等級並從您的庫存中消耗禮物。"
+  },
+  "studentBondModal": {
+    "bondLevel": "羈絆等級",
+    "bondExp": "羈絆經驗",
+    "quickAddExp": "快捷增加羈絆經驗",
+    "dormInteraction": "摸頭",
+    "scheduleRank": "課程表 Rank{rank}"
   },
   "student": {
     "name": {
