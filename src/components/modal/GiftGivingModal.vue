@@ -105,7 +105,7 @@
     const analysis = giftAnalysisStore.getGiftAnalysis(gift)
     if (!analysis || !analysis.characters) return 'other-gift'
     const optimalCharacters = analysis.characters.filter((c) => c.isOptimal)
-    if (optimalCharacters[0].id === props.student.id) {
+    if (optimalCharacters.some((character) => character.id === props.student.id)) {
       return optimalCharacters.length === 1 ? 'best-no-conflict' : 'conflict'
     }
     return 'other-gift'

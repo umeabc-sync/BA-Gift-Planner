@@ -10,7 +10,7 @@
 
 <p align="left">
   <a href="https://vuejs.org/"><img alt="Vue.js" src="https://img.shields.io/badge/Vue.js-3-4FC08D?style=flat-square"></a>
-  <a href="https://vitejs.dev/"><img alt="Vite" src="https://img.shields.io/badge/Vite-6-646CFF?style=flat-square"></a>
+  <a href="https://vitejs.dev/"><img alt="Vite" src="https://img.shields.io/badge/Vite-7-646CFF?style=flat-square"></a>
   <a href="https://opensource.org/licenses/MIT"><img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square"></a>
 </p>
 
@@ -28,31 +28,62 @@
 ## ✨ 주요 기능 소개
 
 > [!NOTE]
-> 스크린샷 버전은 v0.3.2입니다. 현재 스크린샷에 사용할 영어 인터페이스가 없는 점 양해 바랍니다. 현재 계획은 번체 중국어, 간체 중국어(이 두 언어는 이미 지원됨), 영어, 일본어, 한국어를 지원하는 것입니다. 이러한 언어나 다른 언어 추가에 도움을 주시고 싶다면 [PR](https://github.com/Yuuzi261/BA-Gift-Planner/pulls)을 제출해 주세요.
+> 현재 이 웹사이트는 영어, 일본어, 번체 중국어, 간체 중국어, 한국어를 지원합니다. 다른 언어 추가에 도움을 주시고 싶다면 [PR](https://github.com/Yuuzi261/BA-Gift-Planner/pulls)을 제출해 주세요.
+
+### 선물 추천 페이지
 
 1️⃣ 학생 선택기를 열고, 당신의 ~~와이프😋~~... 아니, 학생을 선택하세요.
 
-![학생 선택기 스크린샷](./1.png)
+![학생 선택기 스크린샷](./imgs/1.png)
 
 2️⃣ 학생 선택기를 닫고 결과를 확인하세요 (네, 정말 간단합니다!). 여기서는 결과의 일부만 보여드립니다.
 
-![결과 표시](./2.png)
+![결과 표시](./imgs/2.png)
 
 최적의 선택이 아닌 학생은 반투명 + 점선 테두리 효과가 적용됩니다. 최적이 아닌 선택 결과를 보고 싶지 않다면, 설정 인터페이스에서 설정을 변경할 수 있습니다:
 
-![설정 인터페이스](./3.png)
+![설정 인터페이스](./imgs/3.png)
 
 3️⃣ 어떤 선물(SSR)을 자유롭게 주거나, 선물 선택 상자(SR)를 합성하는 데 사용할 수 있는지 확인하세요.
 
-![](./4.png)
+![](./imgs/4.png)
 
 4️⃣ 자, 이제 게임을 열고 학생들과의 관계를 발전시킬 시간입니다. 더 이상 잘못된 선물을 주거나 어떤 선물을 합성해야 할지 고민할 필요가 없습니다! 🎉
+
+### 인연 계산 페이지
+
+1️⃣ 선물 인벤토리 설정
+
+![](./imgs/5.png)
+
+2️⃣ 학생 인연 레벨 및 경험치 설정
+
+![](./imgs/6.png)
+
+3️⃣ 선물 계획 시작
+
+![](./imgs/7.png)
+
+4️⃣ 계획 효과 즉시 미리보기
+
+![](./imgs/8.png)
+
+5️⃣ 목표 레벨 설정 및 차이 확인
+
+![](./imgs/9.png)
+
+6️⃣ 계획 적용
+
+![](./imgs/10.png)
+
+이 기능들은 인연 계산을 간단하게 만들어 줍니다. 게임 내 진행 상황을 동기화하여 세심하게 호감도를 계획하거나, 단순히 대략적인 수치를 설정하여 목표까지 얼마나 남았는지 확인하거나, 현재 가진 선물 인벤토리로 무엇을 할 수 있는지 알고 싶을 때 모두 편리합니다.
 
 ## 🛠️ 주요 개발 프레임워크 및 패키지
 
 *   **프론트엔드 프레임워크**: [Vue 3](https://vuejs.org/) (Composition API)
 *   **빌드 도구**: [Vite](https://vitejs.dev/)
 *   **상태 관리**: [Pinia](https://pinia.vuejs.org/)
+*   **라우팅**: [Vue Router](https://router.vuejs.org/)
 *   **코드 스타일**: [Prettier](https://prettier.io/)
 *   **린터**: [ESLint](https://eslint.org/)
 *   **배포 플랫폼**: [CloudFlare](https://www.cloudflare.com/)
@@ -104,16 +135,19 @@
 ## 📁 프로젝트 구조
 
 ```
-BA-Character-Rating/
+BA-Gift-Planner/
 ├── public/            # Vite에서 처리하지 않는 공용 자산
 ├── src/
 │   ├── assets/        # 이미지, 폰트, 데이터 JSON 등 정적 자산
 │   ├── components/    # 재사용 가능한 Vue 컴포넌트
 │   ├── composables/   # 컴포저블 함수 (Hooks)
-│   ├── data/          # 학생 선택기 필터 옵션 데이터
+│   ├── data/          # 애플리케이션 데이터
+│   ├── directives/    # 커스텀 디렉티브
 │   ├── locales/       # i18n 언어 파일
+│   ├── router/        # Vue 라우터 설정
 │   ├── store/         # Pinia 상태 관리
 │   ├── utils/         # 공용 유틸리티 함수
+│   ├── views/         # 페이지 컴포넌트
 │   ├── App.vue        # 메인 컴포넌트
 │   ├── main.js        # 애플리케이션 진입점
 │   └── style.css      # 전역 스타일

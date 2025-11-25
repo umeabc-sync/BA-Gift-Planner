@@ -10,7 +10,7 @@
 
 <p align="left">
   <a href="https://vuejs.org/"><img alt="Vue.js" src="https://img.shields.io/badge/Vue.js-3-4FC08D?style=flat-square"></a>
-  <a href="https://vitejs.dev/"><img alt="Vite" src="https://img.shields.io/badge/Vite-6-646CFF?style=flat-square"></a>
+  <a href="https://vitejs.dev/"><img alt="Vite" src="https://img.shields.io/badge/Vite-7-646CFF?style=flat-square"></a>
   <a href="https://opensource.org/licenses/MIT"><img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square"></a>
 </p>
 
@@ -28,31 +28,62 @@
 ## ✨ 主な機能の紹介
 
 > [!NOTE]
-> スクリーンショットのバージョンはv0.3.2です。現在、スクリーンショット用に英語のインターフェースがないことをお許しください。現在の計画では、繁体字中国語、簡体字中国語（これらは既にサポート済み）、英語、日本語、韓国語をサポートする予定です。これらの言語や他の言語の追加にご協力いただける場合は、[PR](https://github.com/Yuuzi261/BA-Gift-Planner/pulls)を送信してください。
+> 現在、このサイトは英語、日本語、繁体字中国語、簡体字中国語、韓国語に対応しています。他の言語の追加にご協力いただける場合は、[PR](https://github.com/Yuuzi261/BA-Gift-Planner/pulls)を送信してください。
+
+### 贈り物の推薦ページ
 
 1️⃣ 生徒選択を開き、あなたの~~お嫁さん😋~~...じゃなくて、生徒を選びます。
 
-![生徒選択のスクリーンショット](./1.png)
+![生徒選択のスクリーンショット](./imgs/1.png)
 
 2️⃣ 生徒選択を閉じて結果を確認します（そう、とても簡単です！）。ここでは結果の一部のみを表示しています。
 
-![結果表示](./2.png)
+![結果表示](./imgs/2.png)
 
 最適でない選択肢の生徒には、半透明+破線の枠が表示されます。最適でない結果を見たくない場合は、設定画面で設定を変更できます：
 
-![設定画面](./3.png)
+![設定画面](./imgs/3.png)
 
 3️⃣ どの贈り物（SSR）を自由に贈れるか、または贈り物選択ボックス（SR）の合成に使用できるかを確認します。
 
-![](./4.png)
+![](./imgs/4.png)
 
 4️⃣ さあ、ゲームを開いて生徒たちとの絆を深めましょう。もう贈り物を間違えたり、どの贈り物が合成に使えるか分からなくなったりする心配はありません！🎉
+
+### 絆計算ページ
+
+1️⃣ 贈り物インベントリを設定
+
+![](./imgs/5.png)
+
+2️⃣ 生徒の絆レベルと経験値を設定
+
+![](./imgs/6.png)
+
+3️⃣ 贈り物計画を立てる
+
+![](./imgs/7.png)
+
+4️⃣ 計画の効果を即時プレビュー
+
+![](./imgs/8.png)
+
+5️⃣ 目標レベルを設定して差を確認
+
+![](./imgs/9.png)
+
+6️⃣ 計画を適用
+
+![](./imgs/10.png)
+
+これらの機能により、絆の計算が簡単になります。ゲームの進行状況を同期して綿密な好感度計画を立てたい場合でも、おおよその数値を設定して目標までの距離を確認したい場合でも、現在の手持ちの贈り物で何ができるかを知りたい場合でも、非常に便利です。
 
 ## 🛠️ 主な開発フレームワーク＆パッケージ
 
 *   **フロントエンドフレームワーク**: [Vue 3](https://vuejs.org/) (Composition API)
 *   **ビルドツール**: [Vite](https://vitejs.dev/)
 *   **状態管理**: [Pinia](https://pinia.vuejs.org/)
+*   **ルーティング**: [Vue Router](https://router.vuejs.org/)
 *   **コードスタイル**: [Prettier](https://prettier.io/)
 *   **リンター**: [ESLint](https://eslint.org/)
 *   **デプロイプラットフォーム**: [CloudFlare](https://www.cloudflare.com/)
@@ -104,16 +135,19 @@
 ## 📁 プロジェクト構造
 
 ```
-BA-Character-Rating/
+BA-Gift-Planner/
 ├── public/            # Viteで処理されない公開アセット
 ├── src/
 │   ├── assets/        # 画像、フォント、データJSONなどの静的アセット
 │   ├── components/    # 再利用可能なVueコンポーネント
 │   ├── composables/   # コンポーザブル関数 (Hooks)
-│   ├── data/          # 生徒選択フィルターオプションのデータ
+│   ├── data/          # アプリケーションデータ
+│   ├── directives/    # カスタムディレクティブ
 │   ├── locales/       # i18n言語ファイル
+│   ├── router/        # Vueルーターの設定
 │   ├── store/         # Pinia状態管理
 │   ├── utils/         # 共有ユーティリティ関数
+│   ├── views/         # ページコンポーネント
 │   ├── App.vue        # メインコンポーネント
 │   ├── main.js        # アプリケーションのエントリーポイント
 │   └── style.css      # グローバルスタイル
