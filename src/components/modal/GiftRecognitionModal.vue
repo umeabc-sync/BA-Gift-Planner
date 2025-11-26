@@ -430,12 +430,20 @@
 <style scoped>
   .recognition-body {
     position: relative;
-    padding: 20px 0 20px 20px;
+    padding: 20px;
     height: 65vh;
     display: flex;
     flex-direction: column;
     gap: 15px;
-    overflow: hidden;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  /* RWD: Reduce padding on small screens */
+  @media (max-width: 640px) {
+    .recognition-body {
+      padding: 10px;
+    }
   }
 
   /* --- Preview Section Styles --- */
@@ -447,7 +455,8 @@
     background-color: #f9f9f9;
     display: flex;
     flex-direction: column;
-    margin-right: 20px; /* Restore the right margin because the right padding of .recognition-body is missing */
+    width: 100%;
+    max-width: 100%; /* Prevent overflow */
   }
 
   .dark-mode .preview-section {
@@ -556,18 +565,22 @@
 
   /* --- Scrollable List Container --- */
   .scrollable-list-container {
-    flex-grow: 1;
-    overflow-y: auto;
-    min-height: 0;
-    padding-right: 20px; /* Add padding here to prevent the grid content from pasting onto the scrollbar */
+    width: 100%;
   }
 
   /* Grid Layout */
   .recognized-gifts-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
     gap: 15px;
     padding-bottom: 10px;
+  }
+
+  /* RWD: Single column on mobile to prevent overflow */
+  @media (max-width: 640px) {
+    .recognized-gifts-grid {
+      grid-template-columns: 1fr;
+    }
   }
 
   .recognized-gift-wrapper {
@@ -743,6 +756,7 @@
     justify-content: center;
     padding: 15px 20px;
     gap: 20px;
+    flex-wrap: wrap; /* Wrap buttons on small screens */
   }
 
   /* Base Button Style */
