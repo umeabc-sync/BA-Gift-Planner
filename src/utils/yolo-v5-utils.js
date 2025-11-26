@@ -12,34 +12,20 @@ export async function preprocess(imageBitmap, modelWidth, modelHeight) {
   const canvas = new OffscreenCanvas(modelWidth, modelHeight);
   const ctx = canvas.getContext('2d');
 
-  // Clear canvas and fill with gray background (114, 114, 114)
   ctx.fillStyle = '#727272';
   ctx.fillRect(0, 0, modelWidth, modelHeight);
 
-  // Calculate aspect ratios and scaling factor
-  const inputRatio = modelWidth / modelHeight;
-  const imageRatio = imageBitmap.width / imageBitmap.height;
-  let scaleWidth, scaleHeight, xOffset, yOffset;
+  const scale = Math.min(modelWidth / imageBitmap.width, modelHeight / imageBitmap.height);
+  const scaleWidth = imageBitmap.width * scale;
+  const scaleHeight = imageBitmap.height * scale;
+  const xOffset = (modelWidth - scaleWidth) / 2;
+  const yOffset = (modelHeight - scaleHeight) / 2;
 
-  if (inputRatio > imageRatio) {
-    scaleHeight = modelHeight;
-    scaleWidth = scaleHeight * imageRatio;
-    xOffset = (modelWidth - scaleWidth) / 2;
-    yOffset = 0;
-  } else {
-    scaleWidth = modelWidth;
-    scaleHeight = scaleWidth / imageRatio;
-    xOffset = 0;
-    yOffset = (modelHeight - scaleHeight) / 2;
-  }
-
-  // Draw image with letterboxing
   ctx.drawImage(imageBitmap, xOffset, yOffset, scaleWidth, scaleHeight);
 
   const imageData = ctx.getImageData(0, 0, modelWidth, modelHeight);
   const data = imageData.data;
 
-  // Convert to float16 tensor
   const uint16Data = new Uint16Array(1 * 3 * modelWidth * modelHeight);
   for (let i = 0; i < modelWidth * modelHeight; i++) {
     const r = data[i * 4 + 0] / 255.0;
@@ -52,31 +38,28 @@ export async function preprocess(imageBitmap, modelWidth, modelHeight) {
   }
   
   const tensor = new ort.Tensor('float16', uint16Data, [1, 3, modelHeight, modelWidth]);
-  const ratioX = scaleWidth / modelWidth;
-  const ratioY = scaleHeight / modelHeight;
-
-  return [tensor, ratioX, ratioY, xOffset, yOffset];
+  
+  return [tensor, scale, xOffset, yOffset];
 }
 
 /**
  * Processes the raw output from a YOLOv5 ONNX model.
  * @param {ort.Tensor} output - The output tensor from the ONNX session.
  * @param {number} numClasses - The number of classes the model was trained on.
- * @param {number} ratioX - The x-axis scaling ratio from preprocessing.
- * @param {number} ratioY - The y-axis scaling ratio from preprocessing.
+ * @param {number} scale - The single scaling factor from preprocessing.
  * @param {number} xOffset - The x-axis offset from preprocessing.
  * @param {number} yOffset - The y-axis offset from preprocessing.
  * @returns {object[]} A list of final detection objects after NMS.
  */
-export function postprocess(output, numClasses, ratioX, ratioY, xOffset, yOffset) {
+export function postprocess(output, numClasses, scale, xOffset, yOffset) {
   const data = output.data;
   const dims = output.dims;
   const confidenceThreshold = 0.25;
   const iouThreshold = 0.45;
   
   const detections = [];
-  const numBoxes = dims[1]; // 25200
-  const numValuesPerBox = dims[2]; // 39 for 34 classes
+  const numBoxes = dims[1];
+  const numValuesPerBox = dims[2];
 
   if (numValuesPerBox !== 5 + numClasses) {
       console.error('postprocess: Output tensor shape is not recognized.', dims);
@@ -106,10 +89,10 @@ export function postprocess(output, numClasses, ratioX, ratioY, xOffset, yOffset
     const width = data[offset + 2];
     const height = data[offset + 3];
 
-    const x1 = ((centerX - width / 2) - xOffset) / ratioX;
-    const y1 = ((centerY - height / 2) - yOffset) / ratioY;
-    const x2 = ((centerX + width / 2) - xOffset) / ratioX;
-    const y2 = ((centerY + height / 2) - yOffset) / ratioY;
+    const x1 = (centerX - width / 2 - xOffset) / scale;
+    const y1 = (centerY - height / 2 - yOffset) / scale;
+    const x2 = (centerX + width / 2 - xOffset) / scale;
+    const y2 = (centerY + height / 2 - yOffset) / scale;
 
     detections.push({ box: [x1, y1, x2, y2], confidence, classId });
   }

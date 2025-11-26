@@ -220,7 +220,7 @@ const runObjectDetection = async (imageFile) => {
     const originalImageBitmap = await createImageBitmap(imageFile);
     
     // Use the new robust preprocessing function
-    const [tensor, ratioX, ratioY, xOffset, yOffset] = await preprocess(originalImageBitmap, 640, 640);
+    const [tensor, scale, xOffset, yOffset] = await preprocess(originalImageBitmap, 640, 640);
     
     const feeds = {};
     feeds[onnxSession.value.inputNames[0]] = tensor;
@@ -229,7 +229,7 @@ const runObjectDetection = async (imageFile) => {
     const outputTensor = results[onnxSession.value.outputNames[0]];
 
     // Use the new robust postprocessing function
-    const detections = postprocess(outputTensor, classNames.value.length, ratioX, ratioY, xOffset, yOffset);
+    const detections = postprocess(outputTensor, classNames.value.length, scale, xOffset, yOffset);
 
     const canvas = previewCanvas.value;
     const ctx = canvas.getContext('2d');
