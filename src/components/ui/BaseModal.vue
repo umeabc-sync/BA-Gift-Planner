@@ -10,7 +10,11 @@
             <button class="close-button" @click="closeModal">×</button>
           </div>
           <div class="modal-body">
-            <slot name="body"></slot>
+            <div v-if="isEmpty" class="empty-state">
+              <warningIcon class="empty-icon" />
+              <p class="empty-text">EMPTY</p>
+            </div>
+            <slot v-else name="body"></slot>
           </div>
           <div v-if="$slots.footer" class="modal-footer">
             <slot name="footer"></slot>
@@ -24,10 +28,12 @@
 <script setup>
   import { toRefs, computed } from 'vue'
   import { useModal } from '@composables/useModal.js'
+  import warningIcon from '@/assets/icon/warning.svg'
 
   const props = defineProps({
     isVisible: { type: Boolean, default: false },
     maxWidth: { type: String, default: '800px' },
+    isEmpty: { type: Boolean, default: false },
   })
 
   const emit = defineEmits(['close'])
@@ -166,5 +172,31 @@
       transform: translateY(0);
       opacity: 1;
     }
+  }
+
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 200px;
+    padding: 20px;
+  }
+
+  .empty-icon {
+    width: 64px;
+    height: 64px;
+    transform: scaleX(1.25);
+    opacity: 0.4;
+  }
+
+  .empty-text {
+    font-family: 'NEXON Football Gothic';
+    font-weight: bold;
+    font-style: italic;
+    font-size: 1.75rem;
+    margin-right: 8px;
+    margin-top: -8px;
+    color: #a0a0a0;
   }
 </style>

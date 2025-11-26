@@ -1,13 +1,17 @@
 <template>
-  <BaseModal :is-visible="isVisible" @close="close" max-width="1000px">
+  <input type="file" ref="fileInput" @change="handleFileChange" accept="image/*" style="display: none" />
+  <BaseModal
+    :is-visible="isVisible"
+    @close="close"
+    max-width="1000px"
+    :is-empty="displayedRecognizedGifts.length === 0 && !imageUrl && !isLoading"
+  >
     <template #header>
       <div class="modal-title">{{ t('giftRecognitionModal.title') }}</div>
     </template>
     <template #body>
       <div class="recognition-body">
         <LoadingOverlay :is-loading="isLoading" />
-
-        <input type="file" ref="fileInput" @change="handleFileChange" accept="image/*" style="display: none" />
 
         <div v-show="imageUrl" class="preview-section">
           <div class="preview-header" @click="togglePreview">
