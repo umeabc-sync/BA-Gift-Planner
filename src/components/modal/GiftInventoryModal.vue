@@ -268,11 +268,11 @@
   }
 
   .recognition-button {
-    background-color: #4c9af4;
-    background-image: linear-gradient(to bottom right, #3b8cf9 0%, transparent 50%),
-      linear-gradient(to top left, #3b8cf9 0%, transparent 50%);
+    background-color: #77ddff;
+    background-image: linear-gradient(to bottom right, #63d0fd 0%, transparent 50%),
+      linear-gradient(to top left, #63d0fd 0%, transparent 50%);
     border: none;
-    color: #fff;
+    color: #314665;
     cursor: pointer;
     border-radius: 12px;
     height: 42px;
@@ -297,9 +297,10 @@
   }
 
   .dark-mode .recognition-button {
-    background-color: #58a6e5;
-    background-image: linear-gradient(to bottom right, #2f8ee4 0%, transparent 50%),
-      linear-gradient(to top left, #2f8ee4 0%, transparent 50%);
+    background-color: #00aeef;
+    background-image: linear-gradient(to bottom right, #09a4f2 0%, transparent 50%),
+      linear-gradient(to top left, #09a4f2 0%, transparent 50%);
+    color: #e0f4ff;
   }
 
   .recognition-button > span {

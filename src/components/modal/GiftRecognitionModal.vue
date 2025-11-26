@@ -698,19 +698,19 @@
     filter: grayscale(0.5);
   }
 
-  /* Cancel Button (Grey) */
+  /* Cancel Button */
   .btn-cancel {
-    background-color: #e0e0e0;
-    background-image: linear-gradient(to bottom right, #f0f0f0 0%, transparent 50%),
-      linear-gradient(to top left, #f0f0f0 0%, transparent 50%);
-    color: #333;
+    background-color: #daedf4;
+    background-image: linear-gradient(to bottom right, #c9e1ed 0%, transparent 50%),
+      linear-gradient(to top left, #c9e1ed 0%, transparent 50%);
+    color: #314665;
   }
 
   .dark-mode .btn-cancel {
-    background-color: #4b5563;
-    background-image: linear-gradient(to bottom right, #6b7280 0%, transparent 50%),
-      linear-gradient(to top left, #6b7280 0%, transparent 50%);
-    color: #e0f4ff;
+    background-color: #3d4852;
+    background-image: linear-gradient(to bottom right, #2d3748 0%, transparent 50%),
+      linear-gradient(to top left, #2d3748 0%, transparent 50%);
+    color: #9ca3af;
   }
 
   /* Upload Button (Yellow - from Inventory) */
