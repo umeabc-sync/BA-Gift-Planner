@@ -151,7 +151,7 @@
   },
   "giftInventoryModal": {
     "title": "贈り物一覧",
-    "recognize": "スクリーンショットから認識"
+    "recognize": "画像認識"
   },
   "giftRecognitionModal": {
     "title": "ギフト認識",

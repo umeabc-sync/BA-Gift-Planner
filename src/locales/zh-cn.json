@@ -151,7 +151,7 @@
   },
   "giftInventoryModal": {
     "title": "礼物库存",
-    "recognize": "从截图中识别"
+    "recognize": "截图识别"
   },
   "giftRecognitionModal": {
     "title": "礼物识别",

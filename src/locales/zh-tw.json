@@ -151,7 +151,7 @@
   },
   "giftInventoryModal": {
     "title": "禮物庫存",
-    "recognize": "從截圖中識別"
+    "recognize": "截圖識別"
   },
   "giftRecognitionModal": {
     "title": "禮物識別",
