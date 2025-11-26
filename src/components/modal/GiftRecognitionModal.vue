@@ -4,6 +4,7 @@
     :is-visible="isVisible"
     @close="close"
     max-width="1000px"
+    min-body-height="65vh"
     :is-empty="displayedRecognizedGifts.length === 0 && !imageUrl && !isLoading"
   >
     <template #header>

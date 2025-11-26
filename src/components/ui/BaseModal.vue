@@ -10,7 +10,7 @@
             <button class="close-button" @click="closeModal">×</button>
           </div>
           <div class="modal-body">
-            <div v-if="isEmpty" class="empty-state">
+            <div v-if="isEmpty" class="empty-state" :style="emptyStateStyle">
               <warningIcon class="empty-icon" />
               <p class="empty-text">EMPTY</p>
             </div>
@@ -33,6 +33,7 @@
   const props = defineProps({
     isVisible: { type: Boolean, default: false },
     maxWidth: { type: String, default: '800px' },
+    minBodyHeight: { type: String, default: '200px' },
     isEmpty: { type: Boolean, default: false },
   })
 
@@ -47,6 +48,10 @@
 
   const contentStyle = computed(() => ({
     '--max-width': props.maxWidth,
+  }))
+
+  const emptyStateStyle = computed(() => ({
+    minHeight: props.minBodyHeight,
   }))
 </script>
 
@@ -179,8 +184,8 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    min-height: 200px;
     padding: 20px;
+    height: 100%;
   }
 
   .empty-icon {
