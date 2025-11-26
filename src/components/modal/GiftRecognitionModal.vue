@@ -51,7 +51,6 @@ import { useI18n } from '@/composables/useI18n.js';
 import BaseModal from '@components/ui/BaseModal.vue';
 import LoadingOverlay from '@components/utility/LoadingOverlay.vue';
 import * as ort from 'onnxruntime-web';
-import * as Jimp from 'jimp';
 import { createWorker } from 'tesseract.js';
 import { useSrGiftData } from '@/utils/fetchSrGiftData.js';
 import { useSsrGiftData } from '@/utils/fetchSsrGiftData.js';
@@ -133,18 +132,30 @@ onMounted(async () => {
   }
 });
 
-// Helper function to convert Image to Jimp object
-const imageToJimp = async (imageFile) => {
-  const arrayBuffer = await imageFile.arrayBuffer();
-  return await Jimp.default.read(Buffer.from(arrayBuffer));
-};
-
-const recognizeQuantity = async (jimpImage) => {
+const recognizeQuantity = async (imageBitmap) => {
   try {
-    // Binarization for better OCR results
-    jimpImage.grayscale().contrast(1).autocrop(false).threshold({ max: 128 }); // Adjust threshold as needed
+    const canvas = new OffscreenCanvas(imageBitmap.width, imageBitmap.height);
+    const ctx = canvas.getContext('2d');
+    
+    // Draw image and apply filters for better OCR
+    ctx.filter = 'grayscale(1) contrast(1.5)';
+    ctx.drawImage(imageBitmap, 0, 0);
 
-    const { data: { text } } = await tesseractWorker.value.recognize(jimpImage.getBase64Async(Jimp.MIME_PNG));
+    // Manual thresholding (binarization)
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    const data = imageData.data;
+    for (let i = 0; i < data.length; i += 4) {
+      // Since it's grayscale, R, G, and B are the same.
+      const brightness = data[i];
+      const threshold = 128;
+      const value = brightness < threshold ? 0 : 255;
+      data[i] = value;
+      data[i + 1] = value;
+      data[i + 2] = value;
+    }
+    ctx.putImageData(imageData, 0, 0);
+
+    const { data: { text } } = await tesseractWorker.value.recognize(canvas);
     
     // Clean up OCR text (remove 'x' and non-numeric characters)
     const cleanedText = text.replace(/[^0-9]/g, '');
@@ -168,8 +179,8 @@ const runObjectDetection = async (imageFile) => {
   isLoading.value = true;
   recognizedGifts.value = [];
   try {
-    const originalJimpImage = await imageToJimp(imageFile);
-    const [input, imgWidth, imgHeight] = await prepareImageForInference(imageFile);
+    const originalImageBitmap = await createImageBitmap(imageFile);
+    const [input, imgWidth, imgHeight] = await prepareImageForInference(originalImageBitmap);
     const feeds = { images: input };
     const results = await onnxSession.value.run(feeds);
     const output = results['output0'].data;
@@ -178,8 +189,8 @@ const runObjectDetection = async (imageFile) => {
 
     for (const detection of detections) {
       const [x1, y1, x2, y2] = detection.box;
-      const croppedImage = originalJimpImage.clone().crop(x1, y1, x2 - x1, y2 - y1);
-      const quantity = await recognizeQuantity(croppedImage);
+      const croppedBitmap = await createImageBitmap(originalImageBitmap, x1, y1, x2 - x1, y2 - y1);
+      const quantity = await recognizeQuantity(croppedBitmap);
 
       // Assuming classId 0 maps to a generic gift type for now.
       // In a real scenario, you'd map classId to actual gift IDs.
@@ -200,23 +211,23 @@ const runObjectDetection = async (imageFile) => {
   }
 };
 
-const prepareImageForInference = async (imageFile) => {
+const prepareImageForInference = async (imageBitmap) => {
   const [w, h] = [640, 640]; // YOLOv5 input size
-
-  const img = await Jimp.default.read(URL.createObjectURL(imageFile));
-  const imgWidth = img.bitmap.width;
-  const imgHeight = img.bitmap.height;
-
-  // Resize image to fit YOLOv5 input size, maintaining aspect ratio
-  img.resize(w, h);
+  const imgWidth = imageBitmap.width;
+  const imgHeight = imageBitmap.height;
+  
+  const canvas = new OffscreenCanvas(w, h);
+  const ctx = canvas.getContext('2d');
+  ctx.drawImage(imageBitmap, 0, 0, w, h);
+  const imageData = ctx.getImageData(0, 0, w, h).data;
 
   // Convert to RGB and normalize
   const [R, G, B] = [[], [], []];
-  img.scan(0, 0, img.bitmap.width, img.bitmap.height, (x, y, idx) => {
-    R.push(img.bitmap.data[idx + 0] / 255.0);
-    G.push(img.bitmap.data[idx + 1] / 255.0);
-    B.push(img.bitmap.data[idx + 2] / 255.0);
-  });
+  for (let i = 0; i < imageData.length; i += 4) {
+    R.push(imageData[i] / 255.0);
+    G.push(imageData[i+1] / 255.0);
+    B.push(imageData[i+2] / 255.0);
+  }
 
   const input = new Float32Array(1 * 3 * w * h);
   for (let i = 0; i < w * h; i++) {

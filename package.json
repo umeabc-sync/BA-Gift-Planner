@@ -18,7 +18,6 @@
     "eslint": "^9.33.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-vue": "^10.4.0",
-    "jimp": "^1.6.0",
     "modern-screenshot": "^4.6.6",
     "onnxruntime-web": "^1.23.2",
     "overlayscrollbars": "^2.12.0",
