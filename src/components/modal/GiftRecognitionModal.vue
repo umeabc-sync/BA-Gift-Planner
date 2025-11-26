@@ -1,5 +1,5 @@
 <template>
-  <BaseModal :is-visible="isVisible" @close="close" max-width="800px">
+  <BaseModal :is-visible="isVisible" @close="close" max-width="1000px">
     <template #header>
       <div class="modal-title">{{ t('giftRecognitionModal.title') }}</div>
     </template>
@@ -11,27 +11,43 @@
           <input type="file" ref="fileInput" @change="handleFileChange" accept="image/*" style="display: none" />
         </div>
         <div v-if="imageUrl" class="image-preview">
-          <img :src="imageUrl" alt="Image Preview" />
+          <img :src="imageUrl" alt="Image Preview" ref="previewImage" @load="onImageLoad" />
+          <canvas ref="previewCanvas" class="preview-canvas"></canvas>
         </div>
 
         <div v-if="displayedRecognizedGifts.length > 0" class="recognized-gifts-list">
           <div v-for="gift in displayedRecognizedGifts" :key="gift.key" class="recognized-gift-wrapper">
-            <div class="gift-grid-item" :class="[gift.isSsr ? 'gift-purple' : 'gift-yellow']">
-              <ImageWithLoader
-                :src="getGiftUrl(gift.id, gift.isSsr)"
-                class="gift-icon"
-                object-fit="contain"
-                loader-type="pulse"
-                :inherit-background="false"
+            <div class="main-content">
+              <div class="gift-grid-item" :class="[gift.isSsr ? 'gift-purple' : 'gift-yellow']">
+                <ImageWithLoader
+                  :src="getGiftUrl(gift.id, gift.isSsr)"
+                  class="gift-icon"
+                  object-fit="contain"
+                  loader-type="pulse"
+                  :inherit-background="false"
+                />
+                <div class="gift-icon-bg"></div>
+                <div class="gift-name">{{ gift.name }}</div>
+              </div>
+              <QuantityControl
+                :value="gift.quantity"
+                @update:value="(value) => (gift.quantity = value)"
+                :use-continuous="true"
               />
-              <div class="gift-icon-bg"></div>
-              <div class="gift-name">{{ gift.name }}</div>
             </div>
-            <QuantityControl
-              :value="gift.quantity"
-              @update:value="(value) => (gift.quantity = value)"
-              :use-continuous="true"
-            />
+            <div class="debug-section">
+              <div class="debug-image">
+                <p>Cropped</p>
+                <img v-if="gift.croppedImage" :src="gift.croppedImage" alt="Cropped" />
+              </div>
+              <div class="debug-image">
+                <p>OCR Input</p>
+                <img v-if="gift.processedImage" :src="gift.processedImage" alt="Processed for OCR" />
+              </div>
+              <div class="debug-text">
+                <p>Raw OCR: <code>{{ gift.rawText }}</code></p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -46,7 +62,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed, onUnmounted } from 'vue';
 import { useI18n } from '@/composables/useI18n.js';
 import BaseModal from '@components/ui/BaseModal.vue';
 import LoadingOverlay from '@components/utility/LoadingOverlay.vue';
@@ -74,6 +90,9 @@ const fileInput = ref(null);
 const onnxSession = ref(null);
 const recognizedGifts = ref([]); // Stores raw detections + OCR quantity
 const tesseractWorker = ref(null);
+
+const previewImage = ref(null);
+const previewCanvas = ref(null);
 
 const { data: srGifts } = useSrGiftData(locale);
 const { data: ssrGifts } = useSsrGiftData(locale);
@@ -114,6 +133,21 @@ const displayedRecognizedGifts = computed(() => {
       return null;
     })
     .filter(Boolean); // Remove null entries
+});
+
+const onImageLoad = () => {
+    if (previewImage.value && previewCanvas.value) {
+        const img = previewImage.value;
+        const canvas = previewCanvas.value;
+        canvas.width = img.clientWidth;
+        canvas.height = img.clientHeight;
+
+        window.addEventListener('resize', onImageLoad);
+    }
+};
+
+onUnmounted(() => {
+    window.removeEventListener('resize', onImageLoad);
 });
 
 onMounted(async () => {
@@ -178,12 +212,21 @@ function float32ToFloat16(float32Value) {
 
 const recognizeQuantity = async (imageBitmap) => {
   try {
-    const canvas = new OffscreenCanvas(imageBitmap.width, imageBitmap.height);
+    const originalCanvas = new OffscreenCanvas(imageBitmap.width, imageBitmap.height);
+    originalCanvas.getContext('2d').drawImage(imageBitmap, 0, 0);
+    const croppedImage = await originalCanvas.convertToBlob().then(blob => URL.createObjectURL(blob));
+
+    // Crop to bottom-right for quantity
+    const w = imageBitmap.width;
+    const h = imageBitmap.height;
+    const quantityBitmap = await createImageBitmap(imageBitmap, w * 2 / 3, h * 3 / 4, w / 3, h / 4);
+
+    const canvas = new OffscreenCanvas(quantityBitmap.width, quantityBitmap.height);
     const ctx = canvas.getContext('2d');
     
     // Draw image and apply filters for better OCR
     ctx.filter = 'grayscale(1) contrast(1.5)';
-    ctx.drawImage(imageBitmap, 0, 0);
+    ctx.drawImage(quantityBitmap, 0, 0);
 
     // Manual thresholding (binarization)
     const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
@@ -199,14 +242,21 @@ const recognizeQuantity = async (imageBitmap) => {
     }
     ctx.putImageData(imageData, 0, 0);
 
+    const processedImage = await canvas.convertToBlob().then(blob => URL.createObjectURL(blob));
     const { data: { text } } = await tesseractWorker.value.recognize(canvas);
     
-    // Clean up OCR text (remove 'x' and non-numeric characters)
     const cleanedText = text.replace(/[^0-9]/g, '');
-    return parseInt(cleanedText) || 0;
+    const quantity = parseInt(cleanedText) || 0;
+
+    return {
+      quantity,
+      rawText: text,
+      croppedImage,
+      processedImage,
+    };
   } catch (error) {
     console.error('Error during OCR:', error);
-    return 0;
+    return { quantity: 0, rawText: `Error: ${error.message}`, croppedImage: null, processedImage: null };
   }
 };
 
@@ -235,13 +285,28 @@ const runObjectDetection = async (imageFile) => {
 
     const detections = processOutput(output, imgWidth, imgHeight);
 
+    const canvas = previewCanvas.value;
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = '#ef4444';
+
+    const scaleX = canvas.width / originalImageBitmap.width;
+    const scaleY = canvas.height / originalImageBitmap.height;
+
     for (const detection of detections) {
       const [x1, y1, x2, y2] = detection.box;
+
+      const dispX = x1 * scaleX;
+      const dispY = y1 * scaleY;
+      const dispW = (x2 - x1) * scaleX;
+      const dispH = (y2 - y1) * scaleY;
+      ctx.strokeRect(dispX, dispY, dispW, dispH);
       
       if (x2 - x1 <= 0 || y2 - y1 <= 0) continue;
 
       const croppedBitmap = await createImageBitmap(originalImageBitmap, x1, y1, x2 - x1, y2 - y1);
-      const quantity = await recognizeQuantity(croppedBitmap);
+      const ocrResult = await recognizeQuantity(croppedBitmap);
 
       const className = classNames.value[detection.classId];
       if (!className) continue;
@@ -263,7 +328,10 @@ const runObjectDetection = async (imageFile) => {
       recognizedGifts.value.push({
         giftId,
         isSsr,
-        quantity: quantity,
+        quantity: ocrResult.quantity,
+        rawText: ocrResult.rawText,
+        croppedImage: ocrResult.croppedImage,
+        processedImage: ocrResult.processedImage,
         box: detection.box,
       });
     }
@@ -303,7 +371,7 @@ const prepareImageForInference = async (imageBitmap) => {
 
 const processOutput = (output, imgWidth, imgHeight) => {
   const detections = [];
-  const confidenceThreshold = 0.8;
+  const confidenceThreshold = 0.25;
   const iouThreshold = 0.45;
   const numClasses = classNames.value.length;
   if (numClasses === 0) return [];
@@ -347,6 +415,8 @@ const processOutput = (output, imgWidth, imgHeight) => {
     }
   }
 
+  console.log('detections:', detections);
+
   // Apply Non-Maximum Suppression (NMS)
   return nms(detections, iouThreshold);
 };
@@ -374,6 +444,9 @@ const nms = (boxes, iouThreshold) => {
       }
     }
   }
+
+  console.log('selectedBoxes:', selectedBoxes);
+
   return selectedBoxes;
 };
 
@@ -397,9 +470,16 @@ const calculateIoU = (box1, box2) => {
 const handleFileChange = async (event) => {
   const file = event.target.files[0];
   if (file) {
+    if (imageUrl.value) {
+        URL.revokeObjectURL(imageUrl.value);
+    }
+    displayedRecognizedGifts.value.forEach(gift => {
+        if (gift.croppedImage) URL.revokeObjectURL(gift.croppedImage);
+        if (gift.processedImage) URL.revokeObjectURL(gift.processedImage);
+    });
+
     imageUrl.value = URL.createObjectURL(file);
-    const detections = await runObjectDetection(file);
-    console.log('Detections:', detections);
+    await runObjectDetection(file);
   }
 };
 
@@ -413,6 +493,10 @@ const close = () => {
     URL.revokeObjectURL(imageUrl.value);
     imageUrl.value = null;
   }
+  displayedRecognizedGifts.value.forEach(gift => {
+      if (gift.croppedImage) URL.revokeObjectURL(gift.croppedImage);
+      if (gift.processedImage) URL.revokeObjectURL(gift.processedImage);
+  });
   if (tesseractWorker.value) {
     tesseractWorker.value.terminate();
     tesseractWorker.value = null;
@@ -460,13 +544,17 @@ const confirm = () => {
 }
 
 .image-preview {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  display: grid;
+  place-items: center;
   border: 2px dashed #ccc;
   border-radius: 8px;
   padding: 10px;
   max-height: 400px;
+}
+
+.image-preview > * {
+  grid-column: 1 / 1;
+  grid-row: 1 / 1;
 }
 
 .image-preview img {
@@ -475,11 +563,19 @@ const confirm = () => {
   object-fit: contain;
 }
 
+.preview-canvas {
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
 .recognized-gifts-list {
   display: flex;
   flex-direction: column;
   gap: 15px;
   padding: 10px 0;
+  max-height: 50vh;
+  overflow-y: auto;
 }
 
 .recognized-gift-wrapper {
@@ -488,14 +584,21 @@ const confirm = () => {
   padding: 15px;
   border: 2px solid #dee2e6;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
   gap: 15px;
 }
 
 .dark-mode .recognized-gift-wrapper {
   background: #1f3048;
   border-color: #2a4a6e;
+}
+
+.main-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    width: 100%;
 }
 
 .gift-grid-item {
@@ -593,6 +696,50 @@ const confirm = () => {
 .dark-mode .gift-grid-item .gift-name {
   background: rgba(223, 227, 231, 0.95);
   color: #201e2e;
+}
+
+.debug-section {
+    display: flex;
+    gap: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #dee2e6;
+    margin-top: 1rem;
+    align-items: center;
+}
+
+.dark-mode .debug-section {
+    border-top-color: #2a4a6e;
+}
+
+.debug-image {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: center;
+    font-size: 0.8rem;
+}
+
+.debug-image img {
+    max-width: 100px;
+    border: 1px solid #ccc;
+    background: #fff;
+}
+
+.debug-text {
+    font-size: 0.9rem;
+    word-break: break-all;
+}
+
+.debug-text code {
+    background: #f0f0f0;
+    padding: 2px 4px;
+    border-radius: 4px;
+    color: #c7254e;
+}
+
+.dark-mode .debug-text code {
+    background: #111e2e;
+    color: #ff7b72;
 }
 
 .recognition-footer {
