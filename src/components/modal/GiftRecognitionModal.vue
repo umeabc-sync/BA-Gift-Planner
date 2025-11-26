@@ -132,6 +132,48 @@ onMounted(async () => {
   }
 });
 
+function float32ToFloat16(float32Value) {
+    const float32Buffer = new ArrayBuffer(4);
+    const float32View = new DataView(float32Buffer);
+    float32View.setFloat32(0, float32Value, true);
+    const f32 = float32View.getUint32(0, true);
+
+    let sign = (f32 >> 31);
+    let exp = (f32 >> 23) & 0xFF;
+    let mant = f32 & 0x7FFFFF;
+
+    let f16 = 0;
+
+    if (exp === 0 && mant === 0) {
+        f16 = sign << 15;
+    } else if (exp === 0xFF) {
+        if (mant === 0) {
+            f16 = (sign << 15) | 0x7C00;
+        } else {
+            f16 = (sign << 15) | 0x7C00 | (mant ? 0x0200 : 0);
+        }
+    } else {
+        exp = exp - 127 + 15;
+
+        if (exp >= 0x1F) {
+            f16 = (sign << 15) | 0x7C00;
+        } else if (exp <= 0) {
+            if (exp < -10) {
+                f16 = sign << 15;
+            } else {
+                mant = mant | 0x800000;
+                let shift = 1 - exp;
+                mant = mant >> shift;
+                f16 = (sign << 15) | mant;
+            }
+        } else {
+            f16 = (sign << 15) | (exp << 10) | (mant >> 13);
+        }
+    }
+
+    return f16;
+}
+
 const recognizeQuantity = async (imageBitmap) => {
   try {
     const canvas = new OffscreenCanvas(imageBitmap.width, imageBitmap.height);
@@ -212,31 +254,27 @@ const runObjectDetection = async (imageFile) => {
 };
 
 const prepareImageForInference = async (imageBitmap) => {
-  const [w, h] = [640, 640]; // YOLOv5 input size
+  const [w, h] = [640, 640];
   const imgWidth = imageBitmap.width;
   const imgHeight = imageBitmap.height;
-  
+
   const canvas = new OffscreenCanvas(w, h);
   const ctx = canvas.getContext('2d');
   ctx.drawImage(imageBitmap, 0, 0, w, h);
   const imageData = ctx.getImageData(0, 0, w, h).data;
 
-  // Convert to RGB and normalize
-  const [R, G, B] = [[], [], []];
-  for (let i = 0; i < imageData.length; i += 4) {
-    R.push(imageData[i] / 255.0);
-    G.push(imageData[i+1] / 255.0);
-    B.push(imageData[i+2] / 255.0);
-  }
-
-  const input = new Float32Array(1 * 3 * w * h);
+  const uint16Data = new Uint16Array(1 * 3 * w * h);
   for (let i = 0; i < w * h; i++) {
-    input[i] = R[i];
-    input[i + w * h] = G[i];
-    input[i + 2 * w * h] = B[i];
+    const r = imageData[i * 4 + 0] / 255.0;
+    const g = imageData[i * 4 + 1] / 255.0;
+    const b = imageData[i * 4 + 2] / 255.0;
+    
+    uint16Data[i] = float32ToFloat16(r);
+    uint16Data[i + w * h] = float32ToFloat16(g);
+    uint16Data[i + 2 * w * h] = float32ToFloat16(b);
   }
 
-  return [new ort.Tensor('float32', input, [1, 3, h, w]), imgWidth, imgHeight];
+  return [new ort.Tensor('float16', uint16Data, [1, 3, h, w]), imgWidth, imgHeight];
 };
 
 const processOutput = (output, imgWidth, imgHeight) => {
