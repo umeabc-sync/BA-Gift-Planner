@@ -132,39 +132,38 @@ function float32ToFloat16(float32Value) {
     return f16;
 }
 
-// Class-aware NMS
 function nms(boxes, iouThreshold) {
   if (boxes.length === 0) return [];
 
-  const classGroups = boxes.reduce((groups, box) => {
-    if (!groups[box.classId]) {
-      groups[box.classId] = [];
+  // 1. Group by class and find the best candidate for each class based on confidence
+  const bestCandidatePerClass = boxes.reduce((groups, box) => {
+    if (!groups[box.classId] || box.confidence > groups[box.classId].confidence) {
+      groups[box.classId] = box;
     }
-    groups[box.classId].push(box);
     return groups;
   }, {});
+  
+  const bestCandidates = Object.values(bestCandidatePerClass);
 
-  const selectedBoxes = [];
-  for (const classId in classGroups) {
-    const group = classGroups[classId];
-    group.sort((a, b) => b.confidence - a.confidence);
+  // 2. Run a final class-agnostic NMS on these best candidates to resolve spatial conflicts
+  bestCandidates.sort((a, b) => b.confidence - a.confidence);
 
-    const suppressed = new Array(group.length).fill(false);
+  const finalBoxes = [];
+  const suppressed = new Array(bestCandidates.length).fill(false);
 
-    for (let i = 0; i < group.length; i++) {
-      if (suppressed[i]) continue;
-      selectedBoxes.push(group[i]);
-      for (let j = i + 1; j < group.length; j++) {
-        if (suppressed[j]) continue;
-        const iou = calculateIoU(group[i].box, group[j].box);
-        if (iou > iouThreshold) {
-          suppressed[j] = true;
-        }
+  for (let i = 0; i < bestCandidates.length; i++) {
+    if (suppressed[i]) continue;
+    finalBoxes.push(bestCandidates[i]);
+    for (let j = i + 1; j < bestCandidates.length; j++) {
+      if (suppressed[j]) continue;
+      const iou = calculateIoU(bestCandidates[i].box, bestCandidates[j].box);
+      if (iou > iouThreshold) {
+        suppressed[j] = true;
       }
     }
   }
   
-  return selectedBoxes;
+  return finalBoxes;
 }
 
 function calculateIoU(box1, box2) {
