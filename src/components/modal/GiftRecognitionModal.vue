@@ -9,51 +9,58 @@
 
         <input type="file" ref="fileInput" @change="handleFileChange" accept="image/*" style="display: none" />
 
-        <div class="image-preview-container" v-show="imageUrl">
-          <div class="image-wrapper">
-            <img :src="imageUrl" alt="Image Preview" ref="previewImage" @load="onImageLoad" />
-            <canvas ref="previewCanvas" class="preview-canvas"></canvas>
+        <div v-show="imageUrl" class="preview-section">
+          <div class="preview-header" @click="togglePreview">
+            <span class="preview-title">{{ t('giftRecognitionModal.imagePreview') || 'Image Preview' }}</span>
+            <span class="toggle-icon" :class="{ 'is-collapsed': !isPreviewExpanded }">▼</span>
           </div>
-        </div>
 
-        <div v-if="!imageUrl" class="empty-state">
-          <p>{{ t('giftRecognitionModal.uploadHint') || 'Please upload an image to start recognition' }}</p>
-        </div>
-
-        <div v-if="displayedRecognizedGifts.length > 0" class="recognized-gifts-list">
-          <div v-for="gift in displayedRecognizedGifts" :key="gift.key" class="recognized-gift-wrapper">
-            <div class="main-content">
-              <div class="gift-grid-item" :class="[gift.isSsr ? 'gift-purple' : 'gift-yellow']">
-                <ImageWithLoader
-                  :src="getGiftUrl(gift.id, gift.isSsr)"
-                  class="gift-icon"
-                  object-fit="contain"
-                  loader-type="pulse"
-                  :inherit-background="false"
-                />
-                <div class="gift-icon-bg"></div>
-                <div class="gift-name">{{ gift.name }}</div>
+          <transition name="expand">
+            <div class="image-preview-container" v-show="isPreviewExpanded">
+              <div class="image-wrapper">
+                <img :src="imageUrl" alt="Image Preview" ref="previewImage" @load="onImageLoad" />
+                <canvas ref="previewCanvas" class="preview-canvas"></canvas>
               </div>
-              <QuantityControl
-                :value="gift.quantity"
-                @update:value="(value) => (gift.quantity = value)"
-                :use-continuous="true"
-              />
             </div>
+          </transition>
+        </div>
 
-            <div v-if="isDebugMode" class="debug-section">
-              <div class="debug-image">
-                <p>Cropped</p>
-                <img v-if="gift.croppedImage" :src="gift.croppedImage" alt="Cropped" />
+        <div v-if="displayedRecognizedGifts.length > 0" class="scrollable-list-container">
+          <div class="recognized-gifts-grid">
+            <div v-for="gift in displayedRecognizedGifts" :key="gift.key" class="recognized-gift-wrapper">
+              <div class="main-content">
+                <div class="gift-grid-item" :class="[gift.isSsr ? 'gift-purple' : 'gift-yellow']">
+                  <ImageWithLoader
+                    :src="getGiftUrl(gift.id, gift.isSsr)"
+                    class="gift-icon"
+                    object-fit="contain"
+                    loader-type="pulse"
+                    :inherit-background="false"
+                  />
+                  <div class="gift-icon-bg"></div>
+                  <div class="gift-name">{{ gift.name }}</div>
+                </div>
+                <QuantityControl
+                  :value="gift.quantity"
+                  @update:value="(value) => (gift.quantity = value)"
+                  :use-continuous="true"
+                />
               </div>
-              <div class="debug-image">
-                <p>OCR Input</p>
-                <img v-if="gift.processedImage" :src="gift.processedImage" alt="Processed for OCR" />
-              </div>
-              <div class="debug-text">
-                <p>
-                  Raw OCR: <code>{{ gift.rawText }}</code>
-                </p>
+
+              <div v-if="isDebugMode" class="debug-section">
+                <div class="debug-image">
+                  <p>Cropped</p>
+                  <img v-if="gift.croppedImage" :src="gift.croppedImage" alt="Cropped" />
+                </div>
+                <div class="debug-image">
+                  <p>OCR Input</p>
+                  <img v-if="gift.processedImage" :src="gift.processedImage" alt="Processed for OCR" />
+                </div>
+                <div class="debug-text">
+                  <p>
+                    Raw OCR: <code>{{ gift.rawText }}</code>
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -93,7 +100,8 @@
   import { useGiftStore } from '@/store/gift'
   import { preprocess, postprocess } from '@/utils/yolo-v5-utils.js'
 
-  const isDebugMode = ref(false) // Change to true to enable debugging mode
+  const isDebugMode = ref(false)
+  const isPreviewExpanded = ref(true)
 
   const props = defineProps({
     isVisible: { type: Boolean, default: false },
@@ -200,6 +208,10 @@
       .sort((a, b) => b.confidence - a.confidence)
   })
 
+  const togglePreview = () => {
+    isPreviewExpanded.value = !isPreviewExpanded.value
+  }
+
   // Ensure canvas resolution matches the original image resolution to solve alignment issues
   const onImageLoad = () => {
     if (previewImage.value && previewCanvas.value) {
@@ -288,6 +300,9 @@
 
     isLoading.value = true
     recognizedGifts.value = []
+
+    isPreviewExpanded.value = true
+
     try {
       const originalImageBitmap = await createImageBitmap(imageFile)
 
@@ -415,33 +430,91 @@
 <style scoped>
   .recognition-body {
     position: relative;
-    padding: 20px;
-    min-height: 300px;
+    padding: 20px 0 20px 20px;
+    height: 65vh;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 15px;
+    overflow: hidden;
   }
 
-  .empty-state {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 200px;
-    border: 2px dashed #ccc;
+  /* --- Preview Section Styles --- */
+  .preview-section {
+    flex-shrink: 0;
+    border: 1px solid #ddd;
     border-radius: 8px;
-    color: #888;
+    overflow: hidden;
+    background-color: #f9f9f9;
+    display: flex;
+    flex-direction: column;
+    margin-right: 20px; /* Restore the right margin because the right padding of .recognition-body is missing */
   }
 
-  .dark-mode .empty-state {
-    border-color: #444;
-    color: #aaa;
+  .dark-mode .preview-section {
+    background-color: #1a2634;
+    border-color: #2a4a6e;
   }
 
-  /* Preview area container */
+  .preview-header {
+    padding: 10px 15px;
+    background-color: #eee;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    user-select: none;
+    font-weight: bold;
+    color: #444;
+    transition: background-color 0.2s;
+  }
+
+  .dark-mode .preview-header {
+    background-color: #2d3748;
+    color: #e0f4ff;
+  }
+
+  .preview-header:hover {
+    background-color: #e0e0e0;
+  }
+
+  .dark-mode .preview-header:hover {
+    background-color: #3b485d;
+  }
+
+  .toggle-icon {
+    font-size: 0.8rem;
+    transition: transform 0.3s ease;
+  }
+
+  .toggle-icon.is-collapsed {
+    transform: rotate(-90deg);
+  }
+
   .image-preview-container {
     display: flex;
     justify-content: center;
     width: 100%;
+    padding: 10px;
+    background-color: #fff;
+  }
+
+  .dark-mode .image-preview-container {
+    background-color: #1f3048;
+  }
+
+  .expand-enter-active,
+  .expand-leave-active {
+    transition: all 0.3s ease;
+    max-height: 60vh;
+    opacity: 1;
+    overflow: hidden;
+  }
+
+  .expand-enter-from,
+  .expand-leave-to {
+    max-height: 0;
+    opacity: 0;
+    padding: 0 10px;
   }
 
   /* Image wrapper: ensures Canvas absolute positioning is relative to this image */
@@ -449,11 +522,12 @@
     position: relative;
     max-width: 100%;
     /* Limit max height to prevent long images from breaking the layout */
-    max-height: 50vh;
+    max-height: 40vh;
     border: 2px dashed #ccc;
     border-radius: 8px;
-    padding: 5px; /* Inner spacing, so the dashed border doesn't stick to the image */
+    padding: 5px;
     display: inline-block; /* Make the container size wrap its content */
+    overflow: hidden;
   }
 
   .dark-mode .image-wrapper {
@@ -463,28 +537,37 @@
   .image-wrapper img {
     display: block;
     max-width: 100%;
-    max-height: 48vh; /* Slightly smaller than the container, accounting for padding */
+    max-height: 38vh;
     height: auto;
     object-fit: contain;
+    border-radius: 4px;
   }
 
   .preview-canvas {
     position: absolute;
-    top: 5px; /* Corresponds to .image-wrapper's padding */
-    left: 5px; /* Corresponds to .image-wrapper's padding */
-    width: calc(100% - 10px); /* Subtract padding */
-    height: calc(100% - 10px); /* Subtract padding */
+    top: 5px;
+    left: 5px;
+    width: calc(100% - 10px);
+    height: calc(100% - 10px);
     pointer-events: none;
     z-index: 10;
+    border-radius: 4px;
   }
 
-  .recognized-gifts-list {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    padding: 10px 0;
-    max-height: 40vh;
+  /* --- Scrollable List Container --- */
+  .scrollable-list-container {
+    flex-grow: 1;
     overflow-y: auto;
+    min-height: 0;
+    padding-right: 20px; /* Add padding here to prevent the grid content from pasting onto the scrollbar */
+  }
+
+  /* Grid Layout */
+  .recognized-gifts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 15px;
+    padding-bottom: 10px;
   }
 
   .recognized-gift-wrapper {
@@ -495,6 +578,7 @@
     display: flex;
     flex-direction: column;
     gap: 15px;
+    height: fit-content;
   }
 
   .dark-mode .recognized-gift-wrapper {
@@ -506,13 +590,13 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 15px;
+    gap: 10px;
     width: 100%;
   }
 
   .gift-grid-item {
-    width: 80px;
-    height: 80px;
+    width: 70px;
+    height: 70px;
     border-radius: 50%;
     display: grid;
     place-items: center;
