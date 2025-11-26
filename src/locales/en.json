@@ -51,7 +51,8 @@
     "disabled": "Disabled",
     "title": "Sensei Harem Tool",
     "edit": "Edit",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "confirm": "Confirm"
   },
   "dialog": {
     "notificationTitle": "Notification"
@@ -154,7 +155,8 @@
   },
   "giftRecognitionModal": {
     "title": "Gift Recognition",
-    "upload": "Upload Image"
+    "upload": "Upload Image",
+    "imagePreview": "Image Preview"
   },
   "toast": {
     "link_copied_to_clipboard": "Link copied to clipboard",

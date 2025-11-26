@@ -51,7 +51,8 @@
     "disabled": "禁用",
     "title": "Sensei 海王工具",
     "edit": "编辑",
-    "cancel": "取消"
+    "cancel": "取消",
+    "confirm": "确认"
   },
   "dialog": {
     "notificationTitle": "通知"
@@ -154,7 +155,8 @@
   },
   "giftRecognitionModal": {
     "title": "礼物识别",
-    "upload": "上传图片"
+    "upload": "上传图片",
+    "imagePreview": "图片预览"
   },
   "toast": {
     "link_copied_to_clipboard": "已将连结複製到剪贴簿",

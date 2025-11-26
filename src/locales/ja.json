@@ -51,7 +51,8 @@
     "disabled": "無効",
     "title": "Sensei ハーレムツール",
     "edit": "編集",
-    "cancel": "キャンセル"
+    "cancel": "キャンセル",
+    "confirm": "確認"
   },
   "dialog": {
     "notificationTitle": "通知"
@@ -154,7 +155,8 @@
   },
   "giftRecognitionModal": {
     "title": "ギフト認識",
-    "upload": "画像アップロード"
+    "upload": "画像アップロード",
+    "imagePreview": "画像プレビュー"
   },
   "toast": {
     "link_copied_to_clipboard": "リンクがクリップボードにコピーされました",
