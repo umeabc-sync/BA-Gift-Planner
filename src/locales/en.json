@@ -149,7 +149,12 @@
     }
   },
   "giftInventoryModal": {
-    "title": "Gift Inventory"
+    "title": "Gift Inventory",
+    "recognize": "Recognize from Screenshot"
+  },
+  "giftRecognitionModal": {
+    "title": "Gift Recognition",
+    "upload": "Upload Image"
   },
   "toast": {
     "link_copied_to_clipboard": "Link copied to clipboard",

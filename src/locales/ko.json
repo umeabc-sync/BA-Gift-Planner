@@ -149,7 +149,12 @@
     }
   },
   "giftInventoryModal": {
-    "title": "선물 인벤토리"
+    "title": "선물 인벤토리",
+    "recognize": "스크린샷으로 인식"
+  },
+  "giftRecognitionModal": {
+    "title": "선물 인식",
+    "upload": "이미지 업로드"
   },
   "toast": {
     "link_copied_to_clipboard": "링크가 클립보드에 복사되었습니다",

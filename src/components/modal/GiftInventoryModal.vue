@@ -34,9 +34,14 @@
     </template>
     <template #footer>
       <div class="gift-inventory-footer">
-        <button @click="convertGifts" class="convert-button" :class="{ 'no-to-convert': !canConvertSynthesisGifts }">
-          <span>{{ t('bondCalculator.convertToChoiceBox') }}</span>
-        </button>
+        <div class="footer-buttons">
+          <button @click="openRecognitionModal" class="recognition-button">
+            <span>{{ t('giftInventoryModal.recognize') }}</span>
+          </button>
+          <button @click="convertGifts" class="convert-button" :class="{ 'no-to-convert': !canConvertSynthesisGifts }">
+            <span>{{ t('bondCalculator.convertToChoiceBox') }}</span>
+          </button>
+        </div>
       </div>
       <BaseDialog
         :is-visible="isConfirmVisible"
@@ -45,6 +50,7 @@
         @close="isConfirmVisible = false"
         @ok="confirmConvert"
       />
+      <GiftRecognitionModal :is-visible="isRecognitionModalVisible" @close="isRecognitionModalVisible = false" />
     </template>
   </BaseModal>
 </template>
@@ -63,6 +69,7 @@
   import QuantityControl from '@components/ui/QuantityControl.vue'
   import BaseModal from '@components/ui/BaseModal.vue'
   import BaseDialog from '@components/ui/BaseDialog.vue'
+  import GiftRecognitionModal from './GiftRecognitionModal.vue'
 
   const { t, currentLocale: locale } = useI18n()
 
@@ -79,6 +86,11 @@
   const { totalAssigned } = storeToRefs(giftPlannerStore)
 
   const isConfirmVisible = ref(false)
+  const isRecognitionModalVisible = ref(false)
+
+  const openRecognitionModal = () => {
+    isRecognitionModalVisible.value = true
+  }
 
   const close = () => {
     emit('close')
@@ -247,6 +259,52 @@
 
   .gift-inventory-footer {
     padding: 15px 20px;
+  }
+
+  .footer-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+  }
+
+  .recognition-button {
+    background-color: #4c9af4;
+    background-image: linear-gradient(to bottom right, #3b8cf9 0%, transparent 50%),
+      linear-gradient(to top left, #3b8cf9 0%, transparent 50%);
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 12px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    transform: skew(-8deg);
+    box-shadow: 0 3px 2px rgba(0, 0, 0, 0.15);
+    font-family: inherit;
+    font-weight: bold;
+    font-size: 1rem;
+    padding: 0 25px;
+  }
+
+  .recognition-button:hover {
+    transform: translateY(-2px) skew(-8deg);
+  }
+
+  .recognition-button:active {
+    transform: scale(0.95) skew(-8deg);
+  }
+
+  .dark-mode .recognition-button {
+    background-color: #58a6e5;
+    background-image: linear-gradient(to bottom right, #2f8ee4 0%, transparent 50%),
+      linear-gradient(to top left, #2f8ee4 0%, transparent 50%);
+  }
+
+  .recognition-button > span {
+    transform: skew(8deg);
+    display: inline-block;
   }
 
   .convert-button {

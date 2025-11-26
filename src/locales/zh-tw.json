@@ -149,7 +149,12 @@
     }
   },
   "giftInventoryModal": {
-    "title": "禮物庫存"
+    "title": "禮物庫存",
+    "recognize": "從截圖中識別"
+  },
+  "giftRecognitionModal": {
+    "title": "禮物識別",
+    "upload": "上傳圖片"
   },
   "toast": {
     "link_copied_to_clipboard": "已將連結複製到剪貼簿",

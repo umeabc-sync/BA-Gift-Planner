@@ -149,7 +149,12 @@
     }
   },
   "giftInventoryModal": {
-    "title": "贈り物インベントリ"
+    "title": "贈り物一覧",
+    "recognize": "スクリーンショットから認識"
+  },
+  "giftRecognitionModal": {
+    "title": "ギフト認識",
+    "upload": "画像アップロード"
   },
   "toast": {
     "link_copied_to_clipboard": "リンクがクリップボードにコピーされました",

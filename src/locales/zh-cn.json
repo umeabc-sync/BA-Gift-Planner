@@ -149,7 +149,12 @@
     }
   },
   "giftInventoryModal": {
-    "title": "礼物库存"
+    "title": "礼物库存",
+    "recognize": "从截图中识别"
+  },
+  "giftRecognitionModal": {
+    "title": "礼物识别",
+    "upload": "上传图片"
   },
   "toast": {
     "link_copied_to_clipboard": "已将连结複製到剪贴簿",
