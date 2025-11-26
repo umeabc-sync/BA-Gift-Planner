@@ -74,6 +74,7 @@ import { getGiftUrl } from '@utils/getGiftUrl';
 import ImageWithLoader from '@components/ui/ImageWithLoader.vue';
 import QuantityControl from '@components/ui/QuantityControl.vue';
 import { useGiftStore } from '@/store/gift';
+import { preprocess, postprocess } from '@/utils/yolo-v5-utils.js';
 
 const props = defineProps({
   isVisible: { type: Boolean, default: false },
@@ -88,7 +89,7 @@ const isLoading = ref(false);
 const imageUrl = ref(null);
 const fileInput = ref(null);
 const onnxSession = ref(null);
-const recognizedGifts = ref([]); // Stores raw detections + OCR quantity
+const recognizedGifts = ref([]);
 const tesseractWorker = ref(null);
 
 const previewImage = ref(null);
@@ -99,10 +100,8 @@ const { data: ssrGifts } = useSsrGiftData(locale);
 
 const classNames = computed(() => {
   if (!srGifts.value || !ssrGifts.value) return [];
-  
   const srNames = srGifts.value.map(g => `favor_${g.id}`);
   const ssrNames = ssrGifts.value.map(g => `favor_ssr_${g.id}`);
-  
   return [...srNames, ...ssrNames].sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
 });
 
@@ -122,45 +121,42 @@ const displayedRecognizedGifts = computed(() => {
     .map(recGift => {
       const giftKey = `${recGift.isSsr ? 'ssr' : 'sr'}-${recGift.giftId}`;
       const giftDetails = allGiftsMap.value.get(giftKey);
-
       if (giftDetails) {
-        return {
-          ...recGift,
-          ...giftDetails,
-          quantity: Math.max(0, recGift.quantity), // Ensure quantity is non-negative
-        };
+        return { ...recGift, ...giftDetails, quantity: Math.max(0, recGift.quantity) };
       }
       return null;
     })
-    .filter(Boolean); // Remove null entries
+    .filter(Boolean)
+    .sort((a, b) => b.confidence - a.confidence);
 });
 
 const onImageLoad = () => {
-    if (previewImage.value && previewCanvas.value) {
-        const img = previewImage.value;
-        const canvas = previewCanvas.value;
-        canvas.width = img.clientWidth;
-        canvas.height = img.clientHeight;
-
-        window.addEventListener('resize', onImageLoad);
-    }
+  if (previewImage.value && previewCanvas.value) {
+    const img = previewImage.value;
+    const canvas = previewCanvas.value;
+    canvas.width = img.clientWidth;
+    canvas.height = img.clientHeight;
+    window.addEventListener('resize', onImageLoad);
+  }
 };
 
 onUnmounted(() => {
-    window.removeEventListener('resize', onImageLoad);
+  window.removeEventListener('resize', onImageLoad);
 });
 
 onMounted(async () => {
   try {
     isLoading.value = true;
-    onnxSession.value = await ort.InferenceSession.create('./best.onnx');
+    ort.env.wasm.wasmPaths = 'https://cdn.jsdelivr.net/npm/onnxruntime-web/dist/';
+    onnxSession.value = await ort.InferenceSession.create('./best.onnx', {
+      executionProviders: ['wasm'],
+    });
     console.log('ONNX model loaded successfully.');
 
     tesseractWorker.value = await createWorker('eng', 1, {
-      logger: m => console.log(m),
+      logger: m => console.log(m.status),
     });
     console.log('Tesseract worker loaded successfully.');
-
   } catch (e) {
     console.error('Failed to load models:', e);
   } finally {
@@ -168,77 +164,31 @@ onMounted(async () => {
   }
 });
 
-function float32ToFloat16(float32Value) {
-    const float32Buffer = new ArrayBuffer(4);
-    const float32View = new DataView(float32Buffer);
-    float32View.setFloat32(0, float32Value, true);
-    const f32 = float32View.getUint32(0, true);
-
-    let sign = (f32 >> 31);
-    let exp = (f32 >> 23) & 0xFF;
-    let mant = f32 & 0x7FFFFF;
-
-    let f16 = 0;
-
-    if (exp === 0 && mant === 0) {
-        f16 = sign << 15;
-    } else if (exp === 0xFF) {
-        if (mant === 0) {
-            f16 = (sign << 15) | 0x7C00;
-        } else {
-            f16 = (sign << 15) | 0x7C00 | (mant ? 0x0200 : 0);
-        }
-    } else {
-        exp = exp - 127 + 15;
-
-        if (exp >= 0x1F) {
-            f16 = (sign << 15) | 0x7C00;
-        } else if (exp <= 0) {
-            if (exp < -10) {
-                f16 = sign << 15;
-            } else {
-                mant = mant | 0x800000;
-                let shift = 1 - exp;
-                mant = mant >> shift;
-                f16 = (sign << 15) | mant;
-            }
-        } else {
-            f16 = (sign << 15) | (exp << 10) | (mant >> 13);
-        }
-    }
-
-    return f16;
-}
-
 const recognizeQuantity = async (imageBitmap) => {
   try {
     const originalCanvas = new OffscreenCanvas(imageBitmap.width, imageBitmap.height);
     originalCanvas.getContext('2d').drawImage(imageBitmap, 0, 0);
     const croppedImage = await originalCanvas.convertToBlob().then(blob => URL.createObjectURL(blob));
 
-    // Crop to bottom-right for quantity
     const w = imageBitmap.width;
     const h = imageBitmap.height;
+    if (w === 0 || h === 0) return { quantity: 0, rawText: '', croppedImage, processedImage: null };
+
     const quantityBitmap = await createImageBitmap(imageBitmap, w * 2 / 3, h * 3 / 4, w / 3, h / 4);
 
     const canvas = new OffscreenCanvas(quantityBitmap.width, quantityBitmap.height);
     const ctx = canvas.getContext('2d');
     
-    // Draw image and apply filters for better OCR
     ctx.filter = 'grayscale(1) contrast(1.5)';
     ctx.drawImage(quantityBitmap, 0, 0);
 
-    // Manual thresholding (binarization)
     const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
     const data = imageData.data;
     for (let i = 0; i < data.length; i += 4) {
-      // Since it's grayscale, R, G, and B are the same.
       const brightness = data[i];
       const threshold = 128;
       const value = brightness < threshold ? 0 : 255;
-      data[i] = value;
-      data[i + 1] = value;
-      data[i + 2] = value;
+      data[i] = value; data[i + 1] = value; data[i + 2] = value;
     }
     ctx.putImageData(imageData, 0, 0);
 
@@ -246,10 +196,8 @@ const recognizeQuantity = async (imageBitmap) => {
     const { data: { text } } = await tesseractWorker.value.recognize(canvas);
     
     const cleanedText = text.replace(/[^0-9]/g, '');
-    const quantity = parseInt(cleanedText) || 0;
-
     return {
-      quantity,
+      quantity: parseInt(cleanedText) || 0,
       rawText: text,
       croppedImage,
       processedImage,
@@ -261,36 +209,34 @@ const recognizeQuantity = async (imageBitmap) => {
 };
 
 const runObjectDetection = async (imageFile) => {
-  if (!onnxSession.value) {
-    console.error('ONNX session not loaded.');
-    return [];
-  }
-  if (!tesseractWorker.value) {
-    console.error('Tesseract worker not loaded.');
-    return [];
-  }
-  if (classNames.value.length === 0) {
-    console.error('Class names not loaded yet.');
-    return [];
+  if (!onnxSession.value || !tesseractWorker.value || classNames.value.length === 0) {
+    console.error('Models or class names not loaded yet.');
+    return;
   }
 
   isLoading.value = true;
   recognizedGifts.value = [];
   try {
     const originalImageBitmap = await createImageBitmap(imageFile);
-    const [input, imgWidth, imgHeight] = await prepareImageForInference(originalImageBitmap);
-    const feeds = { images: input };
+    
+    // Use the new robust preprocessing function
+    const [tensor, ratioX, ratioY, xOffset, yOffset] = await preprocess(originalImageBitmap, 640, 640);
+    
+    const feeds = {};
+    feeds[onnxSession.value.inputNames[0]] = tensor;
     const results = await onnxSession.value.run(feeds);
-    const output = results['output0'].data;
+    
+    const outputTensor = results[onnxSession.value.outputNames[0]];
 
-    const detections = processOutput(output, imgWidth, imgHeight);
+    // Use the new robust postprocessing function
+    const detections = postprocess(outputTensor, classNames.value.length, ratioX, ratioY, xOffset, yOffset);
 
     const canvas = previewCanvas.value;
     const ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.lineWidth = 2;
     ctx.strokeStyle = '#ef4444';
-
+    
     const scaleX = canvas.width / originalImageBitmap.width;
     const scaleY = canvas.height / originalImageBitmap.height;
 
@@ -333,138 +279,14 @@ const runObjectDetection = async (imageFile) => {
         croppedImage: ocrResult.croppedImage,
         processedImage: ocrResult.processedImage,
         box: detection.box,
+        confidence: detection.confidence,
       });
     }
-
-    return recognizedGifts.value;
   } catch (error) {
     console.error('Error during object detection:', error);
-    return [];
   } finally {
     isLoading.value = false;
   }
-};
-
-const prepareImageForInference = async (imageBitmap) => {
-  const [w, h] = [640, 640];
-  const imgWidth = imageBitmap.width;
-  const imgHeight = imageBitmap.height;
-
-  const canvas = new OffscreenCanvas(w, h);
-  const ctx = canvas.getContext('2d');
-  ctx.drawImage(imageBitmap, 0, 0, w, h);
-  const imageData = ctx.getImageData(0, 0, w, h).data;
-
-  const uint16Data = new Uint16Array(1 * 3 * w * h);
-  for (let i = 0; i < w * h; i++) {
-    const r = imageData[i * 4 + 0] / 255.0;
-    const g = imageData[i * 4 + 1] / 255.0;
-    const b = imageData[i * 4 + 2] / 255.0;
-    
-    uint16Data[i] = float32ToFloat16(r);
-    uint16Data[i + w * h] = float32ToFloat16(g);
-    uint16Data[i + 2 * w * h] = float32ToFloat16(b);
-  }
-
-  return [new ort.Tensor('float16', uint16Data, [1, 3, h, w]), imgWidth, imgHeight];
-};
-
-const processOutput = (output, imgWidth, imgHeight) => {
-  const detections = [];
-  const confidenceThreshold = 0.25;
-  const iouThreshold = 0.45;
-  const numClasses = classNames.value.length;
-  if (numClasses === 0) return [];
-  
-  const numValuesPerBox = 5 + numClasses;
-
-  const numBoxes = output.length / numValuesPerBox;
-
-  for (let i = 0; i < numBoxes; i++) {
-    const offset = i * numValuesPerBox;
-    const objectness = output[offset + 4];
-
-    let maxClassConfidence = 0;
-    let classId = -1;
-    for (let j = 0; j < numClasses; j++) {
-      const classConfidence = output[offset + 5 + j];
-      if (classConfidence > maxClassConfidence) {
-        maxClassConfidence = classConfidence;
-        classId = j;
-      }
-    }
-
-    const confidence = objectness * maxClassConfidence;
-
-    if (confidence >= confidenceThreshold) {
-      const x = output[offset + 0];
-      const y = output[offset + 1];
-      const width = output[offset + 2];
-      const height = output[offset + 3];
-
-      const x1 = (x - width / 2) * (imgWidth / 640);
-      const y1 = (y - height / 2) * (imgHeight / 640);
-      const x2 = (x + width / 2) * (imgWidth / 640);
-      const y2 = (y + height / 2) * (imgHeight / 640);
-
-      detections.push({
-        box: [x1, y1, x2, y2],
-        confidence: confidence,
-        classId: classId
-      });
-    }
-  }
-
-  console.log('detections:', detections);
-
-  // Apply Non-Maximum Suppression (NMS)
-  return nms(detections, iouThreshold);
-};
-
-// Basic NMS implementation
-const nms = (boxes, iouThreshold) => {
-  if (boxes.length === 0) return [];
-
-  boxes.sort((a, b) => b.confidence - a.confidence);
-
-  const selectedBoxes = [];
-  const suppressed = new Array(boxes.length).fill(false);
-
-  for (let i = 0; i < boxes.length; i++) {
-    if (suppressed[i]) continue;
-
-    selectedBoxes.push(boxes[i]);
-
-    for (let j = i + 1; j < boxes.length; j++) {
-      if (suppressed[j]) continue;
-
-      const iou = calculateIoU(boxes[i].box, boxes[j].box);
-      if (iou > iouThreshold) {
-        suppressed[j] = true;
-      }
-    }
-  }
-
-  console.log('selectedBoxes:', selectedBoxes);
-
-  return selectedBoxes;
-};
-
-const calculateIoU = (box1, box2) => {
-  const [x1_1, y1_1, x2_1, y2_1] = box1;
-  const [x1_2, y1_2, x2_2, y2_2] = box2;
-
-  const x_overlap = Math.max(0, Math.min(x2_1, x2_2) - Math.max(x1_1, x1_2));
-  const y_overlap = Math.max(0, Math.min(y2_1, y2_2) - Math.max(y1_1, y1_2));
-
-  const intersection = x_overlap * y_overlap;
-
-  const area1 = (x2_1 - x1_1) * (y2_1 - y1_1);
-  const area2 = (x2_2 - x1_2) * (y2_2 - y1_2);
-
-  const union = area1 + area2 - intersection;
-
-  return union === 0 ? 0 : intersection / union;
 };
 
 const handleFileChange = async (event) => {
