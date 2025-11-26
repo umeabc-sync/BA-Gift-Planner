@@ -6,13 +6,18 @@
     <template #body>
       <div class="recognition-body">
         <LoadingOverlay :is-loading="isLoading" />
-        <div class="upload-section">
-          <button @click="openFileDialog" class="upload-button">{{ t('giftRecognitionModal.upload') }}</button>
-          <input type="file" ref="fileInput" @change="handleFileChange" accept="image/*" style="display: none" />
+
+        <input type="file" ref="fileInput" @change="handleFileChange" accept="image/*" style="display: none" />
+
+        <div class="image-preview-container" v-show="imageUrl">
+          <div class="image-wrapper">
+            <img :src="imageUrl" alt="Image Preview" ref="previewImage" @load="onImageLoad" />
+            <canvas ref="previewCanvas" class="preview-canvas"></canvas>
+          </div>
         </div>
-        <div v-if="imageUrl" class="image-preview">
-          <img :src="imageUrl" alt="Image Preview" ref="previewImage" @load="onImageLoad" />
-          <canvas ref="previewCanvas" class="preview-canvas"></canvas>
+
+        <div v-if="!imageUrl" class="empty-state">
+          <p>{{ t('giftRecognitionModal.uploadHint') || 'Please upload an image to start recognition' }}</p>
         </div>
 
         <div v-if="displayedRecognizedGifts.length > 0" class="recognized-gifts-list">
@@ -35,7 +40,8 @@
                 :use-continuous="true"
               />
             </div>
-            <div class="debug-section">
+
+            <div v-if="isDebugMode" class="debug-section">
               <div class="debug-image">
                 <p>Cropped</p>
                 <img v-if="gift.croppedImage" :src="gift.croppedImage" alt="Cropped" />
@@ -56,8 +62,17 @@
     </template>
     <template #footer>
       <div class="recognition-footer">
-        <button @click="close" class="cancel-button">{{ t('common.cancel') }}</button>
-        <button @click="confirm" class="confirm-button" :disabled="isLoading">{{ t('common.confirm') }}</button>
+        <button @click="close" class="modal-btn btn-cancel">
+          <span>{{ t('common.cancel') }}</span>
+        </button>
+
+        <button @click="openFileDialog" class="modal-btn btn-upload">
+          <span>{{ t('giftRecognitionModal.upload') }}</span>
+        </button>
+
+        <button @click="confirm" class="modal-btn btn-confirm" :disabled="isLoading">
+          <span>{{ t('common.confirm') }}</span>
+        </button>
       </div>
     </template>
   </BaseModal>
@@ -77,6 +92,8 @@
   import QuantityControl from '@components/ui/QuantityControl.vue'
   import { useGiftStore } from '@/store/gift'
   import { preprocess, postprocess } from '@/utils/yolo-v5-utils.js'
+
+  const isDebugMode = ref(false) // Change to true to enable debugging mode
 
   const props = defineProps({
     isVisible: { type: Boolean, default: false },
@@ -100,7 +117,6 @@
   const { data: srGifts } = useSrGiftData(locale)
   const { data: ssrGifts } = useSsrGiftData(locale)
 
-  // This order MUST match the training YAML file's `names` array.
   const YML_CLASS_NAMES = [
     'favor_0',
     'favor_1',
@@ -184,19 +200,17 @@
       .sort((a, b) => b.confidence - a.confidence)
   })
 
+  // Ensure canvas resolution matches the original image resolution to solve alignment issues
   const onImageLoad = () => {
     if (previewImage.value && previewCanvas.value) {
       const img = previewImage.value
       const canvas = previewCanvas.value
-      canvas.width = img.clientWidth
-      canvas.height = img.clientHeight
-      window.addEventListener('resize', onImageLoad)
+      // Set the canvas internal pixels to the original size of the image (Natural Size)
+      // CSS will be responsible for scaling them to fit the screen size
+      canvas.width = img.naturalWidth
+      canvas.height = img.naturalHeight
     }
   }
-
-  onUnmounted(() => {
-    window.removeEventListener('resize', onImageLoad)
-  })
 
   onMounted(async () => {
     try {
@@ -277,7 +291,6 @@
     try {
       const originalImageBitmap = await createImageBitmap(imageFile)
 
-      // Use the new robust preprocessing function
       const [tensor, scale, xOffset, yOffset] = await preprocess(originalImageBitmap, 640, 640)
 
       const feeds = {}
@@ -286,26 +299,26 @@
 
       const outputTensor = results[onnxSession.value.outputNames[0]]
 
-      // Use the new robust postprocessing function
       const detections = postprocess(outputTensor, classNames.value.length, scale, xOffset, yOffset)
 
       const canvas = previewCanvas.value
+      // Ensure the canvas size has been set to naturalWidth/Height in onImageLoad
+      // But for safety, we'll correct it again here
+      canvas.width = originalImageBitmap.width
+      canvas.height = originalImageBitmap.height
+
       const ctx = canvas.getContext('2d')
       ctx.clearRect(0, 0, canvas.width, canvas.height)
-      ctx.lineWidth = 2
+      ctx.lineWidth = 4
       ctx.strokeStyle = '#ef4444'
 
-      const scaleX = canvas.width / originalImageBitmap.width
-      const scaleY = canvas.height / originalImageBitmap.height
+      // Since the Canvas size equals the original image size, we can directly use the original coordinates from the detections.
 
       for (const detection of detections) {
         const [x1, y1, x2, y2] = detection.box
 
-        const dispX = x1 * scaleX
-        const dispY = y1 * scaleY
-        const dispW = (x2 - x1) * scaleX
-        const dispH = (y2 - y1) * scaleY
-        ctx.strokeRect(dispX, dispY, dispW, dispH)
+        // Draw directly, no scaling required
+        ctx.strokeRect(x1, y1, x2 - x1, y2 - y1)
 
         if (x2 - x1 <= 0 || y2 - y1 <= 0) continue
 
@@ -353,18 +366,25 @@
       if (imageUrl.value) {
         URL.revokeObjectURL(imageUrl.value)
       }
-      displayedRecognizedGifts.value.forEach((gift) => {
-        if (gift.croppedImage) URL.revokeObjectURL(gift.croppedImage)
-        if (gift.processedImage) URL.revokeObjectURL(gift.processedImage)
-      })
+      cleanupImages()
 
       imageUrl.value = URL.createObjectURL(file)
-      await runObjectDetection(file)
+      // Wait for Vue DOM update to ensure img src is set
+      setTimeout(async () => {
+        await runObjectDetection(file)
+      }, 100)
     }
   }
 
   const openFileDialog = () => {
     fileInput.value.click()
+  }
+
+  const cleanupImages = () => {
+    displayedRecognizedGifts.value.forEach((gift) => {
+      if (gift.croppedImage) URL.revokeObjectURL(gift.croppedImage)
+      if (gift.processedImage) URL.revokeObjectURL(gift.processedImage)
+    })
   }
 
   const close = () => {
@@ -373,14 +393,12 @@
       URL.revokeObjectURL(imageUrl.value)
       imageUrl.value = null
     }
-    displayedRecognizedGifts.value.forEach((gift) => {
-      if (gift.croppedImage) URL.revokeObjectURL(gift.croppedImage)
-      if (gift.processedImage) URL.revokeObjectURL(gift.processedImage)
-    })
-    if (tesseractWorker.value) {
-      tesseractWorker.value.terminate()
-      tesseractWorker.value = null
-    }
+    cleanupImages()
+    // The worker doesn't have to be terminated. Depending on the use case, it can be kept if the modal is opened frequently.
+    // if (tesseractWorker.value) {
+    //   tesseractWorker.value.terminate()
+    //   tesseractWorker.value = null
+    // }
   }
 
   const confirm = () => {
@@ -404,49 +422,60 @@
     gap: 20px;
   }
 
-  .upload-section {
+  .empty-state {
     display: flex;
     justify-content: center;
-  }
-
-  .upload-button {
-    background-color: #4c9af4;
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    padding: 10px 20px;
-    cursor: pointer;
-    font-weight: bold;
-  }
-
-  .dark-mode .upload-button {
-    background-color: #58a6e5;
-  }
-
-  .image-preview {
-    display: grid;
-    place-items: center;
+    align-items: center;
+    height: 200px;
     border: 2px dashed #ccc;
     border-radius: 8px;
-    padding: 10px;
-    max-height: 400px;
+    color: #888;
   }
 
-  .image-preview > * {
-    grid-column: 1 / 1;
-    grid-row: 1 / 1;
+  .dark-mode .empty-state {
+    border-color: #444;
+    color: #aaa;
   }
 
-  .image-preview img {
+  /* Preview area container */
+  .image-preview-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  /* Image wrapper: ensures Canvas absolute positioning is relative to this image */
+  .image-wrapper {
+    position: relative;
     max-width: 100%;
-    max-height: 100%;
+    /* Limit max height to prevent long images from breaking the layout */
+    max-height: 50vh;
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    padding: 5px; /* Inner spacing, so the dashed border doesn't stick to the image */
+    display: inline-block; /* Make the container size wrap its content */
+  }
+
+  .dark-mode .image-wrapper {
+    border-color: #555;
+  }
+
+  .image-wrapper img {
+    display: block;
+    max-width: 100%;
+    max-height: 48vh; /* Slightly smaller than the container, accounting for padding */
+    height: auto;
     object-fit: contain;
   }
 
   .preview-canvas {
-    width: 100%;
-    height: 100%;
+    position: absolute;
+    top: 5px; /* Corresponds to .image-wrapper's padding */
+    left: 5px; /* Corresponds to .image-wrapper's padding */
+    width: calc(100% - 10px); /* Subtract padding */
+    height: calc(100% - 10px); /* Subtract padding */
     pointer-events: none;
+    z-index: 10;
   }
 
   .recognized-gifts-list {
@@ -454,7 +483,7 @@
     flex-direction: column;
     gap: 15px;
     padding: 10px 0;
-    max-height: 50vh;
+    max-height: 40vh;
     overflow-y: auto;
   }
 
@@ -585,6 +614,7 @@
     border-top: 1px solid #dee2e6;
     margin-top: 1rem;
     align-items: center;
+    overflow-x: auto;
   }
 
   .dark-mode .debug-section {
@@ -597,6 +627,7 @@
     gap: 0.5rem;
     align-items: center;
     font-size: 0.8rem;
+    min-width: 100px;
   }
 
   .debug-image img {
@@ -622,43 +653,93 @@
     color: #ff7b72;
   }
 
+  /* --- Footer & Buttons --- */
   .recognition-footer {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     padding: 15px 20px;
-    gap: 15px;
+    gap: 20px;
   }
 
-  .cancel-button,
-  .confirm-button {
+  /* Base Button Style */
+  .modal-btn {
     border: none;
-    border-radius: 8px;
-    padding: 10px 20px;
     cursor: pointer;
+    border-radius: 12px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    transform: skew(-8deg);
+    box-shadow: 0 3px 2px rgba(0, 0, 0, 0.15);
+    font-family: inherit;
     font-weight: bold;
+    font-size: 1rem;
+    padding: 0 25px;
   }
 
-  .cancel-button {
-    background-color: #f0f0f0;
+  .modal-btn:hover {
+    transform: translateY(-2px) skew(-8deg);
+  }
+
+  .modal-btn:active {
+    transform: scale(0.95) skew(-8deg);
+  }
+
+  .modal-btn > span {
+    transform: skew(8deg);
+    display: inline-block;
+  }
+
+  .modal-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    filter: grayscale(0.5);
+  }
+
+  /* Cancel Button (Grey) */
+  .btn-cancel {
+    background-color: #e0e0e0;
+    background-image: linear-gradient(to bottom right, #f0f0f0 0%, transparent 50%),
+      linear-gradient(to top left, #f0f0f0 0%, transparent 50%);
     color: #333;
   }
 
-  .dark-mode .cancel-button {
-    background-color: #444;
-    color: #fff;
+  .dark-mode .btn-cancel {
+    background-color: #4b5563;
+    background-image: linear-gradient(to bottom right, #6b7280 0%, transparent 50%),
+      linear-gradient(to top left, #6b7280 0%, transparent 50%);
+    color: #e0f4ff;
   }
 
-  .confirm-button {
-    background-color: #4c9af4;
-    color: #fff;
+  /* Upload Button (Yellow - from Inventory) */
+  .btn-upload {
+    background-color: #f4e94c;
+    background-image: linear-gradient(to bottom right, #f9da3b 0%, transparent 50%),
+      linear-gradient(to top left, #f9da3b 0%, transparent 50%);
+    color: #314665;
   }
 
-  .dark-mode .confirm-button {
-    background-color: #58a6e5;
+  .dark-mode .btn-upload {
+    background-color: #e57758;
+    background-image: linear-gradient(to bottom right, #e4522f 0%, transparent 50%),
+      linear-gradient(to top left, #e4522f 0%, transparent 50%);
+    color: #e0f4ff;
   }
 
-  .confirm-button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
+  /* Confirm Button (Blue - user provided) */
+  .btn-confirm {
+    background-color: #77ddff;
+    background-image: linear-gradient(to bottom right, #63d0fd 0%, transparent 50%),
+      linear-gradient(to top left, #63d0fd 0%, transparent 50%);
+    color: #314665;
+  }
+
+  .dark-mode .btn-confirm {
+    background-color: #00aeef;
+    background-image: linear-gradient(to bottom right, #09a4f2 0%, transparent 50%),
+      linear-gradient(to top left, #09a4f2 0%, transparent 50%);
+    color: #e0f4ff;
   }
 </style>
