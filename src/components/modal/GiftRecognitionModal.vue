@@ -78,6 +78,15 @@ const tesseractWorker = ref(null);
 const { data: srGifts } = useSrGiftData(locale);
 const { data: ssrGifts } = useSsrGiftData(locale);
 
+const classNames = computed(() => {
+  if (!srGifts.value || !ssrGifts.value) return [];
+  
+  const srNames = srGifts.value.map(g => `favor_${g.id}`);
+  const ssrNames = ssrGifts.value.map(g => `favor_ssr_${g.id}`);
+  
+  return [...srNames, ...ssrNames].sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
+});
+
 const allGiftsMap = computed(() => {
   const map = new Map();
   if (srGifts.value) {
@@ -92,14 +101,7 @@ const allGiftsMap = computed(() => {
 const displayedRecognizedGifts = computed(() => {
   return recognizedGifts.value
     .map(recGift => {
-      // TODO: Refine this mapping based on the actual ONNX model's class output.
-      // The YOLO model should ideally output a class ID that maps to a specific gift.
-      // For now, assuming classId 0 represents a generic gift and isSsr is false as a placeholder.
-      // This will need a proper lookup mechanism if the ONNX model distinguishes between gift types.
-      const giftId = recGift.giftId; 
-      const isSsr = false; 
-
-      const giftKey = `${isSsr ? 'ssr' : 'sr'}-${giftId}`;
+      const giftKey = `${recGift.isSsr ? 'ssr' : 'sr'}-${recGift.giftId}`;
       const giftDetails = allGiftsMap.value.get(giftKey);
 
       if (giftDetails) {
@@ -217,6 +219,10 @@ const runObjectDetection = async (imageFile) => {
     console.error('Tesseract worker not loaded.');
     return [];
   }
+  if (classNames.value.length === 0) {
+    console.error('Class names not loaded yet.');
+    return [];
+  }
 
   isLoading.value = true;
   recognizedGifts.value = [];
@@ -231,14 +237,32 @@ const runObjectDetection = async (imageFile) => {
 
     for (const detection of detections) {
       const [x1, y1, x2, y2] = detection.box;
+      
+      if (x2 - x1 <= 0 || y2 - y1 <= 0) continue;
+
       const croppedBitmap = await createImageBitmap(originalImageBitmap, x1, y1, x2 - x1, y2 - y1);
       const quantity = await recognizeQuantity(croppedBitmap);
 
-      // Assuming classId 0 maps to a generic gift type for now.
-      // In a real scenario, you'd map classId to actual gift IDs.
+      const className = classNames.value[detection.classId];
+      if (!className) continue;
+
+      const parts = className.split('_');
+      let isSsr = false;
+      let giftId = null;
+
+      if (parts[1] === 'ssr') {
+        isSsr = true;
+        giftId = parseInt(parts[2]);
+      } else {
+        isSsr = false;
+        giftId = parseInt(parts[1]);
+      }
+
+      if (giftId === null || isNaN(giftId)) continue;
+
       recognizedGifts.value.push({
-        giftId: detection.classId, // Placeholder for actual gift ID
-        isSsr: false, // Placeholder
+        giftId,
+        isSsr,
         quantity: quantity,
         box: detection.box,
       });
@@ -279,35 +303,46 @@ const prepareImageForInference = async (imageBitmap) => {
 
 const processOutput = (output, imgWidth, imgHeight) => {
   const detections = [];
-  const confidenceThreshold = 0.25; // Lower initial threshold, will filter later
-  const iouThreshold = 0.45; // IoU threshold for NMS
+  const confidenceThreshold = 0.8;
+  const iouThreshold = 0.45;
+  const numClasses = classNames.value.length;
+  if (numClasses === 0) return [];
+  
+  const numValuesPerBox = 5 + numClasses;
 
-  // Assuming 1 class for gifts, output would be [cx, cy, w, h, obj_conf, gift_conf]
-  const numValuesPerBox = 6;
-  const numBoxes = output.length / numValuesPerBox; 
+  const numBoxes = output.length / numValuesPerBox;
 
   for (let i = 0; i < numBoxes; i++) {
     const offset = i * numValuesPerBox;
-    const x = output[offset + 0];
-    const y = output[offset + 1];
-    const width = output[offset + 2];
-    const height = output[offset + 3];
     const objectness = output[offset + 4];
-    const classConfidence = output[offset + 5]; // Assuming single class for gift
 
-    const confidence = objectness * classConfidence;
+    let maxClassConfidence = 0;
+    let classId = -1;
+    for (let j = 0; j < numClasses; j++) {
+      const classConfidence = output[offset + 5 + j];
+      if (classConfidence > maxClassConfidence) {
+        maxClassConfidence = classConfidence;
+        classId = j;
+      }
+    }
+
+    const confidence = objectness * maxClassConfidence;
 
     if (confidence >= confidenceThreshold) {
-      // Convert center x,y,w,h to top-left x,y,width,height
+      const x = output[offset + 0];
+      const y = output[offset + 1];
+      const width = output[offset + 2];
+      const height = output[offset + 3];
+
       const x1 = (x - width / 2) * (imgWidth / 640);
       const y1 = (y - height / 2) * (imgHeight / 640);
       const x2 = (x + width / 2) * (imgWidth / 640);
       const y2 = (y + height / 2) * (imgHeight / 640);
 
       detections.push({
-        box: [x1, y1, x2, y2], // x1, y1, x2, y2
+        box: [x1, y1, x2, y2],
         confidence: confidence,
-        classId: 0 // Assuming 0 is the class ID for 'gift'
+        classId: classId
       });
     }
   }
@@ -365,7 +400,6 @@ const handleFileChange = async (event) => {
     imageUrl.value = URL.createObjectURL(file);
     const detections = await runObjectDetection(file);
     console.log('Detections:', detections);
-    // Further processing with detections
   }
 };
 
