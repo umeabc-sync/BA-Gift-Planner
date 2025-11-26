@@ -184,7 +184,7 @@ const recognizeQuantity = async (imageBitmap) => {
     const h = imageBitmap.height;
     if (w === 0 || h === 0) return { quantity: 0, rawText: '', croppedImage, processedImage: null };
 
-    const quantityBitmap = await createImageBitmap(imageBitmap, w * 2 / 3, h * 3 / 4, w / 3, h / 4);
+    const quantityBitmap = await createImageBitmap(imageBitmap, w / 3, h * 3 / 4, w * 1.85 / 3, h / 4);
 
     const canvas = new OffscreenCanvas(quantityBitmap.width, quantityBitmap.height);
     const ctx = canvas.getContext('2d');
