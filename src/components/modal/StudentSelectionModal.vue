@@ -22,21 +22,21 @@
                 <div class="action-buttons">
                   <button
                     v-if="!isFilterPanelOpen"
-                    class="reset-selection-button"
-                    :class="{ 'no-select': isNoStudentSelected }"
+                    class="btn-skew btn-text btn-blue"
+                    :disabled="isNoStudentSelected"
                     @click="resetSelection"
                   >
                     <span>{{ t('characterSelector.resetSelection') }}</span>
                   </button>
                   <button
                     v-if="isFilterPanelOpen"
-                    class="reset-button"
-                    :class="{ 'no-select': isNoFilterSelected }"
+                    class="btn-skew btn-text btn-yellow"
+                    :disabled="isNoFilterSelected"
                     @click="resetFilters"
                   >
                     <span>{{ t('characterSelector.resetFilters') }}</span>
                   </button>
-                  <button class="filter-toggle-button" @click="toggleFilterPanel">
+                  <button class="btn-skew btn-icon btn-blue" @click="toggleFilterPanel">
                     <component
                       :is="isFilterPanelOpen ? FilterCloseIcon : FilterOpenIcon"
                       class="filter-toggle-icon"
@@ -559,99 +559,10 @@
     color: #e0f4ff;
   }
 
-  .reset-selection-button,
-  .reset-button {
-    padding: 12px 20px;
-    border: none;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: all 0.3s ease;
+  .btn-text {
     font-size: 0.9rem;
-    font-family: inherit;
-    font-weight: bold;
     white-space: nowrap;
-    /* background: linear-gradient(45deg, #5dade2, #2e86c1); */
-    color: #314665;
-    box-shadow: 0 3px 2px rgba(0, 0, 0, 0.15);
-    transform: skew(-8deg);
-  }
-
-  .reset-selection-button,
-  .filter-toggle-button {
-    background-color: #77ddff;
-    background-image: linear-gradient(to bottom right, #63d0fd 0%, transparent 50%),
-      linear-gradient(to top left, #63d0fd 0%, transparent 50%);
-  }
-
-  .reset-button {
-    background-color: #f4e94c;
-    background-image: linear-gradient(to bottom right, #f9da3b 0%, transparent 50%),
-      linear-gradient(to top left, #f9da3b 0%, transparent 50%);
-  }
-
-  .reset-selection-button span,
-  .reset-button span,
-  .filter-toggle-icon {
-    transform: skew(8deg);
-    display: inline-block;
-  }
-
-  .reset-selection-button:hover,
-  .reset-button:hover,
-  .filter-toggle-button:hover {
-    transform: translateY(-2px) skew(-8deg);
-  }
-
-  .reset-selection-button:active,
-  .reset-button:active,
-  .filter-toggle-button:active {
-    transform: scale(0.95) skew(-8deg);
-  }
-
-  .dark-mode .reset-selection-button,
-  .dark-mode .filter-toggle-button {
-    background-color: #00aeef;
-    background-image: linear-gradient(to bottom right, #09a4f2 0%, transparent 50%),
-      linear-gradient(to top left, #09a4f2 0%, transparent 50%);
-    color: #e0f4ff;
-  }
-
-  .dark-mode .reset-button {
-    background-color: #e57758;
-    background-image: linear-gradient(to bottom right, #e4522f 0%, transparent 50%),
-      linear-gradient(to top left, #e4522f 0%, transparent 50%);
-    color: #e0f4ff;
-  }
-
-  .reset-selection-button.no-select,
-  .reset-button.no-select {
-    background-color: #daedf4;
-    background-image: linear-gradient(to bottom right, #c9e1ed 0%, transparent 50%),
-      linear-gradient(to top left, #c9e1ed 0%, transparent 50%);
-  }
-
-  .dark-mode .reset-selection-button.no-select,
-  .dark-mode .reset-button.no-select {
-    background-color: #3d4852;
-    background-image: linear-gradient(to bottom right, #2d3748 0%, transparent 50%),
-      linear-gradient(to top left, #2d3748 0%, transparent 50%);
-    color: #9ca3af;
-  }
-
-  .filter-toggle-button {
-    display: flex;
-    padding: 0;
-    border: none;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    flex-shrink: 0;
-    width: 42px;
-    height: 42px;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0 3px 2px rgba(0, 0, 0, 0.15);
-    transform: skew(-8deg);
+    padding: 12px 20px;
   }
 
   .filter-toggle-icon {
