@@ -425,12 +425,12 @@
       font-size: 12px;
     }
 
-    .icon-btn {
+    .btn-skew {
       width: 38px;
       height: 38px;
     }
 
-    .icon-btn svg {
+    .btn-skew svg {
       width: 20px;
       height: 20px;
     }
