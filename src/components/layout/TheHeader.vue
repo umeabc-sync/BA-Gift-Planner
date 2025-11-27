@@ -4,7 +4,10 @@
       <img :src="logoUrl" :alt="t('header.title')" />
     </div>
     <div class="controls">
-      <router-link :to="isBondCalculatorRoute ? '/gift-recommendation' : '/bond-calculator'" class="btn-skew btn-icon btn-blue">
+      <router-link
+        :to="isBondCalculatorRoute ? '/gift-recommendation' : '/bond-calculator'"
+        class="btn-skew btn-icon btn-blue"
+      >
         <component
           :is="isBondCalculatorRoute ? GiftIcon : BondCalculatorIcon"
           :alt="t('header.selectStudentsAlt')"
