@@ -35,10 +35,10 @@
     <template #footer>
       <div class="gift-inventory-footer">
         <div class="footer-buttons">
-          <button @click="openRecognitionModal" class="recognition-button">
+          <button @click="openRecognitionModal" class="btn-skew btn-text btn-blue">
             <span>{{ t('giftInventoryModal.recognize') }}</span>
           </button>
-          <button @click="convertGifts" class="convert-button" :class="{ 'no-to-convert': !canConvertSynthesisGifts }">
+          <button @click="convertGifts" class="btn-skew btn-text btn-yellow" :disabled="!canConvertSynthesisGifts">
             <span>{{ t('bondCalculator.convertToChoiceBox') }}</span>
           </button>
         </div>
@@ -265,100 +265,5 @@
     display: flex;
     justify-content: flex-end;
     gap: 15px;
-  }
-
-  .recognition-button {
-    background-color: #77ddff;
-    background-image: linear-gradient(to bottom right, #63d0fd 0%, transparent 50%),
-      linear-gradient(to top left, #63d0fd 0%, transparent 50%);
-    border: none;
-    color: #314665;
-    cursor: pointer;
-    border-radius: 12px;
-    height: 42px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-    transform: skew(-8deg);
-    box-shadow: 0 3px 2px rgba(0, 0, 0, 0.15);
-    font-family: inherit;
-    font-weight: bold;
-    font-size: 1rem;
-    padding: 0 25px;
-  }
-
-  .recognition-button:hover {
-    transform: translateY(-2px) skew(-8deg);
-  }
-
-  .recognition-button:active {
-    transform: scale(0.95) skew(-8deg);
-  }
-
-  .dark-mode .recognition-button {
-    background-color: #00aeef;
-    background-image: linear-gradient(to bottom right, #09a4f2 0%, transparent 50%),
-      linear-gradient(to top left, #09a4f2 0%, transparent 50%);
-    color: #e0f4ff;
-  }
-
-  .recognition-button > span {
-    transform: skew(8deg);
-    display: inline-block;
-  }
-
-  .convert-button {
-    background-color: #f4e94c;
-    background-image: linear-gradient(to bottom right, #f9da3b 0%, transparent 50%),
-      linear-gradient(to top left, #f9da3b 0%, transparent 50%);
-    border: none;
-    color: #314665;
-    cursor: pointer;
-    border-radius: 12px;
-    height: 42px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-    transform: skew(-8deg);
-    box-shadow: 0 3px 2px rgba(0, 0, 0, 0.15);
-    font-family: inherit;
-    font-weight: bold;
-    font-size: 1rem;
-    padding: 0 25px;
-  }
-
-  .convert-button:hover {
-    transform: translateY(-2px) skew(-8deg);
-  }
-
-  .convert-button:active {
-    transform: scale(0.95) skew(-8deg);
-  }
-
-  .dark-mode .convert-button {
-    background-color: #e57758;
-    background-image: linear-gradient(to bottom right, #e4522f 0%, transparent 50%),
-      linear-gradient(to top left, #e4522f 0%, transparent 50%);
-    color: #e0f4ff;
-  }
-
-  .convert-button.no-to-convert {
-    background-color: #daedf4;
-    background-image: linear-gradient(to bottom right, #c9e1ed 0%, transparent 50%),
-      linear-gradient(to top left, #c9e1ed 0%, transparent 50%);
-  }
-
-  .dark-mode .convert-button.no-to-convert {
-    background-color: #3d4852;
-    background-image: linear-gradient(to bottom right, #2d3748 0%, transparent 50%),
-      linear-gradient(to top left, #2d3748 0%, transparent 50%);
-    color: #9ca3af;
-  }
-
-  .convert-button > span {
-    transform: skew(8deg);
-    display: inline-block;
   }
 </style>

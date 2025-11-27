@@ -58,7 +58,7 @@
           </CustomDropdown>
         </div>
 
-        <button @click="reset" class="reset-button">
+        <button @click="reset" class="btn-skew btn-text btn-blue">
           <span>{{ t('giftGivingModal.reset') }}</span>
         </button>
       </div>
@@ -337,47 +337,6 @@
   .dropdown-wrapper {
     flex-grow: 1;
     max-width: 250px;
-  }
-
-  .reset-button {
-    background-color: #77ddff;
-    background-image: linear-gradient(to bottom right, #63d0fd 0%, transparent 50%),
-      linear-gradient(to top left, #63d0fd 0%, transparent 50%);
-    border: none;
-    color: #314665;
-    cursor: pointer;
-    border-radius: 12px;
-    height: 42px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-    transform: skew(-8deg);
-    box-shadow: 0 3px 2px rgba(0, 0, 0, 0.15);
-    font-family: inherit;
-    font-weight: bold;
-    font-size: 1rem;
-    padding: 0 25px;
-  }
-
-  .reset-button:hover {
-    transform: translateY(-2px) skew(-8deg);
-  }
-
-  .reset-button:active {
-    transform: scale(0.95) skew(-8deg);
-  }
-
-  .dark-mode .reset-button {
-    background-color: #00aeef;
-    background-image: linear-gradient(to bottom right, #09a4f2 0%, transparent 50%),
-      linear-gradient(to top left, #09a4f2 0%, transparent 50%);
-    color: #e0f4ff;
-  }
-
-  .reset-button > span {
-    transform: skew(8deg);
-    display: inline-block;
   }
 
   .best-no-conflict {

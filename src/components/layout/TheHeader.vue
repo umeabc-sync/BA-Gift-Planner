@@ -4,18 +4,18 @@
       <img :src="logoUrl" :alt="t('header.title')" />
     </div>
     <div class="controls">
-      <router-link :to="isBondCalculatorRoute ? '/gift-recommendation' : '/bond-calculator'" class="icon-btn">
+      <router-link :to="isBondCalculatorRoute ? '/gift-recommendation' : '/bond-calculator'" class="btn-skew btn-icon btn-blue">
         <component
           :is="isBondCalculatorRoute ? GiftIcon : BondCalculatorIcon"
           :alt="t('header.selectStudentsAlt')"
           draggable="false"
         />
       </router-link>
-      <button class="icon-btn" @click="modalStore.openStudentSelectionModal">
+      <button class="btn-skew btn-icon btn-blue" @click="modalStore.openStudentSelectionModal">
         <component :is="AddStudentsIcon" :alt="t('header.selectStudentsAlt')" draggable="false" />
       </button>
       <div v-if="isGiftRecommendationRoute" class="share-dropdown-container">
-        <button class="icon-btn" @click="toggleShareDropdown">
+        <button class="btn-skew btn-icon btn-blue" @click="toggleShareDropdown">
           <component :is="ShareIcon" :alt="t('header.shareAlt')" draggable="false" />
         </button>
         <div v-if="showShareDropdown" class="share-dropdown-menu">
@@ -33,7 +33,7 @@
           </button>
         </div>
       </div>
-      <button class="icon-btn settings-btn" @click="handleSettingsClick">
+      <button class="btn-skew btn-icon btn-blue settings-btn" @click="handleSettingsClick">
         <component
           :is="GearIcon"
           :alt="t('header.settingsAlt')"
@@ -172,52 +172,11 @@
     gap: 10px;
   }
 
-  .icon-btn {
-    background-color: #77ddff;
-    background-image: linear-gradient(to bottom right, #63d0fd 0%, transparent 50%),
-      linear-gradient(to top left, #63d0fd 0%, transparent 50%);
-    border: none;
-    color: #314665;
-    fill: #314665;
-    cursor: pointer;
-    border-radius: 12px;
-    width: 42px;
-    height: 42px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-    transform: skew(-8deg);
-    box-shadow: 0 3px 2px rgba(0, 0, 0, 0.15);
-  }
-
-  .icon-btn:hover {
-    transform: translateY(-2px) skew(-8deg);
-  }
-
-  .icon-btn:active {
-    transform: scale(0.95) skew(-8deg);
-  }
-
-  .dark-mode .icon-btn {
-    background-color: #00aeef;
-    background-image: linear-gradient(to bottom right, #09a4f2 0%, transparent 50%),
-      linear-gradient(to top left, #09a4f2 0%, transparent 50%);
-    color: #e0f4ff;
-    fill: #e0f4ff;
-  }
-
-  .icon-btn svg {
-    width: 24px;
-    height: 24px;
-    transform: skew(8deg);
-  }
-
   .settings-btn svg {
     transition: transform 0.3s ease-in-out;
   }
 
-  .icon-btn svg.is-rotating {
+  .btn-skew svg.is-rotating {
     animation: rotate-gear 0.5s ease-in-out;
   }
 

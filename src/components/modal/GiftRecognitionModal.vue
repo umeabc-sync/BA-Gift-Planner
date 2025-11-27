@@ -74,15 +74,15 @@
     </template>
     <template #footer>
       <div class="recognition-footer">
-        <button @click="close" class="modal-btn btn-cancel">
+        <button @click="close" class="btn-skew btn-text btn-gray">
           <span>{{ t('common.cancel') }}</span>
         </button>
 
-        <button @click="openFileDialog" class="modal-btn btn-upload">
+        <button @click="openFileDialog" class="btn-skew btn-text btn-yellow">
           <span>{{ t('giftRecognitionModal.upload') }}</span>
         </button>
 
-        <button @click="confirm" class="modal-btn btn-confirm" :disabled="isLoading">
+        <button @click="confirm" class="btn-skew btn-text btn-blue" :disabled="isLoading">
           <span>{{ t('common.confirm') }}</span>
         </button>
       </div>
@@ -762,87 +762,5 @@
     padding: 15px 20px;
     gap: 20px;
     flex-wrap: wrap; /* Wrap buttons on small screens */
-  }
-
-  /* Base Button Style */
-  .modal-btn {
-    border: none;
-    cursor: pointer;
-    border-radius: 12px;
-    height: 42px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-    transform: skew(-8deg);
-    box-shadow: 0 3px 2px rgba(0, 0, 0, 0.15);
-    font-family: inherit;
-    font-weight: bold;
-    font-size: 1rem;
-    padding: 0 25px;
-  }
-
-  .modal-btn:hover {
-    transform: translateY(-2px) skew(-8deg);
-  }
-
-  .modal-btn:active {
-    transform: scale(0.95) skew(-8deg);
-  }
-
-  .modal-btn > span {
-    transform: skew(8deg);
-    display: inline-block;
-  }
-
-  .modal-btn:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-    filter: grayscale(0.5);
-  }
-
-  /* Cancel Button */
-  .btn-cancel {
-    background-color: #daedf4;
-    background-image: linear-gradient(to bottom right, #c9e1ed 0%, transparent 50%),
-      linear-gradient(to top left, #c9e1ed 0%, transparent 50%);
-    color: #314665;
-  }
-
-  .dark-mode .btn-cancel {
-    background-color: #3d4852;
-    background-image: linear-gradient(to bottom right, #2d3748 0%, transparent 50%),
-      linear-gradient(to top left, #2d3748 0%, transparent 50%);
-    color: #9ca3af;
-  }
-
-  /* Upload Button (Yellow - from Inventory) */
-  .btn-upload {
-    background-color: #f4e94c;
-    background-image: linear-gradient(to bottom right, #f9da3b 0%, transparent 50%),
-      linear-gradient(to top left, #f9da3b 0%, transparent 50%);
-    color: #314665;
-  }
-
-  .dark-mode .btn-upload {
-    background-color: #e57758;
-    background-image: linear-gradient(to bottom right, #e4522f 0%, transparent 50%),
-      linear-gradient(to top left, #e4522f 0%, transparent 50%);
-    color: #e0f4ff;
-  }
-
-  /* Confirm Button (Blue - user provided) */
-  .btn-confirm {
-    background-color: #77ddff;
-    background-image: linear-gradient(to bottom right, #63d0fd 0%, transparent 50%),
-      linear-gradient(to top left, #63d0fd 0%, transparent 50%);
-    color: #314665;
-  }
-
-  .dark-mode .btn-confirm {
-    background-color: #00aeef;
-    background-image: linear-gradient(to bottom right, #09a4f2 0%, transparent 50%),
-      linear-gradient(to top left, #09a4f2 0%, transparent 50%);
-    color: #e0f4ff;
   }
 </style>
