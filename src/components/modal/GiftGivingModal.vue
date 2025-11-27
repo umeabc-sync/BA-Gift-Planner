@@ -1,7 +1,7 @@
 <template>
   <BaseModal :is-visible="show" @close="close" max-width="550px" :is-empty="sortedGifts.length === 0">
     <template #header>
-      <div class="modal-title">{{ t('giftGivingModal.title') }} {{ student.name }}</div>
+      <div class="modal-title">{{ t('giftGivingModal.title') }} {{ student?.name }}</div>
     </template>
     <template #body>
       <div class="gift-giving-body">
@@ -107,7 +107,7 @@
   }
 
   const sortedGifts = computed(() => {
-    if (!giftPlannerStore.allGifts) return []
+    if (!props.student || !giftPlannerStore.allGifts) return []
     const giftPriorityMap = { 'best-no-conflict': 0, conflict: 2, 'other-gift': 3 }
 
     return giftPlannerStore.allGifts
