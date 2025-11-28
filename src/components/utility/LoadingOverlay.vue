@@ -2,14 +2,13 @@
   <div v-if="isVisible" class="loading-overlay" :class="[`scope-${scope}`, { 'has-overlay': showOverlay }]">
     <div class="spinner-container">
       <HalfCircleSpinner :animation-duration="1000" :size="60" :color="color" />
-      <p v-if="text || defaultText" class="loading-text" :style="{ color: color }">{{ text || defaultText }}</p>
+      <p v-if="text" class="loading-text" :style="{ color: color }">{{ text }}</p>
     </div>
   </div>
 </template>
 
 <script setup>
   import { HalfCircleSpinner } from 'epic-spinners'
-  import { useI18n } from '@composables/useI18n'
 
   defineProps({
     isVisible: Boolean,
@@ -31,9 +30,6 @@
       default: null,
     },
   })
-
-  const { t } = useI18n()
-  const defaultText = t('app.downloading')
 </script>
 
 <style scoped>

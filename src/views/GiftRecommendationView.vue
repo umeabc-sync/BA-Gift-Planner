@@ -20,7 +20,7 @@
     :size="screenshotRenderSize"
   />
 
-  <LoadingOverlay :is-visible="isDownloadingScreenshot" />
+  <LoadingOverlay :is-visible="isDownloadingScreenshot" :text="t('app.downloading')" />
   <ToastNotification />
 </template>
 
