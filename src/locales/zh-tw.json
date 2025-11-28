@@ -157,6 +157,7 @@
     "title": "禮物識別",
     "upload": "上傳圖片",
     "imagePreview": "圖片預覽",
+    "initializing": "初始化中...",
     "dropzonePlaceholder": "禮物識別可能會出錯，完成後請進行檢查"
   },
   "toast": {

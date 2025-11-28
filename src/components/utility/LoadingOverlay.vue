@@ -1,8 +1,8 @@
 <template>
-  <div v-if="isVisible" class="loading-overlay" :class="`scope-${scope}`">
+  <div v-if="isVisible" class="loading-overlay" :class="[`scope-${scope}`, { 'has-overlay': showOverlay }]">
     <div class="spinner-container">
-      <HalfCircleSpinner :animation-duration="1000" :size="60" color="#fff" />
-      <p class="loading-text">{{ t('app.downloading') }}</p>
+      <HalfCircleSpinner :animation-duration="1000" :size="60" :color="color" />
+      <p v-if="text || defaultText" class="loading-text" :style="{ color: color }">{{ text || defaultText }}</p>
     </div>
   </div>
 </template>
@@ -18,9 +18,22 @@
       default: 'global', // 'global' or 'local'
       validator: (value) => ['global', 'local'].includes(value),
     },
+    showOverlay: {
+      type: Boolean,
+      default: true,
+    },
+    color: {
+      type: String,
+      default: '#fff',
+    },
+    text: {
+      type: String,
+      default: null,
+    },
   })
 
   const { t } = useI18n()
+  const defaultText = t('app.downloading')
 </script>
 
 <style scoped>
@@ -29,11 +42,14 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 9999;
+  }
+
+  .loading-overlay.has-overlay {
+    background-color: rgba(0, 0, 0, 0.7);
   }
 
   .scope-global {
@@ -52,7 +68,6 @@
   }
 
   .loading-text {
-    color: white;
     font-size: 1.2em;
   }
 </style>

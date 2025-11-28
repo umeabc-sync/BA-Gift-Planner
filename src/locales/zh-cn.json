@@ -157,6 +157,7 @@
     "title": "礼物识别",
     "upload": "上传图片",
     "imagePreview": "图片预览",
+    "initializing": "初始化中...",
     "dropzonePlaceholder": "礼物识别可能会出错，完成后请进行检查"
   },
   "toast": {

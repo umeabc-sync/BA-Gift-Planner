@@ -6,7 +6,13 @@
     </template>
     <template #body>
       <div class="recognition-body">
-        <LoadingOverlay :is-visible="isLoading" scope="local" />
+        <LoadingOverlay
+          :is-visible="isLoading"
+          scope="local"
+          :show-overlay="false"
+          color="#888"
+          :text="t('giftRecognitionModal.initializing')"
+        />
 
         <div
           v-if="!imageUrl && !isLoading"

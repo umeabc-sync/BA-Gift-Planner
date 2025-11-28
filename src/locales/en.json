@@ -157,6 +157,7 @@
     "title": "Gift Recognition",
     "upload": "Upload Image",
     "imagePreview": "Image Preview",
+    "initializing": "Initializing...",
     "dropzonePlaceholder": "Gift recognition may be inaccurate. Please check the results after completion."
   },
   "toast": {
