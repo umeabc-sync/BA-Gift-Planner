@@ -10,7 +10,7 @@
           :is-visible="isLoading"
           scope="local"
           :show-overlay="false"
-          color="#888"
+          :color="isDarkMode ? '#718096' : '#888'"
           :text="t('giftRecognitionModal.initializing')"
         />
 
@@ -105,6 +105,7 @@
 <script setup>
   import { ref, onMounted, computed, onUnmounted } from 'vue'
   import { useI18n } from '@/composables/useI18n.js'
+  import { storeToRefs } from 'pinia'
   import BaseModal from '@components/ui/BaseModal.vue'
   import LoadingOverlay from '@components/utility/LoadingOverlay.vue'
   import * as ort from 'onnxruntime-web'
@@ -115,6 +116,7 @@
   import ImageWithLoader from '@components/ui/ImageWithLoader.vue'
   import QuantityControl from '@components/ui/QuantityControl.vue'
   import { useGiftStore } from '@/store/gift'
+  import { useSettingStore } from '@/store/setting'
   import { preprocess, postprocess } from '@/utils/yolo-v5-utils.js'
   import { GIFT_RECOGNITION_CLASS_NAMES } from '@/data/giftRecognitionClassNames.js'
 
@@ -130,6 +132,9 @@
 
   const { t, currentLocale: locale } = useI18n()
   const giftStore = useGiftStore()
+
+  const settingStore = useSettingStore()
+  const { isDarkMode } = storeToRefs(settingStore)
 
   const isLoading = ref(false)
   const imageUrl = ref(null)
