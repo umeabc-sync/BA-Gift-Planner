@@ -59,7 +59,9 @@
                 </div>
                 <QuantityControl
                   :value="gift.quantity"
-                  @update:value="(value) => (gift.quantity = value)"
+                  @update:value="(value) => updateGiftQuantity(gift.id, gift.isSsr, value)"
+                  @increment="updateGiftQuantity(gift.id, gift.isSsr, gift.quantity + 1)"
+                  @decrement="updateGiftQuantity(gift.id, gift.isSsr, gift.quantity - 1)"
                   :use-continuous="true"
                 />
               </div>
@@ -163,7 +165,7 @@
   })
 
   const displayedRecognizedGifts = computed(() => {
-    return recognizedGifts.value
+    const temp = recognizedGifts.value
       .map((recGift) => {
         const giftKey = `${recGift.isSsr ? 'ssr' : 'sr'}-${recGift.giftId}`
         const giftDetails = allGiftsMap.value.get(giftKey)
@@ -174,7 +176,16 @@
       })
       .filter(Boolean)
       .sort((a, b) => b.confidence - a.confidence)
+    console.log(temp)
+    return temp
   })
+
+  const updateGiftQuantity = (giftId, isSsr, newQuantity) => {
+    const giftToUpdate = recognizedGifts.value.find((g) => g.giftId === giftId && g.isSsr === isSsr)
+    if (giftToUpdate) {
+      giftToUpdate.quantity = newQuantity
+    }
+  }
 
   const togglePreview = () => {
     isPreviewExpanded.value = !isPreviewExpanded.value
@@ -406,9 +417,9 @@
   }
 
   const confirm = () => {
-    displayedRecognizedGifts.value.forEach((gift) => {
+    recognizedGifts.value.forEach((gift) => {
       if (gift.quantity !== 0) {
-        giftStore.setGiftQuantity(gift.id, gift.isSsr, gift.quantity)
+        giftStore.setGiftQuantity(gift.giftId, gift.isSsr, gift.quantity)
       }
     })
     emit('confirm')
