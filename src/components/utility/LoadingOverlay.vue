@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isVisible" class="loading-overlay">
+  <div v-if="isVisible" class="loading-overlay" :class="`scope-${scope}`">
     <div class="spinner-container">
       <HalfCircleSpinner :animation-duration="1000" :size="60" color="#fff" />
       <p class="loading-text">{{ t('app.downloading') }}</p>
@@ -13,6 +13,11 @@
 
   defineProps({
     isVisible: Boolean,
+    scope: {
+      type: String,
+      default: 'global', // 'global' or 'local'
+      validator: (value) => ['global', 'local'].includes(value),
+    },
   })
 
   const { t } = useI18n()
@@ -20,7 +25,6 @@
 
 <style scoped>
   .loading-overlay {
-    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
@@ -30,6 +34,14 @@
     justify-content: center;
     align-items: center;
     z-index: 9999;
+  }
+
+  .scope-global {
+    position: fixed;
+  }
+
+  .scope-local {
+    position: absolute;
   }
 
   .spinner-container {

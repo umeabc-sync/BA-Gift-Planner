@@ -6,7 +6,7 @@
     </template>
     <template #body>
       <div class="recognition-body">
-        <LoadingOverlay :is-loading="isLoading" />
+        <LoadingOverlay :is-visible="isLoading" scope="local" />
 
         <div
           v-if="!imageUrl && !isLoading"
