@@ -209,8 +209,8 @@
 
   onUnmounted(() => {
     if (tesseractWorker.value) {
-      tesseractWorker.value.terminate();
-      tesseractWorker.value = null;
+      tesseractWorker.value.terminate()
+      tesseractWorker.value = null
     }
   })
 
