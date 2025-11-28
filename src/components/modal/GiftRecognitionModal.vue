@@ -384,6 +384,7 @@
       imageUrl.value = null
     }
     cleanupImages()
+    recognizedGifts.value = [] // Clear recognized gifts data
     // The worker doesn't have to be terminated. Depending on the use case, it can be kept if the modal is opened frequently.
     // if (tesseractWorker.value) {
     //   tesseractWorker.value.terminate()
