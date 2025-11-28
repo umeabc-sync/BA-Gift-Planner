@@ -104,7 +104,7 @@
   import QuantityControl from '@components/ui/QuantityControl.vue'
   import { useGiftStore } from '@/store/gift'
   import { preprocess, postprocess } from '@/utils/yolo-v5-utils.js'
-  import { YML_CLASS_NAMES } from '@/data/ymlClassNames.js'
+  import { GIFT_RECOGNITION_CLASS_NAMES } from '@/data/giftRecognitionClassNames.js'
 
   const isDebugMode = ref(false)
   const isPreviewExpanded = ref(true)
@@ -131,7 +131,7 @@
   const { data: srGifts } = useSrGiftData(locale)
   const { data: ssrGifts } = useSsrGiftData(locale)
 
-  const classNames = computed(() => YML_CLASS_NAMES)
+  const classNames = computed(() => GIFT_RECOGNITION_CLASS_NAMES)
 
   const allGiftsMap = computed(() => {
     const map = new Map()

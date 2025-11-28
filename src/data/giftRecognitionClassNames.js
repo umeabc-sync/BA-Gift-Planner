@@ -1,4 +1,4 @@
-export const YML_CLASS_NAMES = [
+export const GIFT_RECOGNITION_CLASS_NAMES = [
   'favor_0',
   'favor_1',
   'favor_10',
