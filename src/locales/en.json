@@ -156,7 +156,8 @@
   "giftRecognitionModal": {
     "title": "Gift Recognition",
     "upload": "Upload Image",
-    "imagePreview": "Image Preview"
+    "imagePreview": "Image Preview",
+    "dropzonePlaceholder": "Gift recognition may be inaccurate. Please check the results after completion."
   },
   "toast": {
     "link_copied_to_clipboard": "Link copied to clipboard",

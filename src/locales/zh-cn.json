@@ -156,7 +156,8 @@
   "giftRecognitionModal": {
     "title": "礼物识别",
     "upload": "上传图片",
-    "imagePreview": "图片预览"
+    "imagePreview": "图片预览",
+    "dropzonePlaceholder": "礼物识别可能会出错，完成后请进行检查"
   },
   "toast": {
     "link_copied_to_clipboard": "已将连结複製到剪贴簿",

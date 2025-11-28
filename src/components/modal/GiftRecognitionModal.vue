@@ -1,18 +1,24 @@
 <template>
   <input type="file" ref="fileInput" @change="handleFileChange" accept="image/*" style="display: none" />
-  <BaseModal
-    :is-visible="isVisible"
-    @close="close"
-    max-width="1000px"
-    min-body-height="65vh"
-    :is-empty="displayedRecognizedGifts.length === 0 && !imageUrl && !isLoading"
-  >
+  <BaseModal :is-visible="isVisible" @close="close" max-width="1000px" min-body-height="65vh">
     <template #header>
       <div class="modal-title">{{ t('giftRecognitionModal.title') }}</div>
     </template>
     <template #body>
       <div class="recognition-body">
         <LoadingOverlay :is-loading="isLoading" />
+
+        <div
+          v-if="!imageUrl && !isLoading"
+          class="dropzone-area"
+          :class="{ 'is-dragging-over': isDraggingOver }"
+          @click="openFileDialog"
+          @dragover.prevent="handleDragOver"
+          @dragleave.prevent="handleDragLeave"
+          @drop.prevent="handleDrop"
+        >
+          <p>{{ t('giftRecognitionModal.dropzonePlaceholder') }}</p>
+        </div>
 
         <div v-show="imageUrl" class="preview-section">
           <div class="preview-header" @click="togglePreview">
@@ -108,6 +114,7 @@
 
   const isDebugMode = ref(false)
   const isPreviewExpanded = ref(true)
+  const isDraggingOver = ref(false)
 
   const props = defineProps({
     isVisible: { type: Boolean, default: false },
@@ -325,8 +332,7 @@
     }
   }
 
-  const handleFileChange = async (event) => {
-    const file = event.target.files[0]
+  const processFile = (file) => {
     if (file) {
       if (imageUrl.value) {
         URL.revokeObjectURL(imageUrl.value)
@@ -339,6 +345,25 @@
         await runObjectDetection(file)
       }, 100)
     }
+  }
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0]
+    processFile(file)
+  }
+
+  const handleDrop = (event) => {
+    isDraggingOver.value = false
+    const file = event.dataTransfer.files[0]
+    processFile(file)
+  }
+
+  const handleDragOver = () => {
+    isDraggingOver.value = true
+  }
+
+  const handleDragLeave = () => {
+    isDraggingOver.value = false
   }
 
   const openFileDialog = () => {
@@ -394,6 +419,40 @@
     .recognition-body {
       padding: 10px;
     }
+  }
+
+  /* --- Dropzone --- */
+  .dropzone-area {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    flex-grow: 1;
+    border-radius: 12px;
+    background-color: rgba(0, 0, 0, 0.02);
+    cursor: pointer;
+    transition: background-color 0.2s;
+    color: #888;
+    text-align: center;
+    padding: 20px;
+    background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='12' ry='12' stroke='%23cccccc' stroke-width='3' stroke-dasharray='6, 10' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
+  }
+
+  .dark-mode .dropzone-area {
+    color: #718096;
+    background-color: rgba(255, 255, 255, 0.03);
+    background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='12' ry='12' stroke='%234a5568' stroke-width='3' stroke-dasharray='6, 10' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
+  }
+
+  .dropzone-area.is-dragging-over,
+  .dropzone-area:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+
+  .dark-mode .dropzone-area.is-dragging-over,
+  .dark-mode .dropzone-area:hover {
+    background-color: rgba(255, 255, 255, 0.08);
   }
 
   /* --- Preview Section Styles --- */
@@ -482,15 +541,15 @@
     max-width: 100%;
     /* Limit max height to prevent long images from breaking the layout */
     max-height: 40vh;
-    border: 2px dashed #ccc;
     border-radius: 8px;
     padding: 5px;
     display: inline-block; /* Make the container size wrap its content */
     overflow: hidden;
+    background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='8' ry='8' stroke='%23cccccc' stroke-width='3' stroke-dasharray='6, 10' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
   }
 
   .dark-mode .image-wrapper {
-    border-color: #555;
+    background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='8' ry='8' stroke='%23555555' stroke-width='3' stroke-dasharray='6, 10' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
   }
 
   .image-wrapper img {
@@ -513,9 +572,9 @@
     border-radius: 4px;
   }
 
-  /* --- Scrollable List Container --- */
   .scrollable-list-container {
     width: 100%;
+    flex-grow: 1; /* Allow this container to take remaining space */
   }
 
   /* Grid Layout */

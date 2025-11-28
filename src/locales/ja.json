@@ -156,7 +156,8 @@
   "giftRecognitionModal": {
     "title": "ギフト認識",
     "upload": "画像アップロード",
-    "imagePreview": "画像プレビュー"
+    "imagePreview": "画像プレビュー",
+    "dropzonePlaceholder": "贈り物の認識は不正確な場合があります。完了後に結果を確認してください。"
   },
   "toast": {
     "link_copied_to_clipboard": "リンクがクリップボードにコピーされました",

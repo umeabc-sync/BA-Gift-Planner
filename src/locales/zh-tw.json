@@ -156,7 +156,8 @@
   "giftRecognitionModal": {
     "title": "禮物識別",
     "upload": "上傳圖片",
-    "imagePreview": "圖片預覽"
+    "imagePreview": "圖片預覽",
+    "dropzonePlaceholder": "禮物識別可能會出錯，完成後請進行檢查"
   },
   "toast": {
     "link_copied_to_clipboard": "已將連結複製到剪貼簿",
