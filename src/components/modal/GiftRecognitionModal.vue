@@ -167,7 +167,7 @@
   const displayedRecognizedGifts = computed(() => {
     const temp = recognizedGifts.value
       .map((recGift) => {
-        const giftKey = `${recGift.isSsr ? 'ssr' : 'sr'}-${recGift.giftId}`
+        const giftKey = `${recGift.isSsr ? 'ssr' : 'sr'}-${recGift.id}`
         const giftDetails = allGiftsMap.value.get(giftKey)
         if (giftDetails) {
           return { ...recGift, ...giftDetails, quantity: Math.max(0, recGift.quantity) }
@@ -180,8 +180,8 @@
     return temp
   })
 
-  const updateGiftQuantity = (giftId, isSsr, newQuantity) => {
-    const giftToUpdate = recognizedGifts.value.find((g) => g.giftId === giftId && g.isSsr === isSsr)
+  const updateGiftQuantity = (id, isSsr, newQuantity) => {
+    const giftToUpdate = recognizedGifts.value.find((g) => g.id === id && g.isSsr === isSsr)
     if (giftToUpdate) {
       giftToUpdate.quantity = newQuantity
     }
@@ -344,7 +344,7 @@
         if (giftId === null || isNaN(giftId)) continue
 
         recognizedGifts.value.push({
-          giftId,
+          id: giftId, // Renamed from giftId to id
           isSsr,
           quantity: ocrResult.quantity,
           rawText: ocrResult.rawText,
@@ -419,7 +419,7 @@
   const confirm = () => {
     recognizedGifts.value.forEach((gift) => {
       if (gift.quantity !== 0) {
-        giftStore.setGiftQuantity(gift.giftId, gift.isSsr, gift.quantity)
+        giftStore.setGiftQuantity(gift.id, gift.isSsr, gift.quantity)
       }
     })
     emit('confirm')
