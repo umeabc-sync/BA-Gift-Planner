@@ -175,7 +175,12 @@
         return null
       })
       .filter(Boolean)
-      .sort((a, b) => b.confidence - a.confidence)
+      .sort((a, b) => {
+        if (a.isSsr !== b.isSsr) {
+          return a.isSsr - b.isSsr
+        }
+        return a.id - b.id
+      })
   })
 
   const updateGiftQuantity = (id, isSsr, newQuantity) => {
