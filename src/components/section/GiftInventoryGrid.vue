@@ -59,9 +59,15 @@
     if (!srGifts.value || !ssrGifts.value) {
       return []
     }
-    const sr = srGifts.value.map((g) => ({ ...g, isSsr: false })).sort((a, b) => a.id - b.id)
+
+    const choiceBox = { ...srGifts.value.find((g) => g.id === 35), isSsr: false }
+    const sr = srGifts.value
+      .filter((g) => g.id !== 35)
+      .map((g) => ({ ...g, isSsr: false }))
+      .sort((a, b) => a.id - b.id)
     const ssr = ssrGifts.value.map((g) => ({ ...g, isSsr: true })).sort((a, b) => a.id - b.id)
-    return [...sr, ...ssr]
+
+    return [choiceBox, ...sr, ...ssr]
   })
 </script>
 
