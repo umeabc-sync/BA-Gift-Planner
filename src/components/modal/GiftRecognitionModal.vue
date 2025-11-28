@@ -165,7 +165,7 @@
   })
 
   const displayedRecognizedGifts = computed(() => {
-    const temp = recognizedGifts.value
+    return recognizedGifts.value
       .map((recGift) => {
         const giftKey = `${recGift.isSsr ? 'ssr' : 'sr'}-${recGift.id}`
         const giftDetails = allGiftsMap.value.get(giftKey)
@@ -176,8 +176,6 @@
       })
       .filter(Boolean)
       .sort((a, b) => b.confidence - a.confidence)
-    console.log(temp)
-    return temp
   })
 
   const updateGiftQuantity = (id, isSsr, newQuantity) => {
