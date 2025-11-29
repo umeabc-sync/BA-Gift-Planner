@@ -140,10 +140,6 @@
     background-color: #00a4e4;
   }
 
-  .dark-mode .edit-button:hover {
-    background-color: #007bff;
-  }
-
   .edit-button img {
     width: 16px;
     height: 16px;
