@@ -11,7 +11,7 @@
           </div>
           <div class="modal-body">
             <div v-if="isEmpty" class="empty-state" :style="emptyStateStyle">
-              <warningIcon class="empty-icon" />
+              <warningIcon class="empty-icon" fill="currentColor" />
               <p class="empty-text">EMPTY</p>
             </div>
             <slot v-else name="body"></slot>
@@ -192,7 +192,7 @@
     width: 64px;
     height: 64px;
     transform: scaleX(1.25);
-    opacity: 0.4;
+    color: #a0a0a0;
   }
 
   .empty-text {
@@ -203,5 +203,10 @@
     margin-right: 8px;
     margin-top: -8px;
     color: #a0a0a0;
+  }
+
+  .dark-mode .empty-icon,
+  .dark-mode .empty-text {
+    opacity: 0.4;
   }
 </style>
