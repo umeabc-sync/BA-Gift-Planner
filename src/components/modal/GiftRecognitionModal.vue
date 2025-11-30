@@ -46,7 +46,10 @@
           <div class="recognized-gifts-grid">
             <div v-for="gift in displayedRecognizedGifts" :key="gift.key" class="recognized-gift-wrapper">
               <div class="main-content">
-                <div class="gift-grid-item" :class="[gift.isSsr ? 'gift-purple' : 'gift-yellow']">
+                <div
+                  class="gift-grid-item"
+                  :class="[gift.isSsr ? 'gift-purple' : 'gift-yellow', { 'grayscale-effect': gift.quantity === 0 }]"
+                >
                   <ImageWithLoader
                     :src="getGiftUrl(gift.id, gift.isSsr)"
                     class="gift-icon"
@@ -652,6 +655,11 @@
   .dark-mode .recognized-gift-wrapper {
     background: #1f3048;
     border-color: #2a4a6e;
+  }
+
+  .grayscale-effect {
+    filter: grayscale(100%);
+    opacity: 0.6;
   }
 
   .main-content {
