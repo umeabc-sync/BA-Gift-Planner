@@ -122,7 +122,7 @@
   import { preprocess, postprocess } from '@/utils/yolo-v5-utils.js'
   import { GIFT_RECOGNITION_CLASS_NAMES } from '@/data/giftRecognitionClassNames.js'
 
-  const isDebugMode = ref(true)
+  const isDebugMode = ref(false)
   const isPreviewExpanded = ref(true)
   const isDraggingOver = ref(false)
 
@@ -243,7 +243,13 @@
       const h = imageBitmap.height
       if (w === 0 || h === 0) return { quantity: 0, rawText: '', croppedImage, processedImage: null }
 
-      const quantityBitmap = await createImageBitmap(imageBitmap, w / 3, (h * 3) / 4, (w * 1.85) / 3, h / 4)
+      // Dynamically adjust crop position based on aspect ratio
+      // If the image is wider than it is tall (e.g., cut off), the text is relatively higher.
+      const aspectRatio = w / h
+      const yOffset = aspectRatio > 1.2 ? 0.5 : 0.75 // Use 50% for wide images, 75% for normal
+      const cropHeight = 1 - yOffset
+
+      const quantityBitmap = await createImageBitmap(imageBitmap, w / 3, h * yOffset, (w * 1.85) / 3, h * cropHeight)
 
       const canvas = new OffscreenCanvas(quantityBitmap.width, quantityBitmap.height)
       const ctx = canvas.getContext('2d')
