@@ -319,7 +319,8 @@
   /* Tab Content */
   .tab-content {
     background: white;
-    height: 340px;
+    height: 40vh;
+    max-height: 340px;
     padding: 6px 4px 4px 4px;
     display: flex;
   }
@@ -333,6 +334,7 @@
     padding: 20px;
     background-color: #d8dadc;
     border-radius: 9px;
+    overflow-y: auto;
   }
 
   .dark-mode .settings-panel {
