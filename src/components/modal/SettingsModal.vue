@@ -431,19 +431,9 @@
   }
 
   @media (max-width: 425px) {
-    .settings-body {
-      border-radius: 0;
-      border-left: none;
-      border-right: none;
-    }
-
     .tab-button {
       padding: 14px 16px;
       font-size: 0.95rem;
-    }
-
-    .settings-panel {
-      padding: 16px;
     }
 
     .setting-group {
