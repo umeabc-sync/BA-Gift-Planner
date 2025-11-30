@@ -276,14 +276,13 @@
       const {
         data: { text },
       } = await tesseractWorker.value.recognize(canvas, {
-        tessedit_char_whitelist: 'xX0123456789lIidZzOSB|',
+        tessedit_char_whitelist: 'xX0123456789lIidZzOB|',
       })
 
       let fixedText = text
         .replace(/[lI|d]/g, '1') // l, I, |, d -> 1
         .replace(/[Zz]/g, '2') // Z, z -> 2
         .replace(/[O]/g, '0') // O -> 0
-        .replace(/[S]/g, '5') // S -> 5
         .replace(/[B]/g, '8') // B -> 8
 
       // Remove all characters preceding the last 'x' or 'X'
