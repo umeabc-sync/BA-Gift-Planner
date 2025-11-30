@@ -126,7 +126,7 @@
   const isPreviewExpanded = ref(true)
   const isDraggingOver = ref(false)
 
-  const props = defineProps({
+  defineProps({
     isVisible: { type: Boolean, default: false },
   })
 
