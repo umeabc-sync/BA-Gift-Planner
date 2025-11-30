@@ -331,7 +331,7 @@
 
   .settings-panel {
     width: 100%;
-    padding: 20px;
+    padding: 0px 20px;
     background-color: #d8dadc;
     border-radius: 9px;
     overflow-y: auto;
