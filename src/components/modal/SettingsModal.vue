@@ -319,8 +319,9 @@
   /* Tab Content */
   .tab-content {
     background: white;
-    min-height: 300px;
+    height: 340px;
     padding: 6px 4px 4px 4px;
+    display: flex;
   }
 
   .dark-mode .tab-content {
@@ -328,6 +329,7 @@
   }
 
   .settings-panel {
+    width: 100%;
     padding: 20px;
     background-color: #d8dadc;
     border-radius: 9px;
