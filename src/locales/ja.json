@@ -51,7 +51,8 @@
     "disabled": "無効",
     "title": "Sensei ハーレムツール",
     "edit": "編集",
-    "cancel": "キャンセル"
+    "cancel": "キャンセル",
+    "confirm": "確認"
   },
   "dialog": {
     "notificationTitle": "通知"
@@ -81,7 +82,10 @@
     "light": "ライト",
     "dark": "ダーク",
     "system": "システム",
-    "vibrantProgressBar": "より目立つ経験値バーの色"
+    "vibrantProgressBar": "より目立つ経験値バーの色",
+    "disableBackgroundBlur": "背景のぼかしを無効にする",
+    "appearance": "外観設定",
+    "performance": "パフォーマンス設定"
   },
   "shareModal": {
     "title": "スクショ設定",
@@ -149,7 +153,15 @@
     }
   },
   "giftInventoryModal": {
-    "title": "贈り物インベントリ"
+    "title": "贈り物一覧",
+    "recognize": "画像認識"
+  },
+  "giftRecognitionModal": {
+    "title": "ギフト認識",
+    "upload": "画像アップロード",
+    "imagePreview": "画像プレビュー",
+    "initializing": "初期化中...",
+    "dropzonePlaceholder": "贈り物の認識は不正確な場合があります。完了後に結果を確認してください。"
   },
   "toast": {
     "link_copied_to_clipboard": "リンクがクリップボードにコピーされました",

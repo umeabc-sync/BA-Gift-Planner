@@ -40,7 +40,7 @@
             </div>
           </div>
         </div>
-        <button class="icon-btn" @click="openGiftModal(student)">
+        <button class="btn-skew btn-icon btn-blue" @click="openGiftModal(student)">
           <component :is="GiftIcon" alt="Give Gift" draggable="false" />
         </button>
       </div>
@@ -204,48 +204,6 @@
     background: #1f3048;
     color: #e0e6ed;
     border-color: #2a4a6e;
-  }
-
-  .icon-btn {
-    background-color: #77ddff;
-    background-image: linear-gradient(to bottom right, #63d0fd 0%, transparent 50%),
-      linear-gradient(to top left, #63d0fd 0%, transparent 50%);
-    border: none;
-    color: #314665;
-    fill: #314665;
-    cursor: pointer;
-    border-radius: 12px;
-    width: 42px;
-    height: 42px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-    transform: skew(-8deg);
-    box-shadow: 0 3px 2px rgba(0, 0, 0, 0.15);
-    flex-shrink: 0;
-  }
-
-  .icon-btn:hover {
-    transform: translateY(-2px) skew(-8deg);
-  }
-
-  .icon-btn:active {
-    transform: scale(0.95) skew(-8deg);
-  }
-
-  .dark-mode .icon-btn {
-    background-color: #00aeef;
-    background-image: linear-gradient(to bottom right, #09a4f2 0%, transparent 50%),
-      linear-gradient(to top left, #09a4f2 0%, transparent 50%);
-    color: #e0f4ff;
-    fill: #e0f4ff;
-  }
-
-  .icon-btn svg {
-    width: 24px;
-    height: 24px;
-    transform: skew(8deg);
   }
 
   .bond-info {
@@ -467,12 +425,12 @@
       font-size: 12px;
     }
 
-    .icon-btn {
+    .btn-skew {
       width: 38px;
       height: 38px;
     }
 
-    .icon-btn svg {
+    .btn-skew svg {
       width: 20px;
       height: 20px;
     }

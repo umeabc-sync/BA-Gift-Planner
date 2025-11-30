@@ -1,11 +1,11 @@
 <template>
-  <BaseModal :is-visible="show" @close="close" max-width="550px">
+  <BaseModal :is-visible="show" @close="close" max-width="550px" :is-empty="sortedGifts.length === 0">
     <template #header>
-      <div class="modal-title">{{ t('giftGivingModal.title') }} {{ student.name }}</div>
+      <div class="modal-title">{{ t('giftGivingModal.title') }} {{ student?.name }}</div>
     </template>
     <template #body>
       <div class="gift-giving-body">
-        <div v-if="sortedGifts.length > 0" class="gift-list">
+        <div class="gift-list">
           <div v-for="gift in sortedGifts" :key="gift.key" class="gift-wrapper">
             <div class="gift-grid-item" :class="[gift.isSsr ? 'gift-purple' : 'gift-yellow', getGiftStyle(gift)]">
               <ImageWithLoader
@@ -37,10 +37,6 @@
             />
           </div>
         </div>
-        <div v-else class="empty-state">
-          <warningIcon class="empty-icon" />
-          <p class="empty-text">EMPTY</p>
-        </div>
       </div>
     </template>
     <template #footer>
@@ -62,7 +58,7 @@
           </CustomDropdown>
         </div>
 
-        <button @click="reset" class="reset-button">
+        <button @click="reset" class="btn-skew btn-text btn-blue">
           <span>{{ t('giftGivingModal.reset') }}</span>
         </button>
       </div>
@@ -82,7 +78,6 @@
   import { useModal } from '@/composables/useModal'
   import BaseModal from '@components/ui/BaseModal.vue'
   import CustomDropdown from '@components/ui/CustomDropdown.vue'
-  import warningIcon from '@/assets/icon/warning.svg'
 
   const { t } = useI18n()
 
@@ -112,7 +107,7 @@
   }
 
   const sortedGifts = computed(() => {
-    if (!giftPlannerStore.allGifts) return []
+    if (!props.student || !giftPlannerStore.allGifts) return []
     const giftPriorityMap = { 'best-no-conflict': 0, conflict: 2, 'other-gift': 3 }
 
     return giftPlannerStore.allGifts
@@ -329,32 +324,6 @@
     border-color: #1f3048;
   }
 
-  .empty-state {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    min-height: 200px;
-    padding: 20px;
-  }
-
-  .empty-icon {
-    width: 64px;
-    height: 64px;
-    transform: scaleX(1.25);
-    opacity: 0.4;
-  }
-
-  .empty-text {
-    font-family: 'NEXON Football Gothic';
-    font-weight: bold;
-    font-style: italic;
-    font-size: 1.75rem;
-    margin-right: 8px;
-    margin-top: -8px;
-    color: #a0a0a0;
-  }
-
   /* Footer Styles */
   .gift-giving-footer {
     display: flex;
@@ -368,47 +337,6 @@
   .dropdown-wrapper {
     flex-grow: 1;
     max-width: 250px;
-  }
-
-  .reset-button {
-    background-color: #77ddff;
-    background-image: linear-gradient(to bottom right, #63d0fd 0%, transparent 50%),
-      linear-gradient(to top left, #63d0fd 0%, transparent 50%);
-    border: none;
-    color: #314665;
-    cursor: pointer;
-    border-radius: 12px;
-    height: 42px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-    transform: skew(-8deg);
-    box-shadow: 0 3px 2px rgba(0, 0, 0, 0.15);
-    font-family: inherit;
-    font-weight: bold;
-    font-size: 1rem;
-    padding: 0 25px;
-  }
-
-  .reset-button:hover {
-    transform: translateY(-2px) skew(-8deg);
-  }
-
-  .reset-button:active {
-    transform: scale(0.95) skew(-8deg);
-  }
-
-  .dark-mode .reset-button {
-    background-color: #00aeef;
-    background-image: linear-gradient(to bottom right, #09a4f2 0%, transparent 50%),
-      linear-gradient(to top left, #09a4f2 0%, transparent 50%);
-    color: #e0f4ff;
-  }
-
-  .reset-button > span {
-    transform: skew(8deg);
-    display: inline-block;
   }
 
   .best-no-conflict {

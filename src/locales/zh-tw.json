@@ -51,7 +51,8 @@
     "disabled": "禁用",
     "title": "Sensei 海王工具",
     "edit": "編輯",
-    "cancel": "取消"
+    "cancel": "取消",
+    "confirm": "確認"
   },
   "dialog": {
     "notificationTitle": "通知"
@@ -81,7 +82,10 @@
     "light": "明亮",
     "dark": "暗黑",
     "system": "跟隨系統",
-    "vibrantProgressBar": "更顯眼的經驗條配色"
+    "vibrantProgressBar": "更顯眼的經驗條配色",
+    "disableBackgroundBlur": "禁用背景模糊",
+    "appearance": "外觀設定",
+    "performance": "性能設定"
   },
   "shareModal": {
     "title": "截圖設定",
@@ -149,7 +153,15 @@
     }
   },
   "giftInventoryModal": {
-    "title": "禮物庫存"
+    "title": "禮物庫存",
+    "recognize": "截圖識別"
+  },
+  "giftRecognitionModal": {
+    "title": "禮物識別",
+    "upload": "上傳圖片",
+    "imagePreview": "圖片預覽",
+    "initializing": "初始化中...",
+    "dropzonePlaceholder": "禮物識別可能會出錯，完成後請進行檢查"
   },
   "toast": {
     "link_copied_to_clipboard": "已將連結複製到剪貼簿",

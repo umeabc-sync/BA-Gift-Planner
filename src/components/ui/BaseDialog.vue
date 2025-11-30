@@ -1,7 +1,12 @@
 <template>
   <teleport to="body">
     <transition name="modal-fade">
-      <div v-if="isVisible" class="modal-overlay" @click.self="closeModal">
+      <div
+        v-if="isVisible"
+        class="modal-overlay"
+        :class="{ 'no-blur': disableBackgroundBlur }"
+        @click.self="closeModal"
+      >
         <div class="modal-content" :style="contentStyle">
           <div class="modal-header">
             <div class="modal-title-wrapper">
@@ -13,10 +18,10 @@
             <p>{{ text }}</p>
           </div>
           <div class="modal-actions" :class="{ 'has-cancel': showCancel }">
-            <button v-if="showCancel" class="btn btn-cancel" @click="handleCancel">
+            <button v-if="showCancel" class="btn-skew btn-text btn-gray" @click="handleCancel">
               <span>{{ t('common.cancel') }}</span>
             </button>
-            <button class="btn btn-ok" :class="{ pink: pink }" @click="handleOk">
+            <button class="btn-skew btn-text btn-blue" :class="{ pink: pink }" @click="handleOk">
               <span>OK</span>
             </button>
           </div>
@@ -30,6 +35,11 @@
   import { toRefs, computed } from 'vue'
   import { useModal } from '@composables/useModal.js'
   import { useI18n } from '@composables/useI18n.js'
+  import { useSettingStore } from '@/store/setting'
+  import { storeToRefs } from 'pinia'
+
+  const settingStore = useSettingStore()
+  const { disableBackgroundBlur } = storeToRefs(settingStore)
 
   const props = defineProps({
     isVisible: { type: Boolean, default: false },
@@ -79,6 +89,10 @@
     align-items: center;
     z-index: 2000;
     backdrop-filter: blur(5px);
+  }
+
+  .modal-overlay.no-blur {
+    backdrop-filter: none;
   }
 
   .modal-content {
@@ -182,71 +196,19 @@
     justify-content: space-between;
   }
 
-  .btn {
-    position: relative;
-    font-family: inherit;
-    font-weight: bold;
-    border: none;
-    color: #314665;
-    padding: 0 30px;
-    height: 44px;
-    border-radius: 12px;
-    font-size: 1.1rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    min-width: 140px;
-    transform: skew(-8deg);
-    box-shadow: 0 3px 2px rgba(0, 0, 0, 0.15);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-  }
-
-  .btn span {
-    transform: skew(8deg);
-    z-index: 2;
-    letter-spacing: 1px;
-    display: inline-block;
-  }
-
-  .btn:hover {
-    transform: translateY(-2px) skew(-8deg);
-  }
-
-  .btn:active {
-    transform: scale(0.95) skew(-8deg);
-  }
-
-  .modal-actions.has-cancel .btn {
+  .modal-actions.has-cancel .btn-skew {
     flex: 1;
   }
 
-  .btn-ok {
-    background-color: #77ddff;
-    background-image: linear-gradient(to bottom right, #63d0fd 0%, transparent 50%),
-      linear-gradient(to top left, #63d0fd 0%, transparent 50%);
+  .btn-skew {
+    min-width: 140px;
+    height: 44px;
+    padding: 0 30px;
+    font-size: 1.1rem;
   }
 
-  .dark-mode .btn-ok {
-    background-color: #00aeef;
-    background-image: linear-gradient(to bottom right, #09a4f2 0%, transparent 50%),
-      linear-gradient(to top left, #09a4f2 0%, transparent 50%);
-    color: #e0f4ff;
-  }
-
-  .btn-cancel {
-    background-color: #daedf4;
-    background-image: linear-gradient(to bottom right, #c9e1ed 0%, transparent 50%),
-      linear-gradient(to top left, #c9e1ed 0%, transparent 50%);
-  }
-
-  .dark-mode .btn-cancel {
-    background-color: #3d4852;
-    background-image: linear-gradient(to bottom right, #2d3748 0%, transparent 50%),
-      linear-gradient(to top left, #2d3748 0%, transparent 50%);
-    color: #9ca3af;
+  .btn-skew span {
+    letter-spacing: 1px;
   }
 
   .modal-fade-enter-active,

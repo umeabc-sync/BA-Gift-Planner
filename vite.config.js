@@ -4,6 +4,7 @@ import { createRequire } from 'module'
 import vue from '@vitejs/plugin-vue'
 import svgLoader from 'vite-svg-loader'
 import vueDevTools from 'vite-plugin-vue-devtools'
+import { viteStaticCopy } from 'vite-plugin-static-copy'
 
 const require = createRequire(import.meta.url)
 const { version } = require('./package.json')
@@ -14,7 +15,18 @@ export default defineConfig({
     vue(),
     svgLoader(),
     vueDevTools(),
+    viteStaticCopy({
+      targets: [
+        {
+          src: 'node_modules/onnxruntime-web/dist/*.wasm',
+          dest: '.'
+        }
+      ]
+    })
   ],
+  optimizeDeps: {
+    exclude: ['onnxruntime-web']
+  },
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),

@@ -34,9 +34,14 @@
     </template>
     <template #footer>
       <div class="gift-inventory-footer">
-        <button @click="convertGifts" class="convert-button" :class="{ 'no-to-convert': !canConvertSynthesisGifts }">
-          <span>{{ t('bondCalculator.convertToChoiceBox') }}</span>
-        </button>
+        <div class="footer-buttons">
+          <button @click="openRecognitionModal" class="btn-skew btn-text btn-blue">
+            <span>{{ t('giftInventoryModal.recognize') }}</span>
+          </button>
+          <button @click="convertGifts" class="btn-skew btn-text btn-yellow" :disabled="!canConvertSynthesisGifts">
+            <span>{{ t('bondCalculator.convertToChoiceBox') }}</span>
+          </button>
+        </div>
       </div>
       <BaseDialog
         :is-visible="isConfirmVisible"
@@ -45,6 +50,7 @@
         @close="isConfirmVisible = false"
         @ok="confirmConvert"
       />
+      <GiftRecognitionModal :is-visible="isRecognitionModalVisible" @close="isRecognitionModalVisible = false" />
     </template>
   </BaseModal>
 </template>
@@ -63,6 +69,7 @@
   import QuantityControl from '@components/ui/QuantityControl.vue'
   import BaseModal from '@components/ui/BaseModal.vue'
   import BaseDialog from '@components/ui/BaseDialog.vue'
+  import GiftRecognitionModal from './GiftRecognitionModal.vue'
 
   const { t, currentLocale: locale } = useI18n()
 
@@ -79,6 +86,11 @@
   const { totalAssigned } = storeToRefs(giftPlannerStore)
 
   const isConfirmVisible = ref(false)
+  const isRecognitionModalVisible = ref(false)
+
+  const openRecognitionModal = () => {
+    isRecognitionModalVisible.value = true
+  }
 
   const close = () => {
     emit('close')
@@ -94,9 +106,15 @@
     if (!srGifts.value || !ssrGifts.value) {
       return []
     }
-    const sr = srGifts.value.map((g) => ({ ...g, isSsr: false })).sort((a, b) => a.id - b.id)
+
+    const choiceBox = { ...srGifts.value.find((g) => g.id === 35), isSsr: false }
+    const sr = srGifts.value
+      .filter((g) => g.id !== 35)
+      .map((g) => ({ ...g, isSsr: false }))
+      .sort((a, b) => a.id - b.id)
     const ssr = ssrGifts.value.map((g) => ({ ...g, isSsr: true })).sort((a, b) => a.id - b.id)
-    return [...ssr, ...sr]
+
+    return [choiceBox, ...sr, ...ssr]
   })
 
   const canConvertSynthesisGifts = computed(() => {
@@ -249,57 +267,9 @@
     padding: 15px 20px;
   }
 
-  .convert-button {
-    background-color: #f4e94c;
-    background-image: linear-gradient(to bottom right, #f9da3b 0%, transparent 50%),
-      linear-gradient(to top left, #f9da3b 0%, transparent 50%);
-    border: none;
-    color: #314665;
-    cursor: pointer;
-    border-radius: 12px;
-    height: 42px;
+  .footer-buttons {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-    transform: skew(-8deg);
-    box-shadow: 0 3px 2px rgba(0, 0, 0, 0.15);
-    font-family: inherit;
-    font-weight: bold;
-    font-size: 1rem;
-    padding: 0 25px;
-  }
-
-  .convert-button:hover {
-    transform: translateY(-2px) skew(-8deg);
-  }
-
-  .convert-button:active {
-    transform: scale(0.95) skew(-8deg);
-  }
-
-  .dark-mode .convert-button {
-    background-color: #e57758;
-    background-image: linear-gradient(to bottom right, #e4522f 0%, transparent 50%),
-      linear-gradient(to top left, #e4522f 0%, transparent 50%);
-    color: #e0f4ff;
-  }
-
-  .convert-button.no-to-convert {
-    background-color: #daedf4;
-    background-image: linear-gradient(to bottom right, #c9e1ed 0%, transparent 50%),
-      linear-gradient(to top left, #c9e1ed 0%, transparent 50%);
-  }
-
-  .dark-mode .convert-button.no-to-convert {
-    background-color: #3d4852;
-    background-image: linear-gradient(to bottom right, #2d3748 0%, transparent 50%),
-      linear-gradient(to top left, #2d3748 0%, transparent 50%);
-    color: #9ca3af;
-  }
-
-  .convert-button > span {
-    transform: skew(8deg);
-    display: inline-block;
+    justify-content: flex-end;
+    gap: 15px;
   }
 </style>

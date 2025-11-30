@@ -1,7 +1,12 @@
 <template>
   <teleport to="body">
     <transition name="modal-fade">
-      <div v-if="isVisible" class="modal-overlay" @click.self="closeModal">
+      <div
+        v-if="isVisible"
+        class="modal-overlay"
+        :class="{ 'no-blur': disableBackgroundBlur }"
+        @click.self="closeModal"
+      >
         <div class="modal-content" :style="contentStyle">
           <div v-if="$slots.header" class="modal-header">
             <div class="modal-title-wrapper">
@@ -10,7 +15,11 @@
             <button class="close-button" @click="closeModal">×</button>
           </div>
           <div class="modal-body">
-            <slot name="body"></slot>
+            <div v-if="isEmpty" class="empty-state" :style="emptyStateStyle">
+              <warningIcon class="empty-icon" fill="currentColor" />
+              <p class="empty-text">EMPTY</p>
+            </div>
+            <slot v-else name="body"></slot>
           </div>
           <div v-if="$slots.footer" class="modal-footer">
             <slot name="footer"></slot>
@@ -24,10 +33,18 @@
 <script setup>
   import { toRefs, computed } from 'vue'
   import { useModal } from '@composables/useModal.js'
+  import warningIcon from '@/assets/icon/warning.svg'
+  import { useSettingStore } from '@/store/setting'
+  import { storeToRefs } from 'pinia'
+
+  const settingStore = useSettingStore()
+  const { disableBackgroundBlur } = storeToRefs(settingStore)
 
   const props = defineProps({
     isVisible: { type: Boolean, default: false },
     maxWidth: { type: String, default: '800px' },
+    minBodyHeight: { type: String, default: '200px' },
+    isEmpty: { type: Boolean, default: false },
   })
 
   const emit = defineEmits(['close'])
@@ -41,6 +58,10 @@
 
   const contentStyle = computed(() => ({
     '--max-width': props.maxWidth,
+  }))
+
+  const emptyStateStyle = computed(() => ({
+    minHeight: props.minBodyHeight,
   }))
 </script>
 
@@ -166,5 +187,40 @@
       transform: translateY(0);
       opacity: 1;
     }
+  }
+
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    height: 100%;
+  }
+
+  .empty-icon {
+    width: 64px;
+    height: 64px;
+    transform: scaleX(1.25);
+    color: #a0a0a0;
+  }
+
+  .empty-text {
+    font-family: 'NEXON Football Gothic';
+    font-weight: bold;
+    font-style: italic;
+    font-size: 1.75rem;
+    margin-right: 8px;
+    margin-top: -8px;
+    color: #a0a0a0;
+  }
+
+  .dark-mode .empty-icon,
+  .dark-mode .empty-text {
+    opacity: 0.4;
+  }
+
+  .modal-overlay.no-blur {
+    backdrop-filter: none;
   }
 </style>
