@@ -7,16 +7,10 @@
       <div class="settings-body">
         <!-- Tab Navigation -->
         <div class="tab-navigation">
-          <button
-            :class="['tab-button', { active: activeTab === 'appearance' }]"
-            @click="activeTab = 'appearance'"
-          >
+          <button :class="['tab-button', { active: activeTab === 'appearance' }]" @click="activeTab = 'appearance'">
             <span>外觀設定</span>
           </button>
-          <button
-            :class="['tab-button', { active: activeTab === 'performance' }]"
-            @click="activeTab = 'performance'"
-          >
+          <button :class="['tab-button', { active: activeTab === 'performance' }]" @click="activeTab = 'performance'">
             <span>性能設定</span>
           </button>
         </div>
