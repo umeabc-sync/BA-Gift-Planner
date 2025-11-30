@@ -82,7 +82,10 @@
     "light": "밝게",
     "dark": "어둡게",
     "system": "시스템",
-    "vibrantProgressBar": "더 눈에 띄는 경험치 바 색상"
+    "vibrantProgressBar": "더 눈에 띄는 경험치 바 색상",
+    "disableBackgroundBlur": "배경 흐림 비활성화",
+    "appearance": "외관 설정",
+    "performance": "성능 설정"
   },
   "shareModal": {
     "title": "스크린샷 설정",

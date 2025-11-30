@@ -82,7 +82,10 @@
     "light": "ライト",
     "dark": "ダーク",
     "system": "システム",
-    "vibrantProgressBar": "より目立つ経験値バーの色"
+    "vibrantProgressBar": "より目立つ経験値バーの色",
+    "disableBackgroundBlur": "背景のぼかしを無効にする",
+    "appearance": "外観設定",
+    "performance": "パフォーマンス設定"
   },
   "shareModal": {
     "title": "スクショ設定",

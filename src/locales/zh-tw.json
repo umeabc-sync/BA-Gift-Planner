@@ -82,7 +82,10 @@
     "light": "明亮",
     "dark": "暗黑",
     "system": "跟隨系統",
-    "vibrantProgressBar": "更顯眼的經驗條配色"
+    "vibrantProgressBar": "更顯眼的經驗條配色",
+    "disableBackgroundBlur": "禁用背景模糊",
+    "appearance": "外觀設定",
+    "performance": "性能設定"
   },
   "shareModal": {
     "title": "截圖設定",

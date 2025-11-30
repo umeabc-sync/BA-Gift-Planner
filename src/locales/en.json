@@ -82,7 +82,10 @@
     "light": "Light",
     "dark": "Dark",
     "system": "System",
-    "vibrantProgressBar": "Vibrant Experience Bar Color"
+    "vibrantProgressBar": "Vibrant Experience Bar Color",
+    "disableBackgroundBlur": "Disable Background Blur",
+    "appearance": "Appearance",
+    "performance": "Performance"
   },
   "shareModal": {
     "title": "Screenshot Settings",

@@ -8,10 +8,10 @@
         <!-- Tab Navigation -->
         <div class="tab-navigation">
           <button :class="['tab-button', { active: activeTab === 'appearance' }]" @click="activeTab = 'appearance'">
-            <span>外觀設定</span>
+            <span>{{ t('settingsModal.appearance') }}</span>
           </button>
           <button :class="['tab-button', { active: activeTab === 'performance' }]" @click="activeTab = 'performance'">
-            <span>性能設定</span>
+            <span>{{ t('settingsModal.performance') }}</span>
           </button>
         </div>
 
@@ -121,7 +121,7 @@
 
             <!-- Disable Background Blur Settings (New) -->
             <div class="setting-group">
-              <h4 class="setting-group-title">禁用背景模糊</h4>
+              <h4 class="setting-group-title">{{ t('settingsModal.disableBackgroundBlur') }}</h4>
               <div class="toggle-button-group">
                 <button
                   :class="['toggle-button', 'off', { active: !isBackgroundBlurDisabled }]"
