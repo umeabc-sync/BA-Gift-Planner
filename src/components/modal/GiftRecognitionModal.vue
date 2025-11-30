@@ -122,7 +122,7 @@
   import { preprocess, postprocess } from '@/utils/yolo-v5-utils.js'
   import { GIFT_RECOGNITION_CLASS_NAMES } from '@/data/giftRecognitionClassNames.js'
 
-  const isDebugMode = ref(false)
+  const isDebugMode = ref(true)
   const isPreviewExpanded = ref(true)
   const isDraggingOver = ref(false)
 
@@ -266,9 +266,21 @@
       const processedImage = await canvas.convertToBlob().then((blob) => URL.createObjectURL(blob))
       const {
         data: { text },
-      } = await tesseractWorker.value.recognize(canvas)
+      } = await tesseractWorker.value.recognize(canvas, {
+        tessedit_char_whitelist: 'xX0123456789lIidZzOSB|',
+      })
 
-      const cleanedText = text.replace(/[^0-9]/g, '')
+      let fixedText = text
+        .replace(/[lI|d]/g, '1') // l, I, |, d -> 1
+        .replace(/[Zz]/g, '2') // Z, z -> 2
+        .replace(/[O]/g, '0') // O -> 0
+        .replace(/[S]/g, '5') // S -> 5
+        .replace(/[B]/g, '8') // B -> 8
+
+      // Remove all characters preceding the last 'x' or 'X'
+      const afterX = fixedText.replace(/.*[xX]/, '')
+      // Extract only numbers from the results
+      const cleanedText = afterX.replace(/[^0-9]/g, '')
       return {
         quantity: parseInt(cleanedText) || 0,
         rawText: text,
