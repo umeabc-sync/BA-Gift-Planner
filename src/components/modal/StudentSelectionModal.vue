@@ -1,7 +1,12 @@
 <template>
   <teleport to="body">
     <transition name="modal-fade">
-      <div v-if="isModalOpen" class="modal-overlay" @click.self="closeModal">
+      <div
+        v-if="isModalOpen"
+        class="modal-overlay"
+        :class="{ 'no-blur': disableBackgroundBlur }"
+        @click.self="closeModal"
+      >
         <div class="modal-content">
           <div class="modal-header">
             <div class="modal-title">{{ t('characterSelector.title') }}</div>
@@ -178,7 +183,7 @@
   const emit = defineEmits(['closeModal', 'toggleStudent', 'resetSelection'])
 
   const settingStore = useSettingStore()
-  const { enableCharacterSelectorLazyLoad } = storeToRefs(settingStore)
+  const { enableCharacterSelectorLazyLoad, disableBackgroundBlur } = storeToRefs(settingStore)
 
   const searchTerm = ref('')
   const isFilterPanelOpen = ref(false)
@@ -336,6 +341,10 @@
     align-items: center;
     z-index: 2000;
     backdrop-filter: blur(5px);
+  }
+
+  .modal-overlay.no-blur {
+    backdrop-filter: none;
   }
 
   .modal-content {

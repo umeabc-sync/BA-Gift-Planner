@@ -1,7 +1,12 @@
 <template>
   <teleport to="body">
     <transition name="modal-fade">
-      <div v-if="isVisible" class="modal-overlay" @click.self="closeModal">
+      <div
+        v-if="isVisible"
+        class="modal-overlay"
+        :class="{ 'no-blur': disableBackgroundBlur }"
+        @click.self="closeModal"
+      >
         <div class="modal-content" :style="contentStyle">
           <div v-if="$slots.header" class="modal-header">
             <div class="modal-title-wrapper">
@@ -29,6 +34,11 @@
   import { toRefs, computed } from 'vue'
   import { useModal } from '@composables/useModal.js'
   import warningIcon from '@/assets/icon/warning.svg'
+  import { useSettingStore } from '@/store/setting'
+  import { storeToRefs } from 'pinia'
+
+  const settingStore = useSettingStore()
+  const { disableBackgroundBlur } = storeToRefs(settingStore)
 
   const props = defineProps({
     isVisible: { type: Boolean, default: false },
@@ -208,5 +218,9 @@
   .dark-mode .empty-icon,
   .dark-mode .empty-text {
     opacity: 0.4;
+  }
+
+  .modal-overlay.no-blur {
+    backdrop-filter: none;
   }
 </style>

@@ -175,15 +175,15 @@
     showOnlyOptimalSolution: isShowOnlyOptimalSolutionEnabled,
     theme,
     useVibrantProgressBar: isVibrantProgressBarEnabled,
+    disableBackgroundBlur: isBackgroundBlurDisabled,
   } = storeToRefs(settingStore)
 
-  const { toggleCharacterSelectorLazyLoad, toggleShowOnlyOptimalSolution, toggleVibrantProgressBar } = settingStore
-
-  // Temporary state for background blur (no actual functionality yet)
-  const isBackgroundBlurDisabled = ref(false)
-  const toggleBackgroundBlur = () => {
-    isBackgroundBlurDisabled.value = !isBackgroundBlurDisabled.value
-  }
+  const {
+    toggleCharacterSelectorLazyLoad,
+    toggleShowOnlyOptimalSolution,
+    toggleVibrantProgressBar,
+    toggleBackgroundBlur,
+  } = settingStore
 
   const availableLanguages = [
     { code: 'en', name: 'English' },
