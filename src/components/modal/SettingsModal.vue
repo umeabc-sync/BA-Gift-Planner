@@ -249,7 +249,7 @@
   .tab-navigation {
     display: flex;
     background: #a9e0f4;
-    padding: 5px 5px 0 5px;
+    padding: 6px 6px 0 6px;
     position: relative;
   }
 
@@ -320,7 +320,7 @@
   .tab-content {
     background: white;
     min-height: 300px;
-    padding: 15px;
+    padding: 6px 4px 4px 4px;
   }
 
   .dark-mode .tab-content {
@@ -330,7 +330,7 @@
   .settings-panel {
     padding: 20px;
     background-color: #d8dadc;
-    border-radius: 6px;
+    border-radius: 9px;
   }
 
   .dark-mode .settings-panel {
