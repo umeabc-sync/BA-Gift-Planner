@@ -1,6 +1,6 @@
 <template>
   <div class="dropdown-container" :class="{ 'z-active': isMenuOpen }">
-    <button ref="toggleRef" class="custom-dropdown-toggle" @click.stop="toggleMenu">
+    <button ref="toggleRef" class="btn-skew btn-text btn-blue" @click.stop="toggleMenu">
       <slot name="toggle"></slot>
       <span class="caret" :class="{ open: isMenuOpen }"></span>
     </button>
@@ -68,45 +68,13 @@
     width: 100%;
   }
 
-  .custom-dropdown-toggle {
-    background-color: #77ddff;
-    background-image: linear-gradient(to bottom right, #63d0fd 0%, transparent 50%),
-      linear-gradient(to top left, #63d0fd 0%, transparent 50%);
-    border: none;
-    color: #314665;
-    cursor: pointer;
-    border-radius: 12px;
+  .btn-skew {
     width: 100%;
-    height: 42px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-    transform: skew(-8deg);
-    box-shadow: 0 3px 2px rgba(0, 0, 0, 0.15);
-    font-family: inherit;
-    font-weight: bold;
-    font-size: 1rem;
-    padding: 0 20px;
     user-select: none;
+    padding: 0 20px;
   }
 
-  .custom-dropdown-toggle:hover {
-    transform: translateY(-2px) skew(-8deg);
-  }
-
-  .custom-dropdown-toggle:active {
-    transform: scale(0.95) skew(-8deg);
-  }
-
-  .dark-mode .custom-dropdown-toggle {
-    background-color: #00aeef;
-    background-image: linear-gradient(to bottom right, #09a4f2 0%, transparent 50%),
-      linear-gradient(to top left, #09a4f2 0%, transparent 50%);
-    color: #e0f4ff;
-  }
-
-  .custom-dropdown-toggle > :deep(*) {
+  .btn-skew > :deep(*) {
     transform: skew(8deg);
     display: inline-block;
   }

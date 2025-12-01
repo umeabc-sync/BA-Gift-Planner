@@ -1,3 +1,29 @@
+<template>
+  <main>
+    <WelcomeMessage v-if="selectedStudents.length === 0" />
+    <template v-else>
+      <GiftRecommendation v-for="gift in recommendedGifts" :key="`${gift.id}-${gift.isSsr}`" :gift="gift" />
+      <GiftGridSection :title="t('app.giftGridSection.generic')" :gifts="genericSsrGifts" />
+      <GiftGridSection :title="t('app.giftGridSection.synthesis')" :gifts="synthesisGifts" />
+    </template>
+  </main>
+
+  <SilentScreenshotRenderer
+    ref="silentScreenshotRendererRef"
+    :recommended-gifts="recommendedGifts"
+    :student-preferences="studentPreferences"
+    :generic-ssr-gifts="genericSsrGifts"
+    :synthesis-gifts="synthesisGifts"
+    :is-dark-mode="isDarkMode"
+    :style="screenshotRenderStyle"
+    :layout="screenshotLayout"
+    :size="screenshotRenderSize"
+  />
+
+  <LoadingOverlay :is-visible="isDownloadingScreenshot" :text="t('app.downloading')" />
+  <ToastNotification />
+</template>
+
 <script setup>
   import { ref, computed, onMounted, watch } from 'vue'
   import { useSettingStore } from '@store/setting'
@@ -117,29 +143,3 @@
     return result
   })
 </script>
-
-<template>
-  <main>
-    <WelcomeMessage v-if="selectedStudents.length === 0" />
-    <template v-else>
-      <GiftRecommendation v-for="gift in recommendedGifts" :key="`${gift.id}-${gift.isSsr}`" :gift="gift" />
-      <GiftGridSection :title="t('app.giftGridSection.generic')" :gifts="genericSsrGifts" />
-      <GiftGridSection :title="t('app.giftGridSection.synthesis')" :gifts="synthesisGifts" />
-    </template>
-  </main>
-
-  <SilentScreenshotRenderer
-    ref="silentScreenshotRendererRef"
-    :recommended-gifts="recommendedGifts"
-    :student-preferences="studentPreferences"
-    :generic-ssr-gifts="genericSsrGifts"
-    :synthesis-gifts="synthesisGifts"
-    :is-dark-mode="isDarkMode"
-    :style="screenshotRenderStyle"
-    :layout="screenshotLayout"
-    :size="screenshotRenderSize"
-  />
-
-  <LoadingOverlay :is-visible="isDownloadingScreenshot" />
-  <ToastNotification />
-</template>

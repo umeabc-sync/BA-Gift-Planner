@@ -194,7 +194,7 @@
           </svg>
           <span>{{ t('shareModal.readyForDownload') }}</span>
         </div>
-        <button class="download-button" @click="handleDownload">
+        <button class="btn-skew btn-text btn-blue" @click="handleDownload">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
             <polyline points="7,10 12,15 17,10" />
@@ -520,39 +520,15 @@
     color: #a0aec0;
   }
 
-  .download-button {
-    display: flex;
-    align-items: center;
+  .btn-blue {
     gap: 8px;
-    background-color: #77ddff;
-    background-image: linear-gradient(to bottom right, #63d0fd 0%, transparent 50%),
-      linear-gradient(to top left, #63d0fd 0%, transparent 50%);
-    color: #314665;
-    border: none;
-    border-radius: 12px;
+    height: auto;
     padding: 14px 24px;
-    font-family: inherit;
-    font-size: 1rem;
-    font-weight: bold;
     letter-spacing: 2px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 3px 2px rgba(0, 0, 0, 0.15);
-    position: relative;
-    transform: skew(-8deg);
     text-transform: uppercase;
   }
 
-  .download-button span {
-    transform: skew(8deg);
-    display: inline-block;
-  }
-
-  .download-button svg {
-    transform: skew(8deg);
-  }
-
-  .download-button::before {
+  .btn-blue::before {
     content: '';
     position: absolute;
     top: 0;
@@ -562,21 +538,6 @@
     background: linear-gradient(120deg, transparent 0%, rgba(255, 255, 255, 0.1) 50%, transparent 100%);
     border-radius: 12px;
     pointer-events: none;
-  }
-
-  .dark-mode .download-button {
-    background-color: #00aeef;
-    background-image: linear-gradient(to bottom right, #09a4f2 0%, transparent 50%),
-      linear-gradient(to top left, #09a4f2 0%, transparent 50%);
-    color: #e0f4ff;
-  }
-
-  .download-button:hover {
-    transform: translateY(-2px) skew(-8deg);
-  }
-
-  .download-button:active {
-    transform: scale(0.95) skew(-8deg);
   }
 
   /* Responsive Design */
@@ -595,7 +556,7 @@
       gap: 16px;
     }
 
-    .download-button {
+    .btn-skew {
       width: 100%;
       justify-content: center;
     }

@@ -51,7 +51,8 @@
     "disabled": "Disabled",
     "title": "Sensei Harem Tool",
     "edit": "Edit",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "confirm": "Confirm"
   },
   "dialog": {
     "notificationTitle": "Notification"
@@ -81,7 +82,10 @@
     "light": "Light",
     "dark": "Dark",
     "system": "System",
-    "vibrantProgressBar": "Vibrant Experience Bar Color"
+    "vibrantProgressBar": "Vibrant Experience Bar Color",
+    "disableBackgroundBlur": "Disable Background Blur",
+    "appearance": "Appearance",
+    "performance": "Performance"
   },
   "shareModal": {
     "title": "Screenshot Settings",
@@ -149,7 +153,15 @@
     }
   },
   "giftInventoryModal": {
-    "title": "Gift Inventory"
+    "title": "Gift Inventory",
+    "recognize": "Recognize Gifts"
+  },
+  "giftRecognitionModal": {
+    "title": "Gift Recognition",
+    "upload": "Upload Image",
+    "imagePreview": "Image Preview",
+    "initializing": "Initializing...",
+    "dropzonePlaceholder": "Gift recognition may be inaccurate. Please check the results after completion."
   },
   "toast": {
     "link_copied_to_clipboard": "Link copied to clipboard",
