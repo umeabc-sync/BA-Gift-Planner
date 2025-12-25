@@ -5830,5 +5830,53 @@
         "xl": [3]
       }
     }
+  },
+  {
+    "id": 244,
+    "gid": 10132,
+    "school": "Hyakkiyako",
+    "attackType": "Piercing",
+    "defenseType": "Light",
+    "weapon": "SMG",
+    "position": "FRONT",
+    "type": 0,
+    "role": ["Tank"],
+    "rarity": 3,
+    "obtainMethod": "Regular",
+    "favor": {
+      "sr": {
+        "m": [5, 7, 18, 28, 29, 31],
+        "l": [6],
+        "xl": []
+      },
+      "ssr": {
+        "l": [6],
+        "xl": [2]
+      }
+    }
+  },
+  {
+    "id": 245,
+    "gid": 20053,
+    "school": "Hyakkiyako",
+    "attackType": "Explosive",
+    "defenseType": "Light",
+    "weapon": "SG",
+    "position": "BACK",
+    "type": 1,
+    "role": ["Healer"],
+    "rarity": 3,
+    "obtainMethod": "Regular",
+    "favor": {
+      "sr": {
+        "m": [18, 28, 29, 31],
+        "l": [17],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [6]
+      }
+    }
   }
 ]
