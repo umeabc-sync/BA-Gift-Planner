@@ -23,7 +23,7 @@ export function useShareableSelection(selectedStudentIds, studentsData) {
     const idsToEncode = useUnselected ? unselectedStudentIds : selectedStudentIds.value
 
     const flag = useUnselected ? 2 : 1
-    const bitfieldSize = Math.ceil(maxIdInStore / 8)
+    const bitfieldSize = Math.floor(maxIdInStore / 8) + 1
     const buffer = new ArrayBuffer(1 + 2 + bitfieldSize)
     const view = new DataView(buffer)
 

@@ -5878,5 +5878,77 @@
         "xl": [6]
       }
     }
+  },
+  {
+    "id": 246,
+    "gid": 10133,
+    "school": "Millennium",
+    "attackType": "Explosive",
+    "defenseType": "Special",
+    "weapon": "HG",
+    "position": "MIDDLE",
+    "type": 0,
+    "role": ["Dealer"],
+    "rarity": 3,
+    "obtainMethod": "Unique",
+    "favor": {
+      "sr": {
+        "m": [2, 11, 18, 19, 28, 29],
+        "l": [10],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [5]
+      }
+    }
+  },
+  {
+    "id": 247,
+    "gid": 16019,
+    "school": "Millennium",
+    "attackType": "Piercing",
+    "defenseType": "Light",
+    "weapon": "HG",
+    "position": "MIDDLE",
+    "type": 0,
+    "role": ["Support"],
+    "rarity": 1,
+    "obtainMethod": "Event",
+    "favor": {
+      "sr": {
+        "m": [2, 4, 16, 18, 28, 29],
+        "l": [11, 21],
+        "xl": []
+      },
+      "ssr": {
+        "l": [5],
+        "xl": [12]
+      }
+    }
+  },
+  {
+    "id": 248,
+    "gid": 20054,
+    "school": "Millennium",
+    "attackType": "Piercing",
+    "defenseType": "Elastic",
+    "weapon": "HG",
+    "position": "BACK",
+    "type": 1,
+    "role": ["TS"],
+    "rarity": 3,
+    "obtainMethod": "Unique",
+    "favor": {
+      "sr": {
+        "m": [17, 29, 30, 32, 33],
+        "l": [19],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [3]
+      }
+    }
   }
 ]
