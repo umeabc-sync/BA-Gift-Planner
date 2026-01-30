@@ -21,13 +21,15 @@
     "Explosive": "폭발",
     "Piercing": "관통",
     "Mystic": "신비",
-    "Sonic": "진동"
+    "Sonic": "진동",
+    "Chemical": "분해"
   },
   "defenseType": {
     "Light": "경장갑",
     "Heavy": "중장갑",
     "Special": "특수장갑",
-    "Elastic": "탄력장갑"
+    "Elastic": "탄력장갑",
+    "Composite": "복합장갑"
   },
   "school": {
     "Abydos": "아비도스",

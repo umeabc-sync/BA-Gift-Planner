@@ -21,13 +21,15 @@
     "Explosive": "爆発",
     "Piercing": "貫通",
     "Mystic": "神秘",
-    "Sonic": "振動"
+    "Sonic": "振動",
+    "Chemical": "分解"
   },
   "defenseType": {
     "Light": "軽装備",
     "Heavy": "重装甲",
     "Special": "特殊装甲",
-    "Elastic": "弾力装甲"
+    "Elastic": "弾力装甲",
+    "Composite": "複合装甲"
   },
   "school": {
     "Abydos": "アビドス",

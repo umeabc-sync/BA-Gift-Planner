@@ -21,13 +21,15 @@
     "Explosive": "Explosive",
     "Piercing": "Piercing",
     "Mystic": "Mystic",
-    "Sonic": "Sonic"
+    "Sonic": "Sonic",
+    "Chemical": "Chemical"
   },
   "defenseType": {
     "Light": "Light",
     "Heavy": "Heavy",
     "Special": "Special",
-    "Elastic": "Elastic"
+    "Elastic": "Elastic",
+    "Composite": "Composite"
   },
   "school": {
     "Abydos": "Abydos",
