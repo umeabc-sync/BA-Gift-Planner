@@ -43,12 +43,24 @@
     {
       "id": "attackType",
       "labelKey": "characterSelector.attackTypeLabel",
-      "options": [{ "value": "Explosive" }, { "value": "Piercing" }, { "value": "Mystic" }, { "value": "Sonic" }]
+      "options": [
+        { "value": "Explosive" },
+        { "value": "Piercing" },
+        { "value": "Mystic" },
+        { "value": "Sonic" },
+        { "value": "Chemical" }
+      ]
     },
     {
       "id": "defenseType",
       "labelKey": "characterSelector.defenseTypeLabel",
-      "options": [{ "value": "Light" }, { "value": "Heavy" }, { "value": "Special" }, { "value": "Elastic" }]
+      "options": [
+        { "value": "Light" },
+        { "value": "Heavy" },
+        { "value": "Special" },
+        { "value": "Elastic" },
+        { "value": "Composite" }
+      ]
     },
     {
       "id": "position",

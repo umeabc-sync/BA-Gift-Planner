@@ -703,6 +703,10 @@
   .type-bg-elastic {
     background: #9431a5;
   }
+  .type-bg-chemical,
+  .type-bg-composite {
+    background: #11776f;
+  }
 
   .nexon-font {
     font-family: 'NEXON Football Gothic', sans-serif;

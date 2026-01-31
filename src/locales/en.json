@@ -21,13 +21,15 @@
     "Explosive": "Explosive",
     "Piercing": "Piercing",
     "Mystic": "Mystic",
-    "Sonic": "Sonic"
+    "Sonic": "Sonic",
+    "Chemical": "Chemical"
   },
   "defenseType": {
     "Light": "Light",
     "Heavy": "Heavy",
     "Special": "Special",
-    "Elastic": "Elastic"
+    "Elastic": "Elastic",
+    "Composite": "Composite"
   },
   "school": {
     "Abydos": "Abydos",
@@ -448,7 +450,9 @@
       "245": "Michiru (Dress)",
       "246": "Rio (Armed)",
       "247": "Toki (Armed)",
-      "248": "Himari (Armed)"
+      "248": "Himari (Armed)",
+      "249": "Aris (Armed)",
+      "250": "Kei"
     }
   }
 }

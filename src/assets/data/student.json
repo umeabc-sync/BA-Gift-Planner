@@ -5950,5 +5950,53 @@
         "xl": [3]
       }
     }
+  },
+  {
+    "id": 249,
+    "gid": 10134,
+    "school": "Millennium",
+    "attackType": "Mystic",
+    "defenseType": "Composite",
+    "weapon": "AR",
+    "position": "MIDDLE",
+    "type": 0,
+    "role": ["Dealer"],
+    "rarity": 3,
+    "obtainMethod": "Fest",
+    "favor": {
+      "sr": {
+        "m": [4, 10, 16, 18, 20, 22, 25, 31],
+        "l": [11],
+        "xl": []
+      },
+      "ssr": {
+        "l": [6],
+        "xl": [12]
+      }
+    }
+  },
+  {
+    "id": 250,
+    "gid": 10135,
+    "school": "Millennium",
+    "attackType": "Mystic",
+    "defenseType": "Composite",
+    "weapon": "RG",
+    "position": "BACK",
+    "type": 0,
+    "role": ["Support"],
+    "rarity": 3,
+    "obtainMethod": "Fest",
+    "favor": {
+      "sr": {
+        "m": [4, 6, 7, 16],
+        "l": [5, 11],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [2]
+      }
+    }
   }
 ]
