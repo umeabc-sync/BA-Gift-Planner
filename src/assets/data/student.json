@@ -5998,5 +5998,53 @@
         "xl": [2]
       }
     }
+  },
+  {
+    "id": 251,
+    "gid": 10136,
+    "school": "Millennium",
+    "attackType": "Explosive",
+    "defenseType": "Light",
+    "weapon": "SR",
+    "position": "BACK",
+    "type": 0,
+    "role": ["Dealer"],
+    "rarity": 3,
+    "obtainMethod": "Regular",
+    "favor": {
+      "sr": {
+        "m": [4, 11, 16, 17],
+        "l": [3],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [7]
+      }
+    }
+  },
+  {
+    "id": 252,
+    "gid": 20055,
+    "school": "Millennium",
+    "attackType": "Mystic",
+    "defenseType": "Special",
+    "weapon": "GL",
+    "position": "BACK",
+    "type": 1,
+    "role": ["Support"],
+    "rarity": 3,
+    "obtainMethod": "Regular",
+    "favor": {
+      "sr": {
+        "m": [5, 6, 12],
+        "l": [7, 11],
+        "xl": []
+      },
+      "ssr": {
+        "l": [2],
+        "xl": [5]
+      }
+    }
   }
 ]
