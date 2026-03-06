@@ -6046,5 +6046,29 @@
         "xl": [5]
       }
     }
+  },
+  {
+    "id": 253,
+    "gid": 20056,
+    "school": "Millennium",
+    "attackType": "Mystic",
+    "defenseType": "Light",
+    "weapon": "MG",
+    "position": "BACK",
+    "type": 1,
+    "role": ["Support"],
+    "rarity": 3,
+    "obtainMethod": "Regular",
+    "favor": {
+      "sr": {
+        "m": [14, 18, 28, 29],
+        "l": [0],
+        "xl": []
+      },
+      "ssr": {
+        "l": [0],
+        "xl": [12]
+      }
+    }
   }
 ]
