@@ -6070,5 +6070,53 @@
         "xl": [12]
       }
     }
+  },
+  {
+    "id": 254,
+    "gid": 10137,
+    "school": "Valkyrie",
+    "attackType": "Mystic",
+    "defenseType": "Light",
+    "weapon": "SG",
+    "position": "FRONT",
+    "type": 0,
+    "role": ["Tank"],
+    "rarity": 3,
+    "obtainMethod": "Regular",
+    "favor": {
+      "sr": {
+        "m": [0, 3, 4, 9, 14, 15, 16, 23, 32],
+        "l": [1],
+        "xl": []
+      },
+      "ssr": {
+        "l": [0, 1],
+        "xl": [11]
+      }
+    }
+  },
+  {
+    "id": 255,
+    "gid": 10138,
+    "school": "WildHunt",
+    "attackType": "Explosive",
+    "defenseType": "Light",
+    "weapon": "HG",
+    "position": "MIDDLE",
+    "type": 0,
+    "role": ["Support"],
+    "rarity": 3,
+    "obtainMethod": "Regular",
+    "favor": {
+      "sr": {
+        "m": [5, 6, 7],
+        "l": [20, 31],
+        "xl": []
+      },
+      "ssr": {
+        "l": [2, 6],
+        "xl": [9]
+      }
+    }
   }
 ]
