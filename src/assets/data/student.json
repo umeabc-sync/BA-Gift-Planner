@@ -6142,5 +6142,77 @@
         "xl": [9]
       }
     }
+  },
+  {
+    "id": 257,
+    "gid": 10139,
+    "school": "SRT",
+    "attackType": "Explosive",
+    "defenseType": "Elastic",
+    "weapon": "SG",
+    "position": "FRONT",
+    "type": 0,
+    "role": ["Support"],
+    "rarity": 3,
+    "obtainMethod": "Unique",
+    "favor": {
+      "sr": {
+        "m": [7, 8, 13, 24, 26],
+        "l": [12],
+        "xl": []
+      },
+      "ssr": {
+        "l": [4],
+        "xl": [9]
+      }
+    }
+  },
+  {
+    "id": 258,
+    "gid": 10140,
+    "school": "SRT",
+    "attackType": "Explosive",
+    "defenseType": "Light",
+    "weapon": "SMG",
+    "position": "FRONT",
+    "type": 0,
+    "role": ["Tank"],
+    "rarity": 3,
+    "obtainMethod": "Unique",
+    "favor": {
+      "sr": {
+        "m": [7, 12, 20],
+        "l": [6],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [12]
+      }
+    }
+  },
+  {
+    "id": 259,
+    "gid": 16020,
+    "school": "SRT",
+    "attackType": "Explosive",
+    "defenseType": "Special",
+    "weapon": "SR",
+    "position": "BACK",
+    "type": 0,
+    "role": ["Dealer"],
+    "rarity": 1,
+    "obtainMethod": "Event",
+    "favor": {
+      "sr": {
+        "m": [1, 7, 12, 17],
+        "l": [16],
+        "xl": []
+      },
+      "ssr": {
+        "l": [11],
+        "xl": [3]
+      }
+    }
   }
 ]
