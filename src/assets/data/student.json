@@ -6214,5 +6214,29 @@
         "xl": [3]
       }
     }
+  },
+  {
+    "id": 260,
+    "gid": 20058,
+    "school": "Gehenna",
+    "attackType": "Sonic",
+    "defenseType": "Light",
+    "weapon": "SG",
+    "position": "BACK",
+    "type": 1,
+    "role": ["Support"],
+    "rarity": 3,
+    "obtainMethod": "Regular",
+    "favor": {
+      "sr": {
+        "m": [3, 4, 5, 6, 7, 9, 15, 23, 31, 32],
+        "l": [20],
+        "xl": []
+      },
+      "ssr": {
+        "l": [1, 2],
+        "xl": [6]
+      }
+    }
   }
 ]
