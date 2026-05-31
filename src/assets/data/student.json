@@ -6238,5 +6238,53 @@
         "xl": [6]
       }
     }
+  },
+  {
+    "id": 261,
+    "gid": 10141,
+    "school": "Gehenna",
+    "attackType": "Explosive",
+    "defenseType": "Light",
+    "weapon": "SG",
+    "position": "FRONT",
+    "type": 0,
+    "role": ["Dealer"],
+    "rarity": 3,
+    "obtainMethod": "Regular",
+    "favor": {
+      "sr": {
+        "m": [10, 17, 18, 19, 20, 22, 25, 29, 30],
+        "l": [28],
+        "xl": []
+      },
+      "ssr": {
+        "l": [3, 12],
+        "xl": [8]
+      }
+    }
+  },
+  {
+    "id": 262,
+    "gid": 20059,
+    "school": "Gehenna",
+    "attackType": "Mystic",
+    "defenseType": "Heavy",
+    "weapon": "MG",
+    "position": "BACK",
+    "type": 1,
+    "role": ["Dealer"],
+    "rarity": 3,
+    "obtainMethod": "Regular",
+    "favor": {
+      "sr": {
+        "m": [10, 20, 22, 25, 28, 29],
+        "l": [18],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [12]
+      }
+    }
   }
 ]
