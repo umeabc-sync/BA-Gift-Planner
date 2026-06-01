@@ -63,7 +63,7 @@
                         :class="{ active: selectedFilters[group.id].length === 0 }"
                         @click="selectFilter(group.id, null)"
                       >
-                        {{ t('common.all') }}
+                        <span>{{ t('common.all') }}</span>
                       </button>
                       <button
                         v-for="option in group.options"
