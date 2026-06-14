@@ -6286,5 +6286,29 @@
         "xl": [12]
       }
     }
+  },
+  {
+    "id": 263,
+    "gid": 10142,
+    "school": "Hyakkiyako",
+    "attackType": "Explosive",
+    "defenseType": "Heavy",
+    "weapon": "SR",
+    "position": "BACK",
+    "type": 0,
+    "role": ["Support"],
+    "rarity": 3,
+    "obtainMethod": "Regular",
+    "favor": {
+      "sr": {
+        "m": [5, 6, 7, 8, 12, 13, 26],
+        "l": [23, 34],
+        "xl": []
+      },
+      "ssr": {
+        "l": [2, 4],
+        "xl": [6]
+      }
+    }
   }
 ]
