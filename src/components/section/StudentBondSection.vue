@@ -2,7 +2,7 @@
   <div v-if="selectedStudents.length > 0" class="student-bond-section">
     <div v-for="student in selectedStudents" :key="student.id" class="student-row">
       <div class="student-island" @click="openGapModal(student)">
-        <ImageWithLoader :src="getAvatarUrl(student.id)" class="student-avatar-img" />
+        <ImageWithLoader :src="getAvatarUrl(student.id, studentStore.getStudentForm(student.id))" class="student-avatar-img" />
       </div>
       <div class="bond-island">
         <div class="bond-info" @click="openEditModal(student)">

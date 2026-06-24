@@ -1,7 +1,7 @@
 <template>
   <div class="ba-style-compact-student-row">
     <div class="ba-style-compact-student-island">
-      <ImageWithLoader :src="getAvatarUrl(student.id)" class="ba-style-compact-student-avatar-img" />
+      <ImageWithLoader :src="getAvatarUrl(student.id, studentStore.getStudentForm(student.id))" class="ba-style-compact-student-avatar-img" />
     </div>
     <div class="ba-style-compact-recommendation-island">
       <div class="ba-style-compact-gift-grid">
@@ -44,6 +44,9 @@
   import { getPreferenceValue } from '@utils/getPreferenceValue'
   import { getInteractionLevel } from '@utils/getInteractionLevel'
   import ImageWithLoader from '@components/ui/ImageWithLoader.vue'
+  import { useStudentStore } from '@/store/student'
+
+  const studentStore = useStudentStore()
 
   defineProps({
     student: Object,

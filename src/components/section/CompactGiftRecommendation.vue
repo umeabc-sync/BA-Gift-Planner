@@ -27,7 +27,7 @@
           class="compact-character-avatar"
           :class="{ 'sub-optimal': !char.isOptimal }"
         >
-          <ImageWithLoader :src="getAvatarUrl(char.id)" class="compact-character-avatar-img" />
+          <ImageWithLoader :src="getAvatarUrl(char.id, studentStore.getStudentForm(char.id))" class="compact-character-avatar-img" />
         </div>
       </div>
     </div>
@@ -41,6 +41,9 @@
   import { getPreferenceValue } from '@utils/getPreferenceValue'
   import { getInteractionLevel } from '@utils/getInteractionLevel'
   import ImageWithLoader from '@components/ui/ImageWithLoader.vue'
+  import { useStudentStore } from '@/store/student'
+
+  const studentStore = useStudentStore()
 
   defineProps({
     gift: Object,

@@ -22,7 +22,7 @@
           :class="{ 'sub-optimal': !char.isOptimal }"
           @click="openFavoriteGiftsModal(char)"
         >
-          <ImageWithLoader :src="getAvatarUrl(char.id)" class="character-avatar-img" />
+          <ImageWithLoader :src="getAvatarUrl(char.id, studentStore.getStudentForm(char.id))" class="character-avatar-img" />
           <div class="tooltip">
             <div class="tooltip-name">{{ t(`student.name.${char.id}`) }}</div>
             <div class="tooltip-xp">
@@ -56,8 +56,11 @@
   import { useI18n } from '@composables/useI18n.js'
   import ImageWithLoader from '@components/ui/ImageWithLoader.vue'
   import FavoriteGiftsModal from '@components/modal/FavoriteGiftsModal.vue'
+  import { useStudentStore } from '@/store/student'
 
   const { t } = useI18n()
+
+  const studentStore = useStudentStore()
 
   defineProps({
     gift: Object,
