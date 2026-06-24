@@ -1,7 +1,10 @@
 <template>
   <div class="ba-style-compact-student-row">
     <div class="ba-style-compact-student-island">
-      <ImageWithLoader :src="getAvatarUrl(student.id, studentStore.getStudentForm(student.id))" class="ba-style-compact-student-avatar-img" />
+      <ImageWithLoader
+        :src="getAvatarUrl(student.id, studentStore.getStudentForm(student.id))"
+        class="ba-style-compact-student-avatar-img"
+      />
     </div>
     <div class="ba-style-compact-recommendation-island">
       <div class="ba-style-compact-gift-grid">

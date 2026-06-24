@@ -22,7 +22,10 @@
           :class="{ 'sub-optimal': !char.isOptimal }"
           @click="openFavoriteGiftsModal(char)"
         >
-          <ImageWithLoader :src="getAvatarUrl(char.id, studentStore.getStudentForm(char.id))" class="character-avatar-img" />
+          <ImageWithLoader
+            :src="getAvatarUrl(char.id, studentStore.getStudentForm(char.id))"
+            class="character-avatar-img"
+          />
           <div class="tooltip">
             <div class="tooltip-name">{{ t(`student.name.${char.id}`) }}</div>
             <div class="tooltip-xp">

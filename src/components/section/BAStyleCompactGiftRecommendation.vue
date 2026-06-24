@@ -27,7 +27,10 @@
           class="ba-style-compact-character-avatar"
           :class="{ 'sub-optimal': !char.isOptimal }"
         >
-          <ImageWithLoader :src="getAvatarUrl(char.id, studentStore.getStudentForm(char.id))" class="ba-style-compact-character-avatar-img" />
+          <ImageWithLoader
+            :src="getAvatarUrl(char.id, studentStore.getStudentForm(char.id))"
+            class="ba-style-compact-character-avatar-img"
+          />
         </div>
       </div>
     </div>
