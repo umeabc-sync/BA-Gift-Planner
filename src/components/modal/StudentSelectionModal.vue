@@ -150,14 +150,8 @@
                     v-if="isDualForm(student.id)"
                     class="form-toggle-btn"
                     @click.stop="studentStore.toggleStudentForm(student.id)"
-                    :title="t('characterSelector.switchForm')"
                   >
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                      <polyline points="17 1 21 5 17 9" />
-                      <path d="M3 11V9a4 4 0 0 1 4-4h14" />
-                      <polyline points="7 23 3 19 7 15" />
-                      <path d="M21 13v2a4 4 0 0 1-4 4H3" />
-                    </svg>
+                    <component :is="FormSwitchIcon" class="form-toggle-icon" draggable="false" />
                   </button>
                 </div>
                 <div v-if="filteredStudents.length === 0" class="no-results">
@@ -188,6 +182,7 @@
   import FilterCloseIcon from '@assets/icon/filter_close.svg'
   import PencilIcon from '@assets/icon/pencil.svg'
   import StarIcon from '@assets/icon/star.svg'
+  import FormSwitchIcon from '@assets/icon/form_switch.svg'
   import { useStudentStore } from '@store/student'
   import { DUAL_FORM_STUDENT_IDS } from '@store/student'
 
@@ -1018,7 +1013,7 @@
     opacity: 1;
   }
 
-  .form-toggle-btn svg {
+  .form-toggle-icon {
     width: 14px;
     height: 14px;
     stroke: #466398;
@@ -1031,7 +1026,7 @@
     transform: skew(8deg) scale(1.1);
   }
 
-  .form-toggle-btn:hover svg {
+  .form-toggle-btn:hover .form-toggle-icon {
     stroke: #fff;
   }
 
@@ -1044,7 +1039,7 @@
     border-color: #3a5a7e;
   }
 
-  .dark-mode .form-toggle-btn svg {
+  .dark-mode .form-toggle-icon {
     stroke: #00a4e4;
   }
 
@@ -1053,7 +1048,7 @@
     border-color: #00a4e4;
   }
 
-  .dark-mode .form-toggle-btn:hover svg {
+  .dark-mode .form-toggle-btn:hover .form-toggle-icon {
     stroke: #fff;
   }
 
