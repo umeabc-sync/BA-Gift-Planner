@@ -186,7 +186,9 @@
     "giftPlannerTitle": "贈り物計画",
     "editBondTitle": "{name}の絆編集",
     "convertToChoiceBox": "選択ボックスに変換",
-    "convertConfirmation": "この操作は、合成に推奨されるすべての贈り物をギフト選択ボックスに変換し、元に戻すことはできません。続行しますか？"
+    "convertConfirmation": "この操作は、合成に推奨されるすべての贈り物をギフト選択ボックスに変換し、元に戻すことはできません。続行しますか？",
+    "singleMode": "単体表示",
+    "listMode": "リスト表示"
   },
   "studentBondModal": {
     "bondLevel": "絆レベル",

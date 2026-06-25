@@ -2,24 +2,41 @@
   <div v-if="selectedStudents.length > 0" class="student-bond-section">
     <div class="mode-toggle-header">
       <div class="mode-toggle-wrapper">
-        <button class="btn-skew btn-text" :class="!isSingleMode ? 'btn-blue' : 'btn-gray'" @click="isSingleMode = false">
+        <button
+          class="btn-skew btn-text"
+          :class="!isSingleMode ? 'btn-blue' : 'btn-gray'"
+          @click="isSingleMode = false"
+        >
           <span>{{ t('bondCalculator.listMode') }}</span>
         </button>
         <button class="btn-skew btn-text" :class="isSingleMode ? 'btn-blue' : 'btn-gray'" @click="isSingleMode = true">
           <span>{{ t('bondCalculator.singleMode') }}</span>
         </button>
       </div>
-      <button v-if="isSingleMode" class="btn-skew btn-text btn-yellow switch-student-btn" @click="isSingleStudentModalOpen = true">
-        <span>{{ t('bondCalculator.switchStudent') }}</span>
+      <button
+        v-if="isSingleMode"
+        class="btn-skew btn-text btn-yellow switch-student-btn"
+        @click="openGapModal(displayedStudents[0])"
+      >
+        <span>{{ t('bondGapCalculator.title') }}</span>
       </button>
     </div>
 
-    <div v-for="student in displayedStudents" :key="student.id" class="student-row" :class="{ 'single-mode-row': isSingleMode }">
-      <div class="student-island" :class="{ 'single-island': isSingleMode }" @click="openGapModal(student)">
+    <div
+      v-for="student in displayedStudents"
+      :key="student.id"
+      class="student-row"
+      :class="{ 'single-mode-row': isSingleMode }"
+    >
+      <div class="student-island" :class="{ 'single-island': isSingleMode }" @click="isSingleMode ? (isSingleStudentModalOpen = true) : openGapModal(student)">
         <ImageWithLoader
           :src="getAvatarUrl(student.id, studentStore.getStudentForm(student.id))"
           class="student-avatar-img"
         />
+        <div v-if="isSingleMode" class="avatar-overlay">
+          <SwitchStudentIcon class="overlay-icon" />
+          <span class="overlay-text">{{ t('bondCalculator.clickToSwitch') }}</span>
+        </div>
       </div>
       <div class="bond-island" :class="{ 'single-bond-island': isSingleMode }">
         <div class="bond-info" @click="openEditModal(student)">
@@ -90,6 +107,7 @@
   import BondGapCalculatorModal from '@components/modal/BondGapCalculatorModal.vue'
   import SelectedStudentSelectionModal from '@components/modal/SelectedStudentSelectionModal.vue'
   import GiftIcon from '@assets/icon/gift_icon.svg'
+  import SwitchStudentIcon from '@assets/icon/switch_student.svg'
   import { getAssetsFile } from '@/utils/getAssetsFile'
   import { useSettingStore } from '@/store/setting'
 
@@ -113,15 +131,15 @@
   const isGapModalVisible = ref(false)
   const selectedStudentForGap = ref(null)
 
-  const isSingleMode = ref(false)
+  const isSingleMode = ref(true)
   const isSingleStudentModalOpen = ref(false)
   const currentSingleStudentId = ref(null)
 
   const displayedStudents = computed(() => {
     if (!isSingleMode.value) return selectedStudents.value
     if (selectedStudents.value.length === 0) return []
-    
-    let singleStudent = selectedStudents.value.find(s => s.id === currentSingleStudentId.value)
+
+    let singleStudent = selectedStudents.value.find((s) => s.id === currentSingleStudentId.value)
     if (!singleStudent) {
       singleStudent = selectedStudents.value[0]
     }
@@ -130,6 +148,7 @@
 
   const handleSelectSingleStudent = (student) => {
     currentSingleStudentId.value = student.id
+    isSingleStudentModalOpen.value = false
   }
 
   const openGiftModal = (student) => {
@@ -439,7 +458,7 @@
     align-items: center;
     margin-bottom: 5px;
   }
-  
+
   .mode-toggle-wrapper {
     display: flex;
     gap: 10px;
@@ -450,7 +469,7 @@
     height: 38px;
     font-size: 0.95rem;
   }
-  
+
   .switch-student-btn {
     padding: 8px 16px;
     height: 38px;
@@ -464,37 +483,89 @@
     gap: 30px;
     padding: 20px 0;
   }
-  
+
   .single-island {
     width: 150px;
     height: 150px;
   }
-  
+
+  .avatar-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    color: white;
+    z-index: 10;
+  }
+
+  .student-island:hover .avatar-overlay {
+    opacity: 1;
+  }
+
+  .overlay-icon {
+    margin-bottom: 5px;
+    width: 28px;
+    height: 28px;
+  }
+
+  .overlay-text {
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+  }
+
   .single-bond-island {
     width: 100%;
     max-width: 600px;
     padding: 30px;
     gap: 30px;
   }
-  
+
   .single-bond-island .bond-heart-image-wrapper {
     width: 80px;
     height: 80px;
   }
-  
+
   .single-bond-island .bond-level-text {
     font-size: 32px;
   }
-  
+
   .single-bond-island .bond-exp-bar {
     height: 40px;
   }
-  
+
   .single-bond-island .bond-exp-text {
     font-size: 18px;
   }
 
   @media (max-width: 768px) {
+    .mode-toggle-header {
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .mode-toggle-wrapper {
+      width: 100%;
+    }
+
+    .mode-toggle-wrapper .btn-skew {
+      flex: 1;
+      width: auto;
+    }
+
+    .switch-student-btn {
+      width: 100%;
+    }
+
     .student-row {
       flex-direction: column;
       align-items: center;
