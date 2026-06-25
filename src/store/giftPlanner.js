@@ -15,6 +15,8 @@ export const useGiftPlannerStore = defineStore(
   () => {
     // State
     const assignments = ref({}) // { studentId: { giftKey: quantity } }
+    const isSingleMode = ref(true)
+    const currentSingleStudentId = ref(null)
 
     // Stores
     const giftStore = useGiftStore()
@@ -185,6 +187,8 @@ export const useGiftPlannerStore = defineStore(
 
     return {
       assignments,
+      isSingleMode,
+      currentSingleStudentId,
       totalAssigned,
       getAvailableCount,
       setAssignment,

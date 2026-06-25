@@ -135,9 +135,8 @@
   const isGapModalVisible = ref(false)
   const selectedStudentForGap = ref(null)
 
-  const isSingleMode = ref(true)
+  const { isSingleMode, currentSingleStudentId } = storeToRefs(giftPlannerStore)
   const isSingleStudentModalOpen = ref(false)
-  const currentSingleStudentId = ref(null)
 
   const displayedStudents = computed(() => {
     if (!isSingleMode.value) return selectedStudents.value
