@@ -3,6 +3,9 @@ import { ref, computed } from 'vue'
 import { useStudentData } from '@/utils/fetchStudentData'
 import { useGiftPlannerStore } from './giftPlanner'
 
+// Students that have switchable dual forms
+export const DUAL_FORM_STUDENT_IDS = [189, 265]
+
 export const useStudentStore = defineStore(
   'student',
   () => {
@@ -11,6 +14,7 @@ export const useStudentStore = defineStore(
 
     const selectedStudentIds = ref([])
     const studentBondData = ref({})
+    const studentFormOverrides = ref({})
 
     const selectedStudents = computed(() => {
       if (!studentsData.value) return []
@@ -39,6 +43,19 @@ export const useStudentStore = defineStore(
       studentBondData.value[studentId] = { level, exp }
     }
 
+    function getStudentForm(studentId) {
+      return studentFormOverrides.value[studentId] || 0
+    }
+
+    function toggleStudentForm(studentId) {
+      const current = getStudentForm(studentId)
+      if (current === 0) {
+        studentFormOverrides.value[studentId] = 1
+      } else {
+        delete studentFormOverrides.value[studentId]
+      }
+    }
+
     function resetSelection() {
       selectedStudentIds.value = []
     }
@@ -48,9 +65,12 @@ export const useStudentStore = defineStore(
       selectedStudentIds,
       selectedStudents,
       studentBondData,
+      studentFormOverrides,
       toggleStudent,
       getStudentBondData,
       updateStudentBond,
+      getStudentForm,
+      toggleStudentForm,
       resetSelection,
     }
   },

@@ -136,12 +136,23 @@
                   :class="{ selected: selectedStudents.some((s) => s.id === student.id) }"
                   @click="toggleStudentSelection(student)"
                 >
+                  <div v-if="isDualForm(student.id)" class="form-indicator">
+                    <span class="form-dot" :class="{ active: studentStore.getStudentForm(student.id) === 0 }"></span>
+                    <span class="form-dot" :class="{ active: studentStore.getStudentForm(student.id) === 1 }"></span>
+                  </div>
                   <ImageWithLoader
-                    :src="getAvatarUrl(student.id)"
+                    :src="getAvatarUrl(student.id, studentStore.getStudentForm(student.id))"
                     class="student-avatar-large"
                     :lazy="enableCharacterSelectorLazyLoad"
                   />
                   <span class="student-name">{{ t(`student.name.${student.id}`) }}</span>
+                  <button
+                    v-if="isDualForm(student.id)"
+                    class="form-toggle-btn"
+                    @click.stop="studentStore.toggleStudentForm(student.id)"
+                  >
+                    <component :is="FormSwitchIcon" class="form-toggle-icon" draggable="false" />
+                  </button>
                 </div>
                 <div v-if="filteredStudents.length === 0" class="no-results">
                   {{ t('characterSelector.noResults') }}
@@ -171,8 +182,13 @@
   import FilterCloseIcon from '@assets/icon/filter_close.svg'
   import PencilIcon from '@assets/icon/pencil.svg'
   import StarIcon from '@assets/icon/star.svg'
+  import FormSwitchIcon from '@assets/icon/form_switch.svg'
+  import { useStudentStore } from '@store/student'
+  import { DUAL_FORM_STUDENT_IDS } from '@store/student'
 
   const { t } = useI18n()
+
+  const studentStore = useStudentStore()
 
   const props = defineProps({
     isModalOpen: Boolean,
@@ -317,6 +333,10 @@
 
   const toggleStudentSelection = (student) => {
     emit('toggleStudent', student)
+  }
+
+  const isDualForm = (studentId) => {
+    return DUAL_FORM_STUDENT_IDS.includes(studentId)
   }
 
   onMounted(() => {
@@ -930,6 +950,106 @@
   .modal-fade-enter-from,
   .modal-fade-leave-to {
     opacity: 0;
+  }
+
+  /* 雙型態切換 - 型態指示器 */
+  .form-indicator {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    display: flex;
+    gap: 4px;
+    z-index: 3;
+    transform: skew(8deg);
+  }
+
+  .form-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background-color: #d1d8e0;
+    transition: all 0.2s ease;
+  }
+
+  .form-dot.active {
+    background-color: #466398;
+    box-shadow: 0 0 4px rgba(70, 99, 152, 0.5);
+  }
+
+  .dark-mode .form-dot {
+    background-color: #3a5a7e;
+  }
+
+  .dark-mode .form-dot.active {
+    background-color: #00a4e4;
+    box-shadow: 0 0 4px rgba(0, 164, 228, 0.5);
+  }
+
+  /* 雙型態切換 - 切換按鈕 */
+  .form-toggle-btn {
+    position: absolute;
+    bottom: 4px;
+    right: 4px;
+    width: 24px;
+    height: 24px;
+    padding: 3px;
+    border: 1.5px solid #d1d8e0;
+    border-radius: 6px;
+    background-color: rgba(255, 255, 255, 0.9);
+    cursor: pointer;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: skew(8deg);
+    transition: all 0.2s ease;
+  }
+
+  .student-card .form-toggle-btn {
+    opacity: 0;
+  }
+
+  .student-card:hover .form-toggle-btn {
+    opacity: 1;
+  }
+
+  .form-toggle-icon {
+    width: 14px;
+    height: 14px;
+    stroke: #466398;
+    transition: stroke 0.2s ease;
+  }
+
+  .form-toggle-btn:hover {
+    background-color: #466398;
+    border-color: #466398;
+    transform: skew(8deg) scale(1.1);
+  }
+
+  .form-toggle-btn:hover .form-toggle-icon {
+    stroke: #fff;
+  }
+
+  .form-toggle-btn:active {
+    transform: skew(8deg) scale(0.9);
+  }
+
+  .dark-mode .form-toggle-btn {
+    background-color: rgba(31, 48, 72, 0.9);
+    border-color: #3a5a7e;
+  }
+
+  .dark-mode .form-toggle-icon {
+    stroke: #00a4e4;
+  }
+
+  .dark-mode .form-toggle-btn:hover {
+    background-color: #00a4e4;
+    border-color: #00a4e4;
+  }
+
+  .dark-mode .form-toggle-btn:hover .form-toggle-icon {
+    stroke: #fff;
   }
 
   /* 響應式設計 */

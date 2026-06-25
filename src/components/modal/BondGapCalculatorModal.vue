@@ -7,7 +7,7 @@
       <div class="bond-gap-calculator-body">
         <div v-if="student" class="calculator-header">
           <div class="student-info-wrapper">
-            <img :src="getAvatarUrl(student.id)" class="student-avatar" />
+            <img :src="getAvatarUrl(student.id, studentStore.getStudentForm(student.id))" class="student-avatar" />
             <h3>{{ t(`student.name.${student.id}`) }}</h3>
           </div>
           <div class="target-level-setter-wrapper">
