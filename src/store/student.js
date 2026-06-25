@@ -4,7 +4,7 @@ import { useStudentData } from '@/utils/fetchStudentData'
 import { useGiftPlannerStore } from './giftPlanner'
 
 // Students that have switchable dual forms
-export const DUAL_FORM_STUDENT_IDS = [189, 265]
+export const DUAL_FORM_STUDENT_IDS = [189, 264]
 
 export const useStudentStore = defineStore(
   'student',
