@@ -17,8 +17,8 @@
       <button class="btn-skew btn-icon btn-blue" @click="modalStore.openStudentSelectionModal">
         <component :is="AddStudentsIcon" :alt="t('header.selectStudentsAlt')" draggable="false" />
       </button>
-      <div v-if="isGiftRecommendationRoute" class="share-dropdown-container">
-        <button class="btn-skew btn-icon btn-blue" @click="toggleShareDropdown">
+      <div class="share-dropdown-container">
+        <button class="btn-skew btn-icon btn-blue" :disabled="!isGiftRecommendationRoute" @click="toggleShareDropdown">
           <component :is="ShareIcon" :alt="t('header.shareAlt')" draggable="false" />
         </button>
         <div v-if="showShareDropdown" class="share-dropdown-menu">
