@@ -13,17 +13,21 @@
           <span>{{ t('bondCalculator.listMode') }}</span>
         </button>
       </div>
-      <button
-        v-if="isSingleMode"
-        class="btn-skew btn-text btn-yellow switch-student-btn"
-        @click="openGapModal(displayedStudents[0])"
-      >
-        <span>{{ t('bondGapCalculator.title') }}</span>
-      </button>
+      <transition name="fade">
+        <button
+          v-if="isSingleMode"
+          class="btn-skew btn-text btn-yellow switch-student-btn"
+          @click="openGapModal(displayedStudents[0])"
+        >
+          <span>{{ t('bondGapCalculator.title') }}</span>
+        </button>
+      </transition>
     </div>
 
-    <div
-      v-for="student in displayedStudents"
+    <transition name="list-fade" mode="out-in">
+      <div :key="isSingleMode ? (displayedStudents[0]?.id || 'single') : 'list'" class="student-list-container">
+        <div
+          v-for="student in displayedStudents"
       :key="student.id"
       class="student-row"
       :class="{ 'single-mode-row': isSingleMode }"
@@ -83,6 +87,8 @@
         </button>
       </div>
     </div>
+      </div>
+    </transition>
     <GiftGivingModal :show="isGiftModalOpen" :student="giftingStudent" @close="closeGiftModal" />
     <BondGapCalculatorModal
       :is-visible="isGapModalVisible"
@@ -215,6 +221,32 @@
     flex-direction: column;
     gap: 20px;
   }
+
+  .student-list-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+  }
+
+  .list-fade-enter-active,
+  .list-fade-leave-active,
+  .fade-enter-active,
+  .fade-leave-active {
+    transition: opacity 0.15s ease, transform 0.15s ease;
+  }
+
+  .list-fade-enter-from,
+  .list-fade-leave-to {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  .fade-enter-from,
+  .fade-leave-to {
+    opacity: 0;
+  }
+
   .student-row {
     display: flex;
     align-items: stretch;
