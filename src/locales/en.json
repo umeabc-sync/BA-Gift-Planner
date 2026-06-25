@@ -188,7 +188,8 @@
     "convertToChoiceBox": "Convert to Choice Box",
     "convertConfirmation": "This action will convert all recommended synthesis gifts into gift selection boxes and cannot be undone. Are you sure you want to continue?",
     "singleMode": "Single View",
-    "listMode": "List View"
+    "listMode": "List View",
+    "clickToSwitch": "Switch Student"
   },
   "studentBondModal": {
     "bondLevel": "Bond Level",

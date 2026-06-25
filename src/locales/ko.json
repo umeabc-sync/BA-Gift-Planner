@@ -188,7 +188,8 @@
     "convertToChoiceBox": "선택 상자로 변환",
     "convertConfirmation": "이 작업은 합성에 권장되는 모든 선물을 선물 선택 상자로 변환하며 되돌릴 수 없습니다. 계속하시겠습니까?",
     "singleMode": "단일 보기",
-    "listMode": "목록 보기"
+    "listMode": "목록 보기",
+    "clickToSwitch": "학생 전환"
   },
   "studentBondModal": {
     "bondLevel": "인연 레벨",

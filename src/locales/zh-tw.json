@@ -188,7 +188,8 @@
     "convertToChoiceBox": "轉換為自選箱",
     "convertConfirmation": "此操作會將所有建議拿去合成的禮物都轉換為禮物自選箱，並且無法復原，確定繼續嗎？",
     "singleMode": "獨立顯示",
-    "listMode": "列表顯示"
+    "listMode": "列表顯示",
+    "clickToSwitch": "切換學生"
   },
   "giftPlannerActions": {
     "reset": "重設計畫",

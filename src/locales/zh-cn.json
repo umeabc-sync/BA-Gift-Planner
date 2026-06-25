@@ -188,7 +188,8 @@
     "convertToChoiceBox": "转换为自选箱",
     "convertConfirmation": "此操作会将所有建议用于合成的礼物转换为礼物自选箱，且无法复原。确定要继续吗？",
     "singleMode": "独立显示",
-    "listMode": "列表显示"
+    "listMode": "列表显示",
+    "clickToSwitch": "切换学生"
   },
   "studentBondModal": {
     "bondLevel": "羁绊等级",
