@@ -28,7 +28,11 @@
       class="student-row"
       :class="{ 'single-mode-row': isSingleMode }"
     >
-      <div class="student-island" :class="{ 'single-island': isSingleMode }" @click="isSingleMode ? (isSingleStudentModalOpen = true) : openGapModal(student)">
+      <div
+        class="student-island"
+        :class="{ 'single-island': isSingleMode }"
+        @click="isSingleMode ? (isSingleStudentModalOpen = true) : openGapModal(student)"
+      >
         <ImageWithLoader
           :src="getAvatarUrl(student.id, studentStore.getStudentForm(student.id))"
           class="student-avatar-img"
@@ -513,12 +517,12 @@
 
   .overlay-icon {
     margin-bottom: 5px;
-    width: 28px;
-    height: 28px;
+    width: 48px;
+    height: 48px;
   }
 
   .overlay-text {
-    font-size: 14px;
+    font-size: 18px;
     font-weight: bold;
     text-align: center;
   }
@@ -562,10 +566,6 @@
       width: auto;
     }
 
-    .switch-student-btn {
-      width: 100%;
-    }
-
     .student-row {
       flex-direction: column;
       align-items: center;
@@ -606,6 +606,12 @@
     .btn-skew {
       width: 38px;
       height: 38px;
+    }
+
+    .btn-skew.switch-student-btn {
+      width: 100%;
+      height: auto;
+      min-height: 38px;
     }
 
     .btn-skew svg {
