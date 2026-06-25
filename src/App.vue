@@ -1,7 +1,11 @@
 <template>
   <div class="app-container" :class="{ 'dark-mode': isDarkMode }">
     <TheHeader />
-    <router-view />
+    <router-view v-slot="{ Component }">
+      <transition name="page-fade" mode="out-in">
+        <component :is="Component" />
+      </transition>
+    </router-view>
     <FooterSection />
 
     <!-- Global Modals -->
@@ -116,5 +120,15 @@
     display: flex;
     flex-direction: column;
     min-height: calc(100vh - 80px - 40px); /* Subtract header(80px) & padding(40px) height */
+  }
+
+  .page-fade-enter-active,
+  .page-fade-leave-active {
+    transition: opacity 0.2s ease;
+  }
+
+  .page-fade-enter-from,
+  .page-fade-leave-to {
+    opacity: 0;
   }
 </style>

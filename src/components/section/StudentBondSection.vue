@@ -25,68 +25,68 @@
     </div>
 
     <transition name="list-fade" mode="out-in">
-      <div :key="isSingleMode ? (displayedStudents[0]?.id || 'single') : 'list'" class="student-list-container">
+      <div :key="isSingleMode ? displayedStudents[0]?.id || 'single' : 'list'" class="student-list-container">
         <div
           v-for="student in displayedStudents"
-      :key="student.id"
-      class="student-row"
-      :class="{ 'single-mode-row': isSingleMode }"
-    >
-      <div
-        class="student-island"
-        :class="{ 'single-island': isSingleMode }"
-        @click="isSingleMode ? (isSingleStudentModalOpen = true) : openGapModal(student)"
-      >
-        <ImageWithLoader
-          :src="getAvatarUrl(student.id, studentStore.getStudentForm(student.id))"
-          class="student-avatar-img"
-        />
-        <div v-if="isSingleMode" class="avatar-overlay">
-          <SwitchStudentIcon class="overlay-icon" />
-          <span class="overlay-text">{{ t('bondCalculator.clickToSwitch') }}</span>
-        </div>
-      </div>
-      <div class="bond-island" :class="{ 'single-bond-island': isSingleMode }">
-        <div class="bond-info" @click="openEditModal(student)">
-          <div class="bond-level-container">
-            <div class="bond-heart-image-wrapper">
-              <ImageWithLoader
-                :src="getAssetsFile('icon/bond_heart.webp')"
-                class="bond-heart-image"
-                object-fit="contain"
-                loader-type="pulse"
-                :inherit-background="false"
-              />
-              <span class="bond-level-text" :class="{ 'level-up': bondStatus(student.id).levelUp }">
-                {{ bondStatus(student.id).displayLevel }}
-              </span>
+          :key="student.id"
+          class="student-row"
+          :class="{ 'single-mode-row': isSingleMode }"
+        >
+          <div
+            class="student-island"
+            :class="{ 'single-island': isSingleMode }"
+            @click="isSingleMode ? (isSingleStudentModalOpen = true) : openGapModal(student)"
+          >
+            <ImageWithLoader
+              :src="getAvatarUrl(student.id, studentStore.getStudentForm(student.id))"
+              class="student-avatar-img"
+            />
+            <div v-if="isSingleMode" class="avatar-overlay">
+              <SwitchStudentIcon class="overlay-icon" />
+              <span class="overlay-text">{{ t('bondCalculator.clickToSwitch') }}</span>
             </div>
           </div>
-          <div class="bond-exp-bar-container">
-            <div class="bond-exp-bar">
-              <div
-                class="bond-exp-progress-preview"
-                :class="{
-                  flash: bondStatus(student.id).gainedExp > 0,
-                  vibrant: isVibrantProgressBarEnabled,
-                }"
-                :style="{ width: `${bondStatus(student.id).newExpPercentage}%` }"
-              ></div>
-              <div
-                class="bond-exp-progress"
-                :style="{ width: `${bondStatus(student.id).originalExpPercentage}%` }"
-              ></div>
-              <div class="bond-exp-text">
-                {{ bondStatus(student.id).displayExp }} / {{ bondStatus(student.id).displayMaxExp }}
+          <div class="bond-island" :class="{ 'single-bond-island': isSingleMode }">
+            <div class="bond-info" @click="openEditModal(student)">
+              <div class="bond-level-container">
+                <div class="bond-heart-image-wrapper">
+                  <ImageWithLoader
+                    :src="getAssetsFile('icon/bond_heart.webp')"
+                    class="bond-heart-image"
+                    object-fit="contain"
+                    loader-type="pulse"
+                    :inherit-background="false"
+                  />
+                  <span class="bond-level-text" :class="{ 'level-up': bondStatus(student.id).levelUp }">
+                    {{ bondStatus(student.id).displayLevel }}
+                  </span>
+                </div>
+              </div>
+              <div class="bond-exp-bar-container">
+                <div class="bond-exp-bar">
+                  <div
+                    class="bond-exp-progress-preview"
+                    :class="{
+                      flash: bondStatus(student.id).gainedExp > 0,
+                      vibrant: isVibrantProgressBarEnabled,
+                    }"
+                    :style="{ width: `${bondStatus(student.id).newExpPercentage}%` }"
+                  ></div>
+                  <div
+                    class="bond-exp-progress"
+                    :style="{ width: `${bondStatus(student.id).originalExpPercentage}%` }"
+                  ></div>
+                  <div class="bond-exp-text">
+                    {{ bondStatus(student.id).displayExp }} / {{ bondStatus(student.id).displayMaxExp }}
+                  </div>
+                </div>
               </div>
             </div>
+            <button class="btn-skew btn-icon btn-blue" @click="openGiftModal(student)">
+              <component :is="GiftIcon" alt="Give Gift" draggable="false" />
+            </button>
           </div>
         </div>
-        <button class="btn-skew btn-icon btn-blue" @click="openGiftModal(student)">
-          <component :is="GiftIcon" alt="Give Gift" draggable="false" />
-        </button>
-      </div>
-    </div>
       </div>
     </transition>
     <GiftGivingModal :show="isGiftModalOpen" :student="giftingStudent" @close="closeGiftModal" />
@@ -233,7 +233,9 @@
   .list-fade-leave-active,
   .fade-enter-active,
   .fade-leave-active {
-    transition: opacity 0.15s ease, transform 0.15s ease;
+    transition:
+      opacity 0.2s ease,
+      transform 0.2s ease;
   }
 
   .list-fade-enter-from,
