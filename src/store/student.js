@@ -44,7 +44,10 @@ export const useStudentStore = defineStore(
     }
 
     function getStudentForm(studentId) {
-      return studentFormOverrides.value[studentId] || 0
+      if (DUAL_FORM_STUDENT_IDS.includes(studentId)) {
+        return studentFormOverrides.value[studentId] || 0
+      }
+      return 0
     }
 
     function toggleStudentForm(studentId) {
