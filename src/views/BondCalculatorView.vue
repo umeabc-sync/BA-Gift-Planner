@@ -1,8 +1,8 @@
 <template>
   <div class="bond-calculator-view">
-    <GiftInventoryGrid :synthesis-gifts="synthesisGifts" @open-modal="isInventoryModalVisible = true" />
     <GiftPlannerActions />
     <StudentBondSection @open-modal="openBondModal" />
+    <GiftInventoryGrid :synthesis-gifts="synthesisGifts" @open-modal="isInventoryModalVisible = true" />
     <GiftInventoryModal :show="isInventoryModalVisible" @close="isInventoryModalVisible = false" />
     <StudentBondModal
       :is-visible="isBondModalVisible"

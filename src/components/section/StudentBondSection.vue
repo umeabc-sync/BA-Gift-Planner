@@ -2,15 +2,15 @@
   <div v-if="selectedStudents.length > 0" class="student-bond-section">
     <div class="mode-toggle-header">
       <div class="mode-toggle-wrapper">
+        <button class="btn-skew btn-text" :class="isSingleMode ? 'btn-blue' : 'btn-gray'" @click="isSingleMode = true">
+          <span>{{ t('bondCalculator.singleMode') }}</span>
+        </button>
         <button
           class="btn-skew btn-text"
           :class="!isSingleMode ? 'btn-blue' : 'btn-gray'"
           @click="isSingleMode = false"
         >
           <span>{{ t('bondCalculator.listMode') }}</span>
-        </button>
-        <button class="btn-skew btn-text" :class="isSingleMode ? 'btn-blue' : 'btn-gray'" @click="isSingleMode = true">
-          <span>{{ t('bondCalculator.singleMode') }}</span>
         </button>
       </div>
       <button
