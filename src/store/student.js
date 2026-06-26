@@ -4,7 +4,7 @@ import { useStudentData } from '@/utils/fetchStudentData'
 import { useGiftPlannerStore } from './giftPlanner'
 
 // Students that have switchable dual forms
-export const DUAL_FORM_STUDENT_IDS = [189, 265]
+export const DUAL_FORM_STUDENT_IDS = [189, 264]
 
 export const useStudentStore = defineStore(
   'student',
@@ -44,7 +44,10 @@ export const useStudentStore = defineStore(
     }
 
     function getStudentForm(studentId) {
-      return studentFormOverrides.value[studentId] || 0
+      if (DUAL_FORM_STUDENT_IDS.includes(studentId)) {
+        return studentFormOverrides.value[studentId] || 0
+      }
+      return 0
     }
 
     function toggleStudentForm(studentId) {

@@ -1,27 +1,29 @@
 <template>
-  <main>
-    <WelcomeMessage v-if="selectedStudents.length === 0" />
-    <template v-else>
-      <GiftRecommendation v-for="gift in recommendedGifts" :key="`${gift.id}-${gift.isSsr}`" :gift="gift" />
-      <GiftGridSection :title="t('app.giftGridSection.generic')" :gifts="genericSsrGifts" />
-      <GiftGridSection :title="t('app.giftGridSection.synthesis')" :gifts="synthesisGifts" />
-    </template>
-  </main>
+  <div class="gift-recommendation-view">
+    <main>
+      <WelcomeMessage v-if="selectedStudents.length === 0" />
+      <template v-else>
+        <GiftRecommendation v-for="gift in recommendedGifts" :key="`${gift.id}-${gift.isSsr}`" :gift="gift" />
+        <GiftGridSection :title="t('app.giftGridSection.generic')" :gifts="genericSsrGifts" />
+        <GiftGridSection :title="t('app.giftGridSection.synthesis')" :gifts="synthesisGifts" />
+      </template>
+    </main>
 
-  <SilentScreenshotRenderer
-    ref="silentScreenshotRendererRef"
-    :recommended-gifts="recommendedGifts"
-    :student-preferences="studentPreferences"
-    :generic-ssr-gifts="genericSsrGifts"
-    :synthesis-gifts="synthesisGifts"
-    :is-dark-mode="isDarkMode"
-    :style="screenshotRenderStyle"
-    :layout="screenshotLayout"
-    :size="screenshotRenderSize"
-  />
+    <SilentScreenshotRenderer
+      ref="silentScreenshotRendererRef"
+      :recommended-gifts="recommendedGifts"
+      :student-preferences="studentPreferences"
+      :generic-ssr-gifts="genericSsrGifts"
+      :synthesis-gifts="synthesisGifts"
+      :is-dark-mode="isDarkMode"
+      :style="screenshotRenderStyle"
+      :layout="screenshotLayout"
+      :size="screenshotRenderSize"
+    />
 
-  <LoadingOverlay :is-visible="isDownloadingScreenshot" :text="t('app.downloading')" />
-  <ToastNotification />
+    <LoadingOverlay :is-visible="isDownloadingScreenshot" :text="t('app.downloading')" />
+    <ToastNotification />
+  </div>
 </template>
 
 <script setup>

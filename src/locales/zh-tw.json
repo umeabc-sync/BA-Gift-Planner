@@ -186,7 +186,10 @@
     "giftPlannerTitle": "禮物規劃",
     "editBondTitle": "編輯{name}的羈絆",
     "convertToChoiceBox": "轉換為自選箱",
-    "convertConfirmation": "此操作會將所有建議拿去合成的禮物都轉換為禮物自選箱，並且無法復原，確定繼續嗎？"
+    "convertConfirmation": "此操作會將所有建議拿去合成的禮物都轉換為禮物自選箱，並且無法復原，確定繼續嗎？",
+    "singleMode": "獨立顯示",
+    "listMode": "列表顯示",
+    "clickToSwitch": "切換學生"
   },
   "giftPlannerActions": {
     "reset": "重設計畫",
@@ -466,8 +469,8 @@
       "261": "遙香（禮服）",
       "262": "無月（禮服）",
       "263": "名草（泳裝）",
-      "264": "妃姬（泳裝）",
-      "265": "旬（泳裝）"
+      "264": "旬（泳裝）",
+      "265": "妃姬（泳裝）"
     }
   }
 }

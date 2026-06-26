@@ -1,58 +1,105 @@
 <template>
   <div v-if="selectedStudents.length > 0" class="student-bond-section">
-    <div v-for="student in selectedStudents" :key="student.id" class="student-row">
-      <div class="student-island" @click="openGapModal(student)">
-        <ImageWithLoader
-          :src="getAvatarUrl(student.id, studentStore.getStudentForm(student.id))"
-          class="student-avatar-img"
-        />
-      </div>
-      <div class="bond-island">
-        <div class="bond-info" @click="openEditModal(student)">
-          <div class="bond-level-container">
-            <div class="bond-heart-image-wrapper">
-              <ImageWithLoader
-                :src="getAssetsFile('icon/bond_heart.webp')"
-                class="bond-heart-image"
-                object-fit="contain"
-                loader-type="pulse"
-                :inherit-background="false"
-              />
-              <span class="bond-level-text" :class="{ 'level-up': bondStatus(student.id).levelUp }">
-                {{ bondStatus(student.id).displayLevel }}
-              </span>
-            </div>
-          </div>
-          <div class="bond-exp-bar-container">
-            <div class="bond-exp-bar">
-              <div
-                class="bond-exp-progress-preview"
-                :class="{
-                  flash: bondStatus(student.id).gainedExp > 0,
-                  vibrant: isVibrantProgressBarEnabled,
-                }"
-                :style="{ width: `${bondStatus(student.id).newExpPercentage}%` }"
-              ></div>
-              <div
-                class="bond-exp-progress"
-                :style="{ width: `${bondStatus(student.id).originalExpPercentage}%` }"
-              ></div>
-              <div class="bond-exp-text">
-                {{ bondStatus(student.id).displayExp }} / {{ bondStatus(student.id).displayMaxExp }}
-              </div>
-            </div>
-          </div>
-        </div>
-        <button class="btn-skew btn-icon btn-blue" @click="openGiftModal(student)">
-          <component :is="GiftIcon" alt="Give Gift" draggable="false" />
+    <div class="mode-toggle-header">
+      <div class="mode-toggle-wrapper">
+        <button class="btn-skew btn-text" :class="isSingleMode ? 'btn-blue' : 'btn-gray'" @click="isSingleMode = true">
+          <span>{{ t('bondCalculator.singleMode') }}</span>
+        </button>
+        <button
+          class="btn-skew btn-text"
+          :class="!isSingleMode ? 'btn-blue' : 'btn-gray'"
+          @click="isSingleMode = false"
+        >
+          <span>{{ t('bondCalculator.listMode') }}</span>
         </button>
       </div>
+      <transition name="fade">
+        <button
+          v-if="isSingleMode"
+          class="btn-skew btn-text btn-yellow switch-student-btn"
+          @click="openGapModal(displayedStudents[0])"
+        >
+          <span>{{ t('bondGapCalculator.title') }}</span>
+        </button>
+      </transition>
     </div>
+
+    <transition name="list-fade" mode="out-in">
+      <div :key="isSingleMode ? displayedStudents[0]?.id || 'single' : 'list'" class="student-list-container">
+        <div
+          v-for="student in displayedStudents"
+          :key="student.id"
+          class="student-row"
+          :class="{ 'single-mode-row': isSingleMode }"
+        >
+          <div
+            class="student-island"
+            :class="{ 'single-island': isSingleMode }"
+            @click="isSingleMode ? (isSingleStudentModalOpen = true) : openGapModal(student)"
+          >
+            <ImageWithLoader
+              :src="getAvatarUrl(student.id, studentStore.getStudentForm(student.id))"
+              class="student-avatar-img"
+            />
+            <div v-if="isSingleMode" class="avatar-overlay">
+              <SwitchStudentIcon class="overlay-icon" />
+              <span class="overlay-text">{{ t('bondCalculator.clickToSwitch') }}</span>
+            </div>
+          </div>
+          <div class="bond-island" :class="{ 'single-bond-island': isSingleMode }">
+            <div class="bond-info" @click="openEditModal(student)">
+              <div class="bond-level-container">
+                <div class="bond-heart-image-wrapper">
+                  <ImageWithLoader
+                    :src="getAssetsFile('icon/bond_heart.webp')"
+                    class="bond-heart-image"
+                    object-fit="contain"
+                    loader-type="pulse"
+                    :inherit-background="false"
+                  />
+                  <span class="bond-level-text" :class="{ 'level-up': bondStatus(student.id).levelUp }">
+                    {{ bondStatus(student.id).displayLevel }}
+                  </span>
+                </div>
+              </div>
+              <div class="bond-exp-bar-container">
+                <div class="bond-exp-bar">
+                  <div
+                    class="bond-exp-progress-preview"
+                    :class="{
+                      flash: bondStatus(student.id).gainedExp > 0,
+                      vibrant: isVibrantProgressBarEnabled,
+                    }"
+                    :style="{ width: `${bondStatus(student.id).newExpPercentage}%` }"
+                  ></div>
+                  <div
+                    class="bond-exp-progress"
+                    :style="{ width: `${bondStatus(student.id).originalExpPercentage}%` }"
+                  ></div>
+                  <div class="bond-exp-text">
+                    {{ bondStatus(student.id).displayExp }} / {{ bondStatus(student.id).displayMaxExp }}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <button class="btn-skew btn-icon btn-blue" @click="openGiftModal(student)">
+              <component :is="GiftIcon" alt="Give Gift" draggable="false" />
+            </button>
+          </div>
+        </div>
+      </div>
+    </transition>
     <GiftGivingModal :show="isGiftModalOpen" :student="giftingStudent" @close="closeGiftModal" />
     <BondGapCalculatorModal
       :is-visible="isGapModalVisible"
       :student="selectedStudentForGap"
       @close="isGapModalVisible = false"
+    />
+    <SelectedStudentSelectionModal
+      :is-modal-open="isSingleStudentModalOpen"
+      :selected-students="selectedStudents"
+      @close-modal="isSingleStudentModalOpen = false"
+      @select-student="handleSelectSingleStudent"
     />
   </div>
 </template>
@@ -64,10 +111,13 @@
   import { storeToRefs } from 'pinia'
   import { getAvatarUrl } from '@utils/getAvatarUrl'
   import { useBondExpData } from '@/utils/fetchBondExpData'
+  import { useI18n } from '@composables/useI18n'
   import ImageWithLoader from '@components/ui/ImageWithLoader.vue'
   import GiftGivingModal from '@components/modal/GiftGivingModal.vue'
   import BondGapCalculatorModal from '@components/modal/BondGapCalculatorModal.vue'
+  import SelectedStudentSelectionModal from '@components/modal/SelectedStudentSelectionModal.vue'
   import GiftIcon from '@assets/icon/gift_icon.svg'
+  import SwitchStudentIcon from '@assets/icon/switch_student.svg'
   import { getAssetsFile } from '@/utils/getAssetsFile'
   import { useSettingStore } from '@/store/setting'
 
@@ -79,6 +129,8 @@
   const settingStore = useSettingStore()
   const { useVibrantProgressBar: isVibrantProgressBarEnabled } = storeToRefs(settingStore)
 
+  const { t } = useI18n()
+
   const { data: bondExpTable } = useBondExpData()
 
   const emit = defineEmits(['open-modal'])
@@ -88,6 +140,25 @@
 
   const isGapModalVisible = ref(false)
   const selectedStudentForGap = ref(null)
+
+  const { isSingleMode, currentSingleStudentId } = storeToRefs(giftPlannerStore)
+  const isSingleStudentModalOpen = ref(false)
+
+  const displayedStudents = computed(() => {
+    if (!isSingleMode.value) return selectedStudents.value
+    if (selectedStudents.value.length === 0) return []
+
+    let singleStudent = selectedStudents.value.find((s) => s.id === currentSingleStudentId.value)
+    if (!singleStudent) {
+      singleStudent = selectedStudents.value[0]
+    }
+    return [singleStudent]
+  })
+
+  const handleSelectSingleStudent = (student) => {
+    currentSingleStudentId.value = student.id
+    isSingleStudentModalOpen.value = false
+  }
 
   const openGiftModal = (student) => {
     giftingStudent.value = student
@@ -150,6 +221,34 @@
     flex-direction: column;
     gap: 20px;
   }
+
+  .student-list-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+  }
+
+  .list-fade-enter-active,
+  .list-fade-leave-active,
+  .fade-enter-active,
+  .fade-leave-active {
+    transition:
+      opacity 0.2s ease,
+      transform 0.2s ease;
+  }
+
+  .list-fade-enter-from,
+  .list-fade-leave-to {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  .fade-enter-from,
+  .fade-leave-to {
+    opacity: 0;
+  }
+
   .student-row {
     display: flex;
     align-items: stretch;
@@ -390,7 +489,116 @@
     }
   }
 
+  .mode-toggle-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+  }
+
+  .mode-toggle-wrapper {
+    display: flex;
+    gap: 10px;
+  }
+
+  .mode-toggle-wrapper button {
+    padding: 8px 16px;
+    height: 38px;
+    font-size: 0.95rem;
+  }
+
+  .switch-student-btn {
+    padding: 8px 16px;
+    height: 38px;
+    font-size: 0.95rem;
+  }
+
+  /* Single Mode Adjustments */
+  .single-mode-row {
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    padding: 20px 0;
+  }
+
+  .single-island {
+    width: 150px;
+    height: 150px;
+  }
+
+  .avatar-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    color: white;
+    z-index: 10;
+  }
+
+  .student-island:hover .avatar-overlay {
+    opacity: 1;
+  }
+
+  .overlay-icon {
+    margin-bottom: 5px;
+    width: 48px;
+    height: 48px;
+  }
+
+  .overlay-text {
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  .single-bond-island {
+    width: 100%;
+    max-width: 600px;
+    padding: 30px;
+    gap: 30px;
+  }
+
+  .single-bond-island .bond-heart-image-wrapper {
+    width: 80px;
+    height: 80px;
+  }
+
+  .single-bond-island .bond-level-text {
+    font-size: 32px;
+  }
+
+  .single-bond-island .bond-exp-bar {
+    height: 40px;
+  }
+
+  .single-bond-island .bond-exp-text {
+    font-size: 18px;
+  }
+
   @media (max-width: 768px) {
+    .mode-toggle-header {
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .mode-toggle-wrapper {
+      width: 100%;
+    }
+
+    .mode-toggle-wrapper .btn-skew {
+      flex: 1;
+      width: auto;
+    }
+
     .student-row {
       flex-direction: column;
       align-items: center;
@@ -431,6 +639,12 @@
     .btn-skew {
       width: 38px;
       height: 38px;
+    }
+
+    .btn-skew.switch-student-btn {
+      width: 100%;
+      height: auto;
+      min-height: 38px;
     }
 
     .btn-skew svg {

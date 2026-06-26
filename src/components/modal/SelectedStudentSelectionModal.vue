@@ -1,11 +1,13 @@
 <template>
   <BaseStudentSelectionModal
     :is-modal-open="isModalOpen"
-    :students-data="studentsData"
-    :selected-students="selectedStudents"
+    :students-data="selectedStudents"
+    selection-mode="single"
+    :exclude-filters="['collection']"
+    :always-show-reset-filters="true"
+    :hide-reset-selection="true"
     @close-modal="$emit('closeModal')"
-    @toggle-student="$emit('toggleStudent', $event)"
-    @reset-selection="$emit('resetSelection')"
+    @select-student="$emit('selectStudent', $event)"
   />
 </template>
 
@@ -14,9 +16,8 @@
 
   defineProps({
     isModalOpen: Boolean,
-    studentsData: Array,
     selectedStudents: Array,
   })
 
-  defineEmits(['closeModal', 'toggleStudent', 'resetSelection'])
+  defineEmits(['closeModal', 'selectStudent'])
 </script>

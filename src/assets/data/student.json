@@ -6313,31 +6313,7 @@
   },
   {
     "id": 264,
-    "gid": -1,
-    "school": "Shanhaijing",
-    "attackType": "Sonic",
-    "defenseType": "Elastic",
-    "weapon": "SMG",
-    "position": "FRONT",
-    "type": 0,
-    "role": ["Support"],
-    "rarity": 3,
-    "obtainMethod": "Regular",
-    "favor": {
-      "sr": {
-        "m": [17, 19, 29, 30],
-        "l": [31, 34],
-        "xl": []
-      },
-      "ssr": {
-        "l": [],
-        "xl": [3]
-      }
-    }
-  },
-  {
-    "id": 265,
-    "gid": -1,
+    "gid": 10143,
     "school": "Shanhaijing",
     "attackType": "Sonic",
     "defenseType": "Light",
@@ -6356,6 +6332,30 @@
       "ssr": {
         "l": [2],
         "xl": [7]
+      }
+    }
+  },
+  {
+    "id": 265,
+    "gid": 10145,
+    "school": "Shanhaijing",
+    "attackType": "Sonic",
+    "defenseType": "Elastic",
+    "weapon": "SMG",
+    "position": "FRONT",
+    "type": 0,
+    "role": ["Support"],
+    "rarity": 3,
+    "obtainMethod": "Regular",
+    "favor": {
+      "sr": {
+        "m": [17, 19, 29, 30],
+        "l": [31, 34],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [3]
       }
     }
   }
