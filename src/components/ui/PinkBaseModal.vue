@@ -12,7 +12,7 @@
             <slot name="header"></slot>
             <button class="close-button" @click="closeModal">&times;</button>
           </div>
-          <AppScrollbar class="modal-body">
+          <AppScrollbar hidden class="modal-body">
             <slot name="body"></slot>
           </AppScrollbar>
           <div v-if="$slots.footer" class="modal-footer">

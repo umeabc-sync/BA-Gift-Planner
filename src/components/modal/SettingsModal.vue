@@ -18,7 +18,7 @@
         <!-- Tab Content -->
         <div class="tab-content">
           <!-- Appearance Settings -->
-          <AppScrollbar v-show="activeTab === 'appearance'" class="settings-panel">
+          <AppScrollbar hidden v-show="activeTab === 'appearance'" class="settings-panel">
             <!-- Language Settings -->
             <div class="setting-group">
               <h4 class="setting-group-title">{{ t('settingsModal.language') }}</h4>

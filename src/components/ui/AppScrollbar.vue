@@ -10,6 +10,10 @@
   import { useSettingStore } from '@/store/setting'
   import { storeToRefs } from 'pinia'
 
+  const props = defineProps({
+    hidden: { type: Boolean, default: false },
+  })
+
   const settingStore = useSettingStore()
   const { isDarkMode } = storeToRefs(settingStore)
 
@@ -17,6 +21,7 @@
     scrollbars: {
       theme: isDarkMode.value ? 'os-theme-light' : 'os-theme-dark',
       clickScroll: true,
+      visibility: props.hidden ? 'hidden' : 'auto',
     },
   }))
 </script>
