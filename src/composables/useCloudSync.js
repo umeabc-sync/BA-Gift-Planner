@@ -18,13 +18,13 @@ export function useCloudSync() {
   const user = ref(null)
   let syncTimeout = null
 
-  // 取得當前的完整狀態
+  // Get the current complete state
   const getCurrentStatePayload = () => {
     return {
-      student: JSON.stringify(stores.student.$state),
-      gift: JSON.stringify(stores.gift.$state),
-      giftPlanner: JSON.stringify(stores.giftPlanner.$state),
-      setting: JSON.stringify(stores.setting.$state),
+      student: localStorage.getItem('student') || '{}',
+      gift: localStorage.getItem('gift') || '{}',
+      giftPlanner: localStorage.getItem('giftPlanner') || '{}',
+      setting: localStorage.getItem('setting') || '{}',
     }
   }
 
@@ -42,7 +42,7 @@ export function useCloudSync() {
 
   const downloadSave = async () => {
     try {
-      isSyncing.value = true // 上鎖，防止觸發 auto sync
+      isSyncing.value = true // Lock to prevent auto sync from being triggered
       const res = await fetch('/api/sync/download')
       if (!res.ok) return
 
@@ -62,7 +62,7 @@ export function useCloudSync() {
 
       const parsed = JSON.parse(decompressed)
 
-      // 使用 $patch 批次更新，並且因為 isSyncing 為 true，不會觸發上傳
+      // Updates are done in batches using $patch, and because isSyncing is true, uploads are not triggered
       if (parsed.student) stores.student.$patch(JSON.parse(parsed.student))
       if (parsed.gift) stores.gift.$patch(JSON.parse(parsed.gift))
       if (parsed.giftPlanner) stores.giftPlanner.$patch(JSON.parse(parsed.giftPlanner))
@@ -70,7 +70,7 @@ export function useCloudSync() {
     } catch (e) {
       console.error('Failed to download save:', e)
     } finally {
-      // 縮短延遲，或者等待下一個 tick
+      // Shorten the delay, or wait for the next tick.
       setTimeout(() => {
         isSyncing.value = false
       }, 100)
@@ -87,7 +87,6 @@ export function useCloudSync() {
       const jsonString = JSON.stringify(payloadObj)
       const compressedBytes = pako.deflate(jsonString)
 
-      // 高效的 Base64 轉換
       const base64Payload = btoa(
         Array.from(compressedBytes)
           .map((byte) => String.fromCharCode(byte))
@@ -117,7 +116,7 @@ export function useCloudSync() {
     }, 3000)
   }
 
-  // 使用 Pinia $subscribe 替換昂貴的 deep watch
+  // Use Pinia $subscribe instead of the expensive deep watch
   Object.values(stores).forEach((store) => {
     store.$subscribe(() => {
       if (!isSyncing.value) triggerAutoSync()
