@@ -325,7 +325,7 @@
 
   .settings-panel {
     width: 100%;
-    padding: 0px 20px;
+    padding: 6px;
     background-color: #d8dadc;
     border-radius: 9px;
     overflow-y: auto;
@@ -339,16 +339,22 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 18px 0;
-    border-bottom: 1px solid #c8cacb;
+    padding: 18px 12px;
+    margin-bottom: 6px;
+    background: linear-gradient(45deg, #cedae3, #f1f1f1);
+    border-radius: 4px;
+    border: 2px solid #fefefd;
+    box-shadow: 0px 2px 1px #616569;
   }
 
   .dark-mode .setting-group {
-    border-bottom-color: #2a4a6e;
+    background: linear-gradient(45deg, #1a2b40, #23374e);
+    border-color: #2a4a6e;
+    box-shadow: 0px 2px 1px #0a1118;
   }
 
   .setting-group:last-child {
-    border-bottom: none;
+    margin-bottom: 2px;
   }
 
   .setting-group-title {
@@ -434,7 +440,7 @@
       flex-direction: column;
       align-items: flex-start;
       gap: 12px;
-      padding: 16px 0;
+      padding: 16px 12px;
     }
 
     .setting-control-wrapper {
