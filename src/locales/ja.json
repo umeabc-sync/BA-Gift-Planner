@@ -94,7 +94,13 @@
     "loggedInAs": "ログイン中: {name}",
     "logout": "ログアウト",
     "cloudSaveSync": "クラウド保存の同期",
-    "lastSyncTime": "最終同期: "
+    "lastSyncTime": "最終同期: ",
+    "dataManagement": "データ管理",
+    "exportData": "データをエクスポート",
+    "importData": "データをインポート",
+    "exportSuccess": "データがエクスポートされました",
+    "importSuccess": "データがインポートされました。ページをリロードします。",
+    "importFailed": "データのインポートに失敗しました。無効なファイルです。"
   },
   "shareModal": {
     "title": "スクショ設定",

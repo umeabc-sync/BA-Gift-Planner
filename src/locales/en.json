@@ -94,7 +94,13 @@
     "loggedInAs": "Logged in as: {name}",
     "logout": "Logout",
     "cloudSaveSync": "Cloud Save Sync",
-    "lastSyncTime": "Last synced: "
+    "lastSyncTime": "Last synced: ",
+    "dataManagement": "Data Management",
+    "exportData": "Export Data",
+    "importData": "Import Data",
+    "exportSuccess": "Data exported successfully!",
+    "importSuccess": "Data imported successfully! The page will reload.",
+    "importFailed": "Failed to import data. Invalid file."
   },
   "shareModal": {
     "title": "Screenshot Settings",

@@ -173,6 +173,23 @@
                 </div>
               </div>
             </div>
+
+            <!-- Data Management -->
+            <div class="setting-group">
+              <h4 class="setting-group-title">{{ t('settingsModal.dataManagement') }}</h4>
+              <div
+                class="setting-control-wrapper"
+                style="text-align: right; display: flex; justify-content: flex-end; gap: 8px"
+              >
+                <button class="btn-skew btn-text btn-blue" @click="handleExportData" style="width: fit-content">
+                  <span>{{ t('settingsModal.exportData') }}</span>
+                </button>
+                <button class="btn-skew btn-text btn-yellow" @click="triggerFileInput" style="width: fit-content">
+                  <span>{{ t('settingsModal.importData') }}</span>
+                </button>
+                <input type="file" ref="fileInputRef" style="display: none" accept=".json" @change="handleImportData" />
+              </div>
+            </div>
           </AppScrollbar>
         </div>
       </div>
@@ -190,8 +207,11 @@
   import BaseModal from '@components/ui/BaseModal.vue'
   import CustomDropdown from '@components/ui/CustomDropdown.vue'
   import { useCloudSync } from '@/composables/useCloudSync.js'
+  import { useToast } from '@/composables/useToast'
+  import { generateExportFile, importFromFile } from '@/utils/saveManager'
 
   const { t, currentLocale: locale } = useI18n()
+  const { addToast } = useToast()
 
   const props = defineProps({
     isVisible: { type: Boolean, default: false },
@@ -217,6 +237,38 @@
       // Clear localStorage or state if necessary
     } catch (e) {
       console.error('Failed to logout:', e)
+    }
+  }
+
+  // Data Management
+  const fileInputRef = ref(null)
+
+  const handleExportData = () => {
+    generateExportFile()
+    addToast(t('settingsModal.exportSuccess'), 'success')
+  }
+
+  const triggerFileInput = () => {
+    if (fileInputRef.value) {
+      fileInputRef.value.click()
+    }
+  }
+
+  const handleImportData = async (event) => {
+    const file = event.target.files[0]
+    if (!file) return
+
+    try {
+      await importFromFile(file)
+      addToast(t('settingsModal.importSuccess'), 'success')
+
+      setTimeout(() => {
+        window.location.reload()
+      }, 1500)
+    } catch (error) {
+      addToast(t('settingsModal.importFailed'), 'error')
+    } finally {
+      event.target.value = '' // Reset input
     }
   }
 

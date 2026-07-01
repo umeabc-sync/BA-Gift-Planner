@@ -94,7 +94,13 @@
     "loggedInAs": "已登录为: {name}",
     "logout": "登出",
     "cloudSaveSync": "云端存档同步",
-    "lastSyncTime": "上次同步: "
+    "lastSyncTime": "上次同步: ",
+    "dataManagement": "数据管理",
+    "exportData": "导出存档",
+    "importData": "导入存档",
+    "exportSuccess": "导出存档成功！",
+    "importSuccess": "导入存档成功！页面即将重新加载。",
+    "importFailed": "导入存档失败。无效的文件。"
   },
   "shareModal": {
     "title": "截图设定",

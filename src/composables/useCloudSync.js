@@ -5,7 +5,7 @@ import { useGiftPlannerStore } from '@/store/giftPlanner'
 import { useSettingStore } from '@/store/setting'
 import { useToast } from '@/composables/useToast'
 import { useI18n } from '@/composables/useI18n'
-import pako from 'pako'
+import { getLocalStatePayload, compressSaveData, decompressSaveData, applySaveDataToStores } from '@/utils/saveManager'
 
 // Shared state (Singleton pattern)
 const isSyncing = ref(false)
@@ -25,16 +25,6 @@ export function useCloudSync() {
 
   const { addToast } = useToast()
   const { t } = useI18n()
-
-  // Get the current complete state
-  const getCurrentStatePayload = () => {
-    return {
-      student: localStorage.getItem('student') || '{}',
-      gift: localStorage.getItem('gift') || '{}',
-      giftPlanner: localStorage.getItem('giftPlanner') || '{}',
-      setting: localStorage.getItem('setting') || '{}',
-    }
-  }
 
   const initSync = async () => {
     try {
@@ -66,14 +56,8 @@ export function useCloudSync() {
       const data = await res.json()
       if (!data.payload) return
 
-      const binaryString = atob(data.payload)
-      const bytes = new Uint8Array(binaryString.length)
-      for (let i = 0; i < binaryString.length; i++) {
-        bytes[i] = binaryString.charCodeAt(i)
-      }
-
-      const decompressed = pako.inflate(bytes, { to: 'string' })
-      const currentPayloadStr = JSON.stringify(getCurrentStatePayload())
+      const decompressed = decompressSaveData(data.payload)
+      const currentPayloadStr = JSON.stringify(getLocalStatePayload())
 
       if (decompressed === currentPayloadStr) {
         lastSyncedPayloadStr = decompressed
@@ -81,13 +65,7 @@ export function useCloudSync() {
         return
       }
 
-      const parsed = JSON.parse(decompressed)
-
-      // Updates are done in batches using $patch, and because isSyncing is true, uploads are not triggered
-      if (parsed.student) stores.student.$patch(JSON.parse(parsed.student))
-      if (parsed.gift) stores.gift.$patch(JSON.parse(parsed.gift))
-      if (parsed.giftPlanner) stores.giftPlanner.$patch(JSON.parse(parsed.giftPlanner))
-      if (parsed.setting) stores.setting.$patch(JSON.parse(parsed.setting))
+      applySaveDataToStores(decompressed)
 
       lastSyncedPayloadStr = decompressed
     } catch (e) {
@@ -105,7 +83,7 @@ export function useCloudSync() {
 
     try {
       isSyncing.value = true
-      const payloadObj = getCurrentStatePayload()
+      const payloadObj = getLocalStatePayload()
       const jsonString = JSON.stringify(payloadObj)
 
       // Prevent redundant network requests if payload is identical
@@ -114,13 +92,7 @@ export function useCloudSync() {
         return
       }
 
-      const compressedBytes = pako.deflate(jsonString)
-
-      const base64Payload = btoa(
-        Array.from(compressedBytes)
-          .map((byte) => String.fromCharCode(byte))
-          .join('')
-      )
+      const base64Payload = compressSaveData(payloadObj)
 
       const res = await fetch('/api/sync/upload', {
         method: 'POST',

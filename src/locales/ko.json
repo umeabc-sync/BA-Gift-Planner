@@ -94,7 +94,13 @@
     "loggedInAs": "로그인됨: {name}",
     "logout": "로그아웃",
     "cloudSaveSync": "클라우드 저장 동기화",
-    "lastSyncTime": "마지막 동기화: "
+    "lastSyncTime": "마지막 동기화: ",
+    "dataManagement": "데이터 관리",
+    "exportData": "데이터 내보내기",
+    "importData": "데이터 가져오기",
+    "exportSuccess": "데이터가 성공적으로 내보내졌습니다.",
+    "importSuccess": "데이터를 가져왔습니다. 페이지가 새로 고쳐집니다.",
+    "importFailed": "데이터를 가져오지 못했습니다. 잘못된 파일입니다."
   },
   "shareModal": {
     "title": "스크린샷 설정",
