@@ -13,6 +13,9 @@
           <button :class="['tab-button', { active: activeTab === 'performance' }]" @click="activeTab = 'performance'">
             <span>{{ t('settingsModal.performance') }}</span>
           </button>
+          <button :class="['tab-button', { active: activeTab === 'account' }]" @click="activeTab = 'account'">
+            <span>帳號同步</span>
+          </button>
         </div>
 
         <!-- Tab Content -->
@@ -138,6 +141,33 @@
               </div>
             </div>
           </AppScrollbar>
+
+          <!-- Account Settings -->
+          <AppScrollbar v-show="activeTab === 'account'" class="settings-panel">
+            <div class="setting-group">
+              <h4 class="setting-group-title">Google 登入狀態</h4>
+              <div class="setting-control-wrapper" style="text-align: right">
+                <div v-if="!user">
+                  <a href="/api/auth/google/login" class="login-button"> 使用 Google 登入 </a>
+                </div>
+                <div v-else class="user-info">
+                  <span class="user-name">已登入為: {{ user.name }}</span>
+                  <button @click="handleLogout" class="logout-button">登出</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Sync Status -->
+            <div class="setting-group" v-if="user">
+              <h4 class="setting-group-title">雲端存檔同步</h4>
+              <div class="setting-control-wrapper" style="text-align: right">
+                <span style="color: #4caf50; font-weight: bold; font-size: 0.95rem">
+                  {{ t('common.enabled') || '已啟用自動同步' }}
+                </span>
+                <p style="margin: 4px 0 0; font-size: 0.85rem; color: #666">修改資料後 3 秒自動上傳</p>
+              </div>
+            </div>
+          </AppScrollbar>
         </div>
       </div>
     </template>
@@ -145,7 +175,7 @@
 </template>
 
 <script setup>
-  import { computed, ref, toRefs } from 'vue'
+  import { computed, ref, toRefs, onMounted } from 'vue'
   import { useSettingStore } from '@/store/setting'
   import { storeToRefs } from 'pinia'
   import { useI18n } from '@/composables/useI18n.js'
@@ -169,6 +199,28 @@
 
   // Active tab state
   const activeTab = ref('appearance')
+
+  // Auth state
+  const user = ref(null)
+
+  onMounted(async () => {
+    try {
+      const res = await fetch('/api/auth/me')
+      const data = await res.json()
+      user.value = data.user
+    } catch (e) {
+      console.error('Failed to fetch user:', e)
+    }
+  })
+
+  const handleLogout = async () => {
+    try {
+      await fetch('/api/auth/logout', { method: 'POST' })
+      user.value = null
+    } catch (e) {
+      console.error('Failed to logout:', e)
+    }
+  }
 
   const settingStore = useSettingStore()
   const {
@@ -456,5 +508,54 @@
     .toggle-button {
       flex: 1;
     }
+  }
+
+  /* Account & Login buttons */
+  .login-button {
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #4285f4;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 0.95rem;
+    transition: background-color 0.2s;
+  }
+
+  .login-button:hover {
+    background-color: #357abd;
+  }
+
+  .user-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+  }
+
+  .user-name {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #2c3e50;
+  }
+
+  .dark-mode .user-name {
+    color: #e0e6ed;
+  }
+
+  .logout-button {
+    padding: 6px 12px;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+
+  .logout-button:hover {
+    background-color: #c82333;
   }
 </style>

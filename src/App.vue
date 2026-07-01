@@ -44,6 +44,9 @@
   import SettingsModal from '@components/modal/SettingsModal.vue'
   import ShareModal from '@components/modal/ShareModal.vue'
   import { useI18n } from '@composables/useI18n'
+  import { useCloudSync } from '@composables/useCloudSync'
+
+  useCloudSync()
 
   const { t, isLoaded, currentLocale: locale } = useI18n()
   const settingStore = useSettingStore()

@@ -96,15 +96,61 @@ app.get('/api/auth/google/callback', async (c) => {
 // 3. 取得目前登入狀態 (前端初始化時呼叫)
 app.get('/api/auth/me', async (c) => {
   const token = getCookie(c, 'session')
-  if (!token) return c.json({ user: null })
+  if (!token) return c.json({ user: null, debug: 'no_cookie' })
 
   try {
     const payload = await verify(token, c.env.JWT_SECRET)
     return c.json({ user: { id: payload.id, name: payload.name } })
   } catch (e) {
     // JWT 過期或偽造
-    return c.json({ user: null })
+    return c.json({ user: null, debug: 'verify_failed', error: e.message })
   }
+})
+
+// === 雲端存檔同步流程 ===
+
+// 取得存檔
+app.get('/api/sync/download', async (c) => {
+  const token = getCookie(c, 'session')
+  if (!token) return c.json({ error: 'Unauthorized' }, 401)
+  
+  let payload
+  try {
+    payload = await verify(token, c.env.JWT_SECRET)
+  } catch (e) {
+    return c.json({ error: 'Unauthorized' }, 401)
+  }
+
+  const result = await c.env.DB.prepare('SELECT state_payload FROM user_data WHERE user_id = ?').bind(payload.id).first()
+  if (!result) return c.json({ payload: null })
+
+  return c.json({ payload: result.state_payload })
+})
+
+// 上傳存檔
+app.post('/api/sync/upload', async (c) => {
+  const token = getCookie(c, 'session')
+  if (!token) return c.json({ error: 'Unauthorized' }, 401)
+
+  let payload
+  try {
+    payload = await verify(token, c.env.JWT_SECRET)
+  } catch (e) {
+    return c.json({ error: 'Unauthorized' }, 401)
+  }
+
+  const body = await c.req.json()
+  if (!body.payload) return c.json({ error: 'Invalid payload' }, 400)
+
+  await c.env.DB.prepare(`
+    INSERT INTO user_data (user_id, state_payload, updated_at)
+    VALUES (?, ?, CURRENT_TIMESTAMP)
+    ON CONFLICT(user_id) DO UPDATE SET 
+      state_payload = excluded.state_payload,
+      updated_at = CURRENT_TIMESTAMP
+  `).bind(payload.id, body.payload).run()
+
+  return c.json({ success: true })
 })
 
 // 4. 登出
