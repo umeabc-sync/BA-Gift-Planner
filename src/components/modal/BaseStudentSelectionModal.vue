@@ -56,72 +56,83 @@
                 :class="{ 'is-open': isFilterPanelOpen, 'is-animating': isAnimating }"
               >
                 <AppScrollbar ref="filterContentWrapper" class="filter-content-wrapper modal-body-content-padding">
-                  <div v-for="group in availableFilters" :key="group.id" class="filter-group">
-                    <span class="filter-label">{{ t(group.labelKey) }}</span>
-                    <div class="filter-buttons">
-                      <button
-                        :class="{ active: selectedFilters[group.id].length === 0 }"
-                        @click="selectFilter(group.id, null)"
-                      >
-                        <span>{{ t('common.all') }}</span>
-                      </button>
-                      <button
-                        v-for="option in group.options"
-                        :key="option.value"
-                        :class="{
-                          active: selectedFilters[group.id].includes(option.value),
-                          'has-icon': ['role', 'attackType', 'defenseType', 'school', 'collection'].includes(group.id),
-                        }"
-                        @click="selectFilter(group.id, option.value)"
-                        style="font-family: inherit"
-                      >
-                        <template v-if="group.id === 'attackType'">
-                          <div class="type-icon-wrapper" :class="`type-bg-${option.value.toLowerCase()}`">
-                            <img :src="getAssetsFile(`icon/Type_Attack_s.webp`)" alt="Attack Icon" class="type-icon" />
-                          </div>
-                        </template>
-                        <template v-else-if="group.id === 'defenseType'">
-                          <div class="type-icon-wrapper" :class="`type-bg-${option.value.toLowerCase()}`">
+                  <div class="filter-content-inner">
+                    <div v-for="group in availableFilters" :key="group.id" class="filter-group">
+                      <span class="filter-label">{{ t(group.labelKey) }}</span>
+                      <div class="filter-buttons">
+                        <button
+                          :class="{ active: selectedFilters[group.id].length === 0 }"
+                          @click="selectFilter(group.id, null)"
+                        >
+                          <span>{{ t('common.all') }}</span>
+                        </button>
+                        <button
+                          v-for="option in group.options"
+                          :key="option.value"
+                          :class="{
+                            active: selectedFilters[group.id].includes(option.value),
+                            'has-icon': ['role', 'attackType', 'defenseType', 'school', 'collection'].includes(
+                              group.id
+                            ),
+                          }"
+                          @click="selectFilter(group.id, option.value)"
+                          style="font-family: inherit"
+                        >
+                          <template v-if="group.id === 'attackType'">
+                            <div class="type-icon-wrapper" :class="`type-bg-${option.value.toLowerCase()}`">
+                              <img
+                                :src="getAssetsFile(`icon/Type_Attack_s.webp`)"
+                                alt="Attack Icon"
+                                class="type-icon"
+                              />
+                            </div>
+                          </template>
+                          <template v-else-if="group.id === 'defenseType'">
+                            <div class="type-icon-wrapper" :class="`type-bg-${option.value.toLowerCase()}`">
+                              <img
+                                :src="getAssetsFile(`icon/Type_Defense_s.webp`)"
+                                alt="Defense Icon"
+                                class="type-icon"
+                              />
+                            </div>
+                          </template>
+                          <template v-else-if="group.id === 'role'">
+                            <img :src="getRoleIconUrl(option.value)" :alt="option.value" class="role-icon" />
+                          </template>
+                          <template v-else-if="group.id === 'school'">
+                            <img :src="getSchoolIconUrl(option.value)" :alt="option.value" class="school-icon" />
+                          </template>
+                          <template v-else-if="group.id === 'collection'">
                             <img
-                              :src="getAssetsFile(`icon/Type_Defense_s.webp`)"
-                              alt="Defense Icon"
-                              class="type-icon"
+                              :src="getAssetsFile(`icon/${option.value.toLowerCase()}.svg`)"
+                              :alt="option.value"
+                              class="collection-icon"
                             />
-                          </div>
-                        </template>
-                        <template v-else-if="group.id === 'role'">
-                          <img :src="getRoleIconUrl(option.value)" :alt="option.value" class="role-icon" />
-                        </template>
-                        <template v-else-if="group.id === 'school'">
-                          <img :src="getSchoolIconUrl(option.value)" :alt="option.value" class="school-icon" />
-                        </template>
-                        <template v-else-if="group.id === 'collection'">
-                          <img
-                            :src="getAssetsFile(`icon/${option.value.toLowerCase()}.svg`)"
-                            :alt="option.value"
-                            class="collection-icon"
-                          />
-                        </template>
-                        <span :class="{ 'nexon-font': ['weapon', 'type', 'position'].includes(group.id) }">
-                          <span
-                            v-if="group.id === 'type'"
-                            :class="`type-${option.label.toLowerCase()}`"
-                            class="type-button"
-                          >
-                            {{ option.label }}
+                          </template>
+                          <span :class="{ 'nexon-font': ['weapon', 'type', 'position'].includes(group.id) }">
+                            <span
+                              v-if="group.id === 'type'"
+                              :class="`type-${option.label.toLowerCase()}`"
+                              class="type-button"
+                            >
+                              {{ option.label }}
+                            </span>
+                            <span
+                              v-else-if="group.id === 'rarity'"
+                              style="display: flex; align-items: center; gap: 2px"
+                            >
+                              <component
+                                :is="StarIcon"
+                                v-for="i in option.value"
+                                :key="i"
+                                class="rarity-icon"
+                                style="width: 14px; height: 14px; fill: currentColor"
+                              />
+                            </span>
+                            <span v-else>{{ getOptionLabel(group, option) }}</span>
                           </span>
-                          <span v-else-if="group.id === 'rarity'" style="display: flex; align-items: center; gap: 2px">
-                            <component
-                              :is="StarIcon"
-                              v-for="i in option.value"
-                              :key="i"
-                              class="rarity-icon"
-                              style="width: 14px; height: 14px; fill: currentColor"
-                            />
-                          </span>
-                          <span v-else>{{ getOptionLabel(group, option) }}</span>
-                        </span>
-                      </button>
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </AppScrollbar>
@@ -555,15 +566,17 @@
 
   .filter-content-wrapper {
     box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    padding: 0 20px;
     min-height: 0;
     overflow-y: hidden;
   }
 
-  .filter-content-wrapper::after {
+  .filter-content-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .filter-content-inner::after {
     content: '';
     display: block;
     height: 15px;
