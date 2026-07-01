@@ -13,6 +13,7 @@ const lastSyncTime = ref(null)
 const user = ref(null)
 let syncTimeout = null
 let isInitialized = false
+let lastSyncedPayloadStr = null
 
 export function useCloudSync() {
   const stores = {
@@ -74,9 +75,11 @@ export function useCloudSync() {
       const decompressed = pako.inflate(bytes, { to: 'string' })
       const currentPayloadStr = JSON.stringify(getCurrentStatePayload())
 
-      lastSyncTime.value = new Date()
-
-      if (decompressed === currentPayloadStr) return
+      if (decompressed === currentPayloadStr) {
+        lastSyncedPayloadStr = decompressed
+        lastSyncTime.value = new Date()
+        return
+      }
 
       const parsed = JSON.parse(decompressed)
 
@@ -85,6 +88,8 @@ export function useCloudSync() {
       if (parsed.gift) stores.gift.$patch(JSON.parse(parsed.gift))
       if (parsed.giftPlanner) stores.giftPlanner.$patch(JSON.parse(parsed.giftPlanner))
       if (parsed.setting) stores.setting.$patch(JSON.parse(parsed.setting))
+
+      lastSyncedPayloadStr = decompressed
     } catch (e) {
       console.error('Failed to download save:', e)
     } finally {
@@ -101,8 +106,14 @@ export function useCloudSync() {
     try {
       isSyncing.value = true
       const payloadObj = getCurrentStatePayload()
-
       const jsonString = JSON.stringify(payloadObj)
+
+      // Prevent redundant network requests if payload is identical
+      if (jsonString === lastSyncedPayloadStr) {
+        isSyncing.value = false
+        return
+      }
+
       const compressedBytes = pako.deflate(jsonString)
 
       const base64Payload = btoa(
@@ -127,6 +138,7 @@ export function useCloudSync() {
         return
       }
 
+      lastSyncedPayloadStr = jsonString
       lastSyncTime.value = new Date()
     } catch (e) {
       console.error('Failed to upload save:', e)

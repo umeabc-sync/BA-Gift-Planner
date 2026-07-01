@@ -202,7 +202,7 @@ export const useGiftPlannerStore = defineStore(
   },
   {
     persist: {
-      pick: ['assignments', 'isSingleMode', 'currentSingleStudentId'],
+      pick: ['assignments'],
     },
   }
 )
