@@ -8,13 +8,16 @@ app.get('/api/ping', (c) => {
   return c.json({ message: 'pong', status: 'ok', time: new Date().toISOString() })
 })
 
-// === Google OAuth 登入流程 ===
+// === Google OAuth Login Process ===
 
-// 1. 導向 Google 登入畫面
+// Redirecting to the Google login screen
 app.get('/api/auth/google/login', (c) => {
   const clientId = c.env.GOOGLE_CLIENT_ID
-  // 注意：這裡先寫死成本地 Vite 伺服器的網址。實際上線時需要判斷環境或改成正式網址。
-  const redirectUri = 'http://localhost:5173/api/auth/google/callback'
+  const url = new URL(c.req.url)
+  const isLocal = url.hostname === 'localhost' || url.hostname === '127.0.0.1'
+  const redirectUri = isLocal 
+    ? 'http://localhost:5173/api/auth/google/callback' 
+    : `${url.origin}/api/auth/google/callback`
 
   const params = new URLSearchParams({
     client_id: clientId,
@@ -28,16 +31,21 @@ app.get('/api/auth/google/login', (c) => {
   return c.redirect(`https://accounts.google.com/o/oauth2/v2/auth?${params.toString()}`)
 })
 
-// 2. Google 登入後的回呼 (Callback)
+// Google login callback
 app.get('/api/auth/google/callback', async (c) => {
   const code = c.req.query('code')
   if (!code) return c.text('Missing code', 400)
 
   const clientId = c.env.GOOGLE_CLIENT_ID
   const clientSecret = c.env.GOOGLE_CLIENT_SECRET
-  const redirectUri = 'http://localhost:5173/api/auth/google/callback'
+  
+  const url = new URL(c.req.url)
+  const isLocal = url.hostname === 'localhost' || url.hostname === '127.0.0.1'
+  const redirectUri = isLocal 
+    ? 'http://localhost:5173/api/auth/google/callback' 
+    : `${url.origin}/api/auth/google/callback`
 
-  // 拿 Code 去換 Token
+  // Exchange Code for Token
   const tokenRes = await fetch('https://oauth2.googleapis.com/token', {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -55,7 +63,7 @@ app.get('/api/auth/google/callback', async (c) => {
     return c.text('Failed to get token from Google', 400)
   }
 
-  // 從 Google 取得使用者資訊
+  // Obtaining user information from Google
   const userRes = await fetch('https://www.googleapis.com/oauth2/v2/userinfo', {
     headers: { Authorization: `Bearer ${tokenData.access_token}` },
   })
@@ -63,7 +71,7 @@ app.get('/api/auth/google/callback', async (c) => {
 
   if (!userData.id) return c.text('Failed to get user info', 400)
 
-  // 寫入 D1 資料庫 (如果帳號已存在則更新最後登入時間)
+  // Write to the D1 database (update the last login time if the account already exists)
   await c.env.DB.prepare(
     `
     INSERT INTO users (id, provider, name, email) 
@@ -76,7 +84,7 @@ app.get('/api/auth/google/callback', async (c) => {
     .bind(userData.id, userData.name, userData.email)
     .run()
 
-  // 產生我們自己的 JWT Session (只把 ID 和 Name 塞進去)
+  // Generate JWT Session
   const sessionPayload = {
     id: userData.id,
     name: userData.name,
@@ -88,16 +96,16 @@ app.get('/api/auth/google/callback', async (c) => {
   setCookie(c, 'session', token, {
     path: '/',
     httpOnly: true,
-    secure: false, // 本地開發先設為 false，上線時應設為 true
+    secure: !isLocal, // Set to true (HTTPS) when deployed online, and false for local development
     maxAge: 60 * 60 * 24 * 7,
     sameSite: 'Lax',
   })
 
-  // 登入成功，導向回前端首頁
+  // Login successful, redirected back to the homepage.
   return c.redirect('/')
 })
 
-// 3. 取得目前登入狀態 (前端初始化時呼叫)
+// Get the current login status (called during frontend initialization)
 app.get('/api/auth/me', async (c) => {
   const token = getCookie(c, 'session')
   if (!token) return c.json({ user: null, debug: 'no_cookie' })
@@ -111,9 +119,9 @@ app.get('/api/auth/me', async (c) => {
   }
 })
 
-// === 雲端存檔同步流程 ===
+// === Cloud Archive Synchronization Process ===
 
-// 取得存檔
+// Get the archive
 app.get('/api/sync/download', async (c) => {
   const token = getCookie(c, 'session')
   if (!token) return c.json({ error: 'Unauthorized' }, 401)
@@ -133,7 +141,7 @@ app.get('/api/sync/download', async (c) => {
   return c.json({ payload: result.state_payload })
 })
 
-// 上傳存檔
+// Upload archive
 app.post('/api/sync/upload', async (c) => {
   const token = getCookie(c, 'session')
   if (!token) return c.json({ error: 'Unauthorized' }, 401)
@@ -163,7 +171,7 @@ app.post('/api/sync/upload', async (c) => {
   return c.json({ success: true })
 })
 
-// 4. 登出
+// Logout
 app.post('/api/auth/logout', (c) => {
   setCookie(c, 'session', '', { path: '/', maxAge: 0 })
   return c.json({ success: true })
