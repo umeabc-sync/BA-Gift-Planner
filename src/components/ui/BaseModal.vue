@@ -14,13 +14,13 @@
             </div>
             <button class="close-button" @click="closeModal">×</button>
           </div>
-          <div class="modal-body">
+          <AppScrollbar class="modal-body">
             <div v-if="isEmpty" class="empty-state" :style="emptyStateStyle">
               <warningIcon class="empty-icon" fill="currentColor" />
               <p class="empty-text">EMPTY</p>
             </div>
             <slot v-else name="body"></slot>
-          </div>
+          </AppScrollbar>
           <div v-if="$slots.footer" class="modal-footer">
             <slot name="footer"></slot>
           </div>
@@ -34,6 +34,7 @@
   import { toRefs, computed } from 'vue'
   import { useModal } from '@composables/useModal.js'
   import warningIcon from '@/assets/icon/warning.svg'
+  import AppScrollbar from '@/components/ui/AppScrollbar.vue'
   import { useSettingStore } from '@/store/setting'
   import { storeToRefs } from 'pinia'
 

@@ -55,7 +55,7 @@
                 class="filter-controls"
                 :class="{ 'is-open': isFilterPanelOpen, 'is-animating': isAnimating }"
               >
-                <div ref="filterContentWrapper" class="filter-content-wrapper modal-body-content-padding">
+                <AppScrollbar ref="filterContentWrapper" class="filter-content-wrapper modal-body-content-padding">
                   <div v-for="group in availableFilters" :key="group.id" class="filter-group">
                     <span class="filter-label">{{ t(group.labelKey) }}</span>
                     <div class="filter-buttons">
@@ -124,10 +124,10 @@
                       </button>
                     </div>
                   </div>
-                </div>
+                </AppScrollbar>
               </div>
             </div>
-            <div class="scrollable-section">
+            <AppScrollbar class="scrollable-section">
               <div class="student-grid modal-body-content-padding">
                 <div
                   v-for="student in filteredStudents"
@@ -158,7 +158,7 @@
                   {{ t('characterSelector.noResults') }}
                 </div>
               </div>
-            </div>
+            </AppScrollbar>
           </div>
         </div>
       </div>
@@ -175,6 +175,7 @@
   import { useModal } from '@composables/useModal.js'
   import { useI18n } from '@composables/useI18n.js'
   import filterOptions from '@/data/filterOptions.json'
+  import AppScrollbar from '@/components/ui/AppScrollbar.vue'
   import ImageWithLoader from '@components/ui/ImageWithLoader.vue'
   import { useSettingStore } from '@store/setting'
   import { storeToRefs } from 'pinia'
@@ -259,8 +260,8 @@
         const modalBodyHeight = document.querySelector('.modal-body').offsetHeight
         const searchAndResetHeight = searchAndReset.value.offsetHeight
         const maxHeight = modalBodyHeight - searchAndResetHeight - 20
-        if (filterContentWrapper.value) {
-          filterContentWrapper.value.style.maxHeight = `${maxHeight}px`
+        if (filterContentWrapper.value && filterContentWrapper.value.$el) {
+          filterContentWrapper.value.$el.style.maxHeight = `${maxHeight}px`
         }
       })
     }
@@ -273,8 +274,8 @@
     if (isFilterPanelOpen.value) {
       adjustFilterHeight()
     } else {
-      if (filterContentWrapper.value) {
-        filterContentWrapper.value.style.maxHeight = ''
+      if (filterContentWrapper.value && filterContentWrapper.value.$el) {
+        filterContentWrapper.value.$el.style.maxHeight = ''
       }
     }
 

@@ -12,9 +12,9 @@
             <slot name="header"></slot>
             <button class="close-button" @click="closeModal">&times;</button>
           </div>
-          <div class="modal-body">
+          <AppScrollbar class="modal-body">
             <slot name="body"></slot>
-          </div>
+          </AppScrollbar>
           <div v-if="$slots.footer" class="modal-footer">
             <slot name="footer"></slot>
           </div>
@@ -27,6 +27,7 @@
 <script setup>
   import { toRefs, computed } from 'vue'
   import { useModal } from '@composables/useModal.js'
+  import AppScrollbar from '@/components/ui/AppScrollbar.vue'
   import { useSettingStore } from '@/store/setting'
   import { storeToRefs } from 'pinia'
 
@@ -119,14 +120,6 @@
     overflow-x: hidden;
     padding: 10px;
     flex-grow: 1;
-  }
-
-  .modal-body::-webkit-scrollbar-thumb {
-    border-color: #fff;
-  }
-
-  .dark-mode .modal-body::-webkit-scrollbar-thumb {
-    border-color: #1f3048;
   }
 
   .modal-footer {

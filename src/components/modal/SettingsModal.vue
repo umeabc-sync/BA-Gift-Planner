@@ -18,7 +18,7 @@
         <!-- Tab Content -->
         <div class="tab-content">
           <!-- Appearance Settings -->
-          <div v-show="activeTab === 'appearance'" class="settings-panel">
+          <AppScrollbar v-show="activeTab === 'appearance'" class="settings-panel">
             <!-- Language Settings -->
             <div class="setting-group">
               <h4 class="setting-group-title">{{ t('settingsModal.language') }}</h4>
@@ -96,10 +96,10 @@
                 </button>
               </div>
             </div>
-          </div>
+          </AppScrollbar>
 
           <!-- Performance Settings -->
-          <div v-show="activeTab === 'performance'" class="settings-panel">
+          <AppScrollbar v-show="activeTab === 'performance'" class="settings-panel">
             <!-- Lazy Load Settings -->
             <div class="setting-group">
               <h4 class="setting-group-title">{{ t('settingsModal.characterSelectorLazyLoad') }}</h4>
@@ -137,7 +137,7 @@
                 </button>
               </div>
             </div>
-          </div>
+          </AppScrollbar>
         </div>
       </div>
     </template>
@@ -150,6 +150,7 @@
   import { storeToRefs } from 'pinia'
   import { useI18n } from '@/composables/useI18n.js'
   import { useModal } from '@/composables/useModal.js'
+  import AppScrollbar from '@/components/ui/AppScrollbar.vue'
   import BaseModal from '@components/ui/BaseModal.vue'
   import CustomDropdown from '@components/ui/CustomDropdown.vue'
 
