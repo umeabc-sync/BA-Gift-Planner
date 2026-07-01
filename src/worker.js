@@ -22,7 +22,7 @@ app.get('/api/auth/google/login', (c) => {
     response_type: 'code',
     scope: 'openid email profile',
     access_type: 'online',
-    prompt: 'select_account'
+    prompt: 'select_account',
   })
 
   return c.redirect(`https://accounts.google.com/o/oauth2/v2/auth?${params.toString()}`)
@@ -46,8 +46,8 @@ app.get('/api/auth/google/callback', async (c) => {
       client_secret: clientSecret,
       code,
       redirect_uri: redirectUri,
-      grant_type: 'authorization_code'
-    })
+      grant_type: 'authorization_code',
+    }),
   })
   const tokenData = await tokenRes.json()
 
@@ -57,28 +57,32 @@ app.get('/api/auth/google/callback', async (c) => {
 
   // 從 Google 取得使用者資訊
   const userRes = await fetch('https://www.googleapis.com/oauth2/v2/userinfo', {
-    headers: { Authorization: `Bearer ${tokenData.access_token}` }
+    headers: { Authorization: `Bearer ${tokenData.access_token}` },
   })
   const userData = await userRes.json()
 
   if (!userData.id) return c.text('Failed to get user info', 400)
 
   // 寫入 D1 資料庫 (如果帳號已存在則更新最後登入時間)
-  await c.env.DB.prepare(`
+  await c.env.DB.prepare(
+    `
     INSERT INTO users (id, provider, name, email) 
     VALUES (?, 'google', ?, ?) 
     ON CONFLICT(id) DO UPDATE SET 
       name = excluded.name, 
       last_login = CURRENT_TIMESTAMP
-  `).bind(userData.id, userData.name, userData.email).run()
+  `
+  )
+    .bind(userData.id, userData.name, userData.email)
+    .run()
 
   // 產生我們自己的 JWT Session (只把 ID 和 Name 塞進去)
   const sessionPayload = {
     id: userData.id,
     name: userData.name,
-    exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 7 // 7 天過期
+    exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 7, // 7 天過期
   }
-  const token = await sign(sessionPayload, c.env.JWT_SECRET)
+  const token = await sign(sessionPayload, c.env.JWT_SECRET, 'HS256')
 
   // 設定 HttpOnly Cookie，讓前端無法被 XSS 偷取
   setCookie(c, 'session', token, {
@@ -86,7 +90,7 @@ app.get('/api/auth/google/callback', async (c) => {
     httpOnly: true,
     secure: false, // 本地開發先設為 false，上線時應設為 true
     maxAge: 60 * 60 * 24 * 7,
-    sameSite: 'Lax'
+    sameSite: 'Lax',
   })
 
   // 登入成功，導向回前端首頁
@@ -99,7 +103,7 @@ app.get('/api/auth/me', async (c) => {
   if (!token) return c.json({ user: null, debug: 'no_cookie' })
 
   try {
-    const payload = await verify(token, c.env.JWT_SECRET)
+    const payload = await verify(token, c.env.JWT_SECRET, 'HS256')
     return c.json({ user: { id: payload.id, name: payload.name } })
   } catch (e) {
     // JWT 過期或偽造
@@ -113,15 +117,17 @@ app.get('/api/auth/me', async (c) => {
 app.get('/api/sync/download', async (c) => {
   const token = getCookie(c, 'session')
   if (!token) return c.json({ error: 'Unauthorized' }, 401)
-  
+
   let payload
   try {
-    payload = await verify(token, c.env.JWT_SECRET)
+    payload = await verify(token, c.env.JWT_SECRET, 'HS256')
   } catch (e) {
     return c.json({ error: 'Unauthorized' }, 401)
   }
 
-  const result = await c.env.DB.prepare('SELECT state_payload FROM user_data WHERE user_id = ?').bind(payload.id).first()
+  const result = await c.env.DB.prepare('SELECT state_payload FROM user_data WHERE user_id = ?')
+    .bind(payload.id)
+    .first()
   if (!result) return c.json({ payload: null })
 
   return c.json({ payload: result.state_payload })
@@ -134,7 +140,7 @@ app.post('/api/sync/upload', async (c) => {
 
   let payload
   try {
-    payload = await verify(token, c.env.JWT_SECRET)
+    payload = await verify(token, c.env.JWT_SECRET, 'HS256')
   } catch (e) {
     return c.json({ error: 'Unauthorized' }, 401)
   }
@@ -142,13 +148,17 @@ app.post('/api/sync/upload', async (c) => {
   const body = await c.req.json()
   if (!body.payload) return c.json({ error: 'Invalid payload' }, 400)
 
-  await c.env.DB.prepare(`
+  await c.env.DB.prepare(
+    `
     INSERT INTO user_data (user_id, state_payload, updated_at)
     VALUES (?, ?, CURRENT_TIMESTAMP)
     ON CONFLICT(user_id) DO UPDATE SET 
       state_payload = excluded.state_payload,
       updated_at = CURRENT_TIMESTAMP
-  `).bind(payload.id, body.payload).run()
+  `
+  )
+    .bind(payload.id, body.payload)
+    .run()
 
   return c.json({ success: true })
 })
