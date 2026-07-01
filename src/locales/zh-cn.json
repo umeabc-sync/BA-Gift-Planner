@@ -93,7 +93,8 @@
     "loginWithGoogle": "使用 Google 登录",
     "loggedInAs": "已登录为: {name}",
     "logout": "登出",
-    "cloudSaveSync": "云端存档同步"
+    "cloudSaveSync": "云端存档同步",
+    "lastSyncTime": "上次同步: "
   },
   "shareModal": {
     "title": "截图设定",

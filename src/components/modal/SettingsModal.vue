@@ -165,9 +165,12 @@
             <div class="setting-group" v-if="user">
               <h4 class="setting-group-title">{{ t('settingsModal.cloudSaveSync') }}</h4>
               <div class="setting-control-wrapper" style="text-align: right">
-                <span style="color: #4caf50; font-weight: bold; font-size: 0.95rem">
+                <div style="color: #4caf50; font-weight: bold; font-size: 0.95rem; margin-bottom: 4px;">
                   {{ t('common.enabled') }}
-                </span>
+                </div>
+                <div v-if="lastSyncTime" style="font-size: 0.8rem; color: #666">
+                  {{ t('settingsModal.lastSyncTime') }}{{ lastSyncTime.toLocaleTimeString() }}
+                </div>
               </div>
             </div>
           </AppScrollbar>
@@ -186,6 +189,7 @@
   import AppScrollbar from '@/components/ui/AppScrollbar.vue'
   import BaseModal from '@components/ui/BaseModal.vue'
   import CustomDropdown from '@components/ui/CustomDropdown.vue'
+  import { useCloudSync } from '@/composables/useCloudSync.js'
 
   const { t, currentLocale: locale } = useI18n()
 
@@ -203,23 +207,15 @@
   // Active tab state
   const activeTab = ref('appearance')
 
-  // Auth state
-  const user = ref(null)
+  // Auth and Sync state from shared composable
+  const { user, lastSyncTime } = useCloudSync()
 
-  onMounted(async () => {
-    try {
-      const res = await fetch('/api/auth/me')
-      const data = await res.json()
-      user.value = data.user
-    } catch (e) {
-      console.error('Failed to fetch user:', e)
-    }
-  })
 
   const handleLogout = async () => {
     try {
       await fetch('/api/auth/logout', { method: 'POST' })
       user.value = null
+      // Clear localStorage or state if necessary
     } catch (e) {
       console.error('Failed to logout:', e)
     }

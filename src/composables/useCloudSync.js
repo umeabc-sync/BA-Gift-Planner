@@ -7,6 +7,13 @@ import { useToast } from '@/composables/useToast'
 import { useI18n } from '@/composables/useI18n'
 import pako from 'pako'
 
+// Shared state (Singleton pattern)
+const isSyncing = ref(false)
+const lastSyncTime = ref(null)
+const user = ref(null)
+let syncTimeout = null
+let isInitialized = false
+
 export function useCloudSync() {
   const stores = {
     student: useStudentStore(),
@@ -17,11 +24,6 @@ export function useCloudSync() {
 
   const { addToast } = useToast()
   const { t } = useI18n()
-
-  const isSyncing = ref(false)
-  const lastSyncTime = ref(null)
-  const user = ref(null)
-  let syncTimeout = null
 
   // Get the current complete state
   const getCurrentStatePayload = () => {
@@ -71,6 +73,8 @@ export function useCloudSync() {
 
       const decompressed = pako.inflate(bytes, { to: 'string' })
       const currentPayloadStr = JSON.stringify(getCurrentStatePayload())
+
+      lastSyncTime.value = new Date()
 
       if (decompressed === currentPayloadStr) return
 
@@ -141,16 +145,17 @@ export function useCloudSync() {
     }, 3000)
   }
 
-  // Use Pinia $subscribe instead of the expensive deep watch
-  Object.values(stores).forEach((store) => {
-    store.$subscribe(() => {
-      if (!isSyncing.value) triggerAutoSync()
+  if (!isInitialized) {
+    // Use Pinia $subscribe instead of the expensive deep watch
+    Object.values(stores).forEach((store) => {
+      store.$subscribe(() => {
+        if (!isSyncing.value) triggerAutoSync()
+      })
     })
-  })
 
-  onMounted(() => {
-    initSync()
-  })
+    // Let App.vue call initSync() directly
+    isInitialized = true
+  }
 
-  return { user, isSyncing, lastSyncTime, uploadSave, downloadSave }
+  return { user, isSyncing, lastSyncTime, uploadSave, downloadSave, initSync }
 }

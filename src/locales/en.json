@@ -93,7 +93,8 @@
     "loginWithGoogle": "Login with Google",
     "loggedInAs": "Logged in as: {name}",
     "logout": "Logout",
-    "cloudSaveSync": "Cloud Save Sync"
+    "cloudSaveSync": "Cloud Save Sync",
+    "lastSyncTime": "Last synced: "
   },
   "shareModal": {
     "title": "Screenshot Settings",

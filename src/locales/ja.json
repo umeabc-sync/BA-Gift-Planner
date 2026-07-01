@@ -93,7 +93,8 @@
     "loginWithGoogle": "Googleでログイン",
     "loggedInAs": "ログイン中: {name}",
     "logout": "ログアウト",
-    "cloudSaveSync": "クラウド保存の同期"
+    "cloudSaveSync": "クラウド保存の同期",
+    "lastSyncTime": "最終同期: "
   },
   "shareModal": {
     "title": "スクショ設定",

@@ -93,7 +93,8 @@
     "loginWithGoogle": "Google로 로그인",
     "loggedInAs": "로그인됨: {name}",
     "logout": "로그아웃",
-    "cloudSaveSync": "클라우드 저장 동기화"
+    "cloudSaveSync": "클라우드 저장 동기화",
+    "lastSyncTime": "마지막 동기화: "
   },
   "shareModal": {
     "title": "스크린샷 설정",
