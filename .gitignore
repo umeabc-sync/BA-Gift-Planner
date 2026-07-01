@@ -28,3 +28,6 @@ dist-ssr
 
 # Specification documents
 GEMINI.md
+
+# Backend
+.wrangler/
