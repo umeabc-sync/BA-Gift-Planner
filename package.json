@@ -9,7 +9,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "format": "prettier --write src/",
-    "lint": "eslint . --fix"
+    "lint": "eslint . --fix",
+    "db:init": "npx wrangler d1 execute ba-gift-planner-db --local --file=./schema.sql"
   },
   "dependencies": {
     "@types/pako": "^2.0.4",
