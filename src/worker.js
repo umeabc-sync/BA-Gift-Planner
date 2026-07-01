@@ -19,6 +19,15 @@ app.get('/api/auth/google/login', (c) => {
     ? 'http://localhost:5173/api/auth/google/callback' 
     : `${url.origin}/api/auth/google/callback`
 
+  const state = crypto.randomUUID()
+  setCookie(c, 'oauth_state', state, {
+    path: '/',
+    httpOnly: true,
+    secure: !isLocal,
+    maxAge: 600,
+    sameSite: 'Lax',
+  })
+
   const params = new URLSearchParams({
     client_id: clientId,
     redirect_uri: redirectUri,
@@ -26,6 +35,7 @@ app.get('/api/auth/google/login', (c) => {
     scope: 'openid email profile',
     access_type: 'online',
     prompt: 'select_account',
+    state: state,
   })
 
   return c.redirect(`https://accounts.google.com/o/oauth2/v2/auth?${params.toString()}`)
@@ -34,7 +44,16 @@ app.get('/api/auth/google/login', (c) => {
 // Google login callback
 app.get('/api/auth/google/callback', async (c) => {
   const code = c.req.query('code')
+  const returnedState = c.req.query('state')
+  const savedState = getCookie(c, 'oauth_state')
+
   if (!code) return c.text('Missing code', 400)
+  
+  if (!returnedState || !savedState || returnedState !== savedState) {
+    return c.text('Invalid state (CSRF detected)', 403)
+  }
+  
+  setCookie(c, 'oauth_state', '', { path: '/', maxAge: 0 })
 
   const clientId = c.env.GOOGLE_CLIENT_ID
   const clientSecret = c.env.GOOGLE_CLIENT_SECRET

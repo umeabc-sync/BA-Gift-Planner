@@ -3,6 +3,7 @@ import { useStudentStore } from '@/store/student'
 import { useGiftStore } from '@/store/gift'
 import { useGiftPlannerStore } from '@/store/giftPlanner'
 import { useSettingStore } from '@/store/setting'
+import { useToast } from '@/composables/useToast'
 import pako from 'pako'
 
 export function useCloudSync() {
@@ -12,6 +13,8 @@ export function useCloudSync() {
     giftPlanner: useGiftPlannerStore(),
     setting: useSettingStore(),
   }
+
+  const { addToast } = useToast()
 
   const isSyncing = ref(false)
   const lastSyncTime = ref(null)
@@ -44,7 +47,16 @@ export function useCloudSync() {
     try {
       isSyncing.value = true // Lock to prevent auto sync from being triggered
       const res = await fetch('/api/sync/download')
-      if (!res.ok) return
+      
+      if (res.status === 401) {
+        user.value = null
+        addToast('登入狀態已過期，請重新登入！', 'error')
+        return
+      }
+      if (!res.ok) {
+        addToast('雲端存檔下載失敗！', 'error')
+        return
+      }
 
       const data = await res.json()
       if (!data.payload) return
@@ -93,15 +105,26 @@ export function useCloudSync() {
           .join('')
       )
 
-      await fetch('/api/sync/upload', {
+      const res = await fetch('/api/sync/upload', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ payload: base64Payload }),
       })
 
+      if (res.status === 401) {
+        user.value = null
+        addToast('登入狀態已過期，資料無法存上雲端！請重新登入。', 'error')
+        return
+      }
+      if (!res.ok) {
+        addToast('雲端存檔上傳失敗！', 'error')
+        return
+      }
+
       lastSyncTime.value = new Date()
     } catch (e) {
       console.error('Failed to upload save:', e)
+      addToast('網路錯誤或伺服器無回應，存檔上傳失敗！', 'error')
     } finally {
       isSyncing.value = false
     }
