@@ -76,16 +76,16 @@ export const useSettingStore = defineStore(
       initThemeListener,
     }
   },
-  { 
+  {
     persist: {
       pick: [
-        'theme', 
-        'locale', 
-        'showOnlyOptimalSolution', 
-        'enableCharacterSelectorLazyLoad', 
-        'useVibrantProgressBar', 
-        'disableBackgroundBlur'
-      ]
-    }
+        'theme',
+        'locale',
+        'showOnlyOptimalSolution',
+        'enableCharacterSelectorLazyLoad',
+        'useVibrantProgressBar',
+        'disableBackgroundBlur',
+      ],
+    },
   }
 )

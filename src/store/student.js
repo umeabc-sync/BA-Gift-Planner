@@ -77,9 +77,9 @@ export const useStudentStore = defineStore(
       resetSelection,
     }
   },
-  { 
+  {
     persist: {
-      pick: ['selectedStudentIds', 'studentBondData', 'studentFormOverrides']
-    }
+      pick: ['selectedStudentIds', 'studentBondData', 'studentFormOverrides'],
+    },
   }
 )

@@ -15,8 +15,8 @@ app.get('/api/auth/google/login', (c) => {
   const clientId = c.env.GOOGLE_CLIENT_ID
   const url = new URL(c.req.url)
   const isLocal = url.hostname === 'localhost' || url.hostname === '127.0.0.1'
-  const redirectUri = isLocal 
-    ? 'http://localhost:5173/api/auth/google/callback' 
+  const redirectUri = isLocal
+    ? 'http://localhost:5173/api/auth/google/callback'
     : `${url.origin}/api/auth/google/callback`
 
   const state = crypto.randomUUID()
@@ -48,20 +48,20 @@ app.get('/api/auth/google/callback', async (c) => {
   const savedState = getCookie(c, 'oauth_state')
 
   if (!code) return c.text('Missing code', 400)
-  
+
   if (!returnedState || !savedState || returnedState !== savedState) {
     return c.text('Invalid state (CSRF detected)', 403)
   }
-  
+
   setCookie(c, 'oauth_state', '', { path: '/', maxAge: 0 })
 
   const clientId = c.env.GOOGLE_CLIENT_ID
   const clientSecret = c.env.GOOGLE_CLIENT_SECRET
-  
+
   const url = new URL(c.req.url)
   const isLocal = url.hostname === 'localhost' || url.hostname === '127.0.0.1'
-  const redirectUri = isLocal 
-    ? 'http://localhost:5173/api/auth/google/callback' 
+  const redirectUri = isLocal
+    ? 'http://localhost:5173/api/auth/google/callback'
     : `${url.origin}/api/auth/google/callback`
 
   // Exchange Code for Token

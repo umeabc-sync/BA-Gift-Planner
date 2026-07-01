@@ -119,9 +119,9 @@ export const useGiftStore = defineStore(
       setSynthesisGifts,
     }
   },
-  { 
+  {
     persist: {
-      pick: ['quantities']
-    }
+      pick: ['quantities'],
+    },
   }
 )

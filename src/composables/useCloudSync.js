@@ -51,7 +51,7 @@ export function useCloudSync() {
     try {
       isSyncing.value = true // Lock to prevent auto sync from being triggered
       const res = await fetch('/api/sync/download')
-      
+
       if (res.status === 401) {
         user.value = null
         addToast(t('cloudSync.sessionExpired'), 'error')

@@ -200,9 +200,9 @@ export const useGiftPlannerStore = defineStore(
       allGifts,
     }
   },
-  { 
+  {
     persist: {
-      pick: ['assignments', 'isSingleMode', 'currentSingleStudentId']
-    }
+      pick: ['assignments', 'isSingleMode', 'currentSingleStudentId'],
+    },
   }
 )

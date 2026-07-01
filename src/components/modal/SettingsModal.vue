@@ -146,7 +146,7 @@
           <AppScrollbar v-show="activeTab === 'account'" class="settings-panel">
             <div class="setting-group">
               <h4 class="setting-group-title">{{ t('settingsModal.googleLoginStatus') }}</h4>
-              <div class="setting-control-wrapper" style="text-align: right; display: flex; justify-content: flex-end;">
+              <div class="setting-control-wrapper" style="text-align: right; display: flex; justify-content: flex-end">
                 <div v-if="!user">
                   <a href="/api/auth/google/login" class="btn-skew btn-text btn-blue" style="text-decoration: none">
                     <span>{{ t('settingsModal.loginWithGoogle') }}</span>
@@ -165,7 +165,7 @@
             <div class="setting-group" v-if="user">
               <h4 class="setting-group-title">{{ t('settingsModal.cloudSaveSync') }}</h4>
               <div class="setting-control-wrapper" style="text-align: right">
-                <div style="color: #4caf50; font-weight: bold; font-size: 0.95rem; margin-bottom: 4px;">
+                <div style="color: #4caf50; font-weight: bold; font-size: 0.95rem; margin-bottom: 4px">
                   {{ t('common.enabled') }}
                 </div>
                 <div v-if="lastSyncTime" style="font-size: 0.8rem; color: #666">
@@ -209,7 +209,6 @@
 
   // Auth and Sync state from shared composable
   const { user, lastSyncTime } = useCloudSync()
-
 
   const handleLogout = async () => {
     try {
