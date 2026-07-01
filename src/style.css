@@ -61,3 +61,8 @@ html > .os-scrollbar-vertical {
     opacity: 1;
   }
 }
+
+/* Prevent native scrollbar flash during modal fade out */
+.modal-fade-leave-active .app-scrollbar {
+  overflow: hidden !important;
+}
