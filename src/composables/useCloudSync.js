@@ -4,6 +4,7 @@ import { useGiftStore } from '@/store/gift'
 import { useGiftPlannerStore } from '@/store/giftPlanner'
 import { useSettingStore } from '@/store/setting'
 import { useToast } from '@/composables/useToast'
+import { useI18n } from '@/composables/useI18n'
 import pako from 'pako'
 
 export function useCloudSync() {
@@ -15,6 +16,7 @@ export function useCloudSync() {
   }
 
   const { addToast } = useToast()
+  const { t } = useI18n()
 
   const isSyncing = ref(false)
   const lastSyncTime = ref(null)
@@ -50,11 +52,11 @@ export function useCloudSync() {
       
       if (res.status === 401) {
         user.value = null
-        addToast('登入狀態已過期，請重新登入！', 'error')
+        addToast(t('cloudSync.sessionExpired'), 'error')
         return
       }
       if (!res.ok) {
-        addToast('雲端存檔下載失敗！', 'error')
+        addToast(t('cloudSync.downloadFailed'), 'error')
         return
       }
 
@@ -113,18 +115,18 @@ export function useCloudSync() {
 
       if (res.status === 401) {
         user.value = null
-        addToast('登入狀態已過期，資料無法存上雲端！請重新登入。', 'error')
+        addToast(t('cloudSync.uploadSessionExpired'), 'error')
         return
       }
       if (!res.ok) {
-        addToast('雲端存檔上傳失敗！', 'error')
+        addToast(t('cloudSync.uploadFailed'), 'error')
         return
       }
 
       lastSyncTime.value = new Date()
     } catch (e) {
       console.error('Failed to upload save:', e)
-      addToast('網路錯誤或伺服器無回應，存檔上傳失敗！', 'error')
+      addToast(t('cloudSync.networkError'), 'error')
     } finally {
       isSyncing.value = false
     }
