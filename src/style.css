@@ -33,8 +33,9 @@ main {
   padding: 20px;
 }
 
-/* Fix the height of the vertical scrollbar */
-.os-scrollbar-vertical {
+/* Fix the height of the vertical scrollbar for the body to avoid the header */
+body > .os-scrollbar-vertical,
+html > .os-scrollbar-vertical {
   top: 70px !important;
   height: calc(100% - 70px) !important;
 }
@@ -59,4 +60,9 @@ main {
     transform: translateY(0);
     opacity: 1;
   }
+}
+
+/* Prevent native scrollbar flash during modal fade out */
+.modal-fade-leave-active .app-scrollbar {
+  overflow: hidden !important;
 }

@@ -13,12 +13,15 @@
           <button :class="['tab-button', { active: activeTab === 'performance' }]" @click="activeTab = 'performance'">
             <span>{{ t('settingsModal.performance') }}</span>
           </button>
+          <button :class="['tab-button', { active: activeTab === 'account' }]" @click="activeTab = 'account'">
+            <span>{{ t('settingsModal.account') }}</span>
+          </button>
         </div>
 
         <!-- Tab Content -->
         <div class="tab-content">
           <!-- Appearance Settings -->
-          <div v-show="activeTab === 'appearance'" class="settings-panel">
+          <AppScrollbar hidden v-show="activeTab === 'appearance'" class="settings-panel">
             <!-- Language Settings -->
             <div class="setting-group">
               <h4 class="setting-group-title">{{ t('settingsModal.language') }}</h4>
@@ -96,10 +99,10 @@
                 </button>
               </div>
             </div>
-          </div>
+          </AppScrollbar>
 
           <!-- Performance Settings -->
-          <div v-show="activeTab === 'performance'" class="settings-panel">
+          <AppScrollbar v-show="activeTab === 'performance'" class="settings-panel">
             <!-- Lazy Load Settings -->
             <div class="setting-group">
               <h4 class="setting-group-title">{{ t('settingsModal.characterSelectorLazyLoad') }}</h4>
@@ -137,7 +140,63 @@
                 </button>
               </div>
             </div>
-          </div>
+          </AppScrollbar>
+
+          <!-- Account Settings -->
+          <AppScrollbar hidden v-show="activeTab === 'account'" class="settings-panel">
+            <div class="setting-group">
+              <h4 class="setting-group-title">{{ t('settingsModal.googleLoginStatus') }}</h4>
+              <div class="setting-control-wrapper" style="text-align: right; display: flex; justify-content: flex-end">
+                <div v-if="!user">
+                  <a href="/api/auth/google/login" class="btn-skew btn-text btn-blue" style="text-decoration: none">
+                    <span>{{ t('settingsModal.loginWithGoogle') }}</span>
+                  </a>
+                </div>
+                <div v-else class="user-info">
+                  <span class="user-name">{{ t('settingsModal.loggedInAs').replace('{name}', user.name) }}</span>
+                  <button @click="handleLogout" class="btn-skew btn-text btn-gray">
+                    <span>{{ t('settingsModal.logout') }}</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Sync Status -->
+            <div class="setting-group" v-if="user">
+              <h4 class="setting-group-title">{{ t('settingsModal.cloudSaveSync') }}</h4>
+              <div class="setting-control-wrapper" style="text-align: right">
+                <div style="color: #4caf50; font-weight: bold; font-size: 0.95rem; margin-bottom: 4px">
+                  {{ t('common.enabled') }}
+                </div>
+                <div v-if="lastSyncTime" style="font-size: 0.8rem; color: #666">
+                  {{ t('settingsModal.lastSyncTime') }}{{ lastSyncTime.toLocaleTimeString() }}
+                </div>
+              </div>
+            </div>
+
+            <!-- Data Management -->
+            <div class="setting-group">
+              <h4 class="setting-group-title">{{ t('settingsModal.dataManagement') }}</h4>
+              <div
+                class="setting-control-wrapper"
+                style="text-align: right; display: flex; justify-content: flex-end; gap: 8px"
+              >
+                <button class="btn-skew btn-text btn-blue" @click="handleExportData" style="width: fit-content">
+                  <span>{{ t('settingsModal.exportData') }}</span>
+                </button>
+                <button class="btn-skew btn-text btn-yellow" @click="triggerFileInput" style="width: fit-content">
+                  <span>{{ t('settingsModal.importData') }}</span>
+                </button>
+                <input
+                  type="file"
+                  ref="fileInputRef"
+                  style="display: none"
+                  accept=".json,application/json,text/plain,application/*,text/*"
+                  @change="handleImportData"
+                />
+              </div>
+            </div>
+          </AppScrollbar>
         </div>
       </div>
     </template>
@@ -145,15 +204,20 @@
 </template>
 
 <script setup>
-  import { computed, ref, toRefs } from 'vue'
+  import { computed, ref, toRefs, onMounted } from 'vue'
   import { useSettingStore } from '@/store/setting'
   import { storeToRefs } from 'pinia'
   import { useI18n } from '@/composables/useI18n.js'
   import { useModal } from '@/composables/useModal.js'
+  import AppScrollbar from '@/components/ui/AppScrollbar.vue'
   import BaseModal from '@components/ui/BaseModal.vue'
   import CustomDropdown from '@components/ui/CustomDropdown.vue'
+  import { useCloudSync } from '@/composables/useCloudSync.js'
+  import { useToast } from '@/composables/useToast'
+  import { generateExportFile, importFromFile } from '@/utils/saveManager'
 
   const { t, currentLocale: locale } = useI18n()
+  const { addToast } = useToast()
 
   const props = defineProps({
     isVisible: { type: Boolean, default: false },
@@ -168,6 +232,53 @@
 
   // Active tab state
   const activeTab = ref('appearance')
+
+  // Auth and Sync state from shared composable
+  const { user, lastSyncTime } = useCloudSync()
+
+  const handleLogout = async () => {
+    try {
+      await fetch('/api/auth/logout', { method: 'POST' })
+      user.value = null
+      // Clear localStorage or state if necessary
+    } catch (e) {
+      console.error('Failed to logout:', e)
+    }
+  }
+
+  // Data Management
+  const fileInputRef = ref(null)
+
+  const handleExportData = () => {
+    generateExportFile()
+    addToast(t('settingsModal.exportSuccess'), 'success')
+  }
+
+  const triggerFileInput = () => {
+    if (fileInputRef.value) {
+      fileInputRef.value.click()
+    }
+  }
+
+  const handleImportData = async (event) => {
+    const file = event.target.files[0]
+    if (!file) return
+
+    if (!file.name.toLowerCase().endsWith('.json')) {
+      addToast(t('settingsModal.importFailed'), 'error')
+      event.target.value = ''
+      return
+    }
+
+    try {
+      await importFromFile(file)
+      addToast(t('settingsModal.importSuccess'), 'success')
+    } catch (error) {
+      addToast(t('settingsModal.importFailed'), 'error')
+    } finally {
+      event.target.value = '' // Reset input
+    }
+  }
 
   const settingStore = useSettingStore()
   const {
@@ -325,7 +436,7 @@
 
   .settings-panel {
     width: 100%;
-    padding: 0px 20px;
+    padding: 6px;
     background-color: #d8dadc;
     border-radius: 9px;
     overflow-y: auto;
@@ -339,16 +450,22 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 18px 0;
-    border-bottom: 1px solid #c8cacb;
+    padding: 18px 12px;
+    margin-bottom: 6px;
+    background: linear-gradient(45deg, #cedae3, #f1f1f1);
+    border-radius: 4px;
+    border: 2px solid #fefefd;
+    box-shadow: 0px 2px 1px #616569;
   }
 
   .dark-mode .setting-group {
-    border-bottom-color: #2a4a6e;
+    background: linear-gradient(45deg, #1a2b40, #23374e);
+    border-color: #2a4a6e;
+    box-shadow: 0px 2px 1px #0a1118;
   }
 
   .setting-group:last-child {
-    border-bottom: none;
+    margin-bottom: 2px;
   }
 
   .setting-group-title {
@@ -434,7 +551,7 @@
       flex-direction: column;
       align-items: flex-start;
       gap: 12px;
-      padding: 16px 0;
+      padding: 16px 12px;
     }
 
     .setting-control-wrapper {
@@ -449,5 +566,22 @@
     .toggle-button {
       flex: 1;
     }
+  }
+
+  .user-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+  }
+
+  .user-name {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #2c3e50;
+  }
+
+  .dark-mode .user-name {
+    color: #e0e6ed;
   }
 </style>

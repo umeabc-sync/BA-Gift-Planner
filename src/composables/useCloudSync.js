@@ -1,0 +1,145 @@
+import { ref, onMounted } from 'vue'
+import { useStudentStore } from '@/store/student'
+import { useGiftStore } from '@/store/gift'
+import { useGiftPlannerStore } from '@/store/giftPlanner'
+import { useSettingStore } from '@/store/setting'
+import { useToast } from '@/composables/useToast'
+import { useI18n } from '@/composables/useI18n'
+import { getLocalStatePayload, compressSaveData, decompressSaveData, applySaveDataToStores } from '@/utils/saveManager'
+
+// Shared state (Singleton pattern)
+const isSyncing = ref(false)
+const lastSyncTime = ref(null)
+const user = ref(null)
+let syncTimeout = null
+let isInitialized = false
+let lastSyncedPayloadStr = null
+
+export function useCloudSync() {
+  const stores = {
+    student: useStudentStore(),
+    gift: useGiftStore(),
+    giftPlanner: useGiftPlannerStore(),
+    setting: useSettingStore(),
+  }
+
+  const { addToast } = useToast()
+  const { t } = useI18n()
+
+  const initSync = async () => {
+    try {
+      const res = await fetch('/api/auth/me')
+      const data = await res.json()
+      user.value = data.user
+
+      if (user.value) await downloadSave()
+    } catch (e) {
+      console.error('Failed to init sync:', e)
+    }
+  }
+
+  const downloadSave = async () => {
+    try {
+      isSyncing.value = true // Lock to prevent auto sync from being triggered
+      const res = await fetch('/api/sync/download')
+
+      if (res.status === 401) {
+        user.value = null
+        addToast(t('cloudSync.sessionExpired'), 'error')
+        return
+      }
+      if (!res.ok) {
+        addToast(t('cloudSync.downloadFailed'), 'error')
+        return
+      }
+
+      const data = await res.json()
+      if (!data.payload) return
+
+      const decompressed = decompressSaveData(data.payload)
+      const currentPayloadStr = JSON.stringify(getLocalStatePayload())
+
+      if (decompressed === currentPayloadStr) {
+        lastSyncedPayloadStr = decompressed
+        lastSyncTime.value = new Date()
+        return
+      }
+
+      applySaveDataToStores(decompressed)
+
+      lastSyncedPayloadStr = decompressed
+    } catch (e) {
+      console.error('Failed to download save:', e)
+    } finally {
+      // Shorten the delay, or wait for the next tick.
+      setTimeout(() => {
+        isSyncing.value = false
+      }, 100)
+    }
+  }
+
+  const uploadSave = async () => {
+    if (!user.value) return
+
+    try {
+      isSyncing.value = true
+      const payloadObj = getLocalStatePayload()
+      const jsonString = JSON.stringify(payloadObj)
+
+      // Prevent redundant network requests if payload is identical
+      if (jsonString === lastSyncedPayloadStr) {
+        isSyncing.value = false
+        return
+      }
+
+      const base64Payload = compressSaveData(payloadObj)
+
+      const res = await fetch('/api/sync/upload', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ payload: base64Payload }),
+      })
+
+      if (res.status === 401) {
+        user.value = null
+        addToast(t('cloudSync.uploadSessionExpired'), 'error')
+        return
+      }
+      if (!res.ok) {
+        addToast(t('cloudSync.uploadFailed'), 'error')
+        return
+      }
+
+      lastSyncedPayloadStr = jsonString
+      lastSyncTime.value = new Date()
+    } catch (e) {
+      console.error('Failed to upload save:', e)
+      addToast(t('cloudSync.networkError'), 'error')
+    } finally {
+      isSyncing.value = false
+    }
+  }
+
+  const triggerAutoSync = () => {
+    if (!user.value || isSyncing.value) return
+    if (syncTimeout) clearTimeout(syncTimeout)
+
+    syncTimeout = setTimeout(() => {
+      uploadSave()
+    }, 3000)
+  }
+
+  if (!isInitialized) {
+    // Use Pinia $subscribe instead of the expensive deep watch
+    Object.values(stores).forEach((store) => {
+      store.$subscribe(() => {
+        if (!isSyncing.value) triggerAutoSync()
+      })
+    })
+
+    // Let App.vue call initSync() directly
+    isInitialized = true
+  }
+
+  return { user, isSyncing, lastSyncTime, uploadSave, downloadSave, initSync }
+}

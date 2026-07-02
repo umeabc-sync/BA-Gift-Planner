@@ -87,7 +87,20 @@
     "vibrantProgressBar": "더 눈에 띄는 경험치 바 색상",
     "disableBackgroundBlur": "배경 흐림 비활성화",
     "appearance": "외관 설정",
-    "performance": "성능 설정"
+    "performance": "성능 설정",
+    "account": "계정 및 동기화",
+    "googleLoginStatus": "Google 로그인 상태",
+    "loginWithGoogle": "Google로 로그인",
+    "loggedInAs": "로그인됨: {name}",
+    "logout": "로그아웃",
+    "cloudSaveSync": "클라우드 저장 동기화",
+    "lastSyncTime": "마지막 동기화: ",
+    "dataManagement": "데이터 관리",
+    "exportData": "데이터 내보내기",
+    "importData": "데이터 가져오기",
+    "exportSuccess": "데이터가 성공적으로 내보내졌습니다.",
+    "importSuccess": "데이터가 성공적으로 가져와졌습니다.",
+    "importFailed": "데이터를 가져오지 못했습니다. 잘못된 파일입니다."
   },
   "shareModal": {
     "title": "스크린샷 설정",
@@ -472,5 +485,12 @@
       "264": "슌(수영복)",
       "265": "키사키(수영복)"
     }
+  },
+  "cloudSync": {
+    "sessionExpired": "세션이 만료되었습니다. 다시 로그인해주세요!",
+    "downloadFailed": "클라우드 저장 다운로드 실패!",
+    "uploadSessionExpired": "세션이 만료되어 클라우드에 저장할 수 없습니다! 다시 로그인해주세요.",
+    "uploadFailed": "클라우드 저장 업로드 실패!",
+    "networkError": "네트워크 오류 또는 서버 응답 없음, 저장 업로드 실패!"
   }
 }

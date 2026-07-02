@@ -87,7 +87,20 @@
     "vibrantProgressBar": "より目立つ経験値バーの色",
     "disableBackgroundBlur": "背景のぼかしを無効にする",
     "appearance": "外観設定",
-    "performance": "パフォーマンス設定"
+    "performance": "パフォーマンス設定",
+    "account": "アカウントと同期",
+    "googleLoginStatus": "Googleログイン状態",
+    "loginWithGoogle": "Googleでログイン",
+    "loggedInAs": "ログイン中: {name}",
+    "logout": "ログアウト",
+    "cloudSaveSync": "クラウド保存の同期",
+    "lastSyncTime": "最終同期: ",
+    "dataManagement": "データ管理",
+    "exportData": "データをエクスポート",
+    "importData": "データをインポート",
+    "exportSuccess": "データがエクスポートされました",
+    "importSuccess": "データがインポートされました。",
+    "importFailed": "データのインポートに失敗しました。無効なファイルです。"
   },
   "shareModal": {
     "title": "スクショ設定",
@@ -472,5 +485,12 @@
       "264": "シュン（水着）",
       "265": "キサキ（水着）"
     }
+  },
+  "cloudSync": {
+    "sessionExpired": "セッションの有効期限が切れました。再度ログインしてください！",
+    "downloadFailed": "クラウド保存のダウンロードに失敗しました！",
+    "uploadSessionExpired": "セッションの有効期限が切れました、クラウドに保存できません！ 再度ログインしてください。",
+    "uploadFailed": "クラウド保存のアップロードに失敗しました！",
+    "networkError": "ネットワークエラーまたはサーバーの応答がありません。保存のアップロードに失敗しました！"
   }
 }

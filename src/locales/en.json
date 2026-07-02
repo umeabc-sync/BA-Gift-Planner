@@ -87,7 +87,20 @@
     "vibrantProgressBar": "Vibrant Experience Bar Color",
     "disableBackgroundBlur": "Disable Background Blur",
     "appearance": "Appearance",
-    "performance": "Performance"
+    "performance": "Performance",
+    "account": "Account & Sync",
+    "googleLoginStatus": "Google Login Status",
+    "loginWithGoogle": "Login with Google",
+    "loggedInAs": "Logged in as: {name}",
+    "logout": "Logout",
+    "cloudSaveSync": "Cloud Save Sync",
+    "lastSyncTime": "Last synced: ",
+    "dataManagement": "Data Management",
+    "exportData": "Export Data",
+    "importData": "Import Data",
+    "exportSuccess": "Data exported successfully!",
+    "importSuccess": "Data imported successfully!",
+    "importFailed": "Failed to import data. Invalid file."
   },
   "shareModal": {
     "title": "Screenshot Settings",
@@ -472,5 +485,12 @@
       "264": "Shun (Swimsuit)",
       "265": "Kisaki (Swimsuit)"
     }
+  },
+  "cloudSync": {
+    "sessionExpired": "Session expired, please log in again!",
+    "downloadFailed": "Failed to download cloud save!",
+    "uploadSessionExpired": "Session expired, failed to upload save to cloud! Please log in again.",
+    "uploadFailed": "Failed to upload cloud save!",
+    "networkError": "Network error or server non-responsive, failed to upload save!"
   }
 }
