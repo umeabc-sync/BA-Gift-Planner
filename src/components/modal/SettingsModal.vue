@@ -191,7 +191,7 @@
                   type="file"
                   ref="fileInputRef"
                   style="display: none"
-                  accept=".json,application/json,text/plain"
+                  accept=".json,application/json,text/plain,application/*,text/*"
                   @change="handleImportData"
                 />
               </div>
@@ -263,6 +263,12 @@
   const handleImportData = async (event) => {
     const file = event.target.files[0]
     if (!file) return
+
+    if (!file.name.toLowerCase().endsWith('.json')) {
+      addToast(t('settingsModal.importFailed'), 'error')
+      event.target.value = ''
+      return
+    }
 
     try {
       await importFromFile(file)
