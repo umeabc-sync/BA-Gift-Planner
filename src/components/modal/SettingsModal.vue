@@ -191,7 +191,7 @@
                   type="file"
                   ref="fileInputRef"
                   style="display: none"
-                  accept=".json,application/json,text/plain,*/*"
+                  accept=".json,application/json,text/plain"
                   @change="handleImportData"
                 />
               </div>
