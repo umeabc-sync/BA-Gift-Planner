@@ -143,7 +143,7 @@
           </AppScrollbar>
 
           <!-- Account Settings -->
-          <AppScrollbar v-show="activeTab === 'account'" class="settings-panel">
+          <AppScrollbar hidden v-show="activeTab === 'account'" class="settings-panel">
             <div class="setting-group">
               <h4 class="setting-group-title">{{ t('settingsModal.googleLoginStatus') }}</h4>
               <div class="setting-control-wrapper" style="text-align: right; display: flex; justify-content: flex-end">
