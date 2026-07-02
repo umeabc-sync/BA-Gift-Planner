@@ -32,7 +32,7 @@
 <script setup>
   import { watch, onMounted } from 'vue'
   import { useOverlayScrollbars } from 'overlayscrollbars-vue'
-  import { runIPGeolocation } from '@utils/ipGeolocation'
+  import { initLocale } from '@utils/localeDetector'
   import { useSettingStore } from '@store/setting'
   import { useModalStore } from '@store/modal'
   import { useStudentStore } from '@store/student'
@@ -80,8 +80,8 @@
   }
 
   onMounted(async () => {
-    // Wait for IP location to set locale
-    await runIPGeolocation()
+    // Initialize locale based on browser settings
+    initLocale()
     settingStore.initThemeListener()
     initBodyOverlayScrollbars({ target: document.body })
     await initSync()
