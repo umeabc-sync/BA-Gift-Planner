@@ -187,7 +187,13 @@
                 <button class="btn-skew btn-text btn-yellow" @click="triggerFileInput" style="width: fit-content">
                   <span>{{ t('settingsModal.importData') }}</span>
                 </button>
-                <input type="file" ref="fileInputRef" style="display: none" accept=".json" @change="handleImportData" />
+                <input
+                  type="file"
+                  ref="fileInputRef"
+                  style="display: none"
+                  accept=".json,application/json,text/plain,*/*"
+                  @change="handleImportData"
+                />
               </div>
             </div>
           </AppScrollbar>
@@ -261,10 +267,6 @@
     try {
       await importFromFile(file)
       addToast(t('settingsModal.importSuccess'), 'success')
-
-      setTimeout(() => {
-        window.location.reload()
-      }, 1500)
     } catch (error) {
       addToast(t('settingsModal.importFailed'), 'error')
     } finally {
