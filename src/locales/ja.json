@@ -99,7 +99,7 @@
     "exportData": "データをエクスポート",
     "importData": "データをインポート",
     "exportSuccess": "データがエクスポートされました",
-    "importSuccess": "データがインポートされました。ページをリロードします。",
+    "importSuccess": "データがインポートされました。",
     "importFailed": "データのインポートに失敗しました。無効なファイルです。"
   },
   "shareModal": {

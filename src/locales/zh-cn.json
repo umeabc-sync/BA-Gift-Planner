@@ -99,7 +99,7 @@
     "exportData": "导出存档",
     "importData": "导入存档",
     "exportSuccess": "导出存档成功！",
-    "importSuccess": "导入存档成功！页面即将重新加载。",
+    "importSuccess": "导入存档成功！",
     "importFailed": "导入存档失败。无效的文件。"
   },
   "shareModal": {

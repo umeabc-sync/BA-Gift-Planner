@@ -99,7 +99,7 @@
     "exportData": "Export Data",
     "importData": "Import Data",
     "exportSuccess": "Data exported successfully!",
-    "importSuccess": "Data imported successfully! The page will reload.",
+    "importSuccess": "Data imported successfully!",
     "importFailed": "Failed to import data. Invalid file."
   },
   "shareModal": {

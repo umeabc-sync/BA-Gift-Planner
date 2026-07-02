@@ -99,7 +99,7 @@
     "exportData": "匯出存檔",
     "importData": "匯入存檔",
     "exportSuccess": "匯出存檔成功！",
-    "importSuccess": "匯入存檔成功！頁面即將重新載入。",
+    "importSuccess": "匯入存檔成功！",
     "importFailed": "匯入存檔失敗。無效的檔案。"
   },
   "shareModal": {
