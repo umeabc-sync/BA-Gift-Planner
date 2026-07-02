@@ -41,7 +41,18 @@ export function applySaveDataToStores(jsonString) {
     setting: useSettingStore(),
   }
 
-  if (parsed.student) stores.student.$patch(JSON.parse(parsed.student))
+  if (parsed.student) {
+    const studentData = JSON.parse(parsed.student)
+
+    // If the user opens a shared link (?s=...), preserve the shared selection
+    // instead of letting the cloud/local import overwrite it immediately.
+    const searchParams = new URLSearchParams(window.location.search)
+    if (searchParams.has('s')) {
+      studentData.selectedStudentIds = stores.student.selectedStudentIds
+    }
+
+    stores.student.$patch(studentData)
+  }
   if (parsed.gift) stores.gift.$patch(JSON.parse(parsed.gift))
   if (parsed.giftPlanner) stores.giftPlanner.$patch(JSON.parse(parsed.giftPlanner))
   if (parsed.setting) stores.setting.$patch(JSON.parse(parsed.setting))
