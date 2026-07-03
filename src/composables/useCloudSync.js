@@ -12,6 +12,7 @@ const lastSyncTime = ref(null)
 const user = ref(null)
 let syncTimeout = null
 let isInitialized = false
+let isReady = false // True only after initSync() completes — prevents $subscribe from stomping save_updated_at during initial hydration
 let lastSyncedDataStr = null
 
 export function useCloudSync() {
@@ -29,6 +30,10 @@ export function useCloudSync() {
       if (user.value) await downloadSave()
     } catch (e) {
       console.error('Failed to init sync:', e)
+    } finally {
+      // Allow $subscribe to start tracking changes only after the initial sync is settled.
+      // This prevents pinia-plugin-persistedstate's hydration from polluting save_updated_at.
+      isReady = true
     }
   }
 
@@ -168,9 +173,12 @@ export function useCloudSync() {
 
   if (!isInitialized) {
     // Use Pinia $subscribe instead of the expensive deep watch
+    // NOTE: isReady guard is critical — pinia-plugin-persistedstate triggers $subscribe during
+    // its initial hydration (before initSync runs), which would set save_updated_at to Date.now()
+    // and make the local state appear newer than the cloud, causing stale data to be uploaded.
     Object.values(stores).forEach((store) => {
       store.$subscribe(() => {
-        if (!isSyncing.value) {
+        if (!isSyncing.value && isReady) {
           localStorage.setItem('save_updated_at', Date.now().toString())
           triggerAutoSync()
         }
