@@ -1,11 +1,8 @@
 import { ref, onMounted } from 'vue'
-import { useStudentStore } from '@/store/student'
-import { useGiftStore } from '@/store/gift'
-import { useGiftPlannerStore } from '@/store/giftPlanner'
-import { useSettingStore } from '@/store/setting'
 import { useToast } from '@/composables/useToast'
 import { useI18n } from '@/composables/useI18n'
 import { getLocalStatePayload, compressSaveData, decompressSaveData, applySaveDataToStores } from '@/utils/saveManager'
+import { getSyncStores } from '@/config/syncStores'
 
 // Shared state (Singleton pattern)
 const isSyncing = ref(false)
@@ -16,12 +13,7 @@ let isInitialized = false
 let lastSyncedPayloadStr = null
 
 export function useCloudSync() {
-  const stores = {
-    student: useStudentStore(),
-    gift: useGiftStore(),
-    giftPlanner: useGiftPlannerStore(),
-    setting: useSettingStore(),
-  }
+  const stores = getSyncStores()
 
   const { addToast } = useToast()
   const { t } = useI18n()
@@ -39,6 +31,7 @@ export function useCloudSync() {
   }
 
   const downloadSave = async (isAuto = false) => {
+    let shouldUploadAfter = false
     try {
       isSyncing.value = true // Lock to prevent auto sync from being triggered
       const res = await fetch('/api/sync/download')
@@ -65,7 +58,8 @@ export function useCloudSync() {
 
       // Scenario 1: Cloud save is newer than local state
       if (cloudUpdatedAt > localUpdatedAt) {
-        applySaveDataToStores(decompressed)
+        const preserveShared = new URLSearchParams(window.location.search).has('s')
+        applySaveDataToStores(decompressed, preserveShared)
         lastSyncedPayloadStr = decompressed
         lastSyncTime.value = new Date()
         if (isAuto) {
@@ -75,9 +69,7 @@ export function useCloudSync() {
       // Scenario 2: Local state is newer (e.g. offline edits or pending sync)
       else if (localUpdatedAt > cloudUpdatedAt) {
         lastSyncTime.value = new Date()
-        setTimeout(() => {
-          uploadSave()
-        }, 200)
+        shouldUploadAfter = true
       }
       // Scenario 3: Equal, they are in sync
       else {
@@ -87,10 +79,11 @@ export function useCloudSync() {
     } catch (e) {
       console.error('Failed to download save:', e)
     } finally {
-      // Shorten the delay, or wait for the next tick.
-      setTimeout(() => {
-        isSyncing.value = false
-      }, 100)
+      isSyncing.value = false
+    }
+
+    if (shouldUploadAfter) {
+      await uploadSave()
     }
   }
 
