@@ -52,6 +52,7 @@
     okAction: { type: Function, default: () => {} },
     showCancel: { type: Boolean, default: false },
     maxWidth: { type: String, default: '400px' },
+    pink: { type: Boolean, default: false },
   })
 
   const emit = defineEmits(['close', 'ok', 'cancel'])
