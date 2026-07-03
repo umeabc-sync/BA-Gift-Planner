@@ -34,7 +34,7 @@
                       v-model="editingName"
                       class="edit-name-input"
                       maxlength="20"
-                      @keyup.enter="saveRename(combo.id)"
+                      @keydown.enter="handleKeyDownEnter($event, combo.id)"
                       @keyup.esc="cancelRename"
                       ref="editInputRef"
                     />
@@ -172,6 +172,11 @@
         editInputRef.value[0].focus()
       }
     })
+  }
+
+  const handleKeyDownEnter = (event, id) => {
+    if (event.isComposing) return
+    saveRename(id)
   }
 
   const saveRename = (id) => {
