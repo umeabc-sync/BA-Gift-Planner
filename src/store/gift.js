@@ -1,15 +1,20 @@
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useGiftPlannerStore } from './giftPlanner'
+import { useGiftAnalysisStore } from './giftAnalysis'
 
 export const useGiftStore = defineStore(
   'gift',
   () => {
     const giftPlannerStore = useGiftPlannerStore()
+    const giftAnalysisStore = useGiftAnalysisStore()
 
     // State
     const quantities = ref({})
-    const synthesisGifts = ref([])
+
+    const synthesisGifts = computed(() => {
+      return giftAnalysisStore.analyzedGifts.filter((gift) => gift.analysis.shouldSynthesize)
+    })
 
     const getKey = (giftId, isSsr) => `${isSsr ? 'ssr' : 'sr'}-${giftId}`
 
@@ -103,10 +108,6 @@ export const useGiftStore = defineStore(
       }
     }
 
-    function setSynthesisGifts(gifts) {
-      synthesisGifts.value = gifts
-    }
-
     return {
       quantities,
       synthesisGifts,
@@ -116,7 +117,6 @@ export const useGiftStore = defineStore(
       consumeGift,
       getGiftQuantity,
       convertSynthesisGifts,
-      setSynthesisGifts,
     }
   },
   {

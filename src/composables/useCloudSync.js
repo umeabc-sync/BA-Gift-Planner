@@ -1,4 +1,4 @@
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 import { useToast } from '@/composables/useToast'
 import { useI18n } from '@/composables/useI18n'
 import { getLocalStatePayload, compressSaveData, decompressSaveData, applySaveDataToStores } from '@/utils/saveManager'
@@ -10,7 +10,7 @@ const lastSyncTime = ref(null)
 const user = ref(null)
 let syncTimeout = null
 let isInitialized = false
-let lastSyncedPayloadStr = null
+let lastSyncedDataStr = null
 
 export function useCloudSync() {
   const stores = getSyncStores()
@@ -60,7 +60,9 @@ export function useCloudSync() {
       if (cloudUpdatedAt > localUpdatedAt) {
         const preserveShared = new URLSearchParams(window.location.search).has('s')
         applySaveDataToStores(decompressed, preserveShared)
-        lastSyncedPayloadStr = decompressed
+        const dataPayload = { ...cloudPayload }
+        delete dataPayload.updatedAt
+        lastSyncedDataStr = JSON.stringify(dataPayload)
         lastSyncTime.value = new Date()
         if (isAuto) {
           addToast(t('cloudSync.autoSynced'), 'success')
@@ -73,7 +75,9 @@ export function useCloudSync() {
       }
       // Scenario 3: Equal, they are in sync
       else {
-        lastSyncedPayloadStr = decompressed
+        const dataPayload = { ...cloudPayload }
+        delete dataPayload.updatedAt
+        lastSyncedDataStr = JSON.stringify(dataPayload)
         lastSyncTime.value = new Date()
       }
     } catch (e) {
@@ -93,10 +97,13 @@ export function useCloudSync() {
     try {
       isSyncing.value = true
       const payloadObj = getLocalStatePayload()
-      const jsonString = JSON.stringify(payloadObj)
 
-      // Prevent redundant network requests if payload is identical
-      if (jsonString === lastSyncedPayloadStr) {
+      const dataPayload = { ...payloadObj }
+      delete dataPayload.updatedAt
+      const currentDataStr = JSON.stringify(dataPayload)
+
+      // Prevent redundant network requests if payload (excluding updatedAt) is identical
+      if (currentDataStr === lastSyncedDataStr) {
         isSyncing.value = false
         return
       }
@@ -120,7 +127,7 @@ export function useCloudSync() {
         return
       }
 
-      lastSyncedPayloadStr = jsonString
+      lastSyncedDataStr = currentDataStr
       lastSyncTime.value = new Date()
     } catch (e) {
       console.error('Failed to upload save:', e)
