@@ -107,16 +107,16 @@ app.get('/api/auth/google/callback', async (c) => {
   const sessionPayload = {
     id: userData.id,
     name: userData.name,
-    exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 7, // 7 天過期
+    exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 30, // Expires in 30 days
   }
   const token = await sign(sessionPayload, c.env.JWT_SECRET, 'HS256')
 
-  // 設定 HttpOnly Cookie，讓前端無法被 XSS 偷取
+  // Configure HttpOnly Cookie to prevent the front end from being stolen by XSS
   setCookie(c, 'session', token, {
     path: '/',
     httpOnly: true,
     secure: !isLocal, // Set to true (HTTPS) when deployed online, and false for local development
-    maxAge: 60 * 60 * 24 * 7,
+    maxAge: 60 * 60 * 24 * 30,
     sameSite: 'Lax',
   })
 
@@ -131,9 +131,35 @@ app.get('/api/auth/me', async (c) => {
 
   try {
     const payload = await verify(token, c.env.JWT_SECRET, 'HS256')
+
+    // --- Sliding Session Expiration ---
+    const now = Math.floor(Date.now() / 1000)
+    const timeRemaining = payload.exp - now
+
+    // If the token expires in less than 15 days, issue a new one extending it back to 30 days
+    if (timeRemaining < 60 * 60 * 24 * 15) {
+      const newPayload = {
+        id: payload.id,
+        name: payload.name,
+        exp: now + 60 * 60 * 24 * 30, // 30 days from now
+      }
+      const newToken = await sign(newPayload, c.env.JWT_SECRET, 'HS256')
+
+      const url = new URL(c.req.url)
+      const isLocal = url.hostname === 'localhost' || url.hostname === '127.0.0.1'
+
+      setCookie(c, 'session', newToken, {
+        path: '/',
+        httpOnly: true,
+        secure: !isLocal,
+        maxAge: 60 * 60 * 24 * 30,
+        sameSite: 'Lax',
+      })
+    }
+
     return c.json({ user: { id: payload.id, name: payload.name } })
   } catch (e) {
-    // JWT 過期或偽造
+    // JWT expired or counterfeit
     return c.json({ user: null, debug: 'verify_failed', error: e.message })
   }
 })
