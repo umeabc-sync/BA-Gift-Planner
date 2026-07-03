@@ -57,20 +57,32 @@ export function useCloudSync() {
       if (!data.payload) return
 
       const decompressed = decompressSaveData(data.payload)
-      const currentPayloadStr = JSON.stringify(getLocalStatePayload())
+      const cloudPayload = JSON.parse(decompressed)
+      const cloudUpdatedAt = cloudPayload.updatedAt || 0
 
-      if (decompressed === currentPayloadStr) {
+      const localPayloadObj = getLocalStatePayload()
+      const localUpdatedAt = localPayloadObj.updatedAt || 0
+
+      // Scenario 1: Cloud save is newer than local state
+      if (cloudUpdatedAt > localUpdatedAt) {
+        applySaveDataToStores(decompressed)
         lastSyncedPayloadStr = decompressed
         lastSyncTime.value = new Date()
-        return
+        if (isAuto) {
+          addToast(t('cloudSync.autoSynced'), 'success')
+        }
       }
-
-      applySaveDataToStores(decompressed)
-
-      lastSyncedPayloadStr = decompressed
-      lastSyncTime.value = new Date()
-      if (isAuto) {
-        addToast(t('cloudSync.autoSynced'), 'success')
+      // Scenario 2: Local state is newer (e.g. offline edits or pending sync)
+      else if (localUpdatedAt > cloudUpdatedAt) {
+        lastSyncTime.value = new Date()
+        setTimeout(() => {
+          uploadSave()
+        }, 200)
+      }
+      // Scenario 3: Equal, they are in sync
+      else {
+        lastSyncedPayloadStr = decompressed
+        lastSyncTime.value = new Date()
       }
     } catch (e) {
       console.error('Failed to download save:', e)
@@ -102,6 +114,7 @@ export function useCloudSync() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ payload: base64Payload }),
+        keepalive: true,
       })
 
       if (res.status === 401) {
@@ -129,12 +142,21 @@ export function useCloudSync() {
     if (syncTimeout) clearTimeout(syncTimeout)
 
     syncTimeout = setTimeout(() => {
+      syncTimeout = null
       uploadSave()
     }, 3000)
   }
 
+  const flushSync = () => {
+    if (syncTimeout) {
+      clearTimeout(syncTimeout)
+      syncTimeout = null
+      uploadSave()
+    }
+  }
+
   const triggerAutoDownload = () => {
-    if (!user.value || isSyncing.value) return
+    if (!user.value || isSyncing.value || syncTimeout) return
     const now = new Date()
     if (lastSyncTime.value && now - lastSyncTime.value < 10000) {
       return // Throttle: skip check if synced less than 10 seconds ago
@@ -146,12 +168,17 @@ export function useCloudSync() {
     // Use Pinia $subscribe instead of the expensive deep watch
     Object.values(stores).forEach((store) => {
       store.$subscribe(() => {
-        if (!isSyncing.value) triggerAutoSync()
+        if (!isSyncing.value) {
+          localStorage.setItem('save_updated_at', Date.now().toString())
+          triggerAutoSync()
+        }
       })
     })
 
     window.addEventListener('visibilitychange', () => {
-      if (document.visibilityState === 'visible') {
+      if (document.visibilityState === 'hidden') {
+        flushSync()
+      } else if (document.visibilityState === 'visible') {
         triggerAutoDownload()
       }
     })
