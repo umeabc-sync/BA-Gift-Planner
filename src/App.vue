@@ -31,6 +31,7 @@
       :is-visible="isSharedCombinationPromptModalOpen"
       @close="closeSharedCombinationPromptModal"
     />
+    <ToastNotification />
   </div>
 </template>
 
@@ -52,6 +53,7 @@
   import { useCloudSync } from '@composables/useCloudSync'
   import CombinationManagerModal from '@components/modal/CombinationManagerModal.vue'
   import SharedCombinationPromptModal from '@components/modal/SharedCombinationPromptModal.vue'
+  import ToastNotification from '@components/ui/ToastNotification.vue'
 
   const { initSync } = useCloudSync()
 

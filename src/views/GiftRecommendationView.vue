@@ -22,7 +22,6 @@
     />
 
     <LoadingOverlay :is-visible="isDownloadingScreenshot" :text="t('app.downloading')" />
-    <ToastNotification />
   </div>
 </template>
 
@@ -39,7 +38,6 @@
   import GiftGridSection from '@components/section/GiftGridSection.vue'
   import SilentScreenshotRenderer from '@components/utility/SilentScreenshotRenderer.vue'
   import LoadingOverlay from '@components/utility/LoadingOverlay.vue'
-  import ToastNotification from '@components/ui/ToastNotification.vue'
   import { useI18n } from '@composables/useI18n'
   import { useShareableSelection } from '@/composables/useShareableSelection'
 
