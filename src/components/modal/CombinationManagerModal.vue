@@ -257,7 +257,7 @@
   .combination-card {
     background: #ffffff;
     border-radius: 8px;
-    border: 1px solid #d1d8e0;
+    border: 2px solid #acb6bc;
     margin-bottom: 12px;
     display: flex;
     flex-direction: column;
