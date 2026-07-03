@@ -11,3 +11,6 @@ run_worker_first = ["/api/*"]
 binding = "DB"
 database_name = "ba-gift-planner-db"
 database_id = "d57f4aa9-7a63-4a68-a113-ffe77c781dab"
+
+[vars]
+ENVIRONMENT = "production"

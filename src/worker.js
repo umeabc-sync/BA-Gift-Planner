@@ -17,7 +17,7 @@ app.get('/api/ping', (c) => {
 app.get('/api/auth/google/login', (c) => {
   const clientId = c.env.GOOGLE_CLIENT_ID
   const url = new URL(c.req.url)
-  const isLocal = url.hostname === 'localhost' || url.hostname === '127.0.0.1'
+  const isLocal = c.env.ENVIRONMENT !== 'production'
   const redirectUri = isLocal
     ? 'http://localhost:5173/api/auth/google/callback'
     : `${url.origin}/api/auth/google/callback`
@@ -62,7 +62,7 @@ app.get('/api/auth/google/callback', async (c) => {
   const clientSecret = c.env.GOOGLE_CLIENT_SECRET
 
   const url = new URL(c.req.url)
-  const isLocal = url.hostname === 'localhost' || url.hostname === '127.0.0.1'
+  const isLocal = c.env.ENVIRONMENT !== 'production'
   const redirectUri = isLocal
     ? 'http://localhost:5173/api/auth/google/callback'
     : `${url.origin}/api/auth/google/callback`
@@ -148,8 +148,7 @@ app.get('/api/auth/me', async (c) => {
       }
       const newToken = await sign(newPayload, c.env.JWT_SECRET, 'HS256')
 
-      const url = new URL(c.req.url)
-      const isLocal = url.hostname === 'localhost' || url.hostname === '127.0.0.1'
+      const isLocal = c.env.ENVIRONMENT !== 'production'
 
       setCookie(c, 'session', newToken, {
         path: '/',
