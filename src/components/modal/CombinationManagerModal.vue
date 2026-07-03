@@ -38,13 +38,14 @@
                       @keyup.esc="cancelRename"
                       ref="editInputRef"
                     />
-                    <button class="btn-skew btn-text btn-blue" @click="saveRename(combo.id)"><span>OK</span></button>
-                    <button class="btn-skew btn-text btn-gray" @click="cancelRename"><span>X</span></button>
                   </div>
                   <div v-else class="combo-name">{{ combo.name }}</div>
                 </div>
                 <button v-if="editingId !== combo.id" class="btn-skew btn-icon-solid" @click="startRename(combo)">
                   <PencilIcon class="pencil-icon" draggable="false" />
+                </button>
+                <button v-else class="btn-skew btn-icon-solid" @click="saveRename(combo.id)">
+                  <CheckIcon class="check-icon" draggable="false" />
                 </button>
               </div>
 
@@ -96,6 +97,7 @@
   import StudentCombinationPreview from '@components/ui/StudentCombinationPreview.vue'
   import AppScrollbar from '@/components/ui/AppScrollbar.vue'
   import PencilIcon from '@assets/icon/pencil.svg'
+  import CheckIcon from '@assets/icon/selected.svg'
 
   const { t } = useI18n()
 
@@ -319,11 +321,13 @@
 
   .edit-name-input {
     flex-grow: 1;
-    padding: 4px 8px;
+    height: 32px;
+    padding: 0 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 1rem;
     max-width: 250px;
+    box-sizing: border-box;
   }
 
   .dark-mode .edit-name-input {
@@ -348,14 +352,17 @@
     border-color: #2a4a6e;
   }
 
-  .pencil-icon {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%) skew(8deg);
-    width: 15px;
-    height: 15px;
+  .pencil-icon,
+  .check-icon {
+    width: 16px;
+    height: 16px;
     fill: #2d4663;
-    pointer-events: none;
+    transition: fill 0.2s ease;
+  }
+
+  .dark-mode .pencil-icon,
+  .dark-mode .check-icon {
+    fill: #e0f4ff;
   }
 
   .combo-content {
@@ -386,6 +393,12 @@
       width: 100%;
       justify-content: flex-end;
       margin-top: 10px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .edit-name-input {
+      max-width: 140px;
     }
   }
 </style>
