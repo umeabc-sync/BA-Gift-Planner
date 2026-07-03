@@ -491,7 +491,8 @@
     "downloadFailed": "雲端存檔下載失敗！",
     "uploadSessionExpired": "登入狀態已過期，資料無法存上雲端！請重新登入。",
     "uploadFailed": "雲端存檔上傳失敗！",
-    "networkError": "網路錯誤或伺服器無回應，存檔上傳失敗！"
+    "networkError": "網路錯誤或伺服器無回應，存檔上傳失敗！",
+    "autoSynced": "已同步來自雲端的最新進度！"
   },
   "combinationManager": {
     "title": "預設組合",

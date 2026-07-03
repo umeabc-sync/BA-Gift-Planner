@@ -38,7 +38,7 @@ export function useCloudSync() {
     }
   }
 
-  const downloadSave = async () => {
+  const downloadSave = async (isAuto = false) => {
     try {
       isSyncing.value = true // Lock to prevent auto sync from being triggered
       const res = await fetch('/api/sync/download')
@@ -68,6 +68,10 @@ export function useCloudSync() {
       applySaveDataToStores(decompressed)
 
       lastSyncedPayloadStr = decompressed
+      lastSyncTime.value = new Date()
+      if (isAuto) {
+        addToast(t('cloudSync.autoSynced'), 'success')
+      }
     } catch (e) {
       console.error('Failed to download save:', e)
     } finally {
@@ -129,12 +133,30 @@ export function useCloudSync() {
     }, 3000)
   }
 
+  const triggerAutoDownload = () => {
+    if (!user.value || isSyncing.value) return
+    const now = new Date()
+    if (lastSyncTime.value && now - lastSyncTime.value < 10000) {
+      return // Throttle: skip check if synced less than 10 seconds ago
+    }
+    downloadSave(true)
+  }
+
   if (!isInitialized) {
     // Use Pinia $subscribe instead of the expensive deep watch
     Object.values(stores).forEach((store) => {
       store.$subscribe(() => {
         if (!isSyncing.value) triggerAutoSync()
       })
+    })
+
+    window.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') {
+        triggerAutoDownload()
+      }
+    })
+    window.addEventListener('focus', () => {
+      triggerAutoDownload()
     })
 
     // Let App.vue call initSync() directly

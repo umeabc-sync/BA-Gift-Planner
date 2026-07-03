@@ -491,7 +491,8 @@
     "downloadFailed": "Failed to download cloud save!",
     "uploadSessionExpired": "Session expired, failed to upload save to cloud! Please log in again.",
     "uploadFailed": "Failed to upload cloud save!",
-    "networkError": "Network error or server non-responsive, failed to upload save!"
+    "networkError": "Network error or server non-responsive, failed to upload save!",
+    "autoSynced": "Latest progress synchronized from cloud!"
   },
   "combinationManager": {
     "title": "Presets",

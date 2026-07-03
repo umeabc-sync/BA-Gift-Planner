@@ -491,7 +491,8 @@
     "downloadFailed": "云端存档下载失败！",
     "uploadSessionExpired": "登录状态已过期，资料无法存上云端！请重新登录。",
     "uploadFailed": "云端存档上传失败！",
-    "networkError": "网络错误或服务器无回应，存档上传失败！"
+    "networkError": "网络错误或服务器无回应，存档上传失败！",
+    "autoSynced": "已同步来自云端的最新进度！"
   },
   "combinationManager": {
     "title": "预设组合",
