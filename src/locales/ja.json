@@ -492,5 +492,26 @@
     "uploadSessionExpired": "セッションの有効期限が切れました、クラウドに保存できません！ 再度ログインしてください。",
     "uploadFailed": "クラウド保存のアップロードに失敗しました！",
     "networkError": "ネットワークエラーまたはサーバーの応答がありません。保存のアップロードに失敗しました！"
+  },
+  "combinationManager": {
+    "title": "プリセット",
+    "saveCurrentAsNew": "新規保存",
+    "load": "適用",
+    "overwrite": "上書き",
+    "rename": "名前変更",
+    "delete": "削除",
+    "emptyList": "保存されたプリセットはありません",
+    "slotsUsed": "使用枠",
+    "confirmOverwrite": "現在の選択メンバーでこのプリセットを上書きしますか？",
+    "confirmDelete": "このプリセットを削除しますか？",
+    "defaultName": "新規編成"
+  },
+  "sharedCombination": {
+    "title": "共有された編成",
+    "previewTitle": "編成プレビュー",
+    "message": "共有されたメンバー編成を開きましたが、現在すでにメンバーが選択されています。",
+    "overwrite": "現在の編成を上書き",
+    "saveAsNew": "新規保存",
+    "cancel": "キャンセル"
   }
 }

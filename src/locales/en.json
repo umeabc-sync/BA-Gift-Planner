@@ -492,5 +492,26 @@
     "uploadSessionExpired": "Session expired, failed to upload save to cloud! Please log in again.",
     "uploadFailed": "Failed to upload cloud save!",
     "networkError": "Network error or server non-responsive, failed to upload save!"
+  },
+  "combinationManager": {
+    "title": "Presets",
+    "saveCurrentAsNew": "Save as New",
+    "load": "Load",
+    "overwrite": "Overwrite",
+    "rename": "Rename",
+    "delete": "Delete",
+    "emptyList": "No saved combinations",
+    "slotsUsed": "Slots Used",
+    "confirmOverwrite": "Are you sure you want to overwrite this combination with the current selection?",
+    "confirmDelete": "Are you sure you want to delete this combination?",
+    "defaultName": "New Combination"
+  },
+  "sharedCombination": {
+    "title": "Shared Preset Received",
+    "previewTitle": "Student Preview",
+    "message": "You opened a shared student combination, but you already have students selected.",
+    "overwrite": "Replace Current",
+    "saveAsNew": "Save as New",
+    "cancel": "Cancel"
   }
 }
