@@ -24,7 +24,7 @@
               {{ t('combinationManager.emptyList') }}
             </div>
 
-            <div v-for="(combo, index) in savedCombinations" :key="combo.id" class="combination-card">
+            <div v-for="combo in savedCombinations" :key="combo.id" class="combination-card">
               <div class="combo-header">
                 <div class="combo-title-wrapper">
                   <div class="blue-bar"></div>
@@ -49,29 +49,12 @@
               </div>
 
               <div class="combo-content">
-                <div class="student-preview-list" :ref="(el) => setPreviewListRef(el, combo.id)">
-                  <div
-                    v-for="studentId in combo.studentIds.slice(0, getMaxAvatars(combo.id))"
-                    :key="studentId"
-                    class="student-avatar-skew-wrapper"
-                    @click="openStudentPreview(combo)"
-                  >
-                    <div class="student-avatar-skew-frame">
-                      <ImageWithLoader
-                        :src="getAvatarUrl(studentId, getStudentForm(studentId))"
-                        class="student-avatar-large"
-                        :lazy="false"
-                      />
-                    </div>
-                  </div>
-                  <div
-                    v-if="combo.studentIds.length > getMaxAvatars(combo.id)"
-                    class="more-students-indicator"
-                    @click="openStudentPreview(combo)"
-                  >
-                    <span class="more-count">+{{ combo.studentIds.length - getMaxAvatars(combo.id) }}</span>
-                  </div>
-                </div>
+                <StudentCombinationPreview
+                  :student-ids="combo.studentIds"
+                  :title="combo.name"
+                  :avatar-size="44"
+                  :parent-visible="isVisible"
+                />
 
                 <div class="combo-actions">
                   <button class="btn-skew btn-text btn-blue" @click="handleLoad(combo)">
@@ -105,40 +88,18 @@
     @cancel="closeConfirmDialog"
     @close="closeConfirmDialog"
   />
-
-  <BaseDialog
-    :is-visible="isPreviewModalOpen"
-    :title="previewComboName"
-    :show-cancel="false"
-    max-width="520px"
-    @ok="closePreviewModal"
-    @close="closePreviewModal"
-  >
-    <div class="preview-modal-body">
-      <div v-for="studentId in previewStudentIds" :key="studentId" class="preview-avatar-skew-wrapper">
-        <div class="preview-avatar-skew-frame">
-          <ImageWithLoader
-            :src="getAvatarUrl(studentId, getStudentForm(studentId))"
-            class="student-avatar-large"
-            :lazy="false"
-          />
-        </div>
-      </div>
-    </div>
-  </BaseDialog>
 </template>
 
 <script setup>
-  import { ref, computed, toRefs, nextTick, reactive, onBeforeUnmount } from 'vue'
+  import { ref, computed, toRefs, nextTick } from 'vue'
   import { useStudentStore } from '@/store/student'
   import { storeToRefs } from 'pinia'
   import { useI18n } from '@/composables/useI18n.js'
   import { useModal } from '@/composables/useModal.js'
   import BaseModal from '@components/ui/BaseModal.vue'
   import BaseDialog from '@components/ui/BaseDialog.vue'
+  import StudentCombinationPreview from '@components/ui/StudentCombinationPreview.vue'
   import AppScrollbar from '@/components/ui/AppScrollbar.vue'
-  import ImageWithLoader from '@components/ui/ImageWithLoader.vue'
-  import { getAvatarUrl } from '@utils/getAvatarUrl'
   import PencilIcon from '@assets/icon/pencil.svg'
 
   const { t } = useI18n()
@@ -156,7 +117,7 @@
 
   const studentStore = useStudentStore()
   const { savedCombinations, selectedStudentIds } = storeToRefs(studentStore)
-  const { saveCombination, updateCombination, deleteCombination, getStudentForm } = studentStore
+  const { saveCombination, updateCombination, deleteCombination } = studentStore
 
   const isFull = computed(() => savedCombinations.value.length >= 10)
 
@@ -206,22 +167,6 @@
     isConfirmDialogOpen.value = true
   }
 
-  const isPreviewModalOpen = ref(false)
-  const previewStudentIds = ref([])
-  const previewComboName = ref('')
-
-  const openStudentPreview = (combo) => {
-    previewStudentIds.value = combo.studentIds
-    previewComboName.value = combo.name
-    isPreviewModalOpen.value = true
-  }
-
-  const closePreviewModal = () => {
-    isPreviewModalOpen.value = false
-    previewStudentIds.value = []
-    previewComboName.value = ''
-  }
-
   const startRename = (combo) => {
     editingId.value = combo.id
     editingName.value = combo.name
@@ -247,64 +192,6 @@
   const cancelRename = () => {
     editingId.value = null
   }
-
-  // --- Dynamic avatar count based on container width ---
-  // Avatar size: 44px frame + 4px gap = 48px per avatar, plus the "more" indicator
-  const AVATAR_SLOT_WIDTH = 52 // px per avatar slot (frame 44px + gap 4px + skew visual bleed)
-  const MORE_INDICATOR_WIDTH = 52 // px reserved for "+N" indicator
-  const MIN_AVATARS = 2
-
-  // Map: combo.id -> maxAvatars count
-  const maxAvatarsMap = reactive({})
-  // Map: combo.id -> ResizeObserver
-  const observersMap = {}
-
-  const getMaxAvatars = (comboId) => {
-    return maxAvatarsMap[comboId] ?? 5
-  }
-
-  const computeMaxAvatars = (containerWidth, comboId) => {
-    const combo = savedCombinations.value.find((c) => c.id === comboId)
-    if (!combo) return
-    const totalStudents = combo.studentIds.length
-    // Available width for avatars (reserve space for more-indicator if needed)
-    const availableForAvatars = containerWidth - MORE_INDICATOR_WIDTH
-    const fitCount = Math.max(MIN_AVATARS, Math.floor(availableForAvatars / AVATAR_SLOT_WIDTH))
-    // If all students fit without needing a more indicator, use the full width
-    const allFitCount = Math.floor(containerWidth / AVATAR_SLOT_WIDTH)
-    maxAvatarsMap[comboId] = totalStudents <= allFitCount ? allFitCount : fitCount
-  }
-
-  const setPreviewListRef = (el, comboId) => {
-    if (!el) {
-      // element unmounted - disconnect observer
-      if (observersMap[comboId]) {
-        observersMap[comboId].disconnect()
-        delete observersMap[comboId]
-      }
-      return
-    }
-
-    // If already observing this element, skip
-    if (observersMap[comboId]) return
-
-    const observer = new ResizeObserver((entries) => {
-      for (const entry of entries) {
-        const width = entry.contentRect.width
-        computeMaxAvatars(width, comboId)
-      }
-    })
-    observer.observe(el)
-    observersMap[comboId] = observer
-    // Compute immediately with current width
-    computeMaxAvatars(el.offsetWidth, comboId)
-  }
-
-  onBeforeUnmount(() => {
-    for (const observer of Object.values(observersMap)) {
-      observer.disconnect()
-    }
-  })
 </script>
 
 <style scoped>
@@ -479,142 +366,7 @@
     align-items: center;
     padding: 10px;
     gap: 15px;
-  }
-
-  /* ====================================================
-     Student Preview List (inside card)
-     ==================================================== */
-  .student-preview-list {
-    display: flex;
-    gap: 4px;
-    flex-grow: 1;
-    align-items: center;
     min-width: 0;
-    /* Use padding + margin trick so skew bleed and hover translateY aren't clipped */
-    overflow: visible;
-    padding: 4px 5px 2px;
-    margin: -4px -5px -2px;
-  }
-
-  /* Skewed avatar frame — matches the btn-skew style of the game */
-  .student-avatar-skew-wrapper {
-    flex-shrink: 0;
-    cursor: pointer;
-    transition: transform 0.2s ease;
-  }
-
-  .student-avatar-skew-wrapper:hover {
-    transform: translateY(-3px);
-  }
-
-  .student-avatar-skew-frame {
-    width: 44px;
-    height: 44px;
-    border-radius: 6px;
-    overflow: hidden;
-    transform: skew(-8deg);
-    border: 2px solid #466398;
-    background: linear-gradient(135deg, #d5f2fc, #ffffff);
-    transition:
-      border-color 0.2s ease,
-      box-shadow 0.2s ease;
-  }
-
-  .dark-mode .student-avatar-skew-frame {
-    border-color: #00a4e4;
-    background: linear-gradient(135deg, #0d1f2d, #1a2b40);
-  }
-
-  .student-avatar-large {
-    width: 100%;
-    height: 100%;
-    transform: skew(8deg) scale(1.15);
-    transform-origin: center center;
-    display: block;
-  }
-
-  /* "+N more" indicator — also skewed to match */
-  .more-students-indicator {
-    flex-shrink: 0;
-    width: 44px;
-    height: 44px;
-    border-radius: 6px;
-    transform: skew(-8deg);
-    background: #cdcfd2;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    transition:
-      background 0.2s,
-      border-color 0.2s,
-      transform 0.2s;
-  }
-
-  .more-students-indicator:hover {
-    transform: skew(-8deg) translateY(-3px);
-  }
-
-  .more-count {
-    display: inline-block;
-    transform: skew(8deg);
-    font-weight: bold;
-    font-size: 0.8rem;
-    color: #314665;
-  }
-
-  .dark-mode .more-students-indicator {
-    background: #2a3f5c;
-    color: #e0e6ed;
-  }
-
-  .dark-mode .more-count {
-    color: #e0f4ff;
-  }
-
-  /* ====================================================
-     Preview Dialog Body
-     ==================================================== */
-  .preview-modal-body {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    justify-content: center;
-    padding: 6px;
-    max-height: 55vh;
-    overflow-y: auto;
-  }
-
-  .preview-avatar-skew-wrapper {
-    flex-shrink: 0;
-    transition: transform 0.2s ease;
-  }
-
-  .preview-avatar-skew-wrapper:hover {
-    transform: translateY(-3px);
-  }
-
-  .preview-avatar-skew-frame {
-    width: 64px;
-    height: 64px;
-    border-radius: 6px;
-    overflow: hidden;
-    transform: skew(-8deg);
-    border: 2px solid #466398;
-    background: linear-gradient(135deg, #d5f2fc, #ffffff);
-    transition:
-      border-color 0.2s ease,
-      box-shadow 0.2s ease;
-  }
-
-  .dark-mode .preview-avatar-skew-frame {
-    border-color: #00a4e4;
-    background: linear-gradient(135deg, #0d1f2d, #1a2b40);
-  }
-
-  .preview-avatar-skew-frame .student-avatar-large {
-    transform: skew(8deg) scale(1.15);
-    transform-origin: center center;
   }
 
   .combo-actions {
@@ -636,9 +388,7 @@
     .combo-actions {
       width: 100%;
       justify-content: flex-end;
-    }
-    .student-preview-list {
-      width: 100%;
+      margin-top: 10px;
     }
   }
 </style>
