@@ -49,25 +49,27 @@
               </div>
 
               <div class="combo-content">
-                <div class="student-preview-list">
+                <div class="student-preview-list" :ref="(el) => setPreviewListRef(el, combo.id)">
                   <div
-                    v-for="studentId in combo.studentIds.slice(0, 5)"
+                    v-for="studentId in combo.studentIds.slice(0, getMaxAvatars(combo.id))"
                     :key="studentId"
-                    class="student-avatar-container"
+                    class="student-avatar-skew-wrapper"
                     @click="openStudentPreview(combo)"
                   >
-                    <ImageWithLoader
-                      :src="getAvatarUrl(studentId, getStudentForm(studentId))"
-                      class="student-avatar-large"
-                      :lazy="false"
-                    />
+                    <div class="student-avatar-skew-frame">
+                      <ImageWithLoader
+                        :src="getAvatarUrl(studentId, getStudentForm(studentId))"
+                        class="student-avatar-large"
+                        :lazy="false"
+                      />
+                    </div>
                   </div>
                   <div
-                    v-if="combo.studentIds.length > 5"
+                    v-if="combo.studentIds.length > getMaxAvatars(combo.id)"
                     class="more-students-indicator"
                     @click="openStudentPreview(combo)"
                   >
-                    +{{ combo.studentIds.length - 5 }}
+                    <span class="more-count">+{{ combo.studentIds.length - getMaxAvatars(combo.id) }}</span>
                   </div>
                 </div>
 
@@ -108,24 +110,26 @@
     :is-visible="isPreviewModalOpen"
     :title="previewComboName"
     :show-cancel="false"
-    max-width="500px"
+    max-width="520px"
     @ok="closePreviewModal"
     @close="closePreviewModal"
   >
     <div class="preview-modal-body">
-      <div v-for="studentId in previewStudentIds" :key="studentId" class="student-avatar-container">
-        <ImageWithLoader
-          :src="getAvatarUrl(studentId, getStudentForm(studentId))"
-          class="student-avatar-large"
-          :lazy="false"
-        />
+      <div v-for="studentId in previewStudentIds" :key="studentId" class="preview-avatar-skew-wrapper">
+        <div class="preview-avatar-skew-frame">
+          <ImageWithLoader
+            :src="getAvatarUrl(studentId, getStudentForm(studentId))"
+            class="student-avatar-large"
+            :lazy="false"
+          />
+        </div>
       </div>
     </div>
   </BaseDialog>
 </template>
 
 <script setup>
-  import { ref, computed, toRefs, nextTick } from 'vue'
+  import { ref, computed, toRefs, nextTick, reactive, onBeforeUnmount } from 'vue'
   import { useStudentStore } from '@/store/student'
   import { storeToRefs } from 'pinia'
   import { useI18n } from '@/composables/useI18n.js'
@@ -243,6 +247,64 @@
   const cancelRename = () => {
     editingId.value = null
   }
+
+  // --- Dynamic avatar count based on container width ---
+  // Avatar size: 44px frame + 4px gap = 48px per avatar, plus the "more" indicator
+  const AVATAR_SLOT_WIDTH = 52 // px per avatar slot (frame 44px + gap 4px + skew visual bleed)
+  const MORE_INDICATOR_WIDTH = 52 // px reserved for "+N" indicator
+  const MIN_AVATARS = 2
+
+  // Map: combo.id -> maxAvatars count
+  const maxAvatarsMap = reactive({})
+  // Map: combo.id -> ResizeObserver
+  const observersMap = {}
+
+  const getMaxAvatars = (comboId) => {
+    return maxAvatarsMap[comboId] ?? 5
+  }
+
+  const computeMaxAvatars = (containerWidth, comboId) => {
+    const combo = savedCombinations.value.find((c) => c.id === comboId)
+    if (!combo) return
+    const totalStudents = combo.studentIds.length
+    // Available width for avatars (reserve space for more-indicator if needed)
+    const availableForAvatars = containerWidth - MORE_INDICATOR_WIDTH
+    const fitCount = Math.max(MIN_AVATARS, Math.floor(availableForAvatars / AVATAR_SLOT_WIDTH))
+    // If all students fit without needing a more indicator, use the full width
+    const allFitCount = Math.floor(containerWidth / AVATAR_SLOT_WIDTH)
+    maxAvatarsMap[comboId] = totalStudents <= allFitCount ? allFitCount : fitCount
+  }
+
+  const setPreviewListRef = (el, comboId) => {
+    if (!el) {
+      // element unmounted - disconnect observer
+      if (observersMap[comboId]) {
+        observersMap[comboId].disconnect()
+        delete observersMap[comboId]
+      }
+      return
+    }
+
+    // If already observing this element, skip
+    if (observersMap[comboId]) return
+
+    const observer = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        const width = entry.contentRect.width
+        computeMaxAvatars(width, comboId)
+      }
+    })
+    observer.observe(el)
+    observersMap[comboId] = observer
+    // Compute immediately with current width
+    computeMaxAvatars(el.offsetWidth, comboId)
+  }
+
+  onBeforeUnmount(() => {
+    for (const observer of Object.values(observersMap)) {
+      observer.disconnect()
+    }
+  })
 </script>
 
 <style scoped>
@@ -419,64 +481,140 @@
     gap: 15px;
   }
 
+  /* ====================================================
+     Student Preview List (inside card)
+     ==================================================== */
   .student-preview-list {
     display: flex;
-    gap: 5px;
+    gap: 4px;
     flex-grow: 1;
     align-items: center;
+    min-width: 0;
+    /* Use padding + margin trick so skew bleed and hover translateY aren't clipped */
+    overflow: visible;
+    padding: 4px 5px 2px;
+    margin: -4px -5px -2px;
   }
 
-  .student-avatar-container {
-    width: 50px;
-    height: 50px;
+  /* Skewed avatar frame — matches the btn-skew style of the game */
+  .student-avatar-skew-wrapper {
     flex-shrink: 0;
     cursor: pointer;
-    transition: transform 0.2s;
+    transition: transform 0.2s ease;
   }
 
-  .student-avatar-container:hover {
-    transform: translateY(-2px);
+  .student-avatar-skew-wrapper:hover {
+    transform: translateY(-3px);
+  }
+
+  .student-avatar-skew-frame {
+    width: 44px;
+    height: 44px;
+    border-radius: 6px;
+    overflow: hidden;
+    transform: skew(-8deg);
+    border: 2px solid #466398;
+    background: linear-gradient(135deg, #d5f2fc, #ffffff);
+    transition:
+      border-color 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+
+  .dark-mode .student-avatar-skew-frame {
+    border-color: #00a4e4;
+    background: linear-gradient(135deg, #0d1f2d, #1a2b40);
   }
 
   .student-avatar-large {
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    transform: skew(8deg) scale(1.15);
+    transform-origin: center center;
+    display: block;
   }
 
+  /* "+N more" indicator — also skewed to match */
   .more-students-indicator {
-    width: 50px;
-    height: 50px;
-    border-radius: 5px;
-    background-color: #e9ecef;
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    border-radius: 6px;
+    transform: skew(-8deg);
+    background: #cdcfd2;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-weight: bold;
-    color: #495057;
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition:
+      background 0.2s,
+      border-color 0.2s,
+      transform 0.2s;
   }
 
   .more-students-indicator:hover {
-    background-color: #dee2e6;
+    transform: skew(-8deg) translateY(-3px);
+  }
+
+  .more-count {
+    display: inline-block;
+    transform: skew(8deg);
+    font-weight: bold;
+    font-size: 0.8rem;
+    color: #314665;
   }
 
   .dark-mode .more-students-indicator {
-    background-color: #2a4a6e;
+    background: #2a3f5c;
     color: #e0e6ed;
   }
 
-  .dark-mode .more-students-indicator:hover {
-    background-color: #3b638f;
+  .dark-mode .more-count {
+    color: #e0f4ff;
   }
 
+  /* ====================================================
+     Preview Dialog Body
+     ==================================================== */
   .preview-modal-body {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: 10px;
     justify-content: center;
-    padding: 10px;
+    padding: 6px;
+    max-height: 55vh;
+    overflow-y: auto;
+  }
+
+  .preview-avatar-skew-wrapper {
+    flex-shrink: 0;
+    transition: transform 0.2s ease;
+  }
+
+  .preview-avatar-skew-wrapper:hover {
+    transform: translateY(-3px);
+  }
+
+  .preview-avatar-skew-frame {
+    width: 64px;
+    height: 64px;
+    border-radius: 6px;
+    overflow: hidden;
+    transform: skew(-8deg);
+    border: 2px solid #466398;
+    background: linear-gradient(135deg, #d5f2fc, #ffffff);
+    transition:
+      border-color 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+
+  .dark-mode .preview-avatar-skew-frame {
+    border-color: #00a4e4;
+    background: linear-gradient(135deg, #0d1f2d, #1a2b40);
+  }
+
+  .preview-avatar-skew-frame .student-avatar-large {
+    transform: skew(8deg) scale(1.15);
+    transform-origin: center center;
   }
 
   .combo-actions {
@@ -498,6 +636,9 @@
     .combo-actions {
       width: 100%;
       justify-content: flex-end;
+    }
+    .student-preview-list {
+      width: 100%;
     }
   }
 </style>

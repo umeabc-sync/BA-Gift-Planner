@@ -4,22 +4,22 @@
       <p class="prompt-message">{{ t('sharedCombination.message') }}</p>
 
       <div v-if="sharedCombinationData" class="preview-section">
-        <div class="student-preview-list">
+        <div class="student-preview-list" ref="previewListRef">
           <div
-            v-for="studentId in sharedCombinationData.length > 5
-              ? sharedCombinationData.slice(0, 5)
-              : sharedCombinationData"
+            v-for="studentId in sharedCombinationData.slice(0, maxAvatars)"
             :key="studentId"
-            class="student-avatar-container"
+            class="student-avatar-skew-wrapper"
           >
-            <ImageWithLoader
-              :src="getAvatarUrl(studentId, getStudentForm(studentId))"
-              class="student-avatar-large"
-              :lazy="false"
-            />
+            <div class="student-avatar-skew-frame">
+              <ImageWithLoader
+                :src="getAvatarUrl(studentId, getStudentForm(studentId))"
+                class="student-avatar-large"
+                :lazy="false"
+              />
+            </div>
           </div>
-          <div v-if="sharedCombinationData.length > 5" class="more-students-indicator">
-            +{{ sharedCombinationData.length - 5 }}
+          <div v-if="sharedCombinationData.length > maxAvatars" class="more-students-indicator">
+            <span class="more-count">+{{ sharedCombinationData.length - maxAvatars }}</span>
           </div>
         </div>
       </div>
@@ -42,7 +42,7 @@
 </template>
 
 <script setup>
-  import { computed, toRefs } from 'vue'
+  import { computed, toRefs, ref, watch, nextTick, onBeforeUnmount } from 'vue'
   import { useStudentStore } from '@/store/student'
   import { useModalStore } from '@/store/modal'
   import { storeToRefs } from 'pinia'
@@ -96,6 +96,60 @@
     const params = useUrlSearchParams('history')
     params.s = null
   }
+
+  // --- Dynamic avatar count based on container width ---
+  // BaseDialog renders its body only when isVisible is true (v-if),
+  // so we must set up the observer after the element appears in the DOM.
+  const AVATAR_SLOT_WIDTH = 58 // px per avatar (frame 48px + gap 6px + skew visual bleed)
+  const MORE_INDICATOR_WIDTH = 58
+  const MIN_AVATARS = 2
+
+  const maxAvatars = ref(5)
+  const previewListRef = ref(null)
+  let resizeObserver = null
+
+  const computeMaxAvatars = (containerWidth) => {
+    const total = sharedCombinationData.value?.length ?? 0
+    const availableForAvatars = containerWidth - MORE_INDICATOR_WIDTH
+    const fitCount = Math.max(MIN_AVATARS, Math.floor(availableForAvatars / AVATAR_SLOT_WIDTH))
+    const allFitCount = Math.floor(containerWidth / AVATAR_SLOT_WIDTH)
+    maxAvatars.value = total <= allFitCount ? allFitCount : fitCount
+  }
+
+  const setupObserver = () => {
+    if (resizeObserver) {
+      resizeObserver.disconnect()
+      resizeObserver = null
+    }
+    if (previewListRef.value) {
+      resizeObserver = new ResizeObserver((entries) => {
+        for (const entry of entries) {
+          computeMaxAvatars(entry.contentRect.width)
+        }
+      })
+      resizeObserver.observe(previewListRef.value)
+      computeMaxAvatars(previewListRef.value.offsetWidth)
+    }
+  }
+
+  watch(isVisible, async (visible) => {
+    if (visible) {
+      await nextTick()
+      setupObserver()
+    } else {
+      if (resizeObserver) {
+        resizeObserver.disconnect()
+        resizeObserver = null
+      }
+    }
+  })
+
+  onBeforeUnmount(() => {
+    if (resizeObserver) {
+      resizeObserver.disconnect()
+      resizeObserver = null
+    }
+  })
 </script>
 
 <style scoped>
@@ -114,7 +168,7 @@
 
   .preview-section {
     background: #e9eef3;
-    padding: 10px;
+    padding: 12px;
     border-radius: 8px;
     border: 1px solid #d1d8e0;
   }
@@ -126,37 +180,82 @@
 
   .student-preview-list {
     display: flex;
-    gap: 5px;
+    gap: 6px;
     justify-content: center;
+    flex-wrap: nowrap;
+    /* Use padding + margin trick so skew bleed and hover translateY aren't clipped */
+    overflow: visible;
+    padding: 4px 6px 2px;
+    margin: -4px -6px -2px;
   }
 
-  .student-avatar-container {
-    width: 50px;
-    height: 50px;
+  /* Skewed avatar frame */
+  .student-avatar-skew-wrapper {
     flex-shrink: 0;
+    transition: transform 0.2s ease;
+  }
+
+  .student-avatar-skew-wrapper:hover {
+    transform: translateY(-3px);
+  }
+
+  .student-avatar-skew-frame {
+    width: 48px;
+    height: 48px;
+    border-radius: 6px;
+    overflow: hidden;
+    transform: skew(-8deg);
+    border: 2px solid #466398;
+    background: linear-gradient(135deg, #d5f2fc, #ffffff);
+    transition:
+      border-color 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+
+  .dark-mode .student-avatar-skew-frame {
+    border-color: #00a4e4;
+    background: linear-gradient(135deg, #0d1f2d, #1a2b40);
   }
 
   .student-avatar-large {
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    transform: skew(8deg) scale(1.15);
+    transform-origin: center center;
+    display: block;
   }
 
+  /* "+N" indicator — also skewed */
   .more-students-indicator {
-    width: 50px;
-    height: 50px;
-    border-radius: 5px;
-    background-color: #e9ecef;
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    border-radius: 6px;
+    transform: skew(-8deg);
+    background: #cdcfd2;
     display: flex;
     justify-content: center;
     align-items: center;
+    transition:
+      background 0.2s,
+      border-color 0.2s;
+  }
+
+  .more-count {
+    display: inline-block;
+    transform: skew(8deg);
     font-weight: bold;
-    color: #495057;
+    font-size: 0.8rem;
+    color: #314665;
   }
 
   .dark-mode .more-students-indicator {
-    background-color: #2a4a6e;
+    background: #2a3f5c;
     color: #e0e6ed;
+  }
+
+  .dark-mode .more-count {
+    color: #e0f4ff;
   }
 
   .custom-actions {
