@@ -4,6 +4,8 @@ import { useI18n } from '@/composables/useI18n'
 import { getLocalStatePayload, compressSaveData, decompressSaveData, applySaveDataToStores } from '@/utils/saveManager'
 import { getSyncStores } from '@/config/syncStores'
 
+const THROTTLE_THRESHOLD = 1000 * 60 * 5 // 5 minutes
+
 // Shared state (Singleton pattern)
 const isSyncing = ref(false)
 const lastSyncTime = ref(null)
@@ -158,8 +160,8 @@ export function useCloudSync() {
   const triggerAutoDownload = () => {
     if (!user.value || isSyncing.value || syncTimeout) return
     const now = new Date()
-    if (lastSyncTime.value && now - lastSyncTime.value < 10000) {
-      return // Throttle: skip check if synced less than 10 seconds ago
+    if (lastSyncTime.value && now - lastSyncTime.value < THROTTLE_THRESHOLD) {
+      return // Throttle: skip check if synced less than 5 minutes ago
     }
     downloadSave(true)
   }
