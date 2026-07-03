@@ -15,15 +15,19 @@
             <button class="close-button" @click="closeModal">×</button>
           </div>
           <div class="modal-body">
-            <p>{{ text }}</p>
+            <slot>
+              <p v-if="text">{{ text }}</p>
+            </slot>
           </div>
           <div class="modal-actions" :class="{ 'has-cancel': showCancel }">
-            <button v-if="showCancel" class="btn-skew btn-text btn-gray" @click="handleCancel">
-              <span>{{ t('common.cancel') }}</span>
-            </button>
-            <button class="btn-skew btn-text btn-blue" :class="{ pink: pink }" @click="handleOk">
-              <span>OK</span>
-            </button>
+            <slot name="actions" :handleOk="handleOk" :handleCancel="handleCancel">
+              <button v-if="showCancel" class="btn-skew btn-text btn-gray" @click="handleCancel">
+                <span>{{ t('common.cancel') }}</span>
+              </button>
+              <button class="btn-skew btn-text btn-blue" :class="{ pink: pink }" @click="handleOk">
+                <span>OK</span>
+              </button>
+            </slot>
           </div>
         </div>
       </div>
@@ -44,7 +48,7 @@
   const props = defineProps({
     isVisible: { type: Boolean, default: false },
     title: { type: String, default: '' },
-    text: { type: String, required: true },
+    text: { type: String, required: false, default: '' },
     okAction: { type: Function, default: () => {} },
     showCancel: { type: Boolean, default: false },
     maxWidth: { type: String, default: '400px' },

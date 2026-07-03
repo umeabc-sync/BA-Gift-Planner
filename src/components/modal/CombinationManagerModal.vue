@@ -18,69 +18,110 @@
           </button>
         </div>
 
-        <AppScrollbar class="combinations-list">
-          <div v-if="savedCombinations.length === 0" class="empty-state">
-            {{ t('combinationManager.emptyList') }}
-          </div>
-
-          <div v-for="(combo, index) in savedCombinations" :key="combo.id" class="combination-card">
-            <div class="combo-header">
-              <div class="combo-title-wrapper">
-                <div class="blue-bar"></div>
-                <div v-if="editingId === combo.id" class="edit-name-container">
-                  <input
-                    type="text"
-                    v-model="editingName"
-                    class="edit-name-input"
-                    maxlength="20"
-                    @keyup.enter="saveRename(combo.id)"
-                    @keyup.esc="cancelRename"
-                    ref="editInputRef"
-                  />
-                  <button class="btn-skew btn-text btn-blue" @click="saveRename(combo.id)"><span>OK</span></button>
-                  <button class="btn-skew btn-text btn-gray" @click="cancelRename"><span>X</span></button>
-                </div>
-                <div v-else class="combo-name">{{ combo.name }}</div>
-              </div>
-              <button v-if="editingId !== combo.id" class="btn-icon-circular" @click="startRename(combo)">
-                <img :src="PencilIcon" :alt="t('combinationManager.rename')" draggable="false" />
-              </button>
+        <div class="combinations-list-panel">
+          <AppScrollbar hidden class="combinations-list">
+            <div v-if="savedCombinations.length === 0" class="empty-state">
+              {{ t('combinationManager.emptyList') }}
             </div>
 
-            <div class="combo-content">
-              <AppScrollbar class="student-preview-scroll">
+            <div v-for="(combo, index) in savedCombinations" :key="combo.id" class="combination-card">
+              <div class="combo-header">
+                <div class="combo-title-wrapper">
+                  <div class="blue-bar"></div>
+                  <div v-if="editingId === combo.id" class="edit-name-container">
+                    <input
+                      type="text"
+                      v-model="editingName"
+                      class="edit-name-input"
+                      maxlength="20"
+                      @keyup.enter="saveRename(combo.id)"
+                      @keyup.esc="cancelRename"
+                      ref="editInputRef"
+                    />
+                    <button class="btn-skew btn-text btn-blue" @click="saveRename(combo.id)"><span>OK</span></button>
+                    <button class="btn-skew btn-text btn-gray" @click="cancelRename"><span>X</span></button>
+                  </div>
+                  <div v-else class="combo-name">{{ combo.name }}</div>
+                </div>
+                <button v-if="editingId !== combo.id" class="btn-skew btn-icon-solid" @click="startRename(combo)">
+                  <PencilIcon class="pencil-icon" draggable="false" />
+                </button>
+              </div>
+
+              <div class="combo-content">
                 <div class="student-preview-list">
-                  <div v-for="studentId in combo.studentIds" :key="studentId" class="student-avatar-container">
+                  <div
+                    v-for="studentId in combo.studentIds.slice(0, 5)"
+                    :key="studentId"
+                    class="student-avatar-container"
+                    @click="openStudentPreview(combo)"
+                  >
                     <ImageWithLoader
                       :src="getAvatarUrl(studentId, getStudentForm(studentId))"
-                      class="student-avatar"
+                      class="student-avatar-large"
                       :lazy="false"
                     />
                   </div>
+                  <div
+                    v-if="combo.studentIds.length > 5"
+                    class="more-students-indicator"
+                    @click="openStudentPreview(combo)"
+                  >
+                    +{{ combo.studentIds.length - 5 }}
+                  </div>
                 </div>
-              </AppScrollbar>
 
-              <div class="combo-actions">
-                <button class="btn-skew btn-text btn-blue" @click="handleLoad(combo)">
-                  <span>{{ t('combinationManager.load') }}</span>
-                </button>
-                <button
-                  class="btn-skew btn-text btn-yellow"
-                  :disabled="selectedStudentIds.length === 0"
-                  @click="handleOverwrite(combo)"
-                >
-                  <span>{{ t('combinationManager.overwrite') }}</span>
-                </button>
-                <button class="btn-skew btn-text btn-gray" @click="handleDelete(combo)">
-                  <span>{{ t('combinationManager.delete') }}</span>
-                </button>
+                <div class="combo-actions">
+                  <button class="btn-skew btn-text btn-blue" @click="handleLoad(combo)">
+                    <span>{{ t('combinationManager.load') }}</span>
+                  </button>
+                  <button
+                    class="btn-skew btn-text btn-yellow"
+                    :disabled="selectedStudentIds.length === 0"
+                    @click="handleOverwrite(combo)"
+                  >
+                    <span>{{ t('combinationManager.overwrite') }}</span>
+                  </button>
+                  <button class="btn-skew btn-text btn-gray" @click="handleDelete(combo)">
+                    <span>{{ t('combinationManager.delete') }}</span>
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-        </AppScrollbar>
+          </AppScrollbar>
+        </div>
       </div>
     </template>
   </BaseModal>
+
+  <BaseDialog
+    :is-visible="isConfirmDialogOpen"
+    :title="t('dialog.notificationTitle')"
+    :text="confirmDialogText"
+    :show-cancel="true"
+    @ok="handleConfirmDialogOk"
+    @cancel="closeConfirmDialog"
+    @close="closeConfirmDialog"
+  />
+
+  <BaseDialog
+    :is-visible="isPreviewModalOpen"
+    :title="previewComboName"
+    :show-cancel="false"
+    max-width="500px"
+    @ok="closePreviewModal"
+    @close="closePreviewModal"
+  >
+    <div class="preview-modal-body">
+      <div v-for="studentId in previewStudentIds" :key="studentId" class="student-avatar-container">
+        <ImageWithLoader
+          :src="getAvatarUrl(studentId, getStudentForm(studentId))"
+          class="student-avatar-large"
+          :lazy="false"
+        />
+      </div>
+    </div>
+  </BaseDialog>
 </template>
 
 <script setup>
@@ -90,6 +131,7 @@
   import { useI18n } from '@/composables/useI18n.js'
   import { useModal } from '@/composables/useModal.js'
   import BaseModal from '@components/ui/BaseModal.vue'
+  import BaseDialog from '@components/ui/BaseDialog.vue'
   import AppScrollbar from '@/components/ui/AppScrollbar.vue'
   import ImageWithLoader from '@components/ui/ImageWithLoader.vue'
   import { getAvatarUrl } from '@utils/getAvatarUrl'
@@ -129,17 +171,51 @@
     closeModal()
   }
 
+  const isConfirmDialogOpen = ref(false)
+  const confirmDialogText = ref('')
+  let pendingConfirmAction = null
+
+  const handleConfirmDialogOk = () => {
+    if (pendingConfirmAction) pendingConfirmAction()
+    closeConfirmDialog()
+  }
+
+  const closeConfirmDialog = () => {
+    isConfirmDialogOpen.value = false
+    pendingConfirmAction = null
+  }
+
   const handleOverwrite = (combo) => {
     if (selectedStudentIds.value.length === 0) return
-    if (confirm(t('combinationManager.confirmOverwrite'))) {
+    confirmDialogText.value = t('combinationManager.confirmOverwrite')
+    pendingConfirmAction = () => {
       updateCombination(combo.id, undefined, selectedStudentIds.value)
     }
+    isConfirmDialogOpen.value = true
   }
 
   const handleDelete = (combo) => {
-    if (confirm(t('combinationManager.confirmDelete'))) {
+    confirmDialogText.value = t('combinationManager.confirmDelete')
+    pendingConfirmAction = () => {
       deleteCombination(combo.id)
     }
+    isConfirmDialogOpen.value = true
+  }
+
+  const isPreviewModalOpen = ref(false)
+  const previewStudentIds = ref([])
+  const previewComboName = ref('')
+
+  const openStudentPreview = (combo) => {
+    previewStudentIds.value = combo.studentIds
+    previewComboName.value = combo.name
+    isPreviewModalOpen.value = true
+  }
+
+  const closePreviewModal = () => {
+    isPreviewModalOpen.value = false
+    previewStudentIds.value = []
+    previewComboName.value = ''
   }
 
   const startRename = (combo) => {
@@ -176,7 +252,7 @@
     height: 70vh;
     max-height: 600px;
     padding: 10px;
-    background-color: #e9eef3;
+    background-color: #f8f9fa;
   }
 
   .dark-mode .combinations-body {
@@ -208,10 +284,24 @@
     color: #ff6b6b;
   }
 
+  .combinations-list-panel {
+    width: 100%;
+    padding: 6px;
+    background-color: #d8dadc;
+    border-radius: 9px;
+    flex-grow: 1;
+    overflow-y: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .dark-mode .combinations-list-panel {
+    background-color: #08141d;
+  }
+
   .combinations-list {
     flex-grow: 1;
     overflow-y: auto;
-    padding-right: 10px;
   }
 
   .empty-state {
@@ -242,7 +332,7 @@
     align-items: center;
     padding: 8px 12px;
     border-bottom: 1px dashed #d1d8e0;
-    background: linear-gradient(to bottom, #f0f4f8, #ffffff);
+    background-color: #e7f5fd;
     border-radius: 8px 8px 0 0;
   }
 
@@ -296,32 +386,30 @@
     border-color: #2a4a6e;
   }
 
-  .btn-icon-circular {
+  .btn-icon-solid {
     background: #fff;
     border: 1px solid #ccc;
-    border-radius: 50%;
     width: 32px;
     height: 32px;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   }
 
-  .dark-mode .btn-icon-circular {
+  .dark-mode .btn-icon-solid {
     background: #1f3048;
     border-color: #2a4a6e;
   }
 
-  .btn-icon-circular img {
-    width: 16px;
-    height: 16px;
-    filter: invert(0.3);
-  }
-
-  .dark-mode .btn-icon-circular img {
-    filter: invert(0.8);
+  .pencil-icon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%) skew(8deg);
+    width: 15px;
+    height: 15px;
+    fill: #2d4663;
+    pointer-events: none;
   }
 
   .combo-content {
@@ -331,27 +419,64 @@
     gap: 15px;
   }
 
-  .student-preview-scroll {
-    flex-grow: 1;
-    overflow-x: auto;
-    padding-bottom: 5px;
-  }
-
   .student-preview-list {
     display: flex;
-    gap: 8px;
+    gap: 5px;
+    flex-grow: 1;
+    align-items: center;
   }
 
   .student-avatar-container {
     width: 50px;
     height: 50px;
     flex-shrink: 0;
+    cursor: pointer;
+    transition: transform 0.2s;
   }
 
-  .student-avatar {
+  .student-avatar-container:hover {
+    transform: translateY(-2px);
+  }
+
+  .student-avatar-large {
     width: 100%;
     height: 100%;
     object-fit: contain;
+  }
+
+  .more-students-indicator {
+    width: 50px;
+    height: 50px;
+    border-radius: 5px;
+    background-color: #e9ecef;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    color: #495057;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+
+  .more-students-indicator:hover {
+    background-color: #dee2e6;
+  }
+
+  .dark-mode .more-students-indicator {
+    background-color: #2a4a6e;
+    color: #e0e6ed;
+  }
+
+  .dark-mode .more-students-indicator:hover {
+    background-color: #3b638f;
+  }
+
+  .preview-modal-body {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    padding: 10px;
   }
 
   .combo-actions {

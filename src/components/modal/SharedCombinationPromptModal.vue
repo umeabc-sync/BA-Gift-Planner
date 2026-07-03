@@ -1,40 +1,44 @@
 <template>
-  <BaseModal :is-visible="isVisible" @close="closeModal" max-width="500px">
-    <template #header>
-      <div class="modal-title">{{ t('sharedCombination.title') }}</div>
-    </template>
-    <template #body>
-      <div class="prompt-body">
-        <p class="prompt-message">{{ t('sharedCombination.message') }}</p>
+  <BaseDialog :is-visible="isVisible" :title="t('sharedCombination.title')" max-width="500px" @close="closeModal">
+    <div class="prompt-body">
+      <p class="prompt-message">{{ t('sharedCombination.message') }}</p>
 
-        <div v-if="sharedCombinationData" class="preview-section">
-          <AppScrollbar class="student-preview-scroll">
-            <div class="student-preview-list">
-              <div v-for="studentId in sharedCombinationData" :key="studentId" class="student-avatar-container">
-                <ImageWithLoader
-                  :src="getAvatarUrl(studentId, getStudentForm(studentId))"
-                  class="student-avatar"
-                  :lazy="false"
-                />
-              </div>
-            </div>
-          </AppScrollbar>
-        </div>
-
-        <div class="prompt-actions">
-          <button class="btn-skew btn-text btn-blue" @click="handleOverwrite">
-            <span>{{ t('sharedCombination.overwrite') }}</span>
-          </button>
-          <button class="btn-skew btn-text btn-yellow" :disabled="isFull" @click="handleSaveAsNew">
-            <span>{{ t('sharedCombination.saveAsNew') }}</span>
-          </button>
-          <button class="btn-skew btn-text btn-gray" @click="closeModal">
-            <span>{{ t('sharedCombination.cancel') }}</span>
-          </button>
+      <div v-if="sharedCombinationData" class="preview-section">
+        <div class="student-preview-list">
+          <div
+            v-for="studentId in sharedCombinationData.length > 5
+              ? sharedCombinationData.slice(0, 5)
+              : sharedCombinationData"
+            :key="studentId"
+            class="student-avatar-container"
+          >
+            <ImageWithLoader
+              :src="getAvatarUrl(studentId, getStudentForm(studentId))"
+              class="student-avatar-large"
+              :lazy="false"
+            />
+          </div>
+          <div v-if="sharedCombinationData.length > 5" class="more-students-indicator">
+            +{{ sharedCombinationData.length - 5 }}
+          </div>
         </div>
       </div>
+    </div>
+
+    <template #actions>
+      <div class="custom-actions">
+        <button class="btn-skew btn-text btn-blue" @click="handleOverwrite">
+          <span>{{ t('sharedCombination.overwrite') }}</span>
+        </button>
+        <button class="btn-skew btn-text btn-yellow" :disabled="isFull" @click="handleSaveAsNew">
+          <span>{{ t('sharedCombination.saveAsNew') }}</span>
+        </button>
+        <button class="btn-skew btn-text btn-gray" @click="closeModal">
+          <span>{{ t('sharedCombination.cancel') }}</span>
+        </button>
+      </div>
     </template>
-  </BaseModal>
+  </BaseDialog>
 </template>
 
 <script setup>
@@ -44,8 +48,7 @@
   import { storeToRefs } from 'pinia'
   import { useI18n } from '@/composables/useI18n.js'
   import { useModal } from '@/composables/useModal.js'
-  import BaseModal from '@components/ui/BaseModal.vue'
-  import AppScrollbar from '@/components/ui/AppScrollbar.vue'
+  import BaseDialog from '@components/ui/BaseDialog.vue'
   import ImageWithLoader from '@components/ui/ImageWithLoader.vue'
   import { getAvatarUrl } from '@utils/getAvatarUrl'
   import { useUrlSearchParams } from '@vueuse/core'
@@ -97,26 +100,16 @@
 
 <style scoped>
   .prompt-body {
-    padding: 20px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    background-color: #f8f9fa;
-  }
-
-  .dark-mode .prompt-body {
-    background-color: #1a2b40;
+    gap: 15px;
+    width: 100%;
   }
 
   .prompt-message {
     font-size: 1.1rem;
-    color: #2c3e50;
     line-height: 1.5;
     margin: 0;
-  }
-
-  .dark-mode .prompt-message {
-    color: #e0e6ed;
   }
 
   .preview-section {
@@ -131,14 +124,10 @@
     border-color: #2a4a6e;
   }
 
-  .student-preview-scroll {
-    overflow-x: auto;
-    padding-bottom: 5px;
-  }
-
   .student-preview-list {
     display: flex;
-    gap: 8px;
+    gap: 5px;
+    justify-content: center;
   }
 
   .student-avatar-container {
@@ -147,23 +136,41 @@
     flex-shrink: 0;
   }
 
-  .student-avatar {
+  .student-avatar-large {
     width: 100%;
     height: 100%;
     object-fit: contain;
   }
 
-  .prompt-actions {
+  .more-students-indicator {
+    width: 50px;
+    height: 50px;
+    border-radius: 5px;
+    background-color: #e9ecef;
     display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-top: 10px;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    color: #495057;
   }
 
-  .prompt-actions .btn-skew {
+  .dark-mode .more-students-indicator {
+    background-color: #2a4a6e;
+    color: #e0e6ed;
+  }
+
+  .custom-actions {
+    display: flex;
+    gap: 10px;
     width: 100%;
     justify-content: center;
-    padding: 12px;
-    font-size: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .custom-actions .btn-skew {
+    flex: 1;
+    min-width: 120px;
+    padding: 10px;
+    justify-content: center;
   }
 </style>
