@@ -1,6 +1,7 @@
 import { computed, watch } from 'vue'
 import { useUrlSearchParams } from '@vueuse/core'
 import pako from 'pako'
+import { useModalStore } from '@/store/modal'
 
 export function useShareableSelection(selectedStudentIds, studentsData) {
   const params = useUrlSearchParams('history')
@@ -77,7 +78,22 @@ export function useShareableSelection(selectedStudentIds, studentsData) {
   // Initialization: Prioritize URL > Store > Empty
   if (params.s) {
     try {
-      selectedStudentIds.value = decodeUrlParam(params.s)
+      const decodedIds = decodeUrlParam(params.s)
+      if (selectedStudentIds.value.length > 0) {
+        // Compare to see if they are identical
+        const same =
+          decodedIds.length === selectedStudentIds.value.length &&
+          decodedIds.every((id) => selectedStudentIds.value.includes(id))
+
+        if (!same) {
+          const modalStore = useModalStore()
+          modalStore.openSharedCombinationPromptModal(decodedIds)
+        } else {
+          params.s = null
+        }
+      } else {
+        selectedStudentIds.value = decodedIds
+      }
     } catch (e) {
       console.error('Failed to parse student IDs from URL on init:', e)
       params.s = null
@@ -103,7 +119,20 @@ export function useShareableSelection(selectedStudentIds, studentsData) {
 
       if (newVal) {
         try {
-          selectedStudentIds.value = decodeUrlParam(newVal)
+          const decodedIds = decodeUrlParam(newVal)
+          if (selectedStudentIds.value.length > 0) {
+            const same =
+              decodedIds.length === selectedStudentIds.value.length &&
+              decodedIds.every((id) => selectedStudentIds.value.includes(id))
+            if (!same) {
+              const modalStore = useModalStore()
+              modalStore.openSharedCombinationPromptModal(decodedIds)
+            } else {
+              params.s = null
+            }
+          } else {
+            selectedStudentIds.value = decodedIds
+          }
         } catch (e) {
           console.error('Failed to parse student IDs from URL:', e)
           params.s = null
