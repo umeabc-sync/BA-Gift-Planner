@@ -214,6 +214,7 @@
   .slots-info {
     font-weight: bold;
     color: #416589;
+    user-select: none;
   }
 
   .slots-info.is-full {
@@ -299,6 +300,7 @@
   }
 
   .combo-name {
+    user-select: none;
     font-weight: bold;
     font-size: 1.1rem;
     color: #2d4663;

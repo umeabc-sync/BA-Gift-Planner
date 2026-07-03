@@ -154,6 +154,7 @@
   }
 
   .student-preview-list {
+    user-select: none;
     display: flex;
     gap: 4px;
     align-items: center;
@@ -220,6 +221,7 @@
   }
 
   .more-count {
+    user-select: none;
     display: inline-block;
     transform: skew(8deg);
     font-weight: bold;
