@@ -49,12 +49,7 @@
               </div>
 
               <div class="combo-content">
-                <StudentCombinationPreview
-                  :student-ids="combo.studentIds"
-                  :title="combo.name"
-                  :avatar-size="44"
-                  :parent-visible="isVisible"
-                />
+                <StudentCombinationPreview :student-ids="combo.studentIds" :title="combo.name" :avatar-size="44" />
 
                 <div class="combo-actions">
                   <button class="btn-skew btn-text btn-blue" @click="handleLoad(combo)">

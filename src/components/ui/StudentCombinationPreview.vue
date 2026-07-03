@@ -50,7 +50,7 @@
 </template>
 
 <script setup>
-  import { ref, computed, watch, nextTick, onBeforeUnmount } from 'vue'
+  import { ref, computed, watch, onMounted, onBeforeUnmount } from 'vue'
   import { useStudentStore } from '@/store/student'
   import { useI18n } from '@/composables/useI18n.js'
   import BaseDialog from '@components/ui/BaseDialog.vue'
@@ -74,11 +74,6 @@
     avatarSize: {
       type: Number,
       default: 44, // 44 or 48
-    },
-    // We might need to watch visibility of parent modal to trigger setupObserver
-    parentVisible: {
-      type: Boolean,
-      default: true,
     },
   })
 
@@ -122,11 +117,7 @@
     maxAvatars.value = total <= allFitCount ? allFitCount : fitCount
   }
 
-  const setupObserver = () => {
-    if (resizeObserver) {
-      resizeObserver.disconnect()
-      resizeObserver = null
-    }
+  onMounted(() => {
     if (previewListRef.value) {
       resizeObserver = new ResizeObserver((entries) => {
         for (const entry of entries) {
@@ -134,36 +125,19 @@
         }
       })
       resizeObserver.observe(previewListRef.value)
+      // Initial calculation
       computeMaxAvatars(previewListRef.value.offsetWidth)
     }
-  }
+  })
 
-  // Watch for visibility changes to trigger observer
+  // Watch for dynamic studentIds length changes
   watch(
-    () => props.parentVisible,
-    async (visible) => {
-      if (visible) {
-        await nextTick()
-        setupObserver()
-      } else {
-        if (resizeObserver) {
-          resizeObserver.disconnect()
-          resizeObserver = null
-        }
-      }
-    },
-    { immediate: true }
-  )
-
-  // Watch for dynamic studentIds changes
-  watch(
-    () => props.studentIds,
+    () => props.studentIds.length,
     () => {
       if (previewListRef.value) {
         computeMaxAvatars(previewListRef.value.offsetWidth)
       }
-    },
-    { deep: true }
+    }
   )
 
   onBeforeUnmount(() => {

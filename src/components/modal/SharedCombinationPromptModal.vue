@@ -4,7 +4,7 @@
       <p class="prompt-message">{{ t('sharedCombination.message') }}</p>
 
       <div v-if="sharedCombinationData" class="preview-section">
-        <StudentCombinationPreview :student-ids="sharedCombinationData" :avatar-size="48" :parent-visible="isVisible" />
+        <StudentCombinationPreview :student-ids="sharedCombinationData" :avatar-size="48" />
       </div>
     </div>
 
