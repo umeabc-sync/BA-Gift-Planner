@@ -2,6 +2,9 @@ import { Hono } from 'hono'
 import { setCookie, getCookie } from 'hono/cookie'
 import { sign, verify } from 'hono/jwt'
 
+const SESSION_EXPIRES = 60 * 60 * 24 * 30 // 30 days
+const SESSION_REFRESH_THRESHOLD = 60 * 60 * 24 * 15 // 15 days
+
 const app = new Hono()
 
 app.get('/api/ping', (c) => {
@@ -107,7 +110,7 @@ app.get('/api/auth/google/callback', async (c) => {
   const sessionPayload = {
     id: userData.id,
     name: userData.name,
-    exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 30, // Expires in 30 days
+    exp: Math.floor(Date.now() / 1000) + SESSION_EXPIRES, // Expires in 30 days
   }
   const token = await sign(sessionPayload, c.env.JWT_SECRET, 'HS256')
 
@@ -116,7 +119,7 @@ app.get('/api/auth/google/callback', async (c) => {
     path: '/',
     httpOnly: true,
     secure: !isLocal, // Set to true (HTTPS) when deployed online, and false for local development
-    maxAge: 60 * 60 * 24 * 30,
+    maxAge: SESSION_EXPIRES,
     sameSite: 'Lax',
   })
 
@@ -137,11 +140,11 @@ app.get('/api/auth/me', async (c) => {
     const timeRemaining = payload.exp - now
 
     // If the token expires in less than 15 days, issue a new one extending it back to 30 days
-    if (timeRemaining < 60 * 60 * 24 * 15) {
+    if (timeRemaining < SESSION_REFRESH_THRESHOLD) {
       const newPayload = {
         id: payload.id,
         name: payload.name,
-        exp: now + 60 * 60 * 24 * 30, // 30 days from now
+        exp: now + SESSION_EXPIRES, // 30 days from now
       }
       const newToken = await sign(newPayload, c.env.JWT_SECRET, 'HS256')
 
@@ -152,7 +155,7 @@ app.get('/api/auth/me', async (c) => {
         path: '/',
         httpOnly: true,
         secure: !isLocal,
-        maxAge: 60 * 60 * 24 * 30,
+        maxAge: SESSION_EXPIRES,
         sameSite: 'Lax',
       })
     }
