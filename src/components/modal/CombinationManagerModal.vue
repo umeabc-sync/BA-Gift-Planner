@@ -177,10 +177,6 @@
   const saveRename = (id) => {
     const trimmed = editingName.value.trim()
     if (trimmed) {
-      if (trimmed.length > 20) {
-        alert(t('combinationManager.nameTooLong'))
-        return
-      }
       updateCombination(id, trimmed)
     }
     editingId.value = null
