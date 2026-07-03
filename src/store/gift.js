@@ -7,12 +7,11 @@ export const useGiftStore = defineStore(
   'gift',
   () => {
     const giftPlannerStore = useGiftPlannerStore()
-    const giftAnalysisStore = useGiftAnalysisStore()
-
     // State
     const quantities = ref({})
 
     const synthesisGifts = computed(() => {
+      const giftAnalysisStore = useGiftAnalysisStore()
       return giftAnalysisStore.analyzedGifts.filter((gift) => gift.analysis.shouldSynthesize)
     })
 
