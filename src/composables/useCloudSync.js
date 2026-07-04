@@ -74,6 +74,7 @@ export function useCloudSync() {
 
       // 304 Not Modified: Exit early, cloud matches local timestamp
       if (res.status === 304) {
+        syncMetadataStore.setLastSyncTime(new Date())
         return
       }
 
@@ -89,6 +90,7 @@ export function useCloudSync() {
 
       // Safety fallback check (in case 304 request was not triggered but timestamps match)
       if (cloudTimestamp && cloudTimestamp === lastServerTimestamp.value) {
+        syncMetadataStore.setLastSyncTime(new Date())
         return
       }
 
