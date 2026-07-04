@@ -118,6 +118,16 @@
     color: #7f1d1d;
   }
 
+  .toast-warning {
+    background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+    border-color: #f59e0b;
+    color: #78350f;
+  }
+
+  .toast-warning button {
+    color: #78350f;
+  }
+
   .toast:hover {
     transform: skew(-5deg) translateY(-3px);
     box-shadow:
