@@ -268,7 +268,7 @@
       const quantityBitmap = await createImageBitmap(imageBitmap, w / 3, h * yOffset, (w * 1.85) / 3, h * cropHeight)
 
       const scaleFactor = 4
-      const padding = 10
+      const padding = 15 // Increased to 15 to accommodate shear transform shifts safely
       const sw = quantityBitmap.width * scaleFactor
       const sh = quantityBitmap.height * scaleFactor
 
@@ -279,9 +279,16 @@
       ctx.fillStyle = '#FFFFFF'
       ctx.fillRect(0, 0, canvas.width, canvas.height)
 
-      // Draw upscaled image in center with bilinear interpolation
+      // Enable bilinear smoothing
       ctx.imageSmoothingEnabled = true
       ctx.imageSmoothingQuality = 'high'
+
+      // Apply center-based horizontal shear to deskew italic text
+      ctx.translate(canvas.width / 2, canvas.height / 2)
+      ctx.transform(1, 0, 0.25, 1, 0, 0) // shear factor of 0.25 de-slants BA italic font
+      ctx.translate(-canvas.width / 2, -canvas.height / 2)
+
+      // Draw upscaled image in the transformed space
       ctx.drawImage(quantityBitmap, padding, padding, sw, sh)
 
       // Get image data and apply grayscale thresholding
