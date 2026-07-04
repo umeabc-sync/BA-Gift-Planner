@@ -12,10 +12,6 @@ export const useSyncMetadataStore = defineStore(
       return lastSyncTimeRaw.value ? new Date(lastSyncTimeRaw.value) : null
     })
 
-    function setLastSyncedData(dataStr) {
-      lastSyncedDataStr.value = dataStr
-    }
-
     function setLastSyncTime(time) {
       lastSyncTimeRaw.value = time ? new Date(time).toISOString() : null
     }
@@ -37,7 +33,6 @@ export const useSyncMetadataStore = defineStore(
       lastServerTimestamp,
       lastSyncTimeRaw,
       lastSyncTime,
-      setLastSyncedData,
       setLastSyncTime,
       setSyncMetadata,
       clearMetadata,
