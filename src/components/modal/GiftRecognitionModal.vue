@@ -451,7 +451,7 @@
   }
 
   const cleanupImages = () => {
-    displayedRecognizedGifts.value.forEach((gift) => {
+    recognizedGifts.value.forEach((gift) => {
       if (gift.croppedImage) URL.revokeObjectURL(gift.croppedImage)
       if (gift.processedImage) URL.revokeObjectURL(gift.processedImage)
     })
