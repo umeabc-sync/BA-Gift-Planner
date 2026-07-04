@@ -50,7 +50,11 @@
         @close="isConfirmVisible = false"
         @ok="confirmConvert"
       />
-      <GiftRecognitionModal v-if="hasOpenedRecognition" :is-visible="isRecognitionModalVisible" @close="isRecognitionModalVisible = false" />
+      <GiftRecognitionModal
+        v-if="hasOpenedRecognition"
+        :is-visible="isRecognitionModalVisible"
+        @close="isRecognitionModalVisible = false"
+      />
     </template>
   </BaseModal>
 </template>
@@ -89,7 +93,7 @@
   const isConfirmVisible = ref(false)
   const isRecognitionModalVisible = ref(false)
   const hasOpenedRecognition = ref(false)
- 
+
   const openRecognitionModal = () => {
     hasOpenedRecognition.value = true
     isRecognitionModalVisible.value = true

@@ -3,7 +3,11 @@
     <GiftPlannerActions />
     <StudentBondSection @open-modal="openBondModal" />
     <GiftInventoryGrid :synthesis-gifts="synthesisGifts" @open-modal="openInventoryModal" />
-    <GiftInventoryModal v-if="hasOpenedInventory" :show="isInventoryModalVisible" @close="isInventoryModalVisible = false" />
+    <GiftInventoryModal
+      v-if="hasOpenedInventory"
+      :show="isInventoryModalVisible"
+      @close="isInventoryModalVisible = false"
+    />
     <StudentBondModal
       v-if="hasOpenedBondEdit"
       :is-visible="isBondModalVisible"
