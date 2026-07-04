@@ -242,6 +242,7 @@
     display: flex;
     align-items: center;
     gap: 8px;
+    font-family: inherit;
     padding: 10px 15px;
     text-align: left;
     background: none;
