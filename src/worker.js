@@ -180,12 +180,22 @@ app.get('/api/sync/download', async (c) => {
     return c.json({ error: 'Unauthorized' }, 401)
   }
 
-  const result = await c.env.DB.prepare('SELECT state_payload FROM user_data WHERE user_id = ?')
+  const lastKnownTimestamp = c.req.query('last_known_timestamp')
+
+  const result = await c.env.DB.prepare('SELECT state_payload, updated_at FROM user_data WHERE user_id = ?')
     .bind(payload.id)
     .first()
   if (!result) return c.json({ payload: null })
 
-  return c.json({ payload: result.state_payload })
+  // 304 Optimization: return 304 if cloud matches client's last known timestamp
+  if (lastKnownTimestamp && result.updated_at === lastKnownTimestamp) {
+    return c.body(null, 304)
+  }
+
+  return c.json({
+    payload: result.state_payload,
+    updated_at: result.updated_at,
+  })
 })
 
 // Upload archive
@@ -203,19 +213,41 @@ app.post('/api/sync/upload', async (c) => {
   const body = await c.req.json()
   if (!body.payload) return c.json({ error: 'Invalid payload' }, 400)
 
-  await c.env.DB.prepare(
+  const lastKnownTimestamp = body.last_known_timestamp
+
+  // 1. Fetch current timestamp and state in the DB
+  const current = await c.env.DB.prepare('SELECT updated_at, state_payload FROM user_data WHERE user_id = ?')
+    .bind(payload.id)
+    .first()
+
+  // 2. Perform optimistic locking check
+  if (current && lastKnownTimestamp && current.updated_at !== lastKnownTimestamp) {
+    return c.json(
+      {
+        error: 'conflict',
+        message: 'Cloud data has been updated by another device.',
+        payload: current.state_payload,
+        updated_at: current.updated_at,
+      },
+      409
+    )
+  }
+
+  // 3. Insert or update the payload and return the new timestamp using RETURNING
+  const updated = await c.env.DB.prepare(
     `
     INSERT INTO user_data (user_id, state_payload, updated_at)
     VALUES (?, ?, CURRENT_TIMESTAMP)
     ON CONFLICT(user_id) DO UPDATE SET 
       state_payload = excluded.state_payload,
       updated_at = CURRENT_TIMESTAMP
+    RETURNING updated_at
   `
   )
     .bind(payload.id, body.payload)
-    .run()
+    .first()
 
-  return c.json({ success: true })
+  return c.json({ success: true, updated_at: updated.updated_at })
 })
 
 // Logout
