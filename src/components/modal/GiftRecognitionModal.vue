@@ -209,24 +209,27 @@
     }
   }
 
-  onMounted(async () => {
-    try {
-      isLoading.value = true
-      ort.env.wasm.wasmPaths = 'https://cdn.jsdelivr.net/npm/onnxruntime-web/dist/'
-      onnxSession.value = await ort.InferenceSession.create('./best.onnx', {
-        executionProviders: ['wasm'],
-      })
-      console.log('ONNX model loaded successfully.')
+  onMounted(() => {
+    isLoading.value = true
+    // Delay initialization until the modal entry transition finishes (300ms) to keep animations smooth
+    setTimeout(async () => {
+      try {
+        ort.env.wasm.wasmPaths = 'https://cdn.jsdelivr.net/npm/onnxruntime-web/dist/'
+        onnxSession.value = await ort.InferenceSession.create('./best.onnx', {
+          executionProviders: ['wasm'],
+        })
+        console.log('ONNX model loaded successfully.')
 
-      tesseractWorker.value = await createWorker('eng', 1, {
-        logger: (m) => console.log(m.status),
-      })
-      console.log('Tesseract worker loaded successfully.')
-    } catch (e) {
-      console.error('Failed to load models:', e)
-    } finally {
-      isLoading.value = false
-    }
+        tesseractWorker.value = await createWorker('eng', 1, {
+          logger: (m) => console.log(m.status),
+        })
+        console.log('Tesseract worker loaded successfully.')
+      } catch (e) {
+        console.error('Failed to load models:', e)
+      } finally {
+        isLoading.value = false
+      }
+    }, 400)
   })
 
   onUnmounted(() => {

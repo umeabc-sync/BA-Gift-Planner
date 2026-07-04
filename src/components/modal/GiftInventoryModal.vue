@@ -50,13 +50,13 @@
         @close="isConfirmVisible = false"
         @ok="confirmConvert"
       />
-      <GiftRecognitionModal v-if="isRecognitionModalVisible" :is-visible="isRecognitionModalVisible" @close="isRecognitionModalVisible = false" />
+      <GiftRecognitionModal v-if="hasOpenedRecognition" :is-visible="isRecognitionModalVisible" @close="isRecognitionModalVisible = false" />
     </template>
   </BaseModal>
 </template>
 
 <script setup>
-  import { computed, toRefs, ref } from 'vue'
+  import { computed, toRefs, ref, onMounted } from 'vue'
   import { storeToRefs } from 'pinia'
   import { useModal } from '@/composables/useModal.js'
   import { useI18n } from '@/composables/useI18n.js'
@@ -88,10 +88,17 @@
 
   const isConfirmVisible = ref(false)
   const isRecognitionModalVisible = ref(false)
-
+  const hasOpenedRecognition = ref(false)
+ 
   const openRecognitionModal = () => {
+    hasOpenedRecognition.value = true
     isRecognitionModalVisible.value = true
   }
+
+  onMounted(() => {
+    // Preload GiftRecognitionModal chunk in the background
+    import('./GiftRecognitionModal.vue').catch(() => {})
+  })
 
   const close = () => {
     emit('close')
