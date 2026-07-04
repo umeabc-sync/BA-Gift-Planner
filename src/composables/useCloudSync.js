@@ -62,8 +62,23 @@ export function useCloudSync() {
 
       const localPayload = getLocalStatePayload()
 
+      let lastSyncedPayload = null
+      try {
+        lastSyncedPayload = lastSyncedDataStr ? JSON.parse(lastSyncedDataStr) : null
+      } catch (e) {
+        console.error('Failed to parse last synced data string:', e)
+      }
+
       // Only apply and notify if the cloud data is actually different from the local state
       if (isSyncPayloadEqual(localPayload, cloudPayload)) {
+        lastSyncedDataStr = cloudDataStr
+        lastSyncTime.value = new Date()
+        return
+      }
+
+      // If cloud data has not changed since the last time we synced,
+      // it means any difference is due to local unsaved changes. Do not overwrite them.
+      if (isSyncPayloadEqual(cloudPayload, lastSyncedPayload)) {
         lastSyncedDataStr = cloudDataStr
         lastSyncTime.value = new Date()
         return
@@ -75,6 +90,12 @@ export function useCloudSync() {
 
       lastSyncedDataStr = cloudDataStr
       lastSyncTime.value = new Date()
+
+      // Clear any pending upload since we just aligned with the cloud
+      if (syncTimeout) {
+        clearTimeout(syncTimeout)
+        syncTimeout = null
+      }
 
       if (isAuto) {
         addToast(t('cloudSync.autoSynced'), 'success')
@@ -154,7 +175,7 @@ export function useCloudSync() {
   }
 
   const triggerAutoDownload = () => {
-    if (!user.value || isSyncing.value || syncTimeout) return
+    if (!user.value || isSyncing.value) return
     const now = new Date()
     if (lastSyncTime.value && now - lastSyncTime.value < THROTTLE_THRESHOLD) {
       return // Throttle: skip check if synced less than 5 minutes ago
