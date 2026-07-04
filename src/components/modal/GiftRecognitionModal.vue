@@ -298,11 +298,11 @@
         const r = data[i]
         const g = data[i + 1]
         const b = data[i + 2]
-        
+
         // Calculate brightness
         const brightness = 0.299 * r + 0.587 * g + 0.114 * b
         const value = brightness < 120 ? 0 : 255 // Dark blue-gray text becomes black; background and white outline become white
-        
+
         data[i] = value
         data[i + 1] = value
         data[i + 2] = value
