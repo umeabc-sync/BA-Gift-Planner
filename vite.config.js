@@ -5,7 +5,6 @@ import vue from '@vitejs/plugin-vue'
 import svgLoader from 'vite-svg-loader'
 import vueDevTools from 'vite-plugin-vue-devtools'
 import Font from 'vite-plugin-font';
-import { viteStaticCopy } from 'vite-plugin-static-copy'
 
 
 const require = createRequire(import.meta.url)
@@ -17,14 +16,6 @@ export default defineConfig({
     vue(),
     svgLoader(),
     vueDevTools(),
-    viteStaticCopy({
-      targets: [
-        {
-          src: 'node_modules/onnxruntime-web/dist/*.wasm',
-          dest: '.'
-        }
-      ]
-    }),
     Font.vite()
   ],
   optimizeDeps: {
