@@ -240,16 +240,10 @@
   const activeTab = ref('appearance')
 
   // Auth and Sync state from shared composable
-  const { user, lastSyncTime } = useCloudSync()
+  const { user, lastSyncTime, logout } = useCloudSync()
 
   const handleLogout = async () => {
-    try {
-      await fetch('/api/auth/logout', { method: 'POST' })
-      user.value = null
-      // Clear localStorage or state if necessary
-    } catch (e) {
-      console.error('Failed to logout:', e)
-    }
+    await logout()
   }
 
   // Data Management
