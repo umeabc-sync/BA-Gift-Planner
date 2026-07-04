@@ -12,6 +12,7 @@ import {
 import { getSyncStores } from '@/config/syncStores'
 import { useSyncMetadataStore } from '@/store/syncMetadata'
 
+const DEBOUNCE_THRESHOLD = 15000 // 15 seconds
 const THROTTLE_THRESHOLD = 1000 * 60 * 5 // 5 minutes
 
 // Shared state (Singleton pattern)
@@ -180,7 +181,7 @@ export function useCloudSync() {
     syncTimeout = setTimeout(() => {
       syncTimeout = null
       uploadSave()
-    }, 3000)
+    }, DEBOUNCE_THRESHOLD)
   }
 
   const flushSync = () => {
