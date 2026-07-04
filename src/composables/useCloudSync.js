@@ -1,7 +1,13 @@
 import { ref } from 'vue'
 import { useToast } from '@/composables/useToast'
 import { useI18n } from '@/composables/useI18n'
-import { getLocalStatePayload, compressSaveData, decompressSaveData, applySaveDataToStores } from '@/utils/saveManager'
+import {
+  getLocalStatePayload,
+  compressSaveData,
+  decompressSaveData,
+  applySaveDataToStores,
+  isSyncPayloadEqual,
+} from '@/utils/saveManager'
 import { getSyncStores } from '@/config/syncStores'
 
 const THROTTLE_THRESHOLD = 1000 * 60 * 5 // 5 minutes
@@ -55,10 +61,9 @@ export function useCloudSync() {
       const cloudDataStr = JSON.stringify(cloudPayload)
 
       const localPayload = getLocalStatePayload()
-      const localDataStr = JSON.stringify(localPayload)
 
       // Only apply and notify if the cloud data is actually different from the local state
-      if (localDataStr === cloudDataStr) {
+      if (isSyncPayloadEqual(localPayload, cloudPayload)) {
         lastSyncedDataStr = cloudDataStr
         lastSyncTime.value = new Date()
         return
@@ -88,9 +93,15 @@ export function useCloudSync() {
       isSyncing.value = true
       const payloadObj = getLocalStatePayload()
       const currentDataStr = JSON.stringify(payloadObj)
+      let lastSyncedPayload = null
+      try {
+        lastSyncedPayload = lastSyncedDataStr ? JSON.parse(lastSyncedDataStr) : null
+      } catch (e) {
+        console.error('Failed to parse last synced data string:', e)
+      }
 
       // Prevent redundant network requests if payload is identical
-      if (currentDataStr === lastSyncedDataStr) {
+      if (isSyncPayloadEqual(payloadObj, lastSyncedPayload)) {
         isSyncing.value = false
         return
       }
