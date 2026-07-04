@@ -50,7 +50,7 @@
         @close="isConfirmVisible = false"
         @ok="confirmConvert"
       />
-      <GiftRecognitionModal :is-visible="isRecognitionModalVisible" @close="isRecognitionModalVisible = false" />
+      <GiftRecognitionModal v-if="isRecognitionModalVisible" :is-visible="isRecognitionModalVisible" @close="isRecognitionModalVisible = false" />
     </template>
   </BaseModal>
 </template>
@@ -69,7 +69,8 @@
   import QuantityControl from '@components/ui/QuantityControl.vue'
   import BaseModal from '@components/ui/BaseModal.vue'
   import BaseDialog from '@components/ui/BaseDialog.vue'
-  import GiftRecognitionModal from './GiftRecognitionModal.vue'
+  import { defineAsyncComponent } from 'vue'
+  const GiftRecognitionModal = defineAsyncComponent(() => import('./GiftRecognitionModal.vue'))
 
   const { t, currentLocale: locale } = useI18n()
 

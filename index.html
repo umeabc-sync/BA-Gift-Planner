@@ -11,8 +11,12 @@
     <!-- Google Search Console Verification -->
     <meta name="google-site-verification" content="ZHqUmDB-d8qUEekqiJSJMfj6Hu-Qg3vi2RQ61wN8f1I" />
 
+    <!-- Preconnect to jsDelivr CDN -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+
     <!-- NEXON Football Gothic -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fonts-archive/NEXONFootballGothic/NEXONFootballGothic.css" type="text/css">
+    <link rel="preload" href="https://cdn.jsdelivr.net/gh/fonts-archive/NEXONFootballGothic/NEXONFootballGothic.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fonts-archive/NEXONFootballGothic/NEXONFootballGothic.css" /></noscript>
 
     <!-- Open Graph Meta Tags -->
     <meta property="og:site_name" content="BA Gift Planner">
