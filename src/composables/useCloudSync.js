@@ -12,8 +12,8 @@ import {
 import { getSyncStores } from '@/config/syncStores'
 import { useSyncMetadataStore } from '@/store/syncMetadata'
 
-const DEBOUNCE_THRESHOLD = 15000 // 15 seconds
-const THROTTLE_THRESHOLD = 1000 * 60 * 5 // 5 minutes
+const DEBOUNCE_THRESHOLD = 5000 // 5 seconds
+const THROTTLE_THRESHOLD = 1000 * 60 * 1 // 1 minutes
 
 // Shared state (Singleton pattern)
 const isSyncing = ref(false)
