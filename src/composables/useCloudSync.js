@@ -24,7 +24,7 @@ let isInitialized = false
 export function useCloudSync() {
   const stores = getSyncStores()
   const syncMetadataStore = useSyncMetadataStore()
-  const { lastSyncTime, lastSyncedDataStr } = storeToRefs(syncMetadataStore)
+  const { lastSyncTime, lastSyncedDataStr, lastServerTimestamp } = storeToRefs(syncMetadataStore)
 
   const { addToast } = useToast()
   const { t } = useI18n()
@@ -59,13 +59,24 @@ export function useCloudSync() {
   const downloadSave = async (isAuto = false) => {
     try {
       isSyncing.value = true // Lock to prevent auto sync from being triggered
-      const res = await fetch('/api/sync/download')
+
+      const url = lastServerTimestamp.value
+        ? `/api/sync/download?last_known_timestamp=${encodeURIComponent(lastServerTimestamp.value)}`
+        : '/api/sync/download'
+
+      const res = await fetch(url)
 
       if (res.status === 401) {
         clearSession()
         addToast(t('cloudSync.sessionExpired'), 'error')
         return
       }
+
+      // 304 Not Modified: Exit early, cloud matches local timestamp
+      if (res.status === 304) {
+        return
+      }
+
       if (!res.ok) {
         addToast(t('cloudSync.downloadFailed'), 'error')
         return
@@ -74,31 +85,22 @@ export function useCloudSync() {
       const data = await res.json()
       if (!data.payload) return
 
+      const cloudTimestamp = data.updated_at
+
+      // Safety fallback check (in case 304 request was not triggered but timestamps match)
+      if (cloudTimestamp && cloudTimestamp === lastServerTimestamp.value) {
+        return
+      }
+
       const decompressed = decompressSaveData(data.payload)
       const cloudPayload = JSON.parse(decompressed)
       const cloudDataStr = JSON.stringify(cloudPayload)
 
       const localPayload = getLocalStatePayload()
 
-      let lastSyncedPayload = null
-      try {
-        lastSyncedPayload = lastSyncedDataStr.value ? JSON.parse(lastSyncedDataStr.value) : null
-      } catch (e) {
-        console.error('Failed to parse last synced data string:', e)
-      }
-
-      // Only apply and notify if the cloud data is actually different from the local state
+      // If data is already identical to local state, just align timestamps
       if (isSyncPayloadEqual(localPayload, cloudPayload)) {
-        lastSyncedDataStr.value = cloudDataStr
-        lastSyncTime.value = new Date()
-        return
-      }
-
-      // If cloud data has not changed since the last time we synced,
-      // it means any difference is due to local unsaved changes. Do not overwrite them.
-      if (isSyncPayloadEqual(cloudPayload, lastSyncedPayload)) {
-        lastSyncedDataStr.value = cloudDataStr
-        lastSyncTime.value = new Date()
+        syncMetadataStore.setSyncMetadata(cloudDataStr, cloudTimestamp)
         return
       }
 
@@ -106,8 +108,7 @@ export function useCloudSync() {
       const preserveShared = new URLSearchParams(window.location.search).has('s')
       applySaveDataToStores(decompressed, preserveShared)
 
-      lastSyncedDataStr.value = cloudDataStr
-      lastSyncTime.value = new Date()
+      syncMetadataStore.setSyncMetadata(cloudDataStr, cloudTimestamp)
 
       // Clear any pending upload since we just aligned with the cloud
       if (syncTimeout) {
@@ -150,7 +151,10 @@ export function useCloudSync() {
       const res = await fetch('/api/sync/upload', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ payload: base64Payload }),
+        body: JSON.stringify({
+          payload: base64Payload,
+          last_known_timestamp: lastServerTimestamp.value,
+        }),
         keepalive: true,
       })
 
@@ -159,13 +163,38 @@ export function useCloudSync() {
         addToast(t('cloudSync.uploadSessionExpired'), 'error')
         return
       }
+
+      // Conflict handling (409) — Alert the user and load the latest cloud save
+      if (res.status === 409) {
+        const conflictData = await res.json()
+        if (conflictData.payload) {
+          const decompressed = decompressSaveData(conflictData.payload)
+          const cloudPayload = JSON.parse(decompressed)
+          const cloudDataStr = JSON.stringify(cloudPayload)
+
+          const preserveShared = new URLSearchParams(window.location.search).has('s')
+          applySaveDataToStores(decompressed, preserveShared)
+
+          syncMetadataStore.setSyncMetadata(cloudDataStr, conflictData.updated_at)
+
+          if (syncTimeout) {
+            clearTimeout(syncTimeout)
+            syncTimeout = null
+          }
+
+          // Show Conflict Resolved Toast Warning
+          addToast(t('cloudSync.conflictDetected'), 'warning')
+        }
+        return
+      }
+
       if (!res.ok) {
         addToast(t('cloudSync.uploadFailed'), 'error')
         return
       }
 
-      lastSyncedDataStr.value = currentDataStr
-      lastSyncTime.value = new Date()
+      const resData = await res.json()
+      syncMetadataStore.setSyncMetadata(currentDataStr, resData.updated_at)
     } catch (e) {
       console.error('Failed to upload save:', e)
       addToast(t('cloudSync.networkError'), 'error')
