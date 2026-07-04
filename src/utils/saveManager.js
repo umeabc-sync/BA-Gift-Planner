@@ -42,7 +42,13 @@ export function applySaveDataToStores(jsonString, preserveSharedSelection = fals
 
     stores.student.$patch(studentData)
   }
-  if (parsed.gift) stores.gift.$patch(JSON.parse(parsed.gift))
+  if (parsed.gift) {
+    const giftData = JSON.parse(parsed.gift)
+    // Direct assignment instead of $patch — avoids deep merge leaving stale keys
+    if (giftData.quantities !== undefined) {
+      stores.gift.quantities = giftData.quantities
+    }
+  }
   if (parsed.giftPlanner) stores.giftPlanner.$patch(JSON.parse(parsed.giftPlanner))
   if (parsed.setting) stores.setting.$patch(JSON.parse(parsed.setting))
 }
