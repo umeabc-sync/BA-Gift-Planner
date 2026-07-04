@@ -52,13 +52,23 @@ export function useCloudSync() {
 
       const decompressed = decompressSaveData(data.payload)
       const cloudPayload = JSON.parse(decompressed)
+      const cloudDataStr = JSON.stringify(cloudPayload)
+
+      const localPayload = getLocalStatePayload()
+      const localDataStr = JSON.stringify(localPayload)
+
+      // Only apply and notify if the cloud data is actually different from the local state
+      if (localDataStr === cloudDataStr) {
+        lastSyncedDataStr = cloudDataStr
+        lastSyncTime.value = new Date()
+        return
+      }
 
       // Cloud always wins — apply cloud data unconditionally
       const preserveShared = new URLSearchParams(window.location.search).has('s')
       applySaveDataToStores(decompressed, preserveShared)
 
-      const dataPayload = { ...cloudPayload }
-      lastSyncedDataStr = JSON.stringify(dataPayload)
+      lastSyncedDataStr = cloudDataStr
       lastSyncTime.value = new Date()
 
       if (isAuto) {
