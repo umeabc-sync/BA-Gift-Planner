@@ -4,12 +4,14 @@ import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import directives from './directives'
 import router from './router'
 import 'overlayscrollbars/overlayscrollbars.css'
-import './assets/css/fonts.css'
+import { css, fontFamilyFallback } from './assets/fonts/TaiwanPearl-Regular.ttf'
 import './assets/css/tooltip.css'
 import './assets/css/buttons.css'
 import './style.css'
 import App from './App.vue'
 import { OverlayScrollbars, ClickScrollPlugin } from 'overlayscrollbars'
+
+document.documentElement.style.setProperty('--font-family-base', `"${css.family}", ${fontFamilyFallback}`)
 
 OverlayScrollbars.plugin(ClickScrollPlugin)
 
