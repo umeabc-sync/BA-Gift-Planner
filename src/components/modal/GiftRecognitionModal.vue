@@ -125,7 +125,7 @@
   import { preprocess, postprocess } from '@/utils/yolo-v5-utils.js'
   import { GIFT_RECOGNITION_CLASS_NAMES } from '@/data/giftRecognitionClassNames.js'
 
-  const isDebugMode = ref(true)
+  const isDebugMode = ref(false)
   const isPreviewExpanded = ref(true)
   const isDraggingOver = ref(false)
 
@@ -242,6 +242,11 @@
       tesseractWorker.value.terminate()
       tesseractWorker.value = null
     }
+    if (imageUrl.value) {
+      URL.revokeObjectURL(imageUrl.value)
+      imageUrl.value = null
+    }
+    cleanupImages()
   })
 
   const recognizeQuantity = async (imageBitmap) => {
