@@ -7,7 +7,6 @@ export function getLocalStatePayload() {
     gift: localStorage.getItem('gift') || '{}',
     giftPlanner: localStorage.getItem('giftPlanner') || '{}',
     setting: localStorage.getItem('setting') || '{}',
-    updatedAt: parseInt(localStorage.getItem('save_updated_at') || '0', 10),
   }
 }
 
@@ -46,13 +45,6 @@ export function applySaveDataToStores(jsonString, preserveSharedSelection = fals
   if (parsed.gift) stores.gift.$patch(JSON.parse(parsed.gift))
   if (parsed.giftPlanner) stores.giftPlanner.$patch(JSON.parse(parsed.giftPlanner))
   if (parsed.setting) stores.setting.$patch(JSON.parse(parsed.setting))
-
-  // Sync the save_updated_at timestamp
-  if (parsed.updatedAt) {
-    localStorage.setItem('save_updated_at', parsed.updatedAt.toString())
-  } else {
-    localStorage.setItem('save_updated_at', Date.now().toString())
-  }
 }
 
 export function generateExportFile() {

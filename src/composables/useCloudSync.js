@@ -12,7 +12,6 @@ const lastSyncTime = ref(null)
 const user = ref(null)
 let syncTimeout = null
 let isInitialized = false
-let isReady = false // True only after initSync() completes — prevents $subscribe from stomping save_updated_at during initial hydration
 let lastSyncedDataStr = null
 
 export function useCloudSync() {
@@ -30,15 +29,10 @@ export function useCloudSync() {
       if (user.value) await downloadSave()
     } catch (e) {
       console.error('Failed to init sync:', e)
-    } finally {
-      // Allow $subscribe to start tracking changes only after the initial sync is settled.
-      // This prevents pinia-plugin-persistedstate's hydration from polluting save_updated_at.
-      isReady = true
     }
   }
 
   const downloadSave = async (isAuto = false) => {
-    let shouldUploadAfter = false
     try {
       isSyncing.value = true // Lock to prevent auto sync from being triggered
       const res = await fetch('/api/sync/download')
@@ -58,43 +52,22 @@ export function useCloudSync() {
 
       const decompressed = decompressSaveData(data.payload)
       const cloudPayload = JSON.parse(decompressed)
-      const cloudUpdatedAt = cloudPayload.updatedAt || 0
 
-      const localPayloadObj = getLocalStatePayload()
-      const localUpdatedAt = localPayloadObj.updatedAt || 0
+      // Cloud always wins — apply cloud data unconditionally
+      const preserveShared = new URLSearchParams(window.location.search).has('s')
+      applySaveDataToStores(decompressed, preserveShared)
 
-      // Scenario 1: Cloud save is newer than local state
-      if (cloudUpdatedAt > localUpdatedAt) {
-        const preserveShared = new URLSearchParams(window.location.search).has('s')
-        applySaveDataToStores(decompressed, preserveShared)
-        const dataPayload = { ...cloudPayload }
-        delete dataPayload.updatedAt
-        lastSyncedDataStr = JSON.stringify(dataPayload)
-        lastSyncTime.value = new Date()
-        if (isAuto) {
-          addToast(t('cloudSync.autoSynced'), 'success')
-        }
-      }
-      // Scenario 2: Local state is newer (e.g. offline edits or pending sync)
-      else if (localUpdatedAt > cloudUpdatedAt) {
-        lastSyncTime.value = new Date()
-        shouldUploadAfter = true
-      }
-      // Scenario 3: Equal, they are in sync
-      else {
-        const dataPayload = { ...cloudPayload }
-        delete dataPayload.updatedAt
-        lastSyncedDataStr = JSON.stringify(dataPayload)
-        lastSyncTime.value = new Date()
+      const dataPayload = { ...cloudPayload }
+      lastSyncedDataStr = JSON.stringify(dataPayload)
+      lastSyncTime.value = new Date()
+
+      if (isAuto) {
+        addToast(t('cloudSync.autoSynced'), 'success')
       }
     } catch (e) {
       console.error('Failed to download save:', e)
     } finally {
       isSyncing.value = false
-    }
-
-    if (shouldUploadAfter) {
-      await uploadSave()
     }
   }
 
@@ -104,12 +77,9 @@ export function useCloudSync() {
     try {
       isSyncing.value = true
       const payloadObj = getLocalStatePayload()
+      const currentDataStr = JSON.stringify(payloadObj)
 
-      const dataPayload = { ...payloadObj }
-      delete dataPayload.updatedAt
-      const currentDataStr = JSON.stringify(dataPayload)
-
-      // Prevent redundant network requests if payload (excluding updatedAt) is identical
+      // Prevent redundant network requests if payload is identical
       if (currentDataStr === lastSyncedDataStr) {
         isSyncing.value = false
         return
@@ -173,13 +143,9 @@ export function useCloudSync() {
 
   if (!isInitialized) {
     // Use Pinia $subscribe instead of the expensive deep watch
-    // NOTE: isReady guard is critical — pinia-plugin-persistedstate triggers $subscribe during
-    // its initial hydration (before initSync runs), which would set save_updated_at to Date.now()
-    // and make the local state appear newer than the cloud, causing stale data to be uploaded.
     Object.values(stores).forEach((store) => {
       store.$subscribe(() => {
-        if (!isSyncing.value && isReady) {
-          localStorage.setItem('save_updated_at', Date.now().toString())
+        if (!isSyncing.value) {
           triggerAutoSync()
         }
       })
