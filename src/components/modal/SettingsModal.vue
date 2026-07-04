@@ -162,13 +162,19 @@
             </div>
 
             <!-- Sync Status -->
-            <div class="setting-group" v-if="user">
+            <div class="setting-group">
               <h4 class="setting-group-title">{{ t('settingsModal.cloudSaveSync') }}</h4>
               <div class="setting-control-wrapper" style="text-align: right">
-                <div style="color: #4caf50; font-weight: bold; font-size: 0.95rem; margin-bottom: 4px">
-                  {{ t('common.enabled') }}
+                <div
+                  style="font-weight: bold; font-size: 0.95rem; margin-bottom: 4px"
+                  :style="{ color: user ? '#4caf50' : '#af4c4b' }"
+                >
+                  {{ user ? t('common.enabled') : t('common.notEnabled') }}
                 </div>
-                <div v-if="lastSyncTime" style="font-size: 0.8rem; color: #666">
+                <div v-if="!user" style="font-size: 0.8rem; color: #666">
+                  {{ t('settingsModal.pleaseLogin') }}
+                </div>
+                <div v-else-if="lastSyncTime" style="font-size: 0.8rem; color: #666">
                   {{ t('settingsModal.lastSyncTime') }}{{ lastSyncTime.toLocaleTimeString() }}
                 </div>
               </div>
