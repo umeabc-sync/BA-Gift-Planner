@@ -1,4 +1,5 @@
 import { ref } from 'vue'
+import { storeToRefs } from 'pinia'
 import { useToast } from '@/composables/useToast'
 import { useI18n } from '@/composables/useI18n'
 import {
@@ -9,22 +10,38 @@ import {
   isSyncPayloadEqual,
 } from '@/utils/saveManager'
 import { getSyncStores } from '@/config/syncStores'
+import { useSyncMetadataStore } from '@/store/syncMetadata'
 
 const THROTTLE_THRESHOLD = 1000 * 60 * 5 // 5 minutes
 
 // Shared state (Singleton pattern)
 const isSyncing = ref(false)
-const lastSyncTime = ref(null)
 const user = ref(null)
 let syncTimeout = null
 let isInitialized = false
-let lastSyncedDataStr = null
 
 export function useCloudSync() {
   const stores = getSyncStores()
+  const syncMetadataStore = useSyncMetadataStore()
+  const { lastSyncTime, lastSyncedDataStr } = storeToRefs(syncMetadataStore)
 
   const { addToast } = useToast()
   const { t } = useI18n()
+
+  const clearSession = () => {
+    user.value = null
+    syncMetadataStore.clearMetadata()
+  }
+
+  const logout = async () => {
+    try {
+      await fetch('/api/auth/logout', { method: 'POST' })
+    } catch (e) {
+      console.error('Failed to logout:', e)
+    } finally {
+      clearSession()
+    }
+  }
 
   const initSync = async () => {
     try {
@@ -44,7 +61,7 @@ export function useCloudSync() {
       const res = await fetch('/api/sync/download')
 
       if (res.status === 401) {
-        user.value = null
+        clearSession()
         addToast(t('cloudSync.sessionExpired'), 'error')
         return
       }
@@ -64,14 +81,14 @@ export function useCloudSync() {
 
       let lastSyncedPayload = null
       try {
-        lastSyncedPayload = lastSyncedDataStr ? JSON.parse(lastSyncedDataStr) : null
+        lastSyncedPayload = lastSyncedDataStr.value ? JSON.parse(lastSyncedDataStr.value) : null
       } catch (e) {
         console.error('Failed to parse last synced data string:', e)
       }
 
       // Only apply and notify if the cloud data is actually different from the local state
       if (isSyncPayloadEqual(localPayload, cloudPayload)) {
-        lastSyncedDataStr = cloudDataStr
+        lastSyncedDataStr.value = cloudDataStr
         lastSyncTime.value = new Date()
         return
       }
@@ -79,7 +96,7 @@ export function useCloudSync() {
       // If cloud data has not changed since the last time we synced,
       // it means any difference is due to local unsaved changes. Do not overwrite them.
       if (isSyncPayloadEqual(cloudPayload, lastSyncedPayload)) {
-        lastSyncedDataStr = cloudDataStr
+        lastSyncedDataStr.value = cloudDataStr
         lastSyncTime.value = new Date()
         return
       }
@@ -88,7 +105,7 @@ export function useCloudSync() {
       const preserveShared = new URLSearchParams(window.location.search).has('s')
       applySaveDataToStores(decompressed, preserveShared)
 
-      lastSyncedDataStr = cloudDataStr
+      lastSyncedDataStr.value = cloudDataStr
       lastSyncTime.value = new Date()
 
       // Clear any pending upload since we just aligned with the cloud
@@ -116,7 +133,7 @@ export function useCloudSync() {
       const currentDataStr = JSON.stringify(payloadObj)
       let lastSyncedPayload = null
       try {
-        lastSyncedPayload = lastSyncedDataStr ? JSON.parse(lastSyncedDataStr) : null
+        lastSyncedPayload = lastSyncedDataStr.value ? JSON.parse(lastSyncedDataStr.value) : null
       } catch (e) {
         console.error('Failed to parse last synced data string:', e)
       }
@@ -137,7 +154,7 @@ export function useCloudSync() {
       })
 
       if (res.status === 401) {
-        user.value = null
+        clearSession()
         addToast(t('cloudSync.uploadSessionExpired'), 'error')
         return
       }
@@ -146,7 +163,7 @@ export function useCloudSync() {
         return
       }
 
-      lastSyncedDataStr = currentDataStr
+      lastSyncedDataStr.value = currentDataStr
       lastSyncTime.value = new Date()
     } catch (e) {
       console.error('Failed to upload save:', e)
@@ -208,5 +225,5 @@ export function useCloudSync() {
     isInitialized = true
   }
 
-  return { user, isSyncing, lastSyncTime, uploadSave, downloadSave, initSync }
+  return { user, isSyncing, lastSyncTime, uploadSave, downloadSave, initSync, logout }
 }
