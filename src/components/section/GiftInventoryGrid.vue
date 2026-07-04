@@ -266,6 +266,7 @@
     font-size: 12px;
     font-weight: bold;
     padding: 3px 8px;
+    user-select: none;
     z-index: 5;
     border: 2px solid white;
   }

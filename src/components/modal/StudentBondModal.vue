@@ -218,6 +218,7 @@
     color: #5f6f80;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    user-select: none;
   }
 
   /* --- Stepper Control (Level) --- */

@@ -348,6 +348,7 @@
     font-size: 24px;
     font-weight: bold;
     color: #fff;
+    user-select: none;
     z-index: 1;
     text-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
     transition: all 0.3s ease;
@@ -456,6 +457,7 @@
       -1px 1px 0 #e05ca3,
       1px 1px 0 #e05ca3,
       0 2px 4px rgba(0, 0, 0, 0.3);
+    user-select: none;
     z-index: 10;
     white-space: nowrap;
   }
@@ -558,6 +560,7 @@
     font-size: 18px;
     font-weight: bold;
     text-align: center;
+    user-select: none;
   }
 
   .single-bond-island {
