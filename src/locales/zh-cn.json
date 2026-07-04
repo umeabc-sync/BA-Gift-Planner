@@ -491,6 +491,28 @@
     "downloadFailed": "云端存档下载失败！",
     "uploadSessionExpired": "登录状态已过期，资料无法存上云端！请重新登录。",
     "uploadFailed": "云端存档上传失败！",
-    "networkError": "网络错误或服务器无回应，存档上传失败！"
+    "networkError": "网络错误或服务器无回应，存档上传失败！",
+    "autoSynced": "已同步来自云端的最新进度！"
+  },
+  "combinationManager": {
+    "title": "预设组合",
+    "saveCurrentAsNew": "另存新组合",
+    "load": "读取",
+    "overwrite": "覆盖",
+    "rename": "重新命名",
+    "delete": "删除",
+    "emptyList": "目前没有储存的组合",
+    "slotsUsed": "已使用槽位",
+    "confirmOverwrite": "确定要用当前画面的学生覆盖此组合吗？",
+    "confirmDelete": "确定要删除此组合吗？",
+    "defaultName": "新组合"
+  },
+  "sharedCombination": {
+    "title": "收到分享的组合",
+    "previewTitle": "组合一览",
+    "message": "你开启了一个分享的学生组合，但你目前画面上已经有选择学生了。",
+    "overwrite": "取代当前组合",
+    "saveAsNew": "另存为新组合",
+    "cancel": "取消"
   }
 }

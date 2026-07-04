@@ -1,11 +1,10 @@
-import { ref, onMounted } from 'vue'
-import { useStudentStore } from '@/store/student'
-import { useGiftStore } from '@/store/gift'
-import { useGiftPlannerStore } from '@/store/giftPlanner'
-import { useSettingStore } from '@/store/setting'
+import { ref } from 'vue'
 import { useToast } from '@/composables/useToast'
 import { useI18n } from '@/composables/useI18n'
 import { getLocalStatePayload, compressSaveData, decompressSaveData, applySaveDataToStores } from '@/utils/saveManager'
+import { getSyncStores } from '@/config/syncStores'
+
+const THROTTLE_THRESHOLD = 1000 * 60 * 5 // 5 minutes
 
 // Shared state (Singleton pattern)
 const isSyncing = ref(false)
@@ -13,15 +12,10 @@ const lastSyncTime = ref(null)
 const user = ref(null)
 let syncTimeout = null
 let isInitialized = false
-let lastSyncedPayloadStr = null
+let lastSyncedDataStr = null
 
 export function useCloudSync() {
-  const stores = {
-    student: useStudentStore(),
-    gift: useGiftStore(),
-    giftPlanner: useGiftPlannerStore(),
-    setting: useSettingStore(),
-  }
+  const stores = getSyncStores()
 
   const { addToast } = useToast()
   const { t } = useI18n()
@@ -38,7 +32,7 @@ export function useCloudSync() {
     }
   }
 
-  const downloadSave = async () => {
+  const downloadSave = async (isAuto = false) => {
     try {
       isSyncing.value = true // Lock to prevent auto sync from being triggered
       const res = await fetch('/api/sync/download')
@@ -57,24 +51,33 @@ export function useCloudSync() {
       if (!data.payload) return
 
       const decompressed = decompressSaveData(data.payload)
-      const currentPayloadStr = JSON.stringify(getLocalStatePayload())
+      const cloudPayload = JSON.parse(decompressed)
+      const cloudDataStr = JSON.stringify(cloudPayload)
 
-      if (decompressed === currentPayloadStr) {
-        lastSyncedPayloadStr = decompressed
+      const localPayload = getLocalStatePayload()
+      const localDataStr = JSON.stringify(localPayload)
+
+      // Only apply and notify if the cloud data is actually different from the local state
+      if (localDataStr === cloudDataStr) {
+        lastSyncedDataStr = cloudDataStr
         lastSyncTime.value = new Date()
         return
       }
 
-      applySaveDataToStores(decompressed)
+      // Cloud always wins — apply cloud data unconditionally
+      const preserveShared = new URLSearchParams(window.location.search).has('s')
+      applySaveDataToStores(decompressed, preserveShared)
 
-      lastSyncedPayloadStr = decompressed
+      lastSyncedDataStr = cloudDataStr
+      lastSyncTime.value = new Date()
+
+      if (isAuto) {
+        addToast(t('cloudSync.autoSynced'), 'success')
+      }
     } catch (e) {
       console.error('Failed to download save:', e)
     } finally {
-      // Shorten the delay, or wait for the next tick.
-      setTimeout(() => {
-        isSyncing.value = false
-      }, 100)
+      isSyncing.value = false
     }
   }
 
@@ -84,10 +87,10 @@ export function useCloudSync() {
     try {
       isSyncing.value = true
       const payloadObj = getLocalStatePayload()
-      const jsonString = JSON.stringify(payloadObj)
+      const currentDataStr = JSON.stringify(payloadObj)
 
       // Prevent redundant network requests if payload is identical
-      if (jsonString === lastSyncedPayloadStr) {
+      if (currentDataStr === lastSyncedDataStr) {
         isSyncing.value = false
         return
       }
@@ -98,6 +101,7 @@ export function useCloudSync() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ payload: base64Payload }),
+        keepalive: true,
       })
 
       if (res.status === 401) {
@@ -110,7 +114,7 @@ export function useCloudSync() {
         return
       }
 
-      lastSyncedPayloadStr = jsonString
+      lastSyncedDataStr = currentDataStr
       lastSyncTime.value = new Date()
     } catch (e) {
       console.error('Failed to upload save:', e)
@@ -125,16 +129,47 @@ export function useCloudSync() {
     if (syncTimeout) clearTimeout(syncTimeout)
 
     syncTimeout = setTimeout(() => {
+      syncTimeout = null
       uploadSave()
     }, 3000)
+  }
+
+  const flushSync = () => {
+    if (syncTimeout) {
+      clearTimeout(syncTimeout)
+      syncTimeout = null
+      uploadSave()
+    }
+  }
+
+  const triggerAutoDownload = () => {
+    if (!user.value || isSyncing.value || syncTimeout) return
+    const now = new Date()
+    if (lastSyncTime.value && now - lastSyncTime.value < THROTTLE_THRESHOLD) {
+      return // Throttle: skip check if synced less than 5 minutes ago
+    }
+    downloadSave(true)
   }
 
   if (!isInitialized) {
     // Use Pinia $subscribe instead of the expensive deep watch
     Object.values(stores).forEach((store) => {
       store.$subscribe(() => {
-        if (!isSyncing.value) triggerAutoSync()
+        if (!isSyncing.value) {
+          triggerAutoSync()
+        }
       })
+    })
+
+    window.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'hidden') {
+        flushSync()
+      } else if (document.visibilityState === 'visible') {
+        triggerAutoDownload()
+      }
+    })
+    window.addEventListener('focus', () => {
+      triggerAutoDownload()
     })
 
     // Let App.vue call initSync() directly

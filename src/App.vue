@@ -26,6 +26,12 @@
       @close="closeShareModal"
       @download-screenshot="handleDownloadShareScreenshot"
     />
+    <CombinationManagerModal :is-visible="isCombinationManagerModalOpen" @close="closeCombinationManagerModal" />
+    <SharedCombinationPromptModal
+      :is-visible="isSharedCombinationPromptModalOpen"
+      @close="closeSharedCombinationPromptModal"
+    />
+    <ToastNotification />
   </div>
 </template>
 
@@ -45,6 +51,9 @@
   import ShareModal from '@components/modal/ShareModal.vue'
   import { useI18n } from '@composables/useI18n'
   import { useCloudSync } from '@composables/useCloudSync'
+  import CombinationManagerModal from '@components/modal/CombinationManagerModal.vue'
+  import SharedCombinationPromptModal from '@components/modal/SharedCombinationPromptModal.vue'
+  import ToastNotification from '@components/ui/ToastNotification.vue'
 
   const { initSync } = useCloudSync()
 
@@ -53,8 +62,20 @@
   const { isDarkMode } = storeToRefs(settingStore)
 
   const modalStore = useModalStore()
-  const { isStudentSelectionModalOpen, isSettingsModalOpen, isShareModalOpen } = storeToRefs(modalStore)
-  const { closeStudentSelectionModal, closeSettingsModal, closeShareModal } = modalStore
+  const {
+    isStudentSelectionModalOpen,
+    isSettingsModalOpen,
+    isShareModalOpen,
+    isCombinationManagerModalOpen,
+    isSharedCombinationPromptModalOpen,
+  } = storeToRefs(modalStore)
+  const {
+    closeStudentSelectionModal,
+    closeSettingsModal,
+    closeShareModal,
+    closeCombinationManagerModal,
+    closeSharedCombinationPromptModal,
+  } = modalStore
 
   const studentStore = useStudentStore()
   const { studentsData, selectedStudents } = storeToRefs(studentStore)

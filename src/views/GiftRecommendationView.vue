@@ -22,12 +22,11 @@
     />
 
     <LoadingOverlay :is-visible="isDownloadingScreenshot" :text="t('app.downloading')" />
-    <ToastNotification />
   </div>
 </template>
 
 <script setup>
-  import { ref, computed, onMounted, watch } from 'vue'
+  import { ref, computed, onMounted } from 'vue'
   import { useSettingStore } from '@store/setting'
   import { useStudentStore } from '@store/student'
   import { useScreenshotStore } from '@store/screenshot'
@@ -39,7 +38,6 @@
   import GiftGridSection from '@components/section/GiftGridSection.vue'
   import SilentScreenshotRenderer from '@components/utility/SilentScreenshotRenderer.vue'
   import LoadingOverlay from '@components/utility/LoadingOverlay.vue'
-  import ToastNotification from '@components/ui/ToastNotification.vue'
   import { useI18n } from '@composables/useI18n'
   import { useShareableSelection } from '@/composables/useShareableSelection'
 
@@ -51,7 +49,7 @@
   const { selectedStudents, selectedStudentIds, studentsData } = storeToRefs(studentStore)
 
   const giftStore = useGiftStore()
-  const { setSynthesisGifts } = giftStore
+  const { synthesisGifts } = storeToRefs(giftStore)
 
   const giftAnalysisStore = useGiftAnalysisStore()
   const { analyzedGifts } = storeToRefs(giftAnalysisStore)
@@ -78,18 +76,6 @@
       isDownloadingScreenshot.value = false
     }
   }
-
-  const synthesisGifts = computed(() => {
-    return analyzedGifts.value.filter((gift) => gift.analysis.shouldSynthesize)
-  })
-
-  watch(
-    synthesisGifts,
-    (newSynthesisGifts) => {
-      setSynthesisGifts(newSynthesisGifts)
-    },
-    { immediate: true, deep: true }
-  )
 
   const genericSsrGifts = computed(() => {
     return analyzedGifts.value.filter((gift) => gift.analysis.isGeneric)

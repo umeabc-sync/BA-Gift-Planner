@@ -30,15 +30,45 @@ export const useModalStore = defineStore('modal', () => {
     isShareModalOpen.value = false
   }
 
+  const isCombinationManagerModalOpen = ref(false)
+
+  function openCombinationManagerModal() {
+    isCombinationManagerModalOpen.value = true
+  }
+
+  function closeCombinationManagerModal() {
+    isCombinationManagerModalOpen.value = false
+  }
+
+  const isSharedCombinationPromptModalOpen = ref(false)
+  const sharedCombinationData = ref(null)
+
+  function openSharedCombinationPromptModal(studentIds) {
+    sharedCombinationData.value = studentIds
+    isSharedCombinationPromptModalOpen.value = true
+  }
+
+  function closeSharedCombinationPromptModal() {
+    isSharedCombinationPromptModalOpen.value = false
+    sharedCombinationData.value = null
+  }
+
   return {
     isStudentSelectionModalOpen,
     isSettingsModalOpen,
     isShareModalOpen,
+    isCombinationManagerModalOpen,
+    isSharedCombinationPromptModalOpen,
+    sharedCombinationData,
     openStudentSelectionModal,
     closeStudentSelectionModal,
     openSettingsModal,
     closeSettingsModal,
     openShareModal,
     closeShareModal,
+    openCombinationManagerModal,
+    closeCombinationManagerModal,
+    openSharedCombinationPromptModal,
+    closeSharedCombinationPromptModal,
   }
 })

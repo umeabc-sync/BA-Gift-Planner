@@ -34,6 +34,14 @@
                     <span>{{ t('characterSelector.resetSelection') }}</span>
                   </button>
                   <button
+                    v-if="selectionMode === 'multi' && !isFilterPanelOpen"
+                    class="btn-skew btn-icon btn-blue"
+                    @click="modalStore.openCombinationManagerModal()"
+                    :title="t('characterSelector.manageCombinations')"
+                  >
+                    <component :is="BookmarkIcon" class="filter-toggle-icon" draggable="false" />
+                  </button>
+                  <button
                     v-if="isFilterPanelOpen || alwaysShowResetFilters"
                     class="btn-skew btn-text btn-yellow"
                     :disabled="isNoFilterSelected"
@@ -195,12 +203,15 @@
   import PencilIcon from '@assets/icon/pencil.svg'
   import StarIcon from '@assets/icon/star.svg'
   import FormSwitchIcon from '@assets/icon/form_switch.svg'
+  import BookmarkIcon from '@assets/icon/bookmark.svg'
   import { useStudentStore } from '@store/student'
+  import { useModalStore } from '@store/modal'
   import { DUAL_FORM_STUDENT_IDS } from '@store/student'
 
   const { t } = useI18n()
 
   const studentStore = useStudentStore()
+  const modalStore = useModalStore()
 
   const props = defineProps({
     isModalOpen: Boolean,

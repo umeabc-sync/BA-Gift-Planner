@@ -63,6 +63,30 @@ export const useStudentStore = defineStore(
       selectedStudentIds.value = []
     }
 
+    const savedCombinations = ref([])
+
+    function saveCombination(name, studentIds) {
+      if (savedCombinations.value.length >= 10) return false
+      savedCombinations.value.push({
+        id: crypto.randomUUID(),
+        name,
+        studentIds: [...studentIds].sort((a, b) => a - b),
+      })
+      return true
+    }
+
+    function updateCombination(id, name, studentIds) {
+      const combo = savedCombinations.value.find((c) => c.id === id)
+      if (combo) {
+        if (name !== undefined) combo.name = name
+        if (studentIds !== undefined) combo.studentIds = [...studentIds].sort((a, b) => a - b)
+      }
+    }
+
+    function deleteCombination(id) {
+      savedCombinations.value = savedCombinations.value.filter((c) => c.id !== id)
+    }
+
     return {
       studentsData,
       selectedStudentIds,
@@ -75,11 +99,15 @@ export const useStudentStore = defineStore(
       getStudentForm,
       toggleStudentForm,
       resetSelection,
+      savedCombinations,
+      saveCombination,
+      updateCombination,
+      deleteCombination,
     }
   },
   {
     persist: {
-      pick: ['selectedStudentIds', 'studentBondData', 'studentFormOverrides'],
+      pick: ['selectedStudentIds', 'studentBondData', 'studentFormOverrides', 'savedCombinations'],
     },
   }
 )

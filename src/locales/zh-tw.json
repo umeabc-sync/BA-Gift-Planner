@@ -491,6 +491,28 @@
     "downloadFailed": "雲端存檔下載失敗！",
     "uploadSessionExpired": "登入狀態已過期，資料無法存上雲端！請重新登入。",
     "uploadFailed": "雲端存檔上傳失敗！",
-    "networkError": "網路錯誤或伺服器無回應，存檔上傳失敗！"
+    "networkError": "網路錯誤或伺服器無回應，存檔上傳失敗！",
+    "autoSynced": "已同步來自雲端的最新進度！"
+  },
+  "combinationManager": {
+    "title": "預設組合",
+    "saveCurrentAsNew": "另存新組合",
+    "load": "讀取",
+    "overwrite": "覆蓋",
+    "rename": "重新命名",
+    "delete": "刪除",
+    "emptyList": "目前沒有儲存的組合",
+    "slotsUsed": "已使用槽位",
+    "confirmOverwrite": "確定要用當前畫面的學生覆蓋此組合嗎？",
+    "confirmDelete": "確定要刪除此組合嗎？",
+    "defaultName": "新組合"
+  },
+  "sharedCombination": {
+    "title": "收到分享的組合",
+    "previewTitle": "組合一覽",
+    "message": "你開啟了一個分享的學生組合，但你目前畫面上已經有選擇學生了。",
+    "overwrite": "取代當前組合",
+    "saveAsNew": "另存為新組合",
+    "cancel": "取消"
   }
 }

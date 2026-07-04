@@ -1,8 +1,5 @@
 import pako from 'pako'
-import { useStudentStore } from '@/store/student'
-import { useGiftStore } from '@/store/gift'
-import { useGiftPlannerStore } from '@/store/giftPlanner'
-import { useSettingStore } from '@/store/setting'
+import { getSyncStores } from '@/config/syncStores'
 
 export function getLocalStatePayload() {
   return {
@@ -32,28 +29,26 @@ export function decompressSaveData(base64Payload) {
   return pako.inflate(bytes, { to: 'string' })
 }
 
-export function applySaveDataToStores(jsonString) {
+export function applySaveDataToStores(jsonString, preserveSharedSelection = false) {
   const parsed = JSON.parse(jsonString)
-  const stores = {
-    student: useStudentStore(),
-    gift: useGiftStore(),
-    giftPlanner: useGiftPlannerStore(),
-    setting: useSettingStore(),
-  }
+  const stores = getSyncStores()
 
   if (parsed.student) {
     const studentData = JSON.parse(parsed.student)
 
-    // If the user opens a shared link (?s=...), preserve the shared selection
-    // instead of letting the cloud/local import overwrite it immediately.
-    const searchParams = new URLSearchParams(window.location.search)
-    if (searchParams.has('s')) {
+    if (preserveSharedSelection) {
       studentData.selectedStudentIds = stores.student.selectedStudentIds
     }
 
     stores.student.$patch(studentData)
   }
-  if (parsed.gift) stores.gift.$patch(JSON.parse(parsed.gift))
+  if (parsed.gift) {
+    const giftData = JSON.parse(parsed.gift)
+    // Direct assignment instead of $patch — avoids deep merge leaving stale keys
+    if (giftData.quantities !== undefined) {
+      stores.gift.quantities = giftData.quantities
+    }
+  }
   if (parsed.giftPlanner) stores.giftPlanner.$patch(JSON.parse(parsed.giftPlanner))
   if (parsed.setting) stores.setting.$patch(JSON.parse(parsed.setting))
 }
