@@ -207,12 +207,11 @@
   }
 
   .empty-text {
-    font-family: 'NEXON Football Gothic';
-    font-weight: bold;
+    font-family: var(--font-family-nexon-bold), sans-serif;
     font-style: italic;
     font-size: 1.75rem;
     margin-right: 8px;
-    margin-top: -8px;
+    margin-top: -2px;
     color: #a0a0a0;
   }
 

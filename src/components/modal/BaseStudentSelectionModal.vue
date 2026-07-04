@@ -766,10 +766,10 @@
   }
 
   .nexon-font {
-    font-family: 'NEXON Football Gothic', sans-serif;
+    font-family: var(--font-family-nexon-light), sans-serif;
     font-style: italic;
-    font-weight: 300;
-    margin-right: 4px;
+    font-weight: 700;
+    margin: 2.55px 2px 2.15px 0;
   }
 
   .type-striker {
@@ -970,13 +970,6 @@
   .student-card:active {
     transform: scale(0.95) skew(-8deg);
     transition-duration: 0.1s;
-  }
-
-  .nexon-font {
-    font-family: 'NEXON Football Gothic', sans-serif;
-    font-style: italic;
-    font-weight: 700;
-    margin-right: 4px;
   }
 
   .modal-fade-enter-active,
