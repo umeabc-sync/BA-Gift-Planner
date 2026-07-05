@@ -1,7 +1,6 @@
-import router from '@/router'
 import { useSettingStore } from '@store/setting'
 
-export function initLocale() {
+export function initLocale(router) {
   const settingStore = useSettingStore()
 
   // Check URL query parameter (for SEO and sharing links)
@@ -16,19 +15,21 @@ export function initLocale() {
         settingStore.locale = targetLocale
       }
 
-      // Use Vue Router to safely remove the lang query parameter once router is ready
-      router.isReady().then(() => {
-        const query = { ...router.currentRoute.value.query }
-        delete query.lang
-        router
-          .replace({
-            query,
-            hash: router.currentRoute.value.hash,
-          })
-          .catch((err) => {
-            console.error('Failed to clean up lang parameter via router:', err)
-          })
-      })
+      // Use the passed Vue Router instance to safely remove the lang query parameter once ready
+      if (router) {
+        router.isReady().then(() => {
+          const query = { ...router.currentRoute.value.query }
+          delete query.lang
+          router
+            .replace({
+              query,
+              hash: router.currentRoute.value.hash,
+            })
+            .catch((err) => {
+              console.error('Failed to clean up lang parameter via router:', err)
+            })
+        })
+      }
 
       return
     }

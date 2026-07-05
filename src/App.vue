@@ -37,6 +37,7 @@
 
 <script setup>
   import { watch, onMounted } from 'vue'
+  import { useRouter } from 'vue-router'
   import { useOverlayScrollbars } from 'overlayscrollbars-vue'
   import { initLocale } from '@utils/localeDetector'
   import { useSettingStore } from '@store/setting'
@@ -84,6 +85,8 @@
   const screenshotStore = useScreenshotStore()
   const { screenshotRenderStyle, screenshotLayout, screenshotRenderSize, onDownload } = storeToRefs(screenshotStore)
 
+  const router = useRouter()
+
   const [initBodyOverlayScrollbars, getBodyOverlayScrollbarsInstance] = useOverlayScrollbars({
     defer: true,
     options: {
@@ -101,8 +104,8 @@
   }
 
   onMounted(async () => {
-    // Initialize locale based on browser settings
-    initLocale()
+    // Initialize locale based on browser settings and router context
+    initLocale(router)
     settingStore.initThemeListener()
     initBodyOverlayScrollbars({ target: document.body })
     await initSync()
