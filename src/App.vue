@@ -15,7 +15,6 @@
       :selected-students="selectedStudents"
       @close-modal="closeStudentSelectionModal"
       @toggle-student="toggleStudent"
-      @reset-selection="resetSelection"
     />
     <SettingsModal :is-visible="isSettingsModalOpen" @close="closeSettingsModal" />
     <ShareModal
@@ -80,7 +79,7 @@
 
   const studentStore = useStudentStore()
   const { studentsData, selectedStudents } = storeToRefs(studentStore)
-  const { toggleStudent, resetSelection } = studentStore
+  const { toggleStudent } = studentStore
 
   const screenshotStore = useScreenshotStore()
   const { screenshotRenderStyle, screenshotLayout, screenshotRenderSize, onDownload } = storeToRefs(screenshotStore)

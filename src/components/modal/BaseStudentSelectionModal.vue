@@ -240,7 +240,7 @@
     hideResetSelection: { type: Boolean, default: false },
   })
 
-  const emit = defineEmits(['closeModal', 'toggleStudent', 'selectStudent', 'resetSelection'])
+  const emit = defineEmits(['closeModal', 'toggleStudent', 'selectStudent'])
 
   const availableFilters = computed(() => {
     return filterOptions.filters.filter((f) => !props.excludeFilters.includes(f.id))

@@ -5,7 +5,6 @@
     :selected-students="selectedStudents"
     @close-modal="$emit('closeModal')"
     @toggle-student="$emit('toggleStudent', $event)"
-    @reset-selection="$emit('resetSelection')"
   />
 </template>
 
@@ -18,5 +17,5 @@
     selectedStudents: Array,
   })
 
-  defineEmits(['closeModal', 'toggleStudent', 'resetSelection'])
+  defineEmits(['closeModal', 'toggleStudent'])
 </script>
