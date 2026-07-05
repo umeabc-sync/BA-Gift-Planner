@@ -1,6 +1,10 @@
 name = "ba-gift-planner"
 main = "src/worker.js" 
 compatibility_date = "2026-07-01"
+workers_dev = false
+routes = [
+  { pattern = "gift-planner.ba-tools.cc", custom_domain = true }
+]
 
 [assets]
 directory = "dist"
