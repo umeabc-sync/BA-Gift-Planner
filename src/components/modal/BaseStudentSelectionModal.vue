@@ -1088,6 +1088,22 @@
     stroke: #fff;
   }
 
+  .btn-responsive {
+    padding: 0 20px;
+    font-size: 0.9rem;
+    white-space: nowrap;
+  }
+
+  .btn-responsive-icon {
+    display: none;
+    width: 20px;
+    height: 20px;
+  }
+
+  .btn-responsive-text {
+    display: inline-block;
+  }
+
   /* 響應式設計 */
   @media (max-width: 768px) {
     .student-grid {
@@ -1108,6 +1124,22 @@
 
     .student-name {
       font-size: 0.75rem;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .btn-responsive {
+      width: 42px;
+      padding: 0;
+      flex-shrink: 0;
+    }
+
+    .btn-responsive-icon {
+      display: inline-block;
+    }
+
+    .btn-responsive-text {
+      display: none;
     }
   }
 
