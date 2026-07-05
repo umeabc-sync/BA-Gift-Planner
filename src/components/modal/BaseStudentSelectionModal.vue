@@ -30,7 +30,6 @@
                     class="btn-skew btn-responsive btn-blue"
                     :disabled="isNoStudentSelected"
                     @click="resetSelection"
-                    v-tooltip:fav-gift-tooltip="t('characterSelector.resetSelection')"
                   >
                     <TrashIcon class="btn-responsive-icon" />
                     <span class="btn-responsive-text">{{ t('characterSelector.resetSelection') }}</span>
@@ -48,7 +47,6 @@
                     class="btn-skew btn-responsive btn-yellow"
                     :disabled="isNoFilterSelected"
                     @click="resetFilters"
-                    v-tooltip:fav-gift-tooltip="t('characterSelector.resetFilters')"
                   >
                     <ResetIcon class="btn-responsive-icon" />
                     <span class="btn-responsive-text">{{ t('characterSelector.resetFilters') }}</span>
