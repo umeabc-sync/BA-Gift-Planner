@@ -58,7 +58,7 @@ export function useShareableSelection(selectedStudentIds, studentsData) {
     const bitfield = new Uint8Array(decompressed.buffer, 3)
 
     const idsFromBitfield = []
-    for (let i = 0; i <= maxIdInUrl; i++) {
+    for (let i = 1; i <= maxIdInUrl; i++) {
       const byteIndex = Math.floor(i / 8)
       const bitIndex = i % 8
       if ((bitfield[byteIndex] >> bitIndex) & 1) {
@@ -69,7 +69,7 @@ export function useShareableSelection(selectedStudentIds, studentsData) {
     if (flag === 1) {
       return idsFromBitfield
     } else if (flag === 2) {
-      const allIdsInUrl = Array.from({ length: maxIdInUrl + 1 }, (_, i) => i)
+      const allIdsInUrl = Array.from({ length: maxIdInUrl }, (_, i) => i + 1)
       return allIdsInUrl.filter((id) => !idsFromBitfield.includes(id))
     }
     return []
