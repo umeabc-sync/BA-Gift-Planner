@@ -19,6 +19,7 @@
               :max="maxLevel"
               :show-min-max="true"
               :small-display="true"
+              :use-continuous="true"
               @set-min="targetLevel = minLevel"
               @set-max="targetLevel = maxLevel"
               @increment="incrementLevel"
