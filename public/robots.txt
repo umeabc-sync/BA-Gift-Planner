@@ -1,2 +1,4 @@
 User-agent: *
 Allow: /
+
+Sitemap: https://gift-planner.ba-tools.cc/sitemap.xml

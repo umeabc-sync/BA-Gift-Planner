@@ -1,3 +1,4 @@
+/* global HTMLRewriter */
 import { Hono } from 'hono'
 import { setCookie, getCookie } from 'hono/cookie'
 import { sign, verify } from 'hono/jwt'
@@ -254,6 +255,136 @@ app.post('/api/sync/upload', async (c) => {
 app.post('/api/auth/logout', (c) => {
   setCookie(c, 'session', '', { path: '/', maxAge: 0 })
   return c.json({ success: true })
+})
+
+// === Multilingual SEO Meta Injection ===
+
+const SEO_CONFIG = {
+  en: {
+    title: 'Blue Archive Gift Planner | BA Gift Planner',
+    description:
+      'Calculate the most cost-effective gifts in Blue Archive. Features a bond calculator and inventory manager to find the optimal gift distribution and maximize bond levels.',
+    lang: 'en',
+  },
+  'zh-tw': {
+    title: '蔚藍檔案禮物規劃器 | BA Gift Planner',
+    description:
+      '快速規劃蔚藍檔案（Blue Archive）中最劃算的送禮方案。同時支援羈絆目標測算與禮物合成管理，精確分配資源，輕鬆提升學生好感度！',
+    lang: 'zh-Hant',
+  },
+  'zh-cn': {
+    title: '蔚蓝档案礼物规划器 | BA Gift Planner',
+    description:
+      '快速规划蔚蓝档案（Blue Archive）中性价比最高的送礼方案。同时支持羁绊目标测算与礼物合成管理，精确分配资源，轻松提升学生好感度！',
+    lang: 'zh-Hans',
+  },
+  ja: {
+    title: 'ブルーアーカイブ ギフトプランナー | BA Gift Planner',
+    description:
+      'ブルーアーカイブ（ブルアカ）で最も効率の良い贈り物の組み合わせを計算。絆ランク目標のシミュレートや贈り物在庫の合成管理機能も搭載！',
+    lang: 'ja',
+  },
+  ko: {
+    title: '블루 아카이브 선물 플래너 | BA Gift Planner',
+    description:
+      '블루 아카이브에서 가장 가성비 좋은 선물 계획을 계산하고 제안합니다. 인연 목표 계산기 및 선물 제작(합성) 관리 기능으로 더욱 효율적으로 인연 랭크를 올려보세요.',
+    lang: 'ko',
+  },
+}
+
+app.all('*', async (c) => {
+  const url = new URL(c.req.url)
+
+  // If it is an API request but was not matched by previous routes, return 404
+  if (url.pathname.startsWith('/api/')) {
+    return c.json({ error: 'Not Found' }, 404)
+  }
+
+  // Serve index.html with dynamically rewritten SEO tags
+  try {
+    const htmlResponse = await c.env.ASSETS.fetch(new Request(url.origin))
+
+    // Determine language (priority: ?lang= query param > Accept-Language header > default to 'en')
+    let lang = url.searchParams.get('lang')?.toLowerCase() || ''
+    const validLocales = ['en', 'ja', 'ko', 'zh-cn', 'zh-tw']
+
+    if (!validLocales.includes(lang)) {
+      const acceptLang = c.req.header('accept-language') || ''
+      if (acceptLang.includes('zh-TW') || acceptLang.includes('zh-HK')) lang = 'zh-tw'
+      else if (acceptLang.includes('zh')) lang = 'zh-cn'
+      else if (acceptLang.includes('ja')) lang = 'ja'
+      else if (acceptLang.includes('ko')) lang = 'ko'
+      else lang = 'en'
+    }
+
+    const seo = SEO_CONFIG[lang] || SEO_CONFIG['en']
+
+    // SEO Optimization: Since '/' redirects to '/gift-recommendation' in SPA,
+    // we rewrite the canonical path for '/' to prevent search engines from indexing duplicate content.
+    const normalizedPath = url.pathname === '/' ? '/gift-recommendation' : url.pathname
+    const canonicalUrl = `${url.origin}${normalizedPath}?lang=${lang}`
+
+    return new HTMLRewriter()
+      .on('html', {
+        element(el) {
+          el.setAttribute('lang', seo.lang)
+        },
+      })
+      .on('title', {
+        element(el) {
+          el.replace(`<title>${seo.title}</title>`, { html: true })
+        },
+      })
+      .on('meta[name="description"]', {
+        element(el) {
+          el.setAttribute('content', seo.description)
+        },
+      })
+      .on('meta[property="og:title"]', {
+        element(el) {
+          el.setAttribute('content', seo.title)
+        },
+      })
+      .on('meta[property="og:description"]', {
+        element(el) {
+          el.setAttribute('content', seo.description)
+        },
+      })
+      .on('meta[property="og:url"]', {
+        element(el) {
+          el.setAttribute('content', canonicalUrl)
+        },
+      })
+      .on('meta[name="twitter:title"]', {
+        element(el) {
+          el.setAttribute('content', seo.title)
+        },
+      })
+      .on('meta[name="twitter:description"]', {
+        element(el) {
+          el.setAttribute('content', seo.description)
+        },
+      })
+      .on('head', {
+        element(el) {
+          // Canonical URL
+          el.append(`<link rel="canonical" href="${canonicalUrl}" />`, { html: true })
+
+          // Multi-language alternates (hreflang)
+          for (const [key, config] of Object.entries(SEO_CONFIG)) {
+            const alternateUrl = `${url.origin}${normalizedPath}?lang=${key}`
+            el.append(`<link rel="alternate" hreflang="${config.lang}" href="${alternateUrl}" />`, { html: true })
+          }
+          // Default fallback
+          el.append(`<link rel="alternate" hreflang="x-default" href="${url.origin}${normalizedPath}?lang=en" />`, {
+            html: true,
+          })
+        },
+      })
+      .transform(htmlResponse)
+  } catch (err) {
+    return c.text(`Internal Server Error: ${err.message}\n${err.stack}`, 500)
+  }
 })
 
 export default app

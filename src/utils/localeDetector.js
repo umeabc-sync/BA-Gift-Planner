@@ -3,6 +3,21 @@ import { useSettingStore } from '@store/setting'
 export function initLocale() {
   const settingStore = useSettingStore()
 
+  // Check URL query parameter (for SEO and sharing links)
+  if (typeof window !== 'undefined') {
+    const urlParams = new URLSearchParams(window.location.search)
+    const queryLang = urlParams.get('lang')
+    const validLocales = ['en', 'ja', 'ko', 'zh-cn', 'zh-tw']
+    if (queryLang && validLocales.includes(queryLang.toLowerCase())) {
+      const targetLocale = queryLang.toLowerCase()
+      if (settingStore.locale !== targetLocale) {
+        console.log('setting locale from URL parameter:', targetLocale)
+        settingStore.locale = targetLocale
+      }
+      return
+    }
+  }
+
   // If locale is already set (e.g. from user settings / local storage), do not overwrite it
   if (settingStore.locale !== null) {
     console.log('skipping browser locale detection, locale is already set:', settingStore.locale)
