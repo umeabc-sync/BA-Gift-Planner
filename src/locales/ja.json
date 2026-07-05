@@ -65,6 +65,8 @@
     "searchPlaceholder": "生徒名を検索...",
     "resetFilters": "フィルターをリセット",
     "resetSelection": "選択をリセット",
+    "selectActions": "その他",
+    "selectAllFiltered": "すべて選択",
     "collectionLabel": "コレクション",
     "roleLabel": "クラス",
     "rarityLabel": "レアリティ",

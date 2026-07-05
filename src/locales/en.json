@@ -65,6 +65,8 @@
     "searchPlaceholder": "Search student name...",
     "resetFilters": "Reset Filters",
     "resetSelection": "Reset Selection",
+    "selectActions": "More",
+    "selectAllFiltered": "Select All",
     "collectionLabel": "Collection",
     "roleLabel": "Role",
     "rarityLabel": "Rarity",

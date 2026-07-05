@@ -63,6 +63,14 @@ export const useStudentStore = defineStore(
       selectedStudentIds.value = []
     }
 
+    function selectStudents(students) {
+      const currentIds = new Set(selectedStudentIds.value)
+      students.forEach((student) => {
+        currentIds.add(student.id)
+      })
+      selectedStudentIds.value = Array.from(currentIds).sort((a, b) => a - b)
+    }
+
     const savedCombinations = ref([])
 
     function saveCombination(name, studentIds) {
@@ -94,6 +102,7 @@ export const useStudentStore = defineStore(
       studentBondData,
       studentFormOverrides,
       toggleStudent,
+      selectStudents,
       getStudentBondData,
       updateStudentBond,
       getStudentForm,

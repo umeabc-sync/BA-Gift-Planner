@@ -65,6 +65,8 @@
     "searchPlaceholder": "搜尋學生名稱...",
     "resetFilters": "重設篩選",
     "resetSelection": "清空選擇",
+    "selectActions": "更多",
+    "selectAllFiltered": "全部選取",
     "collectionLabel": "集合",
     "roleLabel": "戰術類別",
     "rarityLabel": "稀有度",
