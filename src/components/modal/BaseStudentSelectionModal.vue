@@ -27,11 +27,13 @@
                 <div class="action-buttons">
                   <button
                     v-if="!isFilterPanelOpen && !hideResetSelection"
-                    class="btn-skew btn-text btn-blue"
+                    class="btn-skew btn-responsive btn-blue"
                     :disabled="isNoStudentSelected"
                     @click="resetSelection"
+                    v-tooltip:fav-gift-tooltip="t('characterSelector.resetSelection')"
                   >
-                    <span>{{ t('characterSelector.resetSelection') }}</span>
+                    <TrashIcon class="btn-responsive-icon" />
+                    <span class="btn-responsive-text">{{ t('characterSelector.resetSelection') }}</span>
                   </button>
                   <button
                     v-if="selectionMode === 'multi' && !isFilterPanelOpen"
@@ -43,11 +45,13 @@
                   </button>
                   <button
                     v-if="isFilterPanelOpen || alwaysShowResetFilters"
-                    class="btn-skew btn-text btn-yellow"
+                    class="btn-skew btn-responsive btn-yellow"
                     :disabled="isNoFilterSelected"
                     @click="resetFilters"
+                    v-tooltip:fav-gift-tooltip="t('characterSelector.resetFilters')"
                   >
-                    <span>{{ t('characterSelector.resetFilters') }}</span>
+                    <ResetIcon class="btn-responsive-icon" />
+                    <span class="btn-responsive-text">{{ t('characterSelector.resetFilters') }}</span>
                   </button>
                   <button class="btn-skew btn-icon btn-blue" @click="toggleFilterPanel">
                     <component
@@ -204,6 +208,8 @@
   import StarIcon from '@assets/icon/star.svg'
   import FormSwitchIcon from '@assets/icon/form_switch.svg'
   import BookmarkIcon from '@assets/icon/bookmark.svg'
+  import TrashIcon from '@assets/icon/trash.svg'
+  import ResetIcon from '@assets/icon/reset.svg'
   import { useStudentStore } from '@store/student'
   import { useModalStore } from '@store/modal'
   import { DUAL_FORM_STUDENT_IDS } from '@store/student'
