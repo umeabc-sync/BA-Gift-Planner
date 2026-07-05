@@ -269,7 +269,7 @@ const SEO_CONFIG = {
   'zh-tw': {
     title: '蔚藍檔案禮物規劃器 | BA Gift Planner',
     description:
-      '快速規劃蔚藍檔案（Blue Archive）中最劃算的送禮方案。同時支援羈絆目標測算與禮物合成管理，精確分配資源，輕鬆提升學生好感度！',
+      '快速規劃蔚藍檔案（Blue Archive）中最划算的送禮方案。同時支援羈絆目標測算與禮物合成管理，精確分配資源，輕鬆提升學生好感度！',
     lang: 'zh-Hant',
   },
   'zh-cn': {
