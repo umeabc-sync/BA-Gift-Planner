@@ -1,6 +1,58 @@
 import pako from 'pako'
 import { getSyncStores } from '@/config/syncStores'
 
+// Lightweight deep comparison helper for standard JSON-serializable structures
+function deepEqual(a, b) {
+  if (a === b) return true
+  if (a && b && typeof a === 'object' && typeof b === 'object') {
+    if (Array.isArray(a)) {
+      if (a.length !== b.length) return false
+      for (let i = 0; i < a.length; i++) {
+        if (!deepEqual(a[i], b[i])) return false
+      }
+      return true
+    }
+    const keys = Object.keys(a)
+    if (keys.length !== Object.keys(b).length) return false
+    for (const key of keys) {
+      if (!Object.prototype.hasOwnProperty.call(b, key)) return false
+      if (!deepEqual(a[key], b[key])) return false
+    }
+    return true
+  }
+  return false
+}
+
+/**
+ * Compares two sync payloads for semantic equality.
+ * Uses a fast path (string comparison) first, then falls back to deep comparison.
+ * @param {Object} payloadA
+ * @param {Object} payloadB
+ * @returns {boolean}
+ */
+export function isSyncPayloadEqual(payloadA, payloadB) {
+  if (!payloadA || !payloadB) return false
+
+  // Fast path: string comparison (exact same serialization and key order)
+  if (JSON.stringify(payloadA) === JSON.stringify(payloadB)) {
+    return true
+  }
+
+  // Slow path: parse sub-store JSON strings and compare deeply
+  try {
+    const parse = (p) => ({
+      student: JSON.parse(p.student || '{}'),
+      gift: JSON.parse(p.gift || '{}'),
+      giftPlanner: JSON.parse(p.giftPlanner || '{}'),
+      setting: JSON.parse(p.setting || '{}'),
+    })
+    return deepEqual(parse(payloadA), parse(payloadB))
+  } catch (e) {
+    console.error('Failed to parse payloads for deep comparison:', e)
+    return false
+  }
+}
+
 export function getLocalStatePayload() {
   return {
     student: localStorage.getItem('student') || '{}',

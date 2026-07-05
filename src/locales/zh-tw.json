@@ -51,6 +51,7 @@
     "settings": "設定",
     "enabled": "啟用",
     "disabled": "禁用",
+    "notEnabled": "未啟用",
     "title": "Sensei 海王工具",
     "edit": "編輯",
     "cancel": "取消",
@@ -93,6 +94,7 @@
     "loginWithGoogle": "使用 Google 登入",
     "loggedInAs": "已登入為: {name}",
     "logout": "登出",
+    "pleaseLogin": "請先登入",
     "cloudSaveSync": "雲端存檔同步",
     "lastSyncTime": "上次同步: ",
     "dataManagement": "資料管理",
@@ -492,7 +494,8 @@
     "uploadSessionExpired": "登入狀態已過期，資料無法存上雲端！請重新登入。",
     "uploadFailed": "雲端存檔上傳失敗！",
     "networkError": "網路錯誤或伺服器無回應，存檔上傳失敗！",
-    "autoSynced": "已同步來自雲端的最新進度！"
+    "autoSynced": "已同步來自雲端的最新進度！",
+    "conflictDetected": "偵測到多端編輯衝突，已為您自動載入最新雲端存檔！"
   },
   "combinationManager": {
     "title": "預設組合",

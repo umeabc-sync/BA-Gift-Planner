@@ -51,6 +51,7 @@
     "settings": "設定",
     "enabled": "有効",
     "disabled": "無効",
+    "notEnabled": "未有効",
     "title": "Sensei ハーレムツール",
     "edit": "編集",
     "cancel": "キャンセル",
@@ -93,6 +94,7 @@
     "loginWithGoogle": "Googleでログイン",
     "loggedInAs": "ログイン中: {name}",
     "logout": "ログアウト",
+    "pleaseLogin": "先にログインしてください",
     "cloudSaveSync": "クラウド保存の同期",
     "lastSyncTime": "最終同期: ",
     "dataManagement": "データ管理",
@@ -492,7 +494,8 @@
     "uploadSessionExpired": "セッションの有効期限が切れました、クラウドに保存できません！ 再度ログインしてください。",
     "uploadFailed": "クラウド保存のアップロードに失敗しました！",
     "networkError": "ネットワークエラーまたはサーバーの応答がありません。保存のアップロードに失敗しました！",
-    "autoSynced": "クラウドから最新の進行状況を同期しました！"
+    "autoSynced": "クラウドから最新の進行状況を同期しました！",
+    "conflictDetected": "同期競合が検出されました！最新のクラウドセーブが自動的にロードされました。"
   },
   "combinationManager": {
     "title": "プリセット",

@@ -51,6 +51,7 @@
     "settings": "Settings",
     "enabled": "Enabled",
     "disabled": "Disabled",
+    "notEnabled": "Not Enabled",
     "title": "Sensei Harem Tool",
     "edit": "Edit",
     "cancel": "Cancel",
@@ -93,6 +94,7 @@
     "loginWithGoogle": "Login with Google",
     "loggedInAs": "Logged in as: {name}",
     "logout": "Logout",
+    "pleaseLogin": "Please login first",
     "cloudSaveSync": "Cloud Save Sync",
     "lastSyncTime": "Last synced: ",
     "dataManagement": "Data Management",
@@ -492,7 +494,8 @@
     "uploadSessionExpired": "Session expired, failed to upload save to cloud! Please log in again.",
     "uploadFailed": "Failed to upload cloud save!",
     "networkError": "Network error or server non-responsive, failed to upload save!",
-    "autoSynced": "Latest progress synchronized from cloud!"
+    "autoSynced": "Latest progress synchronized from cloud!",
+    "conflictDetected": "Sync conflict detected! The latest cloud save has been automatically loaded."
   },
   "combinationManager": {
     "title": "Presets",

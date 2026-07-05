@@ -6,7 +6,7 @@ import vueParser from 'vue-eslint-parser';
 
 export default [
   {
-    ignores: ["dist/*", "node_modules/*", "minify-json.js", ".git/*", ".vscode/*"],
+    ignores: ["dist/*", "node_modules/*", "minify-json.js", ".git/*", ".vscode/*", ".wrangler/*"],
   },
   {
     files: ['**/*.vue'],

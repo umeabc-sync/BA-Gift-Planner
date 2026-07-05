@@ -51,6 +51,7 @@
     "settings": "设置",
     "enabled": "启用",
     "disabled": "禁用",
+    "notEnabled": "未启用",
     "title": "Sensei 海王工具",
     "edit": "编辑",
     "cancel": "取消",
@@ -93,6 +94,7 @@
     "loginWithGoogle": "使用 Google 登录",
     "loggedInAs": "已登录为: {name}",
     "logout": "登出",
+    "pleaseLogin": "请先登录",
     "cloudSaveSync": "云端存档同步",
     "lastSyncTime": "上次同步: ",
     "dataManagement": "数据管理",
@@ -492,7 +494,8 @@
     "uploadSessionExpired": "登录状态已过期，资料无法存上云端！请重新登录。",
     "uploadFailed": "云端存档上传失败！",
     "networkError": "网络错误或服务器无回应，存档上传失败！",
-    "autoSynced": "已同步来自云端的最新进度！"
+    "autoSynced": "已同步来自云端的最新进度！",
+    "conflictDetected": "检测到多端编辑冲突，已为您自动加载最新云端存档！"
   },
   "combinationManager": {
     "title": "预设组合",

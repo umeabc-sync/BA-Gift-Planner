@@ -209,24 +209,32 @@
     }
   }
 
-  onMounted(async () => {
-    try {
-      isLoading.value = true
-      ort.env.wasm.wasmPaths = 'https://cdn.jsdelivr.net/npm/onnxruntime-web/dist/'
-      onnxSession.value = await ort.InferenceSession.create('./best.onnx', {
-        executionProviders: ['wasm'],
-      })
-      console.log('ONNX model loaded successfully.')
+  onMounted(() => {
+    isLoading.value = true
+    // Delay initialization until the modal entry transition finishes (300ms) to keep animations smooth
+    setTimeout(async () => {
+      try {
+        ort.env.wasm.wasmPaths = 'https://cdn.jsdelivr.net/npm/onnxruntime-web/dist/'
+        onnxSession.value = await ort.InferenceSession.create('./best.onnx', {
+          executionProviders: ['wasm'],
+        })
+        console.log('ONNX model loaded successfully.')
 
-      tesseractWorker.value = await createWorker('eng', 1, {
-        logger: (m) => console.log(m.status),
-      })
-      console.log('Tesseract worker loaded successfully.')
-    } catch (e) {
-      console.error('Failed to load models:', e)
-    } finally {
-      isLoading.value = false
-    }
+        tesseractWorker.value = await createWorker('eng', 1, {
+          logger: (m) => console.log(m.status),
+        })
+        await tesseractWorker.value.setParameters({
+          tessedit_char_whitelist: 'xX0123456789lIidZzOB|',
+          tessedit_pageseg_mode: '7', // Treat the image as a single text line
+          tessedit_ocr_engine_mode: '1', // LSTM engine
+        })
+        console.log('Tesseract worker loaded successfully. Parameters initialized.')
+      } catch (e) {
+        console.error('Failed to load models:', e)
+      } finally {
+        isLoading.value = false
+      }
+    }, 400)
   })
 
   onUnmounted(() => {
@@ -234,6 +242,11 @@
       tesseractWorker.value.terminate()
       tesseractWorker.value = null
     }
+    if (imageUrl.value) {
+      URL.revokeObjectURL(imageUrl.value)
+      imageUrl.value = null
+    }
+    cleanupImages()
   })
 
   const recognizeQuantity = async (imageBitmap) => {
@@ -254,18 +267,42 @@
 
       const quantityBitmap = await createImageBitmap(imageBitmap, w / 3, h * yOffset, (w * 1.85) / 3, h * cropHeight)
 
-      const canvas = new OffscreenCanvas(quantityBitmap.width, quantityBitmap.height)
+      const scaleFactor = 4
+      const padding = 15 // Increased to 15 to accommodate shear transform shifts safely
+      const sw = quantityBitmap.width * scaleFactor
+      const sh = quantityBitmap.height * scaleFactor
+
+      const canvas = new OffscreenCanvas(sw + padding * 2, sh + padding * 2)
       const ctx = canvas.getContext('2d')
 
-      ctx.filter = 'grayscale(1) contrast(1.5)'
-      ctx.drawImage(quantityBitmap, 0, 0)
+      // White background padding
+      ctx.fillStyle = '#FFFFFF'
+      ctx.fillRect(0, 0, canvas.width, canvas.height)
 
+      // Enable bilinear smoothing
+      ctx.imageSmoothingEnabled = true
+      ctx.imageSmoothingQuality = 'high'
+
+      // Apply center-based horizontal shear to deskew italic text
+      ctx.translate(canvas.width / 2, canvas.height / 2)
+      ctx.transform(1, 0, 0.25, 1, 0, 0) // shear factor of 0.25 de-slants BA italic font
+      ctx.translate(-canvas.width / 2, -canvas.height / 2)
+
+      // Draw upscaled image in the transformed space
+      ctx.drawImage(quantityBitmap, padding, padding, sw, sh)
+
+      // Get image data and apply grayscale thresholding
       const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height)
       const data = imageData.data
       for (let i = 0; i < data.length; i += 4) {
-        const brightness = data[i]
-        const threshold = 128
-        const value = brightness < threshold ? 0 : 255
+        const r = data[i]
+        const g = data[i + 1]
+        const b = data[i + 2]
+
+        // Calculate brightness
+        const brightness = 0.299 * r + 0.587 * g + 0.114 * b
+        const value = brightness < 120 ? 0 : 255 // Dark blue-gray text becomes black; background and white outline become white
+
         data[i] = value
         data[i + 1] = value
         data[i + 2] = value
@@ -275,9 +312,7 @@
       const processedImage = await canvas.convertToBlob().then((blob) => URL.createObjectURL(blob))
       const {
         data: { text },
-      } = await tesseractWorker.value.recognize(canvas, {
-        tessedit_char_whitelist: 'xX0123456789lIidZzOB|',
-      })
+      } = await tesseractWorker.value.recognize(canvas)
 
       let fixedText = text
         .replace(/[lI|d]/g, '1') // l, I, |, d -> 1
@@ -423,7 +458,7 @@
   }
 
   const cleanupImages = () => {
-    displayedRecognizedGifts.value.forEach((gift) => {
+    recognizedGifts.value.forEach((gift) => {
       if (gift.croppedImage) URL.revokeObjectURL(gift.croppedImage)
       if (gift.processedImage) URL.revokeObjectURL(gift.processedImage)
     })

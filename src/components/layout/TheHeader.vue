@@ -1,7 +1,7 @@
 <template>
   <header class="header">
     <div class="header-title">
-      <img :src="logoUrl" :alt="t('header.title')" />
+      <img :src="logoUrl" :alt="t('header.title')" :width="logoWidth" height="179" />
     </div>
     <div class="controls">
       <router-link
@@ -24,13 +24,25 @@
         <div v-if="showShareDropdown" class="share-dropdown-menu">
           <button @click="handleCopyLink" class="dropdown-item">
             <span class="dropdown-icon">
-              <img :src="getAssetsFile('icon/link.svg')" :alt="t('header.copyLink')" draggable="false" />
+              <img
+                :src="getAssetsFile('icon/link.svg')"
+                :alt="t('header.copyLink')"
+                width="24"
+                height="24"
+                draggable="false"
+              />
             </span>
             <span>{{ t('header.copyLink') }}</span>
           </button>
           <button @click="handleDownloadScreenshot" class="dropdown-item">
             <span class="dropdown-icon">
-              <img :src="getAssetsFile('icon/download.svg')" :alt="t('header.downloadScreenshot')" draggable="false" />
+              <img
+                :src="getAssetsFile('icon/download.svg')"
+                :alt="t('header.downloadScreenshot')"
+                width="24"
+                height="24"
+                draggable="false"
+              />
             </span>
             <span>{{ t('header.downloadScreenshot') }}</span>
           </button>
@@ -113,6 +125,22 @@
   const isMobile = computed(() => width.value <= 768)
 
   const logoUrl = computed(() => getTitleUrl(locale.value, theme.value, isMobile.value))
+
+  const logoWidth = computed(() => {
+    if (isMobile.value) return 309
+    switch (locale.value) {
+      case 'ko':
+        return 641
+      case 'zh-cn':
+      case 'zh-tw':
+        return 693
+      case 'ja':
+        return 944
+      case 'en':
+      default:
+        return 902
+    }
+  })
 
   const isSettingsIconRotating = ref(false)
 
@@ -214,6 +242,7 @@
     display: flex;
     align-items: center;
     gap: 8px;
+    font-family: inherit;
     padding: 10px 15px;
     text-align: left;
     background: none;

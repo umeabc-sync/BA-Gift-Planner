@@ -2,9 +2,14 @@
   <div class="bond-calculator-view">
     <GiftPlannerActions />
     <StudentBondSection @open-modal="openBondModal" />
-    <GiftInventoryGrid :synthesis-gifts="synthesisGifts" @open-modal="isInventoryModalVisible = true" />
-    <GiftInventoryModal :show="isInventoryModalVisible" @close="isInventoryModalVisible = false" />
+    <GiftInventoryGrid :synthesis-gifts="synthesisGifts" @open-modal="openInventoryModal" />
+    <GiftInventoryModal
+      v-if="hasOpenedInventory"
+      :show="isInventoryModalVisible"
+      @close="isInventoryModalVisible = false"
+    />
     <StudentBondModal
+      v-if="hasOpenedBondEdit"
       :is-visible="isBondModalVisible"
       :student="selectedStudentForBondEdit"
       @close="isBondModalVisible = false"
@@ -26,11 +31,20 @@
   const isBondModalVisible = ref(false)
   const selectedStudentForBondEdit = ref(null)
 
+  const hasOpenedInventory = ref(false)
+  const hasOpenedBondEdit = ref(false)
+
   const giftStore = useGiftStore()
   const { synthesisGifts } = storeToRefs(giftStore)
 
+  const openInventoryModal = () => {
+    hasOpenedInventory.value = true
+    isInventoryModalVisible.value = true
+  }
+
   const openBondModal = (student) => {
     selectedStudentForBondEdit.value = student
+    hasOpenedBondEdit.value = true
     isBondModalVisible.value = true
   }
 </script>

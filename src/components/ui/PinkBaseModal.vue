@@ -1,6 +1,6 @@
 <template>
   <teleport to="body">
-    <transition name="modal-fade">
+    <transition name="modal-fade" appear>
       <div
         v-if="isVisible"
         class="modal-overlay"

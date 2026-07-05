@@ -57,13 +57,13 @@
                     <span>{{ t('combinationManager.load') }}</span>
                   </button>
                   <button
-                    class="btn-skew btn-text btn-yellow"
+                    class="btn-skew btn-text btn-blue"
                     :disabled="selectedStudentIds.length === 0"
                     @click="handleOverwrite(combo)"
                   >
                     <span>{{ t('combinationManager.overwrite') }}</span>
                   </button>
-                  <button class="btn-skew btn-text btn-gray" @click="handleDelete(combo)">
+                  <button class="btn-skew btn-text btn-yellow" @click="handleDelete(combo)">
                     <span>{{ t('combinationManager.delete') }}</span>
                   </button>
                 </div>

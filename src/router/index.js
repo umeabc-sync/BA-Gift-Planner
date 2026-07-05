@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import GiftRecommendationView from '../views/GiftRecommendationView.vue'
-import BondCalculatorView from '../views/BondCalculatorView.vue'
+const GiftRecommendationView = () => import('../views/GiftRecommendationView.vue')
+const BondCalculatorView = () => import('../views/BondCalculatorView.vue')
 
 const routes = [
   {
