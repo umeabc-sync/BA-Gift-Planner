@@ -32,3 +32,6 @@ GEMINI.md
 
 # Backend
 .wrangler/
+
+# Vite cache
+.vite/
