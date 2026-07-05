@@ -71,6 +71,14 @@ export const useStudentStore = defineStore(
       selectedStudentIds.value = Array.from(currentIds).sort((a, b) => a - b)
     }
 
+    function deselectStudents(students) {
+      const idsToRemove = new Set(students.map((student) => student.id))
+      selectedStudentIds.value = selectedStudentIds.value.filter((id) => !idsToRemove.has(id))
+      students.forEach((student) => {
+        giftPlannerStore.clearStudentAssignments(student.id)
+      })
+    }
+
     const savedCombinations = ref([])
 
     function saveCombination(name, studentIds) {
@@ -103,6 +111,7 @@ export const useStudentStore = defineStore(
       studentFormOverrides,
       toggleStudent,
       selectStudents,
+      deselectStudents,
       getStudentBondData,
       updateStudentBond,
       getStudentForm,

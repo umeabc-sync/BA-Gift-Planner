@@ -260,7 +260,6 @@
     }, {})
   )
 
-  const isNoStudentSelected = computed(() => props.selectedStudents.length === 0)
   const isNoFilterSelected = computed(() => {
     return Object.values(selectedFilters).every((arr) => arr.length === 0)
   })
@@ -347,8 +346,12 @@
   }
 
   const resetSelection = () => {
-    emit('resetSelection')
+    studentStore.deselectStudents(filteredStudents.value)
   }
+
+  const isNoStudentSelected = computed(() => {
+    return !filteredStudents.value.some((student) => props.selectedStudents.some((s) => s.id === student.id))
+  })
 
   const isAllFilteredSelected = computed(() => {
     if (filteredStudents.value.length === 0) return true
