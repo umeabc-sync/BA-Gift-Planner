@@ -2,7 +2,11 @@
   <div class="dropdown-container" :class="{ 'z-active': isMenuOpen, 'auto-width': autoWidth }">
     <button ref="toggleRef" :class="['btn-skew', buttonClass]" :disabled="disabled" @click.stop="toggleMenu">
       <slot name="toggle"></slot>
-      <span class="caret" :class="{ open: isMenuOpen }"></span>
+      <span
+        class="caret"
+        :class="{ open: isMenuOpen, 'hide-caret': caret === 'hideOnSmall' }"
+        v-if="caret !== 'hide'"
+      ></span>
     </button>
 
     <transition :name="direction === 'up' ? 'dropdown-up' : 'dropdown'">
@@ -38,6 +42,10 @@
     autoWidth: {
       type: Boolean,
       default: false,
+    },
+    caret: {
+      type: String,
+      default: 'show', // 'show', 'hideOnSmall' or 'hide'
     },
   })
 
@@ -227,5 +235,11 @@
   .dropdown-up-leave-to {
     opacity: 0;
     transform: translateY(10px) skew(-8deg);
+  }
+
+  @media (max-width: 576px) {
+    .hide-caret {
+      display: none;
+    }
   }
 </style>

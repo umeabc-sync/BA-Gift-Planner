@@ -29,6 +29,7 @@
                     v-if="!isFilterPanelOpen && !hideResetSelection"
                     auto-width
                     button-class="btn-blue btn-more"
+                    caret="hideOnSmall"
                   >
                     <template #toggle>
                       <MoreIcon class="btn-responsive-icon" />
@@ -1170,10 +1171,6 @@
 
     .btn-responsive-text {
       display: none;
-    }
-
-    .action-buttons :deep(.caret) {
-      display: none !important;
     }
   }
 
