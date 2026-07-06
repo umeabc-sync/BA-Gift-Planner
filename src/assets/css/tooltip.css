@@ -1,27 +1,35 @@
+:root {
+  --tooltip-sr-bg: linear-gradient(to right, #fffbcb, #fff498);
+  --tooltip-sr-color: #4b2116;
+  --tooltip-sr-arrow-bg: linear-gradient(to right, #fff8b3, #fff7af);
+
+  --tooltip-ssr-bg: linear-gradient(to right, #ffcbfc, #ffa8fc);
+  --tooltip-ssr-color: #511956;
+  --tooltip-ssr-arrow-bg: linear-gradient(to right, #ffbafc, #ffb8fc);
+}
+
+body.dark-mode {
+  --tooltip-sr-bg: linear-gradient(to right, #5c441a, #3c2a0d);
+  --tooltip-sr-color: #ffe5bd;
+  --tooltip-sr-arrow-bg: linear-gradient(to bottom, #4d3814, #4b3613);
+
+  --tooltip-ssr-bg: linear-gradient(to right, #4a1547, #3b0c38);
+  --tooltip-ssr-color: #ffdefd;
+  --tooltip-ssr-arrow-bg: linear-gradient(to bottom, #431140, #42103f);
+}
+
 .tooltip {
   transition: opacity 0.3s ease;
 }
 
 .tooltip.sr-gift-tooltip {
-  background: linear-gradient(to right, #fffbcb, #fff498);
-  color: #4b2116;
+  background: var(--tooltip-sr-bg);
+  color: var(--tooltip-sr-color);
 }
 
 .tooltip.ssr-gift-tooltip {
-  background: linear-gradient(to right, #ffcbfc, #ffa8fc);
-  color: #511956;
-}
-
-.dark-mode .tooltip.sr-gift-tooltip {
-  background: linear-gradient(to right, #5c441a, #3c2a0d);
-  border: 1px solid #916f2c;
-  color: #ffe5bd;
-}
-
-.dark-mode .tooltip.ssr-gift-tooltip {
-  background: linear-gradient(to right, #4a1547, #3b0c38);
-  border: 1px solid #751a70;
-  color: #ffdefd;
+  background: var(--tooltip-ssr-bg);
+  color: var(--tooltip-ssr-color);
 }
 
 /* ==========================================================================
@@ -67,19 +75,11 @@
 }
 
 .tooltip.fav-gift-tooltip.sr-gift-tooltip::after {
-  background: linear-gradient(to right, #fff8b3, #fff7af);
+  background: var(--tooltip-sr-arrow-bg);
 }
 
 .tooltip.fav-gift-tooltip.ssr-gift-tooltip::after {
-  background: linear-gradient(to right, #ffbafc, #ffb8fc);
-}
-
-.dark-mode .tooltip.fav-gift-tooltip.sr-gift-tooltip::after {
-  background: linear-gradient(to bottom, #5c441a, #3c2a0d);
-}
-
-.dark-mode .tooltip.fav-gift-tooltip.ssr-gift-tooltip::after {
-  background: linear-gradient(to bottom, #4a1547, #3b0c38);
+  background: var(--tooltip-ssr-arrow-bg);
 }
 
 /* ==========================================================================
