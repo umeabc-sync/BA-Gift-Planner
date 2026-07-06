@@ -50,11 +50,23 @@ Students who are not the best choice will have a semi-transparent + dashed borde
 
 4️⃣ Alright, now you can open the game and start building relationships with your students. No more worrying about giving the wrong gift or not knowing which gifts can be used for crafting! 🎉
 
+👉 In addition, you can use the share button to share your selected student combination link with others. You can also download screenshots of the current combination. The screenshots are available in two styles, both applying the optimal choices calculated above:
+
+- **Gift Recommendation** (gift-oriented view matching students who like the gift):
+  ![](./docs/imgs/11.png)
+
+- **Student Preference** (student-oriented view matching the favorite gifts of each student):
+  ![](./docs/imgs/12.png)
+
 ### Bond Calculator Page
 
 1️⃣ Set Gift Inventory
 
 ![](./docs/imgs/5.png)
+
+💡 Fast setup via screenshot recognition:
+
+![](./docs/imgs/14.png)
 
 2️⃣ Set Student's Bond Level and EXP
 
@@ -78,14 +90,19 @@ Students who are not the best choice will have a semi-transparent + dashed borde
 
 These features make bond calculation simple. It's convenient whether you want to sync your in-game progress for meticulous affection planning, simply set approximate values to see how far you are from your goal, or find out what you can achieve with your current gift inventory.
 
-### ☁️ Cloud Sync & Backup
+### Cloud Sync & Backup
 
-- **Google Login Support**: Synchronize your local inventory and bond planner data seamlessly across multiple devices.
+Tired of losing your data when switching browsers or devices? The cloud sync feature allows you to sync your gift inventory and student bond progress across multiple devices. Currently, it only supports Google Login. You can also manually import/export to manage your data.
 
-### 📸 Gift Inventory & OCR Recognition
+![](./docs/imgs/13.png)
 
-- **Gift Screenshot OCR**: Easily import your current gift inventory by uploading or dragging a screenshot of your in-game gift list.
-- **Shareable Layouts**: Generate and download clean, customized images of your gift recommendations or student preferences to share with other Senseis.
+### Character Presets
+
+Supports saving up to 10 character presets for easier management! You can also load presets shared by others via a link.
+
+![](./docs/imgs/15.png)
+
+![](./docs/imgs/16.png)
 
 ## 🛠️ Main Development Frameworks & Packages
 
@@ -159,7 +176,7 @@ BA-Gift-Planner/
 │   ├── assets/        # Static assets like images, fonts, and data JSONs
 │   ├── components/    # Reusable Vue components
 │   ├── composables/   # Composable functions (Hooks)
-│   ├── config/        # Configuration files
+│   ├── config/        # Application configurations (e.g., registered sync stores)
 │   ├── data/          # Application data
 │   ├── directives/    # Custom directives
 │   ├── locales/       # i18n language files
@@ -171,7 +188,7 @@ BA-Gift-Planner/
 │   ├── main.js        # Application entry point
 │   ├── style.css      # Global styles
 │   └── worker.js      # Cloudflare Hono Worker script (backend)
-├── .env               # Environment variables configuration
+├── .dev.vars          # Environment variables configuration for local development
 ├── .prettierrc.json   # Prettier configuration file
 ├── eslint.config.js   # ESLint configuration file
 ├── index.html         # HTML entry file
