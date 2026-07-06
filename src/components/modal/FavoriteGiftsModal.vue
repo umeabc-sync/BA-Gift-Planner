@@ -8,7 +8,10 @@
         <div
           v-for="gift in likedGifts"
           :key="gift.id"
-          v-tooltip:fav-gift-tooltip="gift.name"
+          v-tooltip:fav-gift-tooltip="{
+            content: gift.name,
+            class: `fav-gift-tooltip ${gift.isSsr ? 'ssr-gift-tooltip' : 'sr-gift-tooltip'}`,
+          }"
           class="gift-grid-item"
           :class="gift.isSsr ? 'gift-purple' : 'gift-yellow'"
         >

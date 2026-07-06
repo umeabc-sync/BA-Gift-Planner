@@ -1,3 +1,31 @@
+// Helper to parse binding value and modifiers into configuration options
+function parseBinding(binding) {
+  const value = binding.value
+  let content = ''
+  let position = 'top'
+  let maxWidth = ''
+  let customClass = ''
+
+  if (typeof value === 'object' && value !== null) {
+    content = value.content || ''
+    position = value.position || 'top'
+    maxWidth = value.maxWidth || ''
+    customClass = value.class || ''
+  } else {
+    content = value || ''
+  }
+
+  // Modifiers take precedence (e.g. v-tooltip.bottom)
+  if (binding.modifiers) {
+    if (binding.modifiers.bottom) position = 'bottom'
+    else if (binding.modifiers.left) position = 'left'
+    else if (binding.modifiers.right) position = 'right'
+    else if (binding.modifiers.top) position = 'top'
+  }
+
+  return { content, position, maxWidth, customClass }
+}
+
 // Tooltip manager singleton
 class TooltipManager {
   constructor() {
@@ -82,7 +110,7 @@ class TooltipManager {
   }
 
   showTooltip(tooltip, e) {
-    if (!tooltip.binding.value) return
+    if (!tooltip.config.content) return
 
     if (this.hideTimer) {
       clearTimeout(this.hideTimer)
@@ -98,7 +126,7 @@ class TooltipManager {
     this.currentTooltip._isHiding = false // Mark as not hiding
     this.currentElement = tooltip.element
 
-    this.positionTooltip(tooltip.tooltipEl, tooltip.element)
+    this.positionTooltip(tooltip.tooltipEl, tooltip.element, tooltip.config.position)
     tooltip.tooltipEl.style.display = 'block'
 
     requestAnimationFrame(() => {
@@ -136,14 +164,42 @@ class TooltipManager {
     }
   }
 
-  positionTooltip(tooltipEl, targetEl) {
+  positionTooltip(tooltipEl, targetEl, position = 'top') {
     const targetRect = targetEl.getBoundingClientRect()
     const scrollX = window.scrollX || document.documentElement.scrollLeft
     const scrollY = window.scrollY || document.documentElement.scrollTop
 
-    tooltipEl.style.left = `${targetRect.left + scrollX + targetRect.width / 2}px`
-    tooltipEl.style.top = `${targetRect.top + scrollY - 10}px`
-    tooltipEl.style.transform = 'translate(-50%, -100%)'
+    let left = 0
+    let top = 0
+    let transform = ''
+
+    switch (position) {
+      case 'bottom':
+        left = targetRect.left + scrollX + targetRect.width / 2
+        top = targetRect.bottom + scrollY + 10
+        transform = 'translate(-50%, 0)'
+        break
+      case 'left':
+        left = targetRect.left + scrollX - 10
+        top = targetRect.top + scrollY + targetRect.height / 2
+        transform = 'translate(-100%, -50%)'
+        break
+      case 'right':
+        left = targetRect.right + scrollX + 10
+        top = targetRect.top + scrollY + targetRect.height / 2
+        transform = 'translate(0, -50%)'
+        break
+      case 'top':
+      default:
+        left = targetRect.left + scrollX + targetRect.width / 2
+        top = targetRect.top + scrollY - 10
+        transform = 'translate(-50%, -100%)'
+        break
+    }
+
+    tooltipEl.style.left = `${left}px`
+    tooltipEl.style.top = `${top}px`
+    tooltipEl.style.transform = transform
   }
 }
 
@@ -152,16 +208,18 @@ const tooltipManager = new TooltipManager()
 
 export default {
   mounted(el, binding) {
+    const config = parseBinding(binding)
     const tooltipEl = document.createElement('div')
-    const customClass = binding.arg || ''
-    tooltipEl.className = `tooltip ${customClass}`.trim()
-    tooltipEl.innerHTML = binding.value
+    const argClass = binding.arg || ''
+    const configClass = config.customClass || ''
+    tooltipEl.className = `tooltip ${argClass} ${configClass} tooltip-${config.position}`.trim()
+    tooltipEl.innerHTML = config.content
     tooltipEl.style.cssText = `
       position: absolute;
       display: none;
       z-index: 2000;
       pointer-events: none;
-      max-width: 300px;
+      max-width: ${config.maxWidth || '300px'};
       word-wrap: break-word;
       white-space: normal;
       opacity: 0;
@@ -172,6 +230,7 @@ export default {
       element: el,
       tooltipEl,
       binding,
+      config,
     }
 
     // Store tooltip reference
@@ -210,11 +269,23 @@ export default {
 
   updated(el, binding) {
     if (el._tooltip) {
-      el._tooltip.tooltipEl.innerHTML = binding.value
+      const config = parseBinding(binding)
+      el._tooltip.config = config
+      el._tooltip.tooltipEl.innerHTML = config.content
       el._tooltip.binding = binding
 
+      const argClass = binding.arg || ''
+      const configClass = config.customClass || ''
+      el._tooltip.tooltipEl.className = `tooltip ${argClass} ${configClass} tooltip-${config.position}`.trim()
+
+      if (config.maxWidth) {
+        el._tooltip.tooltipEl.style.maxWidth = config.maxWidth
+      } else {
+        el._tooltip.tooltipEl.style.maxWidth = '300px'
+      }
+
       if (tooltipManager.currentTooltip === el._tooltip.tooltipEl && el._tooltip.tooltipEl.style.display === 'block') {
-        tooltipManager.positionTooltip(el._tooltip.tooltipEl, el)
+        tooltipManager.positionTooltip(el._tooltip.tooltipEl, el, config.position)
       }
     }
   },
