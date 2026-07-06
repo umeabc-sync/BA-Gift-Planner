@@ -50,38 +50,75 @@ export function compressStudentIds(studentIds, allStudentIds) {
 export function decompressStudentIds(compressedStr, allStudentIds) {
   if (!compressedStr) return []
 
-  const binaryString = atob(compressedStr)
-  const compressed = new Uint8Array(binaryString.length)
-  for (let i = 0; i < binaryString.length; i++) {
-    compressed[i] = binaryString.charCodeAt(i)
+  // 1. Backwards Compatibility: Handle raw arrays
+  if (Array.isArray(compressedStr)) {
+    if (allStudentIds && allStudentIds.length > 0) {
+      const allSet = new Set(allStudentIds)
+      return compressedStr.filter((id) => allSet.has(id))
+    }
+    return compressedStr
   }
 
-  const decompressed = pako.inflateRaw(compressed)
-  const view = new DataView(decompressed.buffer)
-  const flag = view.getUint8(0)
-  const maxId = view.getUint16(1, true)
-  const bitfield = new Uint8Array(decompressed.buffer, 3)
-
-  const idsFromBitfield = []
-  for (let i = 1; i <= maxId; i++) {
-    const byteIndex = Math.floor(i / 8)
-    const bitIndex = i % 8
-    if ((bitfield[byteIndex] >> bitIndex) & 1) {
-      idsFromBitfield.push(i)
+  // 2. Backwards Compatibility: Handle JSON-stringified arrays
+  if (typeof compressedStr === 'string') {
+    const trimmed = compressedStr.trim()
+    if (trimmed.startsWith('[') && trimmed.endsWith(']')) {
+      try {
+        const parsed = JSON.parse(trimmed)
+        if (Array.isArray(parsed)) {
+          if (allStudentIds && allStudentIds.length > 0) {
+            const allSet = new Set(allStudentIds)
+            return parsed.filter((id) => allSet.has(id))
+          }
+          return parsed
+        }
+      } catch {
+        // Fall back to base64 decompression
+      }
     }
   }
 
-  let result = []
-  if (flag === 1) {
-    result = idsFromBitfield
-  } else if (flag === 2) {
-    const allIdsInUrl = Array.from({ length: maxId }, (_, i) => i + 1)
-    result = allIdsInUrl.filter((id) => !idsFromBitfield.includes(id))
-  }
+  // 3. Decompression & Decoding with Graceful Error Handling
+  try {
+    const binaryString = atob(compressedStr)
+    const compressed = new Uint8Array(binaryString.length)
+    for (let i = 0; i < binaryString.length; i++) {
+      compressed[i] = binaryString.charCodeAt(i)
+    }
 
-  if (allStudentIds && allStudentIds.length > 0) {
-    const allSet = new Set(allStudentIds)
-    return result.filter((id) => allSet.has(id))
+    const decompressed = pako.inflateRaw(compressed)
+    
+    // 4. TypedArray Offset Safety: Specify byteOffset and byteLength explicitly
+    const view = new DataView(decompressed.buffer, decompressed.byteOffset, decompressed.byteLength)
+    const flag = view.getUint8(0)
+    const maxId = view.getUint16(1, true)
+    const bitfield = new Uint8Array(decompressed.buffer, decompressed.byteOffset + 3, decompressed.byteLength - 3)
+
+    const idsFromBitfield = []
+    for (let i = 1; i <= maxId; i++) {
+      const byteIndex = Math.floor(i / 8)
+      const bitIndex = i % 8
+      if ((bitfield[byteIndex] >> bitIndex) & 1) {
+        idsFromBitfield.push(i)
+      }
+    }
+
+    let result = []
+    if (flag === 1) {
+      result = idsFromBitfield
+    } else if (flag === 2) {
+      const allIdsInUrl = Array.from({ length: maxId }, (_, i) => i + 1)
+      result = allIdsInUrl.filter((id) => !idsFromBitfield.includes(id))
+    }
+
+    if (allStudentIds && allStudentIds.length > 0) {
+      const allSet = new Set(allStudentIds)
+      return result.filter((id) => allSet.has(id))
+    }
+    return result
+  } catch (error) {
+    console.warn('Failed to decompress student IDs:', error)
+    return []
   }
-  return result
 }
+
