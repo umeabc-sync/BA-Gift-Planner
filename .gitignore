@@ -36,3 +36,6 @@ GEMINI.md
 
 # Vite cache
 .vite/
+
+# For testing
+debug/
