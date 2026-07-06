@@ -104,15 +104,6 @@ export const useStudentStore = defineStore(
       savedCombinations.value = savedCombinations.value.filter((c) => c.id !== id)
     }
 
-    if (studentBondData.value) {
-      for (const key in studentBondData.value) {
-        const data = studentBondData.value[key]
-        if (data && data.level === 1 && data.exp === 0) {
-          delete studentBondData.value[key]
-        }
-      }
-    }
-
     return {
       studentsData,
       selectedStudentIds,
