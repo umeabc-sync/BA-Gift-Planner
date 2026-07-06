@@ -29,6 +29,7 @@ dist-ssr
 
 # Specification documents
 GEMINI.md
+.superpowers
 
 # Backend
 .wrangler/
