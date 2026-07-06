@@ -61,42 +61,26 @@
   border: 1px solid #2a4c73;
 }
 
-/* .tooltip.fav-gift-tooltip::after {
-  content: '';
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  border-width: 6px;
-  border-style: solid;
-  border-color: #22456a transparent transparent transparent;
-}
-
-.dark-mode .tooltip.fav-gift-tooltip::after {
-  border-color: #183350 transparent transparent transparent;
-} */
-
 .tooltip.fav-gift-tooltip::after {
   content: '';
   position: absolute;
-  top: 100%; /* Stick on the bottom */
+  top: 98%;
   left: 50%;
-  width: 10px;
-  height: 10px;
-  transform: translate(-50%, -50%) rotate(45deg);
-  z-index: -999;
+  width: 12px;
+  height: 6px;
+  transform: translateX(-50%);
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
 }
 
 .tooltip.fav-gift-tooltip.sr-gift-tooltip::after {
-  /* background: red; */
-  background: linear-gradient(45deg, #fff8b4, #fff7b0);
+  background: linear-gradient(to right, #fff8b3, #fff7af);
 }
 
 .tooltip.fav-gift-tooltip.ssr-gift-tooltip::after {
-  background: linear-gradient(45deg, #ffbbfc, #ffb7fc);
+  background: linear-gradient(to right, #ffbafc, #ffb8fc);
 }
 
-/* 暗黑模式 TODO */
+/* 暗黑模式 */
 .dark-mode .tooltip.fav-gift-tooltip::after {
   background: #183350;
 }
