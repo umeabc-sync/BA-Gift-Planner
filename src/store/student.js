@@ -4,8 +4,6 @@ import { useStudentData } from '@/utils/fetchStudentData'
 import { useGiftPlannerStore } from './giftPlanner'
 import { compressStudentIds, decompressStudentIds } from '@/utils/studentIdsCompressor'
 
-let allStudentIds = ref([])
-
 // Students that have switchable dual forms
 export const DUAL_FORM_STUDENT_IDS = [189, 264]
 
@@ -18,7 +16,6 @@ export const useStudentStore = defineStore(
     const allStudentIdsComputed = computed(() => {
       return studentsData.value ? studentsData.value.map((s) => s.id) : []
     })
-    allStudentIds = allStudentIdsComputed
 
     const selectedStudentIds = ref([])
     const studentBondData = ref({})
@@ -139,13 +136,16 @@ export const useStudentStore = defineStore(
       serializer: {
         serialize: (state) => {
           const copy = JSON.parse(JSON.stringify(state))
+          const { data: studentsData } = useStudentData()
+          const currentAllIds = studentsData.value?.map((s) => s.id) || []
+
           if (Array.isArray(copy.selectedStudentIds)) {
-            copy.selectedStudentIds = compressStudentIds(copy.selectedStudentIds, allStudentIds.value)
+            copy.selectedStudentIds = compressStudentIds(copy.selectedStudentIds, currentAllIds)
           }
           if (copy.savedCombinations) {
             copy.savedCombinations.forEach((combo) => {
               if (Array.isArray(combo.studentIds)) {
-                combo.studentIds = compressStudentIds(combo.studentIds, allStudentIds.value)
+                combo.studentIds = compressStudentIds(combo.studentIds, currentAllIds)
               }
             })
           }
@@ -153,13 +153,16 @@ export const useStudentStore = defineStore(
         },
         deserialize: (value) => {
           const state = JSON.parse(value)
+          const { data: studentsData } = useStudentData()
+          const currentAllIds = studentsData.value?.map((s) => s.id) || []
+
           if (typeof state.selectedStudentIds === 'string') {
-            state.selectedStudentIds = decompressStudentIds(state.selectedStudentIds, allStudentIds.value)
+            state.selectedStudentIds = decompressStudentIds(state.selectedStudentIds, currentAllIds)
           }
           if (state.savedCombinations) {
             state.savedCombinations.forEach((combo) => {
               if (typeof combo.studentIds === 'string') {
-                combo.studentIds = decompressStudentIds(combo.studentIds, allStudentIds.value)
+                combo.studentIds = decompressStudentIds(combo.studentIds, currentAllIds)
               }
             })
           }
@@ -167,6 +170,9 @@ export const useStudentStore = defineStore(
         },
       },
       afterHydrate: (ctx) => {
+        const { data: studentsData } = useStudentData()
+        const currentAllIds = studentsData.value?.map((s) => s.id) || []
+
         if (ctx.store.studentBondData) {
           for (const key in ctx.store.studentBondData) {
             const data = ctx.store.studentBondData[key]
@@ -176,12 +182,12 @@ export const useStudentStore = defineStore(
           }
         }
         if (typeof ctx.store.selectedStudentIds === 'string') {
-          ctx.store.selectedStudentIds = decompressStudentIds(ctx.store.selectedStudentIds, allStudentIds.value)
+          ctx.store.selectedStudentIds = decompressStudentIds(ctx.store.selectedStudentIds, currentAllIds)
         }
         if (ctx.store.savedCombinations) {
           ctx.store.savedCombinations.forEach((combo) => {
             if (typeof combo.studentIds === 'string') {
-              combo.studentIds = decompressStudentIds(combo.studentIds, allStudentIds.value)
+              combo.studentIds = decompressStudentIds(combo.studentIds, currentAllIds)
             }
           })
         }

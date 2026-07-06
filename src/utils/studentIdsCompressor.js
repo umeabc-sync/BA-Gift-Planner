@@ -10,12 +10,12 @@ import pako from 'pako'
  */
 export function compressStudentIds(studentIds, allStudentIds) {
   if (!studentIds || studentIds.length === 0) return ''
-  if (!allStudentIds || allStudentIds.length === 0) return studentIds
 
-  const maxId = Math.max(...allStudentIds)
-  const unselectedIds = allStudentIds.filter((id) => !studentIds.includes(id))
+  const hasAllIds = allStudentIds && allStudentIds.length > 0
+  const maxId = hasAllIds ? Math.max(...allStudentIds) : Math.max(...studentIds, 0)
 
-  const useUnselected = studentIds.length > unselectedIds.length
+  const unselectedIds = hasAllIds ? allStudentIds.filter((id) => !studentIds.includes(id)) : []
+  const useUnselected = hasAllIds && studentIds.length > unselectedIds.length
   const idsToEncode = useUnselected ? unselectedIds : studentIds
 
   const flag = useUnselected ? 2 : 1
@@ -36,7 +36,10 @@ export function compressStudentIds(studentIds, allStudentIds) {
   }
 
   const compressed = pako.deflateRaw(new Uint8Array(buffer))
-  const binaryString = String.fromCharCode.apply(null, Array.from(compressed))
+  let binaryString = ''
+  for (let i = 0; i < compressed.length; i++) {
+    binaryString += String.fromCharCode(compressed[i])
+  }
   return btoa(binaryString)
 }
 
