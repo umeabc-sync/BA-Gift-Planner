@@ -13,9 +13,9 @@
 }
 
 .dark-mode .tooltip.sr-gift-tooltip {
-  background: linear-gradient(to right, #4a4515, #3b370c);
-  border: 1px solid #756d1a;
-  color: #fffde6;
+  background: linear-gradient(to right, #5c441a, #3c2a0d);
+  border: 1px solid #916f2c;
+  color: #ffe5bd;
 }
 
 .dark-mode .tooltip.ssr-gift-tooltip {
@@ -55,12 +55,6 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-.dark-mode .tooltip.fav-gift-tooltip {
-  background: #183350;
-  color: #e0f4ff;
-  border: 1px solid #2a4c73;
-}
-
 .tooltip.fav-gift-tooltip::after {
   content: '';
   position: absolute;
@@ -80,9 +74,12 @@
   background: linear-gradient(to right, #ffbafc, #ffb8fc);
 }
 
-/* 暗黑模式 */
-.dark-mode .tooltip.fav-gift-tooltip::after {
-  background: #183350;
+.dark-mode .tooltip.fav-gift-tooltip.sr-gift-tooltip::after {
+  background: linear-gradient(to bottom, #5c441a, #3c2a0d);
+}
+
+.dark-mode .tooltip.fav-gift-tooltip.ssr-gift-tooltip::after {
+  background: linear-gradient(to bottom, #4a1547, #3b0c38);
 }
 
 /* ==========================================================================
