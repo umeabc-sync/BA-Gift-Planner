@@ -139,6 +139,9 @@ export const useStudentStore = defineStore(
       serializer: {
         serialize: (state) => {
           const copy = JSON.parse(JSON.stringify(state))
+          if (Array.isArray(copy.selectedStudentIds)) {
+            copy.selectedStudentIds = compressStudentIds(copy.selectedStudentIds, allStudentIds.value)
+          }
           if (copy.savedCombinations) {
             copy.savedCombinations.forEach((combo) => {
               if (Array.isArray(combo.studentIds)) {
@@ -150,6 +153,9 @@ export const useStudentStore = defineStore(
         },
         deserialize: (value) => {
           const state = JSON.parse(value)
+          if (typeof state.selectedStudentIds === 'string') {
+            state.selectedStudentIds = decompressStudentIds(state.selectedStudentIds, allStudentIds.value)
+          }
           if (state.savedCombinations) {
             state.savedCombinations.forEach((combo) => {
               if (typeof combo.studentIds === 'string') {
@@ -168,6 +174,9 @@ export const useStudentStore = defineStore(
               delete ctx.store.studentBondData[key]
             }
           }
+        }
+        if (typeof ctx.store.selectedStudentIds === 'string') {
+          ctx.store.selectedStudentIds = decompressStudentIds(ctx.store.selectedStudentIds, allStudentIds.value)
         }
         if (ctx.store.savedCombinations) {
           ctx.store.savedCombinations.forEach((combo) => {

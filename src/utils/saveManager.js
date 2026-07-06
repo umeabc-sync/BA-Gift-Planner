@@ -110,9 +110,13 @@ export function applySaveDataToStores(jsonString, preserveSharedSelection = fals
 
   if (parsed.student) {
     const studentData = resolveDataObj(parsed.student)
+    const allStudentIds = stores.student.studentsData?.map((s) => s.id) || []
+
+    if (studentData.selectedStudentIds && typeof studentData.selectedStudentIds === 'string') {
+      studentData.selectedStudentIds = decompressStudentIds(studentData.selectedStudentIds, allStudentIds)
+    }
 
     if (studentData.savedCombinations) {
-      const allStudentIds = stores.student.studentsData?.map((s) => s.id) || []
       studentData.savedCombinations.forEach((combo) => {
         if (typeof combo.studentIds === 'string') {
           combo.studentIds = decompressStudentIds(combo.studentIds, allStudentIds)
