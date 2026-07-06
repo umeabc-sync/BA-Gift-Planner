@@ -1,5 +1,6 @@
 import pako from 'pako'
 import { getSyncStores } from '@/config/syncStores'
+import { decompressStudentIds } from './studentIdsCompressor'
 
 // Lightweight deep comparison helper for standard JSON-serializable structures
 function deepEqual(a, b) {
@@ -109,6 +110,15 @@ export function applySaveDataToStores(jsonString, preserveSharedSelection = fals
 
   if (parsed.student) {
     const studentData = resolveDataObj(parsed.student)
+
+    if (studentData.savedCombinations) {
+      const allStudentIds = stores.student.studentsData?.map((s) => s.id) || []
+      studentData.savedCombinations.forEach((combo) => {
+        if (typeof combo.studentIds === 'string') {
+          combo.studentIds = decompressStudentIds(combo.studentIds, allStudentIds)
+        }
+      })
+    }
 
     if (preserveSharedSelection) {
       studentData.selectedStudentIds = stores.student.selectedStudentIds
