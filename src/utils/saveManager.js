@@ -66,6 +66,7 @@ export function getLocalStatePayload() {
     }
   }
   return {
+    version: 2,
     student: getParsedOrEmpty('student'),
     gift: getParsedOrEmpty('gift'),
     giftPlanner: getParsedOrEmpty('giftPlanner'),
@@ -152,7 +153,7 @@ export function generateExportFile() {
 
   const exportData = {
     payload: base64Payload,
-    version: 1,
+    version: 2,
     date: new Date().toISOString(),
   }
 
