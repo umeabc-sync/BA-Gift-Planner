@@ -100,15 +100,10 @@ class TooltipManager {
       const tooltip = this.findTooltipByElement(this.currentElement)
       if (tooltip) {
         this.positionTooltip(tooltip.tooltipEl, tooltip.element, tooltip.config.position, tooltip.config.offset)
-        
+
         // Hide if the target element is scrolled out of the viewport
         const rect = tooltip.element.getBoundingClientRect()
-        if (
-          rect.bottom < 0 ||
-          rect.top > window.innerHeight ||
-          rect.right < 0 ||
-          rect.left > window.innerWidth
-        ) {
+        if (rect.bottom < 0 || rect.top > window.innerHeight || rect.right < 0 || rect.left > window.innerWidth) {
           this.hideCurrentTooltip()
         }
         return
