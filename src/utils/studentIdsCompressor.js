@@ -90,7 +90,7 @@ export function decompressStudentIds(compressedStr, allStudentIds) {
     }
 
     const decompressed = pako.inflateRaw(compressed)
-    
+
     // 4. TypedArray Offset Safety: Specify byteOffset and byteLength explicitly
     const view = new DataView(decompressed.buffer, decompressed.byteOffset, decompressed.byteLength)
     const flag = view.getUint8(0)
@@ -124,4 +124,3 @@ export function decompressStudentIds(compressedStr, allStudentIds) {
     return []
   }
 }
-

@@ -41,7 +41,7 @@ export function isSyncPayloadEqual(payloadA, payloadB) {
 
   // Slow path: parse sub-store JSON values (strings or objects) and compare deeply
   try {
-    const resolve = (val) => (typeof val === 'string' ? JSON.parse(val || '{}') : (val || {}))
+    const resolve = (val) => (typeof val === 'string' ? JSON.parse(val || '{}') : val || {})
     const parse = (p) => ({
       student: resolve(p.student),
       gift: resolve(p.gift),
