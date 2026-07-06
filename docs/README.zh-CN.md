@@ -16,7 +16,7 @@
 
 这是一个为手游《蔚蓝档案》（Blue Archive）玩家设计的礼物规划器。项目使用 Vue 3 和 Vite 创建，提供一个简洁、快速且响应式的界面，帮助玩家快速从想提升羁绊等级的学生们中找到最优的送礼策略。本网站中使用的所有信息和素材均为各自作者的财产和版权。
 
-**[➡️ 点此进入网站](https://ba-gift-planner.pages.dev/)**
+**[➡️ 点此进入网站](https://gift-planner.ba-tools.cc/)**
 
 ![项目OG图片](https://raw.githubusercontent.com/Yuuzi261/BA-Gift-Planner/refs/heads/main/public/og_image.webp)
 
@@ -78,39 +78,53 @@
 
 这些功能让计算羁绊变得简单，无论是想通过它随时同步游戏中的进度，严格进行好感度的规划；还是单纯设置一个差不多的数值看一下距离目标还有多遥远，抑或是想知道当下自己的礼物库存可以做到什么程度都很方便。
 
+### ☁️ 云端同步与备份
+
+- **支持 Google 登录**：在不同设备之间无缝同步您的礼物库存与学生羁绊进度。
+
+### 📸 礼物管理与截图识别
+
+- **礼物截图 OCR**：在礼物库存界面中上传或拖放游戏内礼物清单截图，自动识别并导入您的礼物数量。
+- **分享规划成果**：生成并下载美观、自定义样式的礼物推荐或学生喜好图片，轻松与其他老师分享。
+
 ## 🛠️ 主要开发框架&套件
 
-*   **前端框架**: [Vue 3](https://vuejs.org/) (Composition API)
-*   **构建工具**: [Vite](https://vitejs.dev/)
-*   **状态管理**: [Pinia](https://pinia.vuejs.org/)
-*   **路由**: [Vue Router](https://router.vuejs.org/)
-*   **代码风格**: [Prettier](https://prettier.io/)
-*   **代码检查**: [ESLint](https://eslint.org/)
-*   **部署平台**: [CloudFlare](https://www.cloudflare.com/)
+- **前端框架**: [Vue 3](https://vuejs.org/) (Composition API)
+- **构建工具**: [Vite](https://vitejs.dev/)
+- **状态管理**: [Pinia](https://pinia.vuejs.org/)
+- **路由**: [Vue Router](https://router.vuejs.org/)
+- **代码风格**: [Prettier](https://prettier.io/)
+- **代码检查**: [ESLint](https://eslint.org/)
+- **部署平台**: [CloudFlare](https://www.cloudflare.com/)
 
 ## 🚀 本地开发
 
 请确认您的电脑已安装 [Node.js](https://nodejs.org/)（建议版本 18.x 或以上）。
 
 1.  **克隆项目**
+
     ```bash
     git clone https://github.com/Yuuzi261/BA-Gift-Planner.git
     ```
 
 2.  **进入项目文件夹**
+
     ```bash
     cd BA-Gift-Planner
     ```
 
 3.  **安装依赖**
+
     ```bash
     npm install
     ```
 
 4.  **启动开发服务器**
+
     ```bash
     npm run dev
     ```
+
     启动后，浏览器将自动打开 `http://localhost:5173`。
 
 5.  **构建项目**
@@ -121,15 +135,18 @@
     构建后的文件会存放在 `dist` 文件夹下。
 
 ### 项目脚本
- 
-| 命令 | 描述 |
-| :--- | :--- |
-| `npm install` | 安装项目所有依赖。 |
-| `npm run dev` | 启动本地开发服务器，支持热重载。 |
-| `npm run build` | 将项目打包至 dist 文件夹，并压缩 JSON 文件。 |
-| `npm run preview` | 预览打包后的成果。 |
-| `npm run format` | 使用 Prettier 格式化所有代码。 |
-| `npm run lint` | 使用 ESLint 检查并修正代码风格问题。 |
+
+| 命令                 | 描述                                         |
+| :------------------- | :------------------------------------------- |
+| `npm install`        | 安装项目所有依赖。                           |
+| `npm run dev`        | 启动本地开发服务器，支持热重载。             |
+| `npm run dev:worker` | 使用 Wrangler 启动本地后端 Worker。          |
+| `npm run db:init`    | 初始化本地 D1 SQLite 数据库。                |
+| `npm run build`      | 将项目打包至 dist 文件夹，并压缩 JSON 文件。 |
+| `npm run preview`    | 预览打包后的成果。                           |
+| `npm run format`     | 使用 Prettier 格式化所有代码。               |
+| `npm run lint`       | 使用 ESLint 检查并修正代码风格问题。         |
+
 <!-- | `npm run analyze` | 执行打包分析，产生 `stats.html` 报告。 | -->
 
 ## 📁 项目结构
@@ -137,26 +154,30 @@
 ```
 BA-Gift-Planner/
 ├── public/            # 公共资源，不会被 Vite 处理
+├── scripts/           # 辅助脚本 (例如：Sitemap 生成)
 ├── src/
 │   ├── assets/        # 图片、字体、数据 JSON 等静态资源
 │   ├── components/    # 可重复使用的 Vue 组件
 │   ├── composables/   # 可组合的函数 (Hooks)
+│   ├── config/        # 配置文件
 │   ├── data/          # 应用程序数据
 │   ├── directives/    # 自定义指令
 │   ├── locales/       # i18n 语言文件
 │   ├── router/        # Vue 路由配置
-│   ├── store/         # Pinia 状态管理
+│   ├── store/         # Pinia 状态 management
 │   ├── utils/         # 共用工具函数
 │   ├── views/         # 页面组件
-│   ├── App.vue        # 主组件
+│   ├── App.vue        # 主 Vue 组件
 │   ├── main.js        # 应用程序入口点
-│   └── style.css      # 全局样式
-├── .env               # 全局变量
+│   ├── style.css      # 全局样式
+│   └── worker.js      # Cloudflare Hono Worker 脚本 (后端)
+├── .env               # 全局变量设置
 ├── .prettierrc.json   # Prettier 配置文件
 ├── eslint.config.js   # ESLint 配置文件
 ├── index.html         # HTML 入口文件
 ├── package.json       # 项目依赖与脚本
-└── vite.config.js     # Vite 配置文件
+├── schema.sql         # D1 SQLite 数据库架构
+└── wrangler.toml      # Cloudflare Wrangler 配置文件
 ```
 
 ## 🤝 贡献与协助
@@ -165,8 +186,8 @@ BA-Gift-Planner/
 
 你可以透过以下方式协助我们：
 
-*   在 [Issues](https://github.com/Yuuzi261/BA-Gift-Planner/issues) 中提出问题及建议。
-*   在 [Pull Request](https://github.com/Yuuzi261/BA-Gift-Planner/pulls) 中提交缺失的角评数据或代码修改。
+- 在 [Issues](https://github.com/Yuuzi261/BA-Gift-Planner/issues) 中提出问题及建议。
+- 在 [Pull Request](https://github.com/Yuuzi261/BA-Gift-Planner/pulls) 中提交缺失的角评数据或代码修改。
 
 ## 📄 授权
 

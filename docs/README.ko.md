@@ -16,7 +16,7 @@
 
 이것은 모바일 게임 "블루 아카이브" 플레이어를 위해 설계된 선물 플래너입니다. 이 프로젝트는 Vue 3와 Vite를 사용하여 제작되었으며, 플레이어가 인연 랭크를 올리고 싶은 학생들에게 가장 최적의 선물 전략을 빠르게 찾을 수 있도록 깔끔하고 빠르며 반응형인 인터페이스를 제공합니다. 이 웹사이트에서 사용된 모든 정보와 자료는 각 저작자의 재산이며 저작권의 보호를 받습니다.
 
-**[➡️ 웹사이트 바로가기](https://ba-gift-planner.pages.dev/)**
+**[➡️ 웹사이트 바로가기](https://gift-planner.ba-tools.cc/)**
 
 ![프로젝트 OG 이미지](https://raw.githubusercontent.com/Yuuzi261/BA-Gift-Planner/refs/heads/main/public/og_image.webp)
 
@@ -78,39 +78,53 @@
 
 이 기능들은 인연 계산을 간단하게 만들어 줍니다. 게임 내 진행 상황을 동기화하여 세심하게 호감도를 계획하거나, 단순히 대략적인 수치를 설정하여 목표까지 얼마나 남았는지 확인하거나, 현재 가진 선물 인벤토리로 무엇을 할 수 있는지 알고 싶을 때 모두 편리합니다.
 
+### ☁️ 클라우드 동기화 및 백업
+
+- **Google 로그인 지원**: 선물 인벤토리와 학생 인연 레벨을 동기화할 수 있습니다. 여러 기기에서 계획 데이터를 원활하게 유지하세요.
+
+### 📸 선물 인벤토리 및 이미지 인식 (OCR)
+
+- **선물 스크린샷 인식 (OCR)**: 선물 인벤토리 화면에서 게임 내 선물 목록의 스크린샷을 업로드하거나 드래그 앤 드롭하면 선물의 수량을 자동으로 인식하여 가져옵니다.
+- **스크린샷 공유**: 선물 추천 또는 학생 선호도를 깔끔하게 구성한 커스텀 이미지를 생성하고 다운로드하여 다른 선생님들과 쉽게 공유해 보세요.
+
 ## 🛠️ 주요 개발 프레임워크 및 패키지
 
-*   **프론트엔드 프레임워크**: [Vue 3](https://vuejs.org/) (Composition API)
-*   **빌드 도구**: [Vite](https://vitejs.dev/)
-*   **상태 관리**: [Pinia](https://pinia.vuejs.org/)
-*   **라우팅**: [Vue Router](https://router.vuejs.org/)
-*   **코드 스타일**: [Prettier](https://prettier.io/)
-*   **린터**: [ESLint](https://eslint.org/)
-*   **배포 플랫폼**: [CloudFlare](https://www.cloudflare.com/)
+- **프론트엔드 프레임워크**: [Vue 3](https://vuejs.org/) (Composition API)
+- **빌드 도구**: [Vite](https://vitejs.dev/)
+- **상태 관리**: [Pinia](https://pinia.vuejs.org/)
+- **라우팅**: [Vue Router](https://router.vuejs.org/)
+- **코드 스타일**: [Prettier](https://prettier.io/)
+- **린터**: [ESLint](https://eslint.org/)
+- **배포 플랫폼**: [CloudFlare](https://www.cloudflare.com/)
 
 ## 🚀 로컬 개발
 
 컴퓨터에 [Node.js](https://nodejs.org/)(버전 18.x 이상 권장)가 설치되어 있는지 확인하십시오.
 
 1.  **프로젝트 클론**
+
     ```bash
     git clone https://github.com/Yuuzi261/BA-Gift-Planner.git
     ```
 
 2.  **프로젝트 폴더로 이동**
+
     ```bash
     cd BA-Gift-Planner
     ```
 
 3.  **의존성 설치**
+
     ```bash
     npm install
     ```
 
 4.  **개발 서버 시작**
+
     ```bash
     npm run dev
     ```
+
     시작 후 브라우저에서 `http://localhost:5173`이 자동으로 열립니다.
 
 5.  **프로젝트 빌드**
@@ -121,15 +135,18 @@
     빌드된 파일은 `dist` 폴더에 저장됩니다.
 
 ### 프로젝트 스크립트
- 
-| 명령어 | 설명 |
-| :--- | :--- |
-| `npm install` | 모든 프로젝트 의존성을 설치합니다. |
-| `npm run dev` | 핫 리로딩을 지원하는 로컬 개발 서버를 시작합니다. |
-| `npm run build` | 프로젝트를 `dist` 폴더로 번들링하고 JSON 파일을 압축합니다. |
-| `npm run preview` | 프로덕션 빌드를 로컬에서 미리 봅니다. |
-| `npm run format` | Prettier로 모든 코드의 서식을 지정합니다. |
-| `npm run lint` | ESLint로 코드 스타일 문제를 검사하고 수정합니다. |
+
+| 명령어               | 설명                                                        |
+| :------------------- | :---------------------------------------------------------- |
+| `npm install`        | 모든 프로젝트 의존성을 설치합니다.                          |
+| `npm run dev`        | 핫 리로딩을 지원하는 로컬 개발 서버를 시작합니다.           |
+| `npm run dev:worker` | Wrangler를 사용하여 로컬 백엔드 워커를 시작합니다.          |
+| `npm run db:init`    | 로컬 D1 SQLite 데이터베이스를 초기화합니다.                 |
+| `npm run build`      | 프로젝트를 `dist` 폴더로 번들링하고 JSON 파일을 압축합니다. |
+| `npm run preview`    | 프로덕션 빌드를 로컬에서 미리 봅니다.                       |
+| `npm run format`     | Prettier로 모든 코드의 서식을 지정합니다.                   |
+| `npm run lint`       | ESLint로 코드 스타일 문제를 검사하고 수정합니다.            |
+
 <!-- | `npm run analyze` | 번들 분석을 실행하여 `stats.html` 보고서를 생성합니다. | -->
 
 ## 📁 프로젝트 구조
@@ -137,10 +154,12 @@
 ```
 BA-Gift-Planner/
 ├── public/            # Vite에서 처리하지 않는 공용 자산
+├── scripts/           # 보조 스크립트 (예: 사이트맵 생성)
 ├── src/
 │   ├── assets/        # 이미지, 폰트, 데이터 JSON 등 정적 자산
 │   ├── components/    # 재사용 가능한 Vue 컴포넌트
 │   ├── composables/   # 컴포저블 함수 (Hooks)
+│   ├── config/        # 구성 파일
 │   ├── data/          # 애플리케이션 데이터
 │   ├── directives/    # 커스텀 디렉티브
 │   ├── locales/       # i18n 언어 파일
@@ -148,15 +167,17 @@ BA-Gift-Planner/
 │   ├── store/         # Pinia 상태 관리
 │   ├── utils/         # 공용 유틸리티 함수
 │   ├── views/         # 페이지 컴포넌트
-│   ├── App.vue        # 메인 컴포넌트
+│   ├── App.vue        # main Vue 컴포넌트
 │   ├── main.js        # 애플리케이션 진입점
-│   └── style.css      # 전역 스타일
-├── .env               # 전역 변수
+│   ├── style.css      # 전역 스타일
+│   └── worker.js      # Cloudflare Hono 워커 스크립트 (백엔드)
+├── .env               # 전역 변수 설정
 ├── .prettierrc.json   # Prettier 설정 파일
 ├── eslint.config.js   # ESLint 설정 파일
 ├── index.html         # HTML 진입 파일
 ├── package.json       # 프로젝트 의존성 및 스크립트
-└── vite.config.js     # Vite 설정 파일
+├── schema.sql         # D1 SQLite 데이터베이스 스키마
+└── wrangler.toml      # Cloudflare Wrangler 설정 파일
 ```
 
 ## 🤝 기여 및 지원
@@ -165,8 +186,8 @@ BA-Gift-Planner/
 
 다음과 같은 방법으로 저희를 도울 수 있습니다:
 
-*   [Issues](https://github.com/Yuuzi261/BA-Gift-Planner/issues)에서 문제 및 제안 제기.
-*   [Pull Request](https://github.com/Yuuzi261/BA-Gift-Planner/pulls)를 통해 누락된 캐릭터 데이터 또는 코드 수정 제출.
+- [Issues](https://github.com/Yuuzi261/BA-Gift-Planner/issues)에서 문제 및 제안 제기.
+- [Pull Request](https://github.com/Yuuzi261/BA-Gift-Planner/pulls)를 통해 누락된 캐릭터 데이터 또는 코드 수정 제출.
 
 ## 📄 라이선스
 

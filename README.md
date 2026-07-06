@@ -16,7 +16,7 @@
 
 This is a gift planner designed for players of the mobile game "Blue Archive". Built with Vue 3 and Vite, this project provides a clean, fast, and responsive interface to help players quickly find the optimal gifting strategy for the students whose bond levels they want to increase. All information and materials used on this website are the property and copyright of their respective authors.
 
-**[➡️ Click here to visit the website](https://ba-gift-planner.pages.dev/)**
+**[➡️ Click here to visit the website](https://gift-planner.ba-tools.cc/)**
 
 ![Project OG Image](https://raw.githubusercontent.com/Yuuzi261/BA-Gift-Planner/refs/heads/main/public/og_image.webp)
 
@@ -78,39 +78,53 @@ Students who are not the best choice will have a semi-transparent + dashed borde
 
 These features make bond calculation simple. It's convenient whether you want to sync your in-game progress for meticulous affection planning, simply set approximate values to see how far you are from your goal, or find out what you can achieve with your current gift inventory.
 
+### ☁️ Cloud Sync & Backup
+
+- **Google Login Support**: Synchronize your local inventory and bond planner data seamlessly across multiple devices.
+
+### 📸 Gift Inventory & OCR Recognition
+
+- **Gift Screenshot OCR**: Easily import your current gift inventory by uploading or dragging a screenshot of your in-game gift list.
+- **Shareable Layouts**: Generate and download clean, customized images of your gift recommendations or student preferences to share with other Senseis.
+
 ## 🛠️ Main Development Frameworks & Packages
 
-*   **Frontend Framework**: [Vue 3](https://vuejs.org/) (Composition API)
-*   **Build Tool**: [Vite](https://vitejs.dev/)
-*   **State Management**: [Pinia](https://pinia.vuejs.org/)
-*   **Routing**: [Vue Router](https://router.vuejs.org/)
-*   **Code Style**: [Prettier](https://prettier.io/)
-*   **Linter**: [ESLint](https://eslint.org/)
-*   **Deployment Platform**: [CloudFlare](https://www.cloudflare.com/)
+- **Frontend Framework**: [Vue 3](https://vuejs.org/) (Composition API)
+- **Build Tool**: [Vite](https://vitejs.dev/)
+- **State Management**: [Pinia](https://pinia.vuejs.org/)
+- **Routing**: [Vue Router](https://router.vuejs.org/)
+- **Code Style**: [Prettier](https://prettier.io/)
+- **Linter**: [ESLint](https://eslint.org/)
+- **Deployment Platform**: [CloudFlare](https://www.cloudflare.com/)
 
 ## 🚀 Local Development
 
 Please ensure you have [Node.js](https://nodejs.org/) (version 18.x or higher is recommended) installed on your computer.
 
 1.  **Clone the project**
+
     ```bash
     git clone https://github.com/Yuuzi261/BA-Gift-Planner.git
     ```
 
 2.  **Navigate to the project folder**
+
     ```bash
     cd BA-Gift-Planner
     ```
 
 3.  **Install dependencies**
+
     ```bash
     npm install
     ```
 
 4.  **Start the development server**
+
     ```bash
     npm run dev
     ```
+
     After starting, the browser will automatically open to `http://localhost:5173`.
 
 5.  **Build the project**
@@ -121,15 +135,18 @@ Please ensure you have [Node.js](https://nodejs.org/) (version 18.x or higher is
     The built files will be stored in the `dist` folder.
 
 ### Project Scripts
- 
-| Command | Description |
-| :--- | :--- |
-| `npm install` | Installs all project dependencies. |
-| `npm run dev` | Starts the local development server with hot-reloading. |
-| `npm run build` | Bundles the project into the dist folder and compresses JSON files. |
-| `npm run preview` | Previews the production build locally. |
-| `npm run format` | Formats all code with Prettier. |
-| `npm run lint` | Lints and fixes code style issues with ESLint. |
+
+| Command              | Description                                                         |
+| :------------------- | :------------------------------------------------------------------ |
+| `npm install`        | Installs all project dependencies.                                  |
+| `npm run dev`        | Starts the local development server with hot-reloading.             |
+| `npm run dev:worker` | Starts the local backend worker using Wrangler.                     |
+| `npm run db:init`    | Initializes the local D1 SQLite database.                           |
+| `npm run build`      | Bundles the project into the dist folder and compresses JSON files. |
+| `npm run preview`    | Previews the production build locally.                              |
+| `npm run format`     | Formats all code with Prettier.                                     |
+| `npm run lint`       | Lints and fixes code style issues with ESLint.                      |
+
 <!-- | `npm run analyze` | Runs a bundle analysis, generating a `stats.html` report. | -->
 
 ## 📁 Project Structure
@@ -137,10 +154,12 @@ Please ensure you have [Node.js](https://nodejs.org/) (version 18.x or higher is
 ```
 BA-Gift-Planner/
 ├── public/            # Public assets, not processed by Vite
+├── scripts/           # Helper scripts (e.g., sitemap generation)
 ├── src/
 │   ├── assets/        # Static assets like images, fonts, and data JSONs
 │   ├── components/    # Reusable Vue components
 │   ├── composables/   # Composable functions (Hooks)
+│   ├── config/        # Configuration files
 │   ├── data/          # Application data
 │   ├── directives/    # Custom directives
 │   ├── locales/       # i18n language files
@@ -148,15 +167,17 @@ BA-Gift-Planner/
 │   ├── store/         # Pinia state management
 │   ├── utils/         # Shared utility functions
 │   ├── views/         # Page components
-│   ├── App.vue        # Main component
+│   ├── App.vue        # Main Vue component
 │   ├── main.js        # Application entry point
-│   └── style.css      # Global styles
-├── .env               # Global variables
+│   ├── style.css      # Global styles
+│   └── worker.js      # Cloudflare Hono Worker script (backend)
+├── .env               # Environment variables configuration
 ├── .prettierrc.json   # Prettier configuration file
 ├── eslint.config.js   # ESLint configuration file
 ├── index.html         # HTML entry file
 ├── package.json       # Project dependencies and scripts
-└── vite.config.js     # Vite configuration file
+├── schema.sql         # SQLite database schema for D1
+└── wrangler.toml      # Cloudflare Wrangler configuration
 ```
 
 ## 🤝 Contribution and Assistance
@@ -165,8 +186,8 @@ This project warmly welcomes community contributions, whether it's updating data
 
 You can help us in the following ways:
 
-*   Raise issues and suggestions in [Issues](https://github.com/Yuuzi261/BA-Gift-Planner/issues).
-*   Submit missing character data or code changes via [Pull Requests](https://github.com/Yuuzi261/BA-Gift-Planner/pulls).
+- Raise issues and suggestions in [Issues](https://github.com/Yuuzi261/BA-Gift-Planner/issues).
+- Submit missing character data or code changes via [Pull Requests](https://github.com/Yuuzi261/BA-Gift-Planner/pulls).
 
 ## 📄 License
 
