@@ -10,7 +10,7 @@ import pako from 'pako'
  */
 export function compressStudentIds(studentIds, allStudentIds) {
   if (!studentIds || studentIds.length === 0) return ''
-  if (!allStudentIds || allStudentIds.length === 0) return ''
+  if (!allStudentIds || allStudentIds.length === 0) return studentIds
 
   const maxId = Math.max(...allStudentIds)
   const unselectedIds = allStudentIds.filter((id) => !studentIds.includes(id))
