@@ -2,6 +2,9 @@ import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import { useStudentData } from '@/utils/fetchStudentData'
 import { useGiftPlannerStore } from './giftPlanner'
+import { compressStudentIds, decompressStudentIds } from '@/utils/studentIdsCompressor'
+
+let allStudentIds = ref([])
 
 // Students that have switchable dual forms
 export const DUAL_FORM_STUDENT_IDS = [189, 264]
@@ -11,6 +14,11 @@ export const useStudentStore = defineStore(
   () => {
     const { data: studentsData } = useStudentData()
     const giftPlannerStore = useGiftPlannerStore()
+
+    const allStudentIdsComputed = computed(() => {
+      return studentsData.value ? studentsData.value.map((s) => s.id) : []
+    })
+    allStudentIds = allStudentIdsComputed
 
     const selectedStudentIds = ref([])
     const studentBondData = ref({})
@@ -106,6 +114,7 @@ export const useStudentStore = defineStore(
 
     return {
       studentsData,
+      allStudentIds: allStudentIdsComputed,
       selectedStudentIds,
       selectedStudents,
       studentBondData,
@@ -127,6 +136,30 @@ export const useStudentStore = defineStore(
   {
     persist: {
       pick: ['selectedStudentIds', 'studentBondData', 'studentFormOverrides', 'savedCombinations'],
+      serializer: {
+        serialize: (state) => {
+          const copy = JSON.parse(JSON.stringify(state))
+          if (copy.savedCombinations) {
+            copy.savedCombinations.forEach((combo) => {
+              if (Array.isArray(combo.studentIds)) {
+                combo.studentIds = compressStudentIds(combo.studentIds, allStudentIds.value)
+              }
+            })
+          }
+          return JSON.stringify(copy)
+        },
+        deserialize: (value) => {
+          const state = JSON.parse(value)
+          if (state.savedCombinations) {
+            state.savedCombinations.forEach((combo) => {
+              if (typeof combo.studentIds === 'string') {
+                combo.studentIds = decompressStudentIds(combo.studentIds, allStudentIds.value)
+              }
+            })
+          }
+          return state
+        },
+      },
       afterHydrate: (ctx) => {
         if (ctx.store.studentBondData) {
           for (const key in ctx.store.studentBondData) {
@@ -135,6 +168,13 @@ export const useStudentStore = defineStore(
               delete ctx.store.studentBondData[key]
             }
           }
+        }
+        if (ctx.store.savedCombinations) {
+          ctx.store.savedCombinations.forEach((combo) => {
+            if (typeof combo.studentIds === 'string') {
+              combo.studentIds = decompressStudentIds(combo.studentIds, allStudentIds.value)
+            }
+          })
         }
       },
     },
