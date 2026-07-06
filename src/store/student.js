@@ -33,14 +33,15 @@ export const useStudentStore = defineStore(
     }
 
     function getStudentBondData(studentId) {
-      if (!studentBondData.value[studentId]) {
-        studentBondData.value[studentId] = { level: 1, exp: 0 }
-      }
-      return studentBondData.value[studentId]
+      return studentBondData.value[studentId] || { level: 1, exp: 0 }
     }
 
     function updateStudentBond(studentId, level, exp) {
-      studentBondData.value[studentId] = { level, exp }
+      if (level === 1 && exp === 0) {
+        delete studentBondData.value[studentId]
+      } else {
+        studentBondData.value[studentId] = { level, exp }
+      }
     }
 
     function getStudentForm(studentId) {
@@ -103,6 +104,15 @@ export const useStudentStore = defineStore(
       savedCombinations.value = savedCombinations.value.filter((c) => c.id !== id)
     }
 
+    if (studentBondData.value) {
+      for (const key in studentBondData.value) {
+        const data = studentBondData.value[key]
+        if (data && data.level === 1 && data.exp === 0) {
+          delete studentBondData.value[key]
+        }
+      }
+    }
+
     return {
       studentsData,
       selectedStudentIds,
@@ -126,6 +136,16 @@ export const useStudentStore = defineStore(
   {
     persist: {
       pick: ['selectedStudentIds', 'studentBondData', 'studentFormOverrides', 'savedCombinations'],
+      afterHydrate: (ctx) => {
+        if (ctx.store.studentBondData) {
+          for (const key in ctx.store.studentBondData) {
+            const data = ctx.store.studentBondData[key]
+            if (data && data.level === 1 && data.exp === 0) {
+              delete ctx.store.studentBondData[key]
+            }
+          }
+        }
+      },
     },
   }
 )
