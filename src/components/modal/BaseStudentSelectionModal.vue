@@ -25,14 +25,25 @@
                   <PencilIcon class="search-input-icon" />
                 </div>
                 <div class="action-buttons">
-                  <button
+                  <CustomDropdown
                     v-if="!isFilterPanelOpen && !hideResetSelection"
-                    class="btn-skew btn-text btn-blue"
-                    :disabled="isNoStudentSelected"
-                    @click="resetSelection"
+                    auto-width
+                    button-class="btn-blue btn-more"
+                    caret="hideOnSmall"
                   >
-                    <span>{{ t('characterSelector.resetSelection') }}</span>
-                  </button>
+                    <template #toggle>
+                      <MoreIcon class="btn-responsive-icon" />
+                      <span class="btn-responsive-text">{{ t('characterSelector.selectActions') }}</span>
+                    </template>
+                    <li :class="{ disabled: isNoStudentSelected }" @click="resetSelection">
+                      <TrashIcon style="width: 18px; height: 18px" />
+                      <span>{{ t('characterSelector.resetSelection') }}</span>
+                    </li>
+                    <li :class="{ disabled: isAllFilteredSelected }" @click="selectAllFiltered">
+                      <SelectedIcon style="width: 18px; height: 18px" />
+                      <span>{{ t('characterSelector.selectAllFiltered') }}</span>
+                    </li>
+                  </CustomDropdown>
                   <button
                     v-if="selectionMode === 'multi' && !isFilterPanelOpen"
                     class="btn-skew btn-icon btn-blue"
@@ -43,11 +54,12 @@
                   </button>
                   <button
                     v-if="isFilterPanelOpen || alwaysShowResetFilters"
-                    class="btn-skew btn-text btn-yellow"
+                    class="btn-skew btn-responsive btn-yellow"
                     :disabled="isNoFilterSelected"
                     @click="resetFilters"
                   >
-                    <span>{{ t('characterSelector.resetFilters') }}</span>
+                    <ResetIcon class="btn-responsive-icon" />
+                    <span class="btn-responsive-text">{{ t('characterSelector.resetFilters') }}</span>
                   </button>
                   <button class="btn-skew btn-icon btn-blue" @click="toggleFilterPanel">
                     <component
@@ -204,6 +216,11 @@
   import StarIcon from '@assets/icon/star.svg'
   import FormSwitchIcon from '@assets/icon/form_switch.svg'
   import BookmarkIcon from '@assets/icon/bookmark.svg'
+  import TrashIcon from '@assets/icon/trash.svg'
+  import ResetIcon from '@assets/icon/reset.svg'
+  import CustomDropdown from '@/components/ui/CustomDropdown.vue'
+  import SelectedIcon from '@assets/icon/selected.svg'
+  import MoreIcon from '@assets/icon/more.svg'
   import { useStudentStore } from '@store/student'
   import { useModalStore } from '@store/modal'
   import { DUAL_FORM_STUDENT_IDS } from '@store/student'
@@ -223,7 +240,7 @@
     hideResetSelection: { type: Boolean, default: false },
   })
 
-  const emit = defineEmits(['closeModal', 'toggleStudent', 'selectStudent', 'resetSelection'])
+  const emit = defineEmits(['closeModal', 'toggleStudent', 'selectStudent'])
 
   const availableFilters = computed(() => {
     return filterOptions.filters.filter((f) => !props.excludeFilters.includes(f.id))
@@ -243,7 +260,6 @@
     }, {})
   )
 
-  const isNoStudentSelected = computed(() => props.selectedStudents.length === 0)
   const isNoFilterSelected = computed(() => {
     return Object.values(selectedFilters).every((arr) => arr.length === 0)
   })
@@ -330,7 +346,20 @@
   }
 
   const resetSelection = () => {
-    emit('resetSelection')
+    studentStore.deselectStudents(filteredStudents.value)
+  }
+
+  const isNoStudentSelected = computed(() => {
+    return !filteredStudents.value.some((student) => props.selectedStudents.some((s) => s.id === student.id))
+  })
+
+  const isAllFilteredSelected = computed(() => {
+    if (filteredStudents.value.length === 0) return true
+    return filteredStudents.value.every((student) => props.selectedStudents.some((s) => s.id === student.id))
+  })
+
+  const selectAllFiltered = () => {
+    studentStore.selectStudents(filteredStudents.value)
   }
 
   const filteredStudents = computed(() => {
@@ -507,6 +536,11 @@
     display: flex;
     gap: 8px;
     align-items: center;
+  }
+  @media (min-width: 577px) {
+    .action-buttons :deep(.dropdown-container .btn-responsive) {
+      min-width: 120px;
+    }
   }
 
   .search-input-wrapper {
@@ -1082,6 +1116,27 @@
     stroke: #fff;
   }
 
+  .btn-responsive {
+    padding: 0 20px;
+    font-size: 0.9rem;
+    white-space: nowrap;
+  }
+
+  .btn-responsive-icon {
+    display: none;
+    width: 20px;
+    height: 20px;
+  }
+
+  .btn-responsive-text {
+    display: inline-block;
+  }
+
+  :deep(.btn-more) {
+    font-size: 0.92rem;
+    white-space: nowrap;
+  }
+
   /* 響應式設計 */
   @media (max-width: 768px) {
     .student-grid {
@@ -1102,6 +1157,23 @@
 
     .student-name {
       font-size: 0.75rem;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .btn-responsive,
+    :deep(.btn-more) {
+      width: 42px;
+      padding: 0;
+      flex-shrink: 0;
+    }
+
+    .btn-responsive-icon {
+      display: inline-block;
+    }
+
+    .btn-responsive-text {
+      display: none;
     }
   }
 

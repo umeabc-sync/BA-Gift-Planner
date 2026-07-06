@@ -314,7 +314,7 @@
   }
 
   .exp-text {
-    font-family: monospace;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
     font-size: 0.9rem;
     color: #7f8c8d;
   }

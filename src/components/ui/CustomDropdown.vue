@@ -1,8 +1,12 @@
 <template>
-  <div class="dropdown-container" :class="{ 'z-active': isMenuOpen }">
-    <button ref="toggleRef" class="btn-skew btn-text btn-blue" @click.stop="toggleMenu">
+  <div class="dropdown-container" :class="{ 'z-active': isMenuOpen, 'auto-width': autoWidth }">
+    <button ref="toggleRef" :class="['btn-skew', buttonClass]" :disabled="disabled" @click.stop="toggleMenu">
       <slot name="toggle"></slot>
-      <span class="caret" :class="{ open: isMenuOpen }"></span>
+      <span
+        class="caret"
+        :class="{ open: isMenuOpen, 'hide-caret': caret === 'hideOnSmall' }"
+        v-if="caret !== 'hide'"
+      ></span>
     </button>
 
     <transition :name="direction === 'up' ? 'dropdown-up' : 'dropdown'">
@@ -26,6 +30,22 @@
     direction: {
       type: String,
       default: 'down', // 'down' or 'up'
+    },
+    buttonClass: {
+      type: String,
+      default: 'btn-text btn-blue',
+    },
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
+    autoWidth: {
+      type: Boolean,
+      default: false,
+    },
+    caret: {
+      type: String,
+      default: 'show', // 'show', 'hideOnSmall' or 'hide'
     },
   })
 
@@ -68,6 +88,10 @@
     width: 100%;
   }
 
+  .dropdown-container.auto-width {
+    width: auto;
+  }
+
   .btn-skew {
     width: 100%;
     user-select: none;
@@ -98,7 +122,8 @@
 
   .custom-dropdown-menu {
     position: absolute;
-    width: 100%;
+    width: max-content;
+    min-width: 100%;
     background-color: #f8f9fa;
     border-radius: 12px;
     box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
@@ -149,6 +174,7 @@
     border-radius: 8px;
     width: 100%;
     font-weight: bold;
+    white-space: nowrap;
   }
 
   .custom-dropdown-menu > :deep(li > *) {
@@ -165,6 +191,13 @@
 
   .dark-mode .custom-dropdown-menu > :deep(li:hover) {
     background-color: #2a4a6e;
+  }
+
+  .custom-dropdown-menu > :deep(li.disabled),
+  .custom-dropdown-menu > :deep(li[disabled]) {
+    opacity: 0.5;
+    pointer-events: none;
+    cursor: not-allowed;
   }
 
   .custom-dropdown-menu > :deep(li.active) {
@@ -202,5 +235,11 @@
   .dropdown-up-leave-to {
     opacity: 0;
     transform: translateY(10px) skew(-8deg);
+  }
+
+  @media (max-width: 576px) {
+    .hide-caret {
+      display: none;
+    }
   }
 </style>

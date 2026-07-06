@@ -1,7 +1,39 @@
 import { useSettingStore } from '@store/setting'
 
-export function initLocale() {
+export function initLocale(router) {
   const settingStore = useSettingStore()
+
+  // Check URL query parameter (for SEO and sharing links)
+  if (typeof window !== 'undefined') {
+    const urlParams = new URLSearchParams(window.location.search)
+    const queryLang = urlParams.get('lang')
+    const validLocales = ['en', 'ja', 'ko', 'zh-cn', 'zh-tw']
+    if (queryLang && validLocales.includes(queryLang.toLowerCase())) {
+      const targetLocale = queryLang.toLowerCase()
+      if (settingStore.locale !== targetLocale) {
+        console.log('setting locale from URL parameter:', targetLocale)
+        settingStore.locale = targetLocale
+      }
+
+      // Use the passed Vue Router instance to safely remove the lang query parameter once ready
+      if (router) {
+        router.isReady().then(() => {
+          const query = { ...router.currentRoute.value.query }
+          delete query.lang
+          router
+            .replace({
+              query,
+              hash: router.currentRoute.value.hash,
+            })
+            .catch((err) => {
+              console.error('Failed to clean up lang parameter via router:', err)
+            })
+        })
+      }
+
+      return
+    }
+  }
 
   // If locale is already set (e.g. from user settings / local storage), do not overwrite it
   if (settingStore.locale !== null) {

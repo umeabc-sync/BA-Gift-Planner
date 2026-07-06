@@ -1,11 +1,21 @@
 name = "ba-gift-planner"
 main = "src/worker.js" 
 compatibility_date = "2026-07-01"
+workers_dev = false
+routes = [
+  { pattern = "gift-planner.ba-tools.cc", custom_domain = true }
+]
 
 [assets]
 directory = "dist"
+binding = "ASSETS"
 not_found_handling = "single-page-application"
-run_worker_first = ["/api/*"]
+run_worker_first = [
+  "/",
+  "/gift-recommendation",
+  "/bond-calculator",
+  "/api/*"
+]
 
 [[d1_databases]]
 binding = "DB"
