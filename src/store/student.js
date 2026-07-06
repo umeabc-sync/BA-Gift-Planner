@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { useStudentData } from '@/utils/fetchStudentData'
 import { useGiftPlannerStore } from './giftPlanner'
 import { compressStudentIds, decompressStudentIds } from '@/utils/studentIdsCompressor'
@@ -109,6 +109,26 @@ export const useStudentStore = defineStore(
       savedCombinations.value = savedCombinations.value.filter((c) => c.id !== id)
     }
 
+    // When the async student list is fetched, filter out any invalid/deleted IDs
+    watch(
+      studentsData,
+      (newData) => {
+        if (!newData || newData.length === 0) return
+        const validIds = new Set(newData.map((s) => s.id))
+
+        // 1. Clean selectedStudentIds
+        selectedStudentIds.value = selectedStudentIds.value.filter((id) => validIds.has(id))
+
+        // 2. Clean savedCombinations
+        savedCombinations.value.forEach((combo) => {
+          if (Array.isArray(combo.studentIds)) {
+            combo.studentIds = combo.studentIds.filter((id) => validIds.has(id))
+          }
+        })
+      },
+      { immediate: true }
+    )
+
     return {
       studentsData,
       allStudentIds: allStudentIdsComputed,
@@ -136,8 +156,8 @@ export const useStudentStore = defineStore(
       serializer: {
         serialize: (state) => {
           const copy = JSON.parse(JSON.stringify(state))
-          const { data: studentsData } = useStudentData()
-          const currentAllIds = studentsData.value?.map((s) => s.id) || []
+          const store = useStudentStore()
+          const currentAllIds = store.allStudentIds || []
 
           if (Array.isArray(copy.selectedStudentIds)) {
             copy.selectedStudentIds = compressStudentIds(copy.selectedStudentIds, currentAllIds)
@@ -153,16 +173,15 @@ export const useStudentStore = defineStore(
         },
         deserialize: (value) => {
           const state = JSON.parse(value)
-          const { data: studentsData } = useStudentData()
-          const currentAllIds = studentsData.value?.map((s) => s.id) || []
 
+          // On app mount (early deserialize), metadata is not loaded, so decompress using native bitmask fields
           if (typeof state.selectedStudentIds === 'string') {
-            state.selectedStudentIds = decompressStudentIds(state.selectedStudentIds, currentAllIds)
+            state.selectedStudentIds = decompressStudentIds(state.selectedStudentIds, [])
           }
           if (state.savedCombinations) {
             state.savedCombinations.forEach((combo) => {
               if (typeof combo.studentIds === 'string') {
-                combo.studentIds = decompressStudentIds(combo.studentIds, currentAllIds)
+                combo.studentIds = decompressStudentIds(combo.studentIds, [])
               }
             })
           }
@@ -170,9 +189,6 @@ export const useStudentStore = defineStore(
         },
       },
       afterHydrate: (ctx) => {
-        const { data: studentsData } = useStudentData()
-        const currentAllIds = studentsData.value?.map((s) => s.id) || []
-
         if (ctx.store.studentBondData) {
           for (const key in ctx.store.studentBondData) {
             const data = ctx.store.studentBondData[key]
@@ -180,16 +196,6 @@ export const useStudentStore = defineStore(
               delete ctx.store.studentBondData[key]
             }
           }
-        }
-        if (typeof ctx.store.selectedStudentIds === 'string') {
-          ctx.store.selectedStudentIds = decompressStudentIds(ctx.store.selectedStudentIds, currentAllIds)
-        }
-        if (ctx.store.savedCombinations) {
-          ctx.store.savedCombinations.forEach((combo) => {
-            if (typeof combo.studentIds === 'string') {
-              combo.studentIds = decompressStudentIds(combo.studentIds, currentAllIds)
-            }
-          })
         }
       },
     },
