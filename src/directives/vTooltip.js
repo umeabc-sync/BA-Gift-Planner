@@ -58,7 +58,10 @@ class TooltipManager {
         passive: true,
         capture: true,
       })
-      document.addEventListener('scroll', this.handleGlobalScroll.bind(this), { passive: true })
+      document.addEventListener('scroll', this.handleGlobalScroll.bind(this), {
+        passive: true,
+        capture: true,
+      })
       document.addEventListener('resize', this.handleGlobalResize.bind(this))
       this.globalListenersAdded = true
     }
@@ -68,7 +71,7 @@ class TooltipManager {
     if (this.globalListenersAdded) {
       document.removeEventListener('click', this.handleGlobalClick.bind(this), true)
       document.removeEventListener('touchstart', this.handleGlobalTouchStart.bind(this), true)
-      document.removeEventListener('scroll', this.handleGlobalScroll.bind(this))
+      document.removeEventListener('scroll', this.handleGlobalScroll.bind(this), true)
       document.removeEventListener('resize', this.handleGlobalResize.bind(this))
       this.globalListenersAdded = false
     }
@@ -93,6 +96,24 @@ class TooltipManager {
   }
 
   handleGlobalScroll() {
+    if (this.currentTooltip && this.currentElement) {
+      const tooltip = this.findTooltipByElement(this.currentElement)
+      if (tooltip) {
+        this.positionTooltip(tooltip.tooltipEl, tooltip.element, tooltip.config.position, tooltip.config.offset)
+        
+        // Hide if the target element is scrolled out of the viewport
+        const rect = tooltip.element.getBoundingClientRect()
+        if (
+          rect.bottom < 0 ||
+          rect.top > window.innerHeight ||
+          rect.right < 0 ||
+          rect.left > window.innerWidth
+        ) {
+          this.hideCurrentTooltip()
+        }
+        return
+      }
+    }
     this.hideCurrentTooltip()
   }
 
