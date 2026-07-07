@@ -29,9 +29,13 @@ dist-ssr
 
 # Specification documents
 GEMINI.md
+.superpowers
 
 # Backend
 .wrangler/
 
 # Vite cache
 .vite/
+
+# For testing
+debug/

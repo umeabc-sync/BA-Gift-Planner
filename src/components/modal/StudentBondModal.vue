@@ -41,6 +41,7 @@
               class="custom-range"
               :style="sliderStyle"
               :disabled="bondLevel === 100"
+              :key="bondExpTable ? 'loaded' : 'loading'"
             />
           </div>
         </div>

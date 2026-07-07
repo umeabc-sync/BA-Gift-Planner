@@ -135,13 +135,11 @@
     },
     "analysis": {
       "recExtra": "強烈推薦",
-      "extraChoice": "效果絕佳 (+{maxValue})",
+      "extraChoice": "最喜愛的禮物 (+{maxValue})",
       "recBest": "非常推薦",
-      "bestChoice": "最佳選擇 (+{maxValue})",
+      "bestChoice": "喜歡的贈禮 (+{maxValue})",
       "recGood": "不錯的選擇",
-      "goodChoice": "頗受喜愛 (+{maxValue})",
-      "recAny": "任意送給",
-      "normalEffect": "效果一般 (+{maxValue})"
+      "goodChoice": "還算喜歡的禮品 (+{maxValue})"
     },
     "downloading": "下載中..."
   },

@@ -1,7 +1,8 @@
 import { defineStore } from 'pinia'
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { useStudentData } from '@/utils/fetchStudentData'
 import { useGiftPlannerStore } from './giftPlanner'
+import { compressStudentIds, decompressStudentIds } from '@/utils/studentIdsCompressor'
 
 // Students that have switchable dual forms
 export const DUAL_FORM_STUDENT_IDS = [189, 264]
@@ -11,6 +12,10 @@ export const useStudentStore = defineStore(
   () => {
     const { data: studentsData } = useStudentData()
     const giftPlannerStore = useGiftPlannerStore()
+
+    const allStudentIdsComputed = computed(() => {
+      return studentsData.value ? studentsData.value.map((s) => s.id) : []
+    })
 
     const selectedStudentIds = ref([])
     const studentBondData = ref({})
@@ -33,14 +38,15 @@ export const useStudentStore = defineStore(
     }
 
     function getStudentBondData(studentId) {
-      if (!studentBondData.value[studentId]) {
-        studentBondData.value[studentId] = { level: 1, exp: 0 }
-      }
-      return studentBondData.value[studentId]
+      return studentBondData.value[studentId] || { level: 1, exp: 0 }
     }
 
     function updateStudentBond(studentId, level, exp) {
-      studentBondData.value[studentId] = { level, exp }
+      if (level === 1 && exp === 0) {
+        delete studentBondData.value[studentId]
+      } else {
+        studentBondData.value[studentId] = { level, exp }
+      }
     }
 
     function getStudentForm(studentId) {
@@ -103,8 +109,29 @@ export const useStudentStore = defineStore(
       savedCombinations.value = savedCombinations.value.filter((c) => c.id !== id)
     }
 
+    // When the async student list is fetched, filter out any invalid/deleted IDs
+    watch(
+      studentsData,
+      (newData) => {
+        if (!newData || newData.length === 0) return
+        const validIds = new Set(newData.map((s) => s.id))
+
+        // 1. Clean selectedStudentIds
+        selectedStudentIds.value = selectedStudentIds.value.filter((id) => validIds.has(id))
+
+        // 2. Clean savedCombinations
+        savedCombinations.value.forEach((combo) => {
+          if (Array.isArray(combo.studentIds)) {
+            combo.studentIds = combo.studentIds.filter((id) => validIds.has(id))
+          }
+        })
+      },
+      { immediate: true }
+    )
+
     return {
       studentsData,
+      allStudentIds: allStudentIdsComputed,
       selectedStudentIds,
       selectedStudents,
       studentBondData,
@@ -126,6 +153,51 @@ export const useStudentStore = defineStore(
   {
     persist: {
       pick: ['selectedStudentIds', 'studentBondData', 'studentFormOverrides', 'savedCombinations'],
+      serializer: {
+        serialize: (state) => {
+          const copy = JSON.parse(JSON.stringify(state))
+          const store = useStudentStore()
+          const currentAllIds = store.allStudentIds || []
+
+          if (Array.isArray(copy.selectedStudentIds)) {
+            copy.selectedStudentIds = compressStudentIds(copy.selectedStudentIds, currentAllIds)
+          }
+          if (copy.savedCombinations) {
+            copy.savedCombinations.forEach((combo) => {
+              if (Array.isArray(combo.studentIds)) {
+                combo.studentIds = compressStudentIds(combo.studentIds, currentAllIds)
+              }
+            })
+          }
+          return JSON.stringify(copy)
+        },
+        deserialize: (value) => {
+          const state = JSON.parse(value)
+
+          // On app mount (early deserialize), metadata is not loaded, so decompress using native bitmask fields
+          if (typeof state.selectedStudentIds === 'string') {
+            state.selectedStudentIds = decompressStudentIds(state.selectedStudentIds, [])
+          }
+          if (state.savedCombinations) {
+            state.savedCombinations.forEach((combo) => {
+              if (typeof combo.studentIds === 'string') {
+                combo.studentIds = decompressStudentIds(combo.studentIds, [])
+              }
+            })
+          }
+          return state
+        },
+      },
+      afterHydrate: (ctx) => {
+        if (ctx.store.studentBondData) {
+          for (const key in ctx.store.studentBondData) {
+            const data = ctx.store.studentBondData[key]
+            if (data && data.level === 1 && data.exp === 0) {
+              delete ctx.store.studentBondData[key]
+            }
+          }
+        }
+      },
     },
   }
 )

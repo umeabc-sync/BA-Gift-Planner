@@ -1,7 +1,7 @@
 import { computed, watch } from 'vue'
 import { useUrlSearchParams } from '@vueuse/core'
-import pako from 'pako'
 import { useModalStore } from '@/store/modal'
+import { compressStudentIds, decompressStudentIds } from '@/utils/studentIdsCompressor'
 
 export function useShareableSelection(selectedStudentIds, studentsData) {
   const params = useUrlSearchParams('history')
@@ -16,63 +16,12 @@ export function useShareableSelection(selectedStudentIds, studentsData) {
     }
 
     const allIds = studentsData.value.map((s) => s.id)
-    const maxIdInStore = Math.max(...allIds)
-
-    const unselectedStudentIds = allIds.filter((id) => !selectedStudentIds.value.includes(id))
-
-    const useUnselected = selectedStudentIds.value.length > unselectedStudentIds.length
-    const idsToEncode = useUnselected ? unselectedStudentIds : selectedStudentIds.value
-
-    const flag = useUnselected ? 2 : 1
-    const bitfieldSize = Math.floor(maxIdInStore / 8) + 1
-    const buffer = new ArrayBuffer(1 + 2 + bitfieldSize)
-    const view = new DataView(buffer)
-
-    view.setUint8(0, flag)
-    view.setUint16(1, maxIdInStore, true) // little-endian
-
-    const bitfield = new Uint8Array(buffer, 3)
-    for (const id of idsToEncode) {
-      const byteIndex = Math.floor(id / 8)
-      const bitIndex = id % 8
-      if (byteIndex < bitfieldSize) {
-        bitfield[byteIndex] |= 1 << bitIndex
-      }
-    }
-
-    const compressed = pako.deflateRaw(new Uint8Array(buffer))
-    const binaryString = String.fromCharCode.apply(null, compressed)
-    return btoa(binaryString)
+    return compressStudentIds(selectedStudentIds.value, allIds)
   })
 
   const decodeUrlParam = (param) => {
-    const binaryString = atob(param)
-    const compressed = new Uint8Array(binaryString.length)
-    for (let i = 0; i < binaryString.length; i++) {
-      compressed[i] = binaryString.charCodeAt(i)
-    }
-    const decompressed = pako.inflateRaw(compressed)
-    const view = new DataView(decompressed.buffer)
-    const flag = view.getUint8(0)
-    const maxIdInUrl = view.getUint16(1, true)
-    const bitfield = new Uint8Array(decompressed.buffer, 3)
-
-    const idsFromBitfield = []
-    for (let i = 1; i <= maxIdInUrl; i++) {
-      const byteIndex = Math.floor(i / 8)
-      const bitIndex = i % 8
-      if ((bitfield[byteIndex] >> bitIndex) & 1) {
-        idsFromBitfield.push(i)
-      }
-    }
-
-    if (flag === 1) {
-      return idsFromBitfield
-    } else if (flag === 2) {
-      const allIdsInUrl = Array.from({ length: maxIdInUrl }, (_, i) => i + 1)
-      return allIdsInUrl.filter((id) => !idsFromBitfield.includes(id))
-    }
-    return []
+    const allIds = studentsData.value?.map((s) => s.id) || []
+    return decompressStudentIds(param, allIds)
   }
 
   // Initialization: Prioritize URL > Store > Empty

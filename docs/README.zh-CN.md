@@ -16,7 +16,7 @@
 
 这是一个为手游《蔚蓝档案》（Blue Archive）玩家设计的礼物规划器。项目使用 Vue 3 和 Vite 创建，提供一个简洁、快速且响应式的界面，帮助玩家快速从想提升羁绊等级的学生们中找到最优的送礼策略。本网站中使用的所有信息和素材均为各自作者的财产和版权。
 
-**[➡️ 点此进入网站](https://ba-gift-planner.pages.dev/)**
+**[➡️ 点此进入网站](https://gift-planner.ba-tools.cc/)**
 
 ![项目OG图片](https://raw.githubusercontent.com/Yuuzi261/BA-Gift-Planner/refs/heads/main/public/og_image.webp)
 
@@ -50,11 +50,23 @@
 
 4️⃣ 好了，现在你可以打开游戏了开始和学生们培养感情了，再也不怕送错或是不知道哪些礼物可以拿去合成了！🎉
 
+👉 另外，你可以通过分享按钮，将你选择学生的组合链接分享给其他人。也可以下载当前组合的截图，截图共有两种形式，两者皆会套用上面算出的最佳选择：
+
+- 礼物推荐（以礼物为本位对应喜欢该礼物的学生）：
+  ![](./imgs/11.png)
+
+- 学生喜好（以学生为本位对应该学生喜欢的礼物）：
+  ![](./imgs/12.png)
+
 ### 羁绊计算页面
 
 1️⃣ 设置礼物库存
 
 ![](./imgs/5.png)
+
+💡 可通过截图识别快速设置
+
+![](./imgs/14.png)
 
 2️⃣ 设置学生羁绊等级、经验
 
@@ -78,39 +90,58 @@
 
 这些功能让计算羁绊变得简单，无论是想通过它随时同步游戏中的进度，严格进行好感度的规划；还是单纯设置一个差不多的数值看一下距离目标还有多遥远，抑或是想知道当下自己的礼物库存可以做到什么程度都很方便。
 
+### 云端同步与备份
+
+厌倦了换个浏览器或换台设备数据就丢失了？云端同步功能可在不同设备之间同步你的礼物库存与学生羁绊进度等数据。目前仅支持使用 Google 登录，当然，你也可以手动导入/导出来管理你的数据。
+
+![](./imgs/13.png)
+
+### 角色预设组合
+
+支持保存 10 个预设的角色组合，管理更方便！也可通过他人分享的链接接收组合。
+
+![](./imgs/15.png)
+
+![](./imgs/16.png)
+
 ## 🛠️ 主要开发框架&套件
 
-*   **前端框架**: [Vue 3](https://vuejs.org/) (Composition API)
-*   **构建工具**: [Vite](https://vitejs.dev/)
-*   **状态管理**: [Pinia](https://pinia.vuejs.org/)
-*   **路由**: [Vue Router](https://router.vuejs.org/)
-*   **代码风格**: [Prettier](https://prettier.io/)
-*   **代码检查**: [ESLint](https://eslint.org/)
-*   **部署平台**: [CloudFlare](https://www.cloudflare.com/)
+- **前端框架**: [Vue 3](https://vuejs.org/) (Composition API)
+- **构建工具**: [Vite](https://vitejs.dev/)
+- **状态管理**: [Pinia](https://pinia.vuejs.org/)
+- **路由**: [Vue Router](https://router.vuejs.org/)
+- **代码风格**: [Prettier](https://prettier.io/)
+- **代码检查**: [ESLint](https://eslint.org/)
+- **部署平台**: [CloudFlare](https://www.cloudflare.com/)
 
 ## 🚀 本地开发
 
 请确认您的电脑已安装 [Node.js](https://nodejs.org/)（建议版本 18.x 或以上）。
 
 1.  **克隆项目**
+
     ```bash
     git clone https://github.com/Yuuzi261/BA-Gift-Planner.git
     ```
 
 2.  **进入项目文件夹**
+
     ```bash
     cd BA-Gift-Planner
     ```
 
 3.  **安装依赖**
+
     ```bash
     npm install
     ```
 
 4.  **启动开发服务器**
+
     ```bash
     npm run dev
     ```
+
     启动后，浏览器将自动打开 `http://localhost:5173`。
 
 5.  **构建项目**
@@ -121,15 +152,18 @@
     构建后的文件会存放在 `dist` 文件夹下。
 
 ### 项目脚本
- 
-| 命令 | 描述 |
-| :--- | :--- |
-| `npm install` | 安装项目所有依赖。 |
-| `npm run dev` | 启动本地开发服务器，支持热重载。 |
-| `npm run build` | 将项目打包至 dist 文件夹，并压缩 JSON 文件。 |
-| `npm run preview` | 预览打包后的成果。 |
-| `npm run format` | 使用 Prettier 格式化所有代码。 |
-| `npm run lint` | 使用 ESLint 检查并修正代码风格问题。 |
+
+| 命令                 | 描述                                         |
+| :------------------- | :------------------------------------------- |
+| `npm install`        | 安装项目所有依赖。                           |
+| `npm run dev`        | 启动本地开发服务器，支持热重载。             |
+| `npm run dev:worker` | 使用 Wrangler 启动本地后端 Worker。          |
+| `npm run db:init`    | 初始化本地 D1 SQLite 数据库。                |
+| `npm run build`      | 将项目打包至 dist 文件夹，并压缩 JSON 文件。 |
+| `npm run preview`    | 预览打包后的成果。                           |
+| `npm run format`     | 使用 Prettier 格式化所有代码。               |
+| `npm run lint`       | 使用 ESLint 检查并修正代码风格问题。         |
+
 <!-- | `npm run analyze` | 执行打包分析，产生 `stats.html` 报告。 | -->
 
 ## 📁 项目结构
@@ -137,26 +171,30 @@
 ```
 BA-Gift-Planner/
 ├── public/            # 公共资源，不会被 Vite 处理
+├── scripts/           # 辅助脚本 (例如：Sitemap 生成)
 ├── src/
 │   ├── assets/        # 图片、字体、数据 JSON 等静态资源
 │   ├── components/    # 可重复使用的 Vue 组件
 │   ├── composables/   # 可组合的函数 (Hooks)
+│   ├── config/        # 应用程序内配置设置 (例如：同步的 Store 注册)
 │   ├── data/          # 应用程序数据
 │   ├── directives/    # 自定义指令
 │   ├── locales/       # i18n 语言文件
 │   ├── router/        # Vue 路由配置
-│   ├── store/         # Pinia 状态管理
+│   ├── store/         # Pinia 状态 management
 │   ├── utils/         # 共用工具函数
 │   ├── views/         # 页面组件
-│   ├── App.vue        # 主组件
+│   ├── App.vue        # 主 Vue 组件
 │   ├── main.js        # 应用程序入口点
-│   └── style.css      # 全局样式
-├── .env               # 全局变量
+│   ├── style.css      # 全局样式
+│   └── worker.js      # Cloudflare Hono Worker 脚本 (后端)
+├── .dev.vars          # 全局变量设置
 ├── .prettierrc.json   # Prettier 配置文件
 ├── eslint.config.js   # ESLint 配置文件
 ├── index.html         # HTML 入口文件
 ├── package.json       # 项目依赖与脚本
-└── vite.config.js     # Vite 配置文件
+├── schema.sql         # D1 SQLite 数据库架构
+└── wrangler.toml      # Cloudflare Wrangler 配置文件
 ```
 
 ## 🤝 贡献与协助
@@ -165,8 +203,8 @@ BA-Gift-Planner/
 
 你可以透过以下方式协助我们：
 
-*   在 [Issues](https://github.com/Yuuzi261/BA-Gift-Planner/issues) 中提出问题及建议。
-*   在 [Pull Request](https://github.com/Yuuzi261/BA-Gift-Planner/pulls) 中提交缺失的角评数据或代码修改。
+- 在 [Issues](https://github.com/Yuuzi261/BA-Gift-Planner/issues) 中提出问题及建议。
+- 在 [Pull Request](https://github.com/Yuuzi261/BA-Gift-Planner/pulls) 中提交缺失的角评数据或代码修改。
 
 ## 📄 授权
 

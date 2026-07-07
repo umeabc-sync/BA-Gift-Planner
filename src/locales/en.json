@@ -134,14 +134,12 @@
       "synthesis": "Gifts recommended for synthesis"
     },
     "analysis": {
-      "recExtra": "Strongly Recommended",
-      "extraChoice": "Excellent (+{maxValue})",
-      "recBest": "Highly Recommended",
-      "bestChoice": "Best Choice (+{maxValue})",
+      "recExtra": "Top Pick",
+      "extraChoice": "Favorite Gift (+{maxValue})",
+      "recBest": "Great Gift",
+      "bestChoice": "Liked Present (+{maxValue})",
       "recGood": "Good Choice",
-      "goodChoice": "Well-liked (+{maxValue})",
-      "recAny": "Give to anyone",
-      "normalEffect": "Normal (+{maxValue})"
+      "goodChoice": "Somewhat Liked Item (+{maxValue})"
     },
     "downloading": "Downloading..."
   },

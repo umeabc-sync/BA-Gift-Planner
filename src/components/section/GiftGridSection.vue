@@ -7,6 +7,10 @@
         :key="gift.id"
         class="gift-grid-item"
         :class="gift.isSsr ? 'gift-purple' : 'gift-yellow'"
+        v-tooltip:gift-tooltip.bottom="{
+          content: gift.name,
+          class: `gift-grid-tooltip ${gift.isSsr ? 'ssr-gift-tooltip' : 'sr-gift-tooltip'}`,
+        }"
       >
         <ImageWithLoader
           :src="getGiftUrl(gift.id, gift.isSsr)"
@@ -16,7 +20,6 @@
           :inherit-background="false"
         />
         <div class="gift-icon-bg"></div>
-        <div class="gift-name">{{ gift.name }}</div>
       </div>
     </div>
   </div>
@@ -140,31 +143,5 @@
     width: 90%;
     height: 90%;
     z-index: 4;
-  }
-  .gift-grid-item .gift-name {
-    position: absolute;
-    bottom: -25px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(0, 0, 0, 0.8);
-    color: white;
-    padding: 5px 10px;
-    border-radius: 15px;
-    font-size: 10px;
-    white-space: nowrap;
-    opacity: 0;
-    visibility: hidden;
-    transition:
-      opacity 0.3s ease,
-      visibility 0.3s ease;
-  }
-  .dark-mode .gift-grid-item .gift-name {
-    background: rgba(223, 227, 231, 0.95);
-    color: #201e2e;
-  }
-
-  .gift-grid-item:hover .gift-name {
-    opacity: 1;
-    visibility: visible;
   }
 </style>

@@ -217,7 +217,7 @@
   import FormSwitchIcon from '@assets/icon/form_switch.svg'
   import BookmarkIcon from '@assets/icon/bookmark.svg'
   import TrashIcon from '@assets/icon/trash.svg'
-  import ResetIcon from '@assets/icon/reset.svg'
+  import ResetIcon from '@assets/icon/refresh.svg'
   import CustomDropdown from '@/components/ui/CustomDropdown.vue'
   import SelectedIcon from '@assets/icon/selected.svg'
   import MoreIcon from '@assets/icon/more.svg'

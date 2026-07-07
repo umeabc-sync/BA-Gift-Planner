@@ -16,7 +16,7 @@
 
 これは、モバイルゲーム「ブルーアーカイブ」のプレイヤー向けに設計されたギフトプランナーです。このプロジェクトはVue 3とViteを使用しており、プレイヤーが絆ランクを上げたい生徒たちに最適な贈り物の戦略を迅速に見つけるための、クリーンで高速、かつレスポンシブなインターフェースを提供します。このウェブサイトで使用されているすべての情報と素材は、それぞれの著者の財産であり、著作権で保護されています。
 
-**[➡️ ウェブサイトはこちら](https://ba-gift-planner.pages.dev/)**
+**[➡️ ウェブサイトはこちら](https://gift-planner.ba-tools.cc/)**
 
 ![プロジェクトOG画像](https://raw.githubusercontent.com/Yuuzi261/BA-Gift-Planner/refs/heads/main/public/og_image.webp)
 
@@ -50,11 +50,23 @@
 
 4️⃣ さあ、ゲームを開いて生徒たちとの絆を深めましょう。もう贈り物を間違えたり、どの贈り物が合成に使えるか分からなくなったりする心配はありません！🎉
 
+👉 また、共有ボタンを使用して、選択した生徒の組み合わせリンクを他の人と共有できます。現在の組み合わせのスクリーンショットをダウンロードすることもできます。スクリーンショットには2つのスタイルがあり、どちらも上記で計算された最適な選択肢が適用されます：
+
+- **贈り物推薦**（贈り物を基準として、その贈り物が好きな生徒を表示します）：
+  ![](./imgs/11.png)
+
+- **生徒の好み**（生徒を基準として、その生徒が好きな贈り物を表示します）：
+  ![](./imgs/12.png)
+
 ### 絆計算ページ
 
 1️⃣ 贈り物インベントリを設定
 
 ![](./imgs/5.png)
+
+💡 画像認識で素早く設定：
+
+![](./imgs/14.png)
 
 2️⃣ 生徒の絆レベルと経験値を設定
 
@@ -78,39 +90,58 @@
 
 これらの機能により、絆の計算が簡単になります。ゲームの進行状況を同期して綿密な好感度計画を立てたい場合でも、おおよその数値を設定して目標までの距離を確認したい場合でも、現在の手持ちの贈り物で何ができるかを知りたい場合でも、非常に便利です。
 
+### クラウド同期とバックアップ
+
+ブラウザの切り替えやデバイスの変更でデータが失われることにうんざりしていませんか？クラウド同期機能を使用すると、贈り物の在庫や生徒の絆レベルなどのデータをデバイス間で同期できます。現在は Google ログインのみをサポートしています。もちろん、手動でインポート/エクスポートしてデータを管理することも可能です。
+
+![](./imgs/13.png)
+
+### プリセットグループ
+
+最大10個のキャラクタープリセットを保存でき、管理がより簡単になります！他の人が共有したリンクからプリセットを受け取ることも可能です。
+
+![](./imgs/15.png)
+
+![](./imgs/16.png)
+
 ## 🛠️ 主な開発フレームワーク＆パッケージ
 
-*   **フロントエンドフレームワーク**: [Vue 3](https://vuejs.org/) (Composition API)
-*   **ビルドツール**: [Vite](https://vitejs.dev/)
-*   **状態管理**: [Pinia](https://pinia.vuejs.org/)
-*   **ルーティング**: [Vue Router](https://router.vuejs.org/)
-*   **コードスタイル**: [Prettier](https://prettier.io/)
-*   **リンター**: [ESLint](https://eslint.org/)
-*   **デプロイプラットフォーム**: [CloudFlare](https://www.cloudflare.com/)
+- **フロントエンドフレームワーク**: [Vue 3](https://vuejs.org/) (Composition API)
+- **ビルドツール**: [Vite](https://vitejs.dev/)
+- **状態管理**: [Pinia](https://pinia.vuejs.org/)
+- **ルーティング**: [Vue Router](https://router.vuejs.org/)
+- **コードスタイル**: [Prettier](https://prettier.io/)
+- **リンター**: [ESLint](https://eslint.org/)
+- **デプロイプラットフォーム**: [CloudFlare](https://www.cloudflare.com/)
 
 ## 🚀 ローカルでの開発
 
 お使いのコンピュータに[Node.js](https://nodejs.org/)（バージョン18.x以上を推奨）がインストールされていることを確認してください。
 
 1.  **プロジェクトをクローンする**
+
     ```bash
     git clone https://github.com/Yuuzi261/BA-Gift-Planner.git
     ```
 
 2.  **プロジェクトフォルダに移動する**
+
     ```bash
     cd BA-Gift-Planner
     ```
 
 3.  **依存関係をインストールする**
+
     ```bash
     npm install
     ```
 
 4.  **開発サーバーを起動する**
+
     ```bash
     npm run dev
     ```
+
     起動後、ブラウザで自動的に `http://localhost:5173` が開きます。
 
 5.  **プロジェクトをビルドする**
@@ -121,15 +152,18 @@
     ビルドされたファイルは `dist` フォルダに保存されます。
 
 ### プロジェクトスクリプト
- 
-| コマンド | 説明 |
-| :--- | :--- |
-| `npm install` | プロジェクトのすべての依存関係をインストールします。 |
-| `npm run dev` | ホットリロード対応のローカル開発サーバーを起動します。 |
-| `npm run build` | プロジェクトを`dist`フォルダにバンドルし、JSONファイルを圧縮します。 |
-| `npm run preview` | 本番ビルドをローカルでプレビューします。 |
-| `npm run format` | Prettierを使用してすべてのコードをフォーマットします。 |
-| `npm run lint` | ESLintを使用してコードスタイルの問題をチェックし、修正します。 |
+
+| コマンド             | 説明                                                                 |
+| :------------------- | :------------------------------------------------------------------- |
+| `npm install`        | プロジェクトのすべての依存関係をインストールします。                 |
+| `npm run dev`        | ホットリロード対応のローカル開発サーバーを起動します。               |
+| `npm run dev:worker` | Wrangler を使用してローカルバックエンドの Worker を起動します。      |
+| `npm run db:init`    | ローカル D1 SQLite データベースを初期化します。                      |
+| `npm run build`      | プロジェクトを`dist`フォルダにバンドルし、JSONファイルを圧縮します。 |
+| `npm run preview`    | 本番ビルドをローカルでプレビューします。                             |
+| `npm run format`     | Prettierを使用してすべてのコードをフォーマットします。               |
+| `npm run lint`       | ESLintを使用してコードスタイルの問題をチェックし、修正します。       |
+
 <!-- | `npm run analyze` | バンドル分析を実行し、`stats.html`レポートを生成します。 | -->
 
 ## 📁 プロジェクト構造
@@ -137,10 +171,12 @@
 ```
 BA-Gift-Planner/
 ├── public/            # Viteで処理されない公開アセット
+├── scripts/           # 補助スクリプト (例: サイトマップ生成)
 ├── src/
 │   ├── assets/        # 画像、フォント、データJSONなどの静的アセット
 │   ├── components/    # 再利用可能なVueコンポーネント
 │   ├── composables/   # コンポーザブル関数 (Hooks)
+│   ├── config/        # アプリケーション内設定 (例: 同期対象 Store の登録)
 │   ├── data/          # アプリケーションデータ
 │   ├── directives/    # カスタムディレクティブ
 │   ├── locales/       # i18n言語ファイル
@@ -148,15 +184,17 @@ BA-Gift-Planner/
 │   ├── store/         # Pinia状態管理
 │   ├── utils/         # 共有ユーティリティ関数
 │   ├── views/         # ページコンポーネント
-│   ├── App.vue        # メインコンポーネント
+│   ├── App.vue        # メイン Vue コンポーネント
 │   ├── main.js        # アプリケーションのエントリーポイント
-│   └── style.css      # グローバルスタイル
-├── .env               # グローバル変数
+│   ├── style.css      # グローバルスタイル
+│   └── worker.js      # Cloudflare Hono Worker スクリプト (バックエンド)
+├── .dev.vars          # ローカル開発用の環境変数設定
 ├── .prettierrc.json   # Prettier設定ファイル
 ├── eslint.config.js   # ESLint設定ファイル
 ├── index.html         # HTMLエントリーファイル
 ├── package.json       # プロジェクトの依存関係とスクリプト
-└── vite.config.js     # Vite設定ファイル
+├── schema.sql         # D1 SQLite データベーススキーマ
+└── wrangler.toml      # Cloudflare Wrangler 設定ファイル
 ```
 
 ## 🤝 貢献と協力
@@ -165,8 +203,8 @@ BA-Gift-Planner/
 
 以下の方法でご協力いただけます：
 
-*   [Issues](https://github.com/Yuuzi261/BA-Gift-Planner/issues)で問題や提案を提起する。
-*   [Pull Request](https://github.com/Yuuzi261/BA-Gift-Planner/pulls)で不足しているキャラクターデータやコードの修正を提出する。
+- [Issues](https://github.com/Yuuzi261/BA-Gift-Planner/issues)で問題や提案を提起する。
+- [Pull Request](https://github.com/Yuuzi261/BA-Gift-Planner/pulls)で不足しているキャラクターデータやコードの修正を提出する。
 
 ## 📄 ライセンス
 

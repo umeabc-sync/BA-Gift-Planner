@@ -135,13 +135,11 @@
     },
     "analysis": {
       "recExtra": "강력 추천",
-      "extraChoice": "훌륭함 (+{maxValue})",
+      "extraChoice": "가장 좋아하는 선물 (+{maxValue})",
       "recBest": "매우 추천",
-      "bestChoice": "최고의 선택 (+{maxValue})",
+      "bestChoice": "좋아하는 기프트 (+{maxValue})",
       "recGood": "좋은 선택",
-      "goodChoice": "호평 (+{maxValue})",
-      "recAny": "누구에게나 주기",
-      "normalEffect": "보통 (+{maxValue})"
+      "goodChoice": "꽤 좋아하는 아이템 (+{maxValue})"
     },
     "downloading": "다운로드 중..."
   },

@@ -1,34 +1,177 @@
+:root {
+  --tooltip-sr-bg: linear-gradient(to right, #fffbcb, #fff498);
+  --tooltip-sr-color: #4b2116;
+  --tooltip-sr-arrow-bg: linear-gradient(to right, #fff8b3, #fff7af);
+
+  --tooltip-ssr-bg: linear-gradient(to right, #ffcbfc, #ffa8fc);
+  --tooltip-ssr-color: #511956;
+  --tooltip-ssr-arrow-bg: linear-gradient(to right, #ffbafc, #ffb8fc);
+}
+
+body.dark-mode {
+  --tooltip-sr-bg: linear-gradient(to right, #5c441a, #3c2a0d);
+  --tooltip-sr-color: #ffe5bd;
+  --tooltip-sr-arrow-bg: linear-gradient(to bottom, #4d3814, #4b3613);
+
+  --tooltip-ssr-bg: linear-gradient(to right, #4a1547, #3b0c38);
+  --tooltip-ssr-color: #ffdefd;
+  --tooltip-ssr-arrow-bg: linear-gradient(to bottom, #431140, #42103f);
+}
+
 .tooltip {
   transition: opacity 0.3s ease;
 }
 
-/* FavoriteGiftsModal.vue Tooltip */
+.tooltip.sr-gift-tooltip {
+  background: var(--tooltip-sr-bg);
+  color: var(--tooltip-sr-color);
+}
+
+.tooltip.ssr-gift-tooltip {
+  background: var(--tooltip-ssr-bg);
+  color: var(--tooltip-ssr-color);
+}
+
+/* ==========================================================================
+   Gift Tooltip (.gift-tooltip)
+   Used for gift name tooltips under gift icons
+   ========================================================================== */
+.tooltip.gift-tooltip {
+  padding: 6px 12px;
+  border-radius: 15px; /* Pill style */
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.tooltip.gift-grid-tooltip {
+  font-size: 12px;
+  padding: 5px 10px;
+}
+
+/* ==========================================================================
+   Favorite Gift Tooltip (.fav-gift-tooltip)
+   Used in FavoriteGiftsModal.vue and similar compact panels
+   ========================================================================== */
 .tooltip.fav-gift-tooltip {
-  background: rgba(0, 0, 0, 0.9);
-  color: white;
   padding: 8px 12px;
-  border-radius: 8px;
+  border-radius: 999px;
   font-size: 14px;
   font-weight: bold;
   white-space: nowrap;
-}
-
-.dark-mode .tooltip.fav-gift-tooltip {
-  background: rgba(223, 227, 231, 0.95);
-  color: #201e2e;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .tooltip.fav-gift-tooltip::after {
   content: '';
   position: absolute;
+  top: 98%;
+  left: 50%;
+  width: 12px;
+  height: 6px;
+  transform: translateX(-50%);
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+}
+
+.tooltip.fav-gift-tooltip.sr-gift-tooltip::after {
+  background: var(--tooltip-sr-arrow-bg);
+}
+
+.tooltip.fav-gift-tooltip.ssr-gift-tooltip::after {
+  background: var(--tooltip-ssr-arrow-bg);
+}
+
+/* ==========================================================================
+   Character Tooltip (.char-tooltip)
+   Blue Archive Style character avatar tooltips
+   ========================================================================== */
+.tooltip.char-tooltip {
+  background: #ffffff;
+  color: #102a43;
+  border: 3px solid #00d6fd;
+  border-radius: 10px;
+  padding: 12px 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  min-width: 160px;
+}
+
+.dark-mode .tooltip.char-tooltip {
+  background: #122031;
+  color: #e0f4ff;
+  border-color: #00c0f0;
+}
+
+.tooltip.char-tooltip::after {
+  content: '';
+  position: absolute;
   top: 100%;
   left: 50%;
   transform: translateX(-50%);
-  border-width: 6px;
+  border-width: 8px 8px 0;
   border-style: solid;
-  border-color: rgba(0, 0, 0, 0.9) transparent transparent transparent;
+  border-color: #00d2ff transparent transparent transparent;
 }
 
-.dark-mode .tooltip.fav-gift-tooltip::after {
-  border-color: rgba(223, 227, 231, 0.95) transparent transparent transparent;
+.dark-mode .tooltip.char-tooltip::after {
+  border-color: #00c0f0 transparent transparent transparent;
+}
+
+/* Sub-elements for Character Tooltip (passed as HTML string) */
+.char-tooltip-header {
+  display: flex;
+  align-items: center;
+  font-size: 15px;
+  font-weight: bold;
+  color: #102a43;
+  line-height: 1;
+}
+
+.dark-mode .char-tooltip-header {
+  color: #e0f4ff;
+}
+
+.char-tooltip-header::before {
+  content: '';
+  display: inline-block;
+  width: 4px;
+  height: 15px;
+  background-color: #80e9ff;
+  margin-right: 8px;
+}
+
+.dark-mode .char-tooltip-header::before {
+  background-color: #00c0f0;
+}
+
+.char-tooltip-divider {
+  border: none;
+  border-top: 1.5px dashed #bcccdc;
+  margin: 8px 0;
+}
+
+.dark-mode .char-tooltip-divider {
+  border-top-color: #2a4a6e;
+}
+
+.char-tooltip-xp {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #486581;
+  font-size: 12px;
+}
+
+.dark-mode .char-tooltip-xp {
+  color: #a6c5e2;
+}
+
+.char-tooltip-icon {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.char-tooltip-xp-val {
+  font-weight: bold;
 }

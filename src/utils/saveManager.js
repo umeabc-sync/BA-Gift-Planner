@@ -1,5 +1,6 @@
 import pako from 'pako'
 import { getSyncStores } from '@/config/syncStores'
+import { decompressStudentIds } from './studentIdsCompressor'
 
 // Lightweight deep comparison helper for standard JSON-serializable structures
 function deepEqual(a, b) {
@@ -38,13 +39,14 @@ export function isSyncPayloadEqual(payloadA, payloadB) {
     return true
   }
 
-  // Slow path: parse sub-store JSON strings and compare deeply
+  // Slow path: parse sub-store JSON values (strings or objects) and compare deeply
   try {
+    const resolve = (val) => (typeof val === 'string' ? JSON.parse(val || '{}') : val || {})
     const parse = (p) => ({
-      student: JSON.parse(p.student || '{}'),
-      gift: JSON.parse(p.gift || '{}'),
-      giftPlanner: JSON.parse(p.giftPlanner || '{}'),
-      setting: JSON.parse(p.setting || '{}'),
+      student: resolve(p.student),
+      gift: resolve(p.gift),
+      giftPlanner: resolve(p.giftPlanner),
+      setting: resolve(p.setting),
     })
     return deepEqual(parse(payloadA), parse(payloadB))
   } catch (e) {
@@ -54,11 +56,21 @@ export function isSyncPayloadEqual(payloadA, payloadB) {
 }
 
 export function getLocalStatePayload() {
+  const getParsedOrEmpty = (key) => {
+    try {
+      const val = localStorage.getItem(key)
+      return val ? JSON.parse(val) : {}
+    } catch (e) {
+      console.error(`Failed to parse localStorage key ${key}:`, e)
+      return {}
+    }
+  }
   return {
-    student: localStorage.getItem('student') || '{}',
-    gift: localStorage.getItem('gift') || '{}',
-    giftPlanner: localStorage.getItem('giftPlanner') || '{}',
-    setting: localStorage.getItem('setting') || '{}',
+    version: 2,
+    student: getParsedOrEmpty('student'),
+    gift: getParsedOrEmpty('gift'),
+    giftPlanner: getParsedOrEmpty('giftPlanner'),
+    setting: getParsedOrEmpty('setting'),
   }
 }
 
@@ -85,8 +97,33 @@ export function applySaveDataToStores(jsonString, preserveSharedSelection = fals
   const parsed = JSON.parse(jsonString)
   const stores = getSyncStores()
 
+  const resolveDataObj = (val) => {
+    if (typeof val === 'string') {
+      try {
+        return JSON.parse(val)
+      } catch (e) {
+        console.error('Failed to parse legacy sub-store string:', e)
+        return {}
+      }
+    }
+    return val || {}
+  }
+
   if (parsed.student) {
-    const studentData = JSON.parse(parsed.student)
+    const studentData = resolveDataObj(parsed.student)
+    const allStudentIds = stores.student.studentsData?.map((s) => s.id) || []
+
+    if (studentData.selectedStudentIds && typeof studentData.selectedStudentIds === 'string') {
+      studentData.selectedStudentIds = decompressStudentIds(studentData.selectedStudentIds, allStudentIds)
+    }
+
+    if (studentData.savedCombinations) {
+      studentData.savedCombinations.forEach((combo) => {
+        if (typeof combo.studentIds === 'string') {
+          combo.studentIds = decompressStudentIds(combo.studentIds, allStudentIds)
+        }
+      })
+    }
 
     if (preserveSharedSelection) {
       studentData.selectedStudentIds = stores.student.selectedStudentIds
@@ -95,14 +132,19 @@ export function applySaveDataToStores(jsonString, preserveSharedSelection = fals
     stores.student.$patch(studentData)
   }
   if (parsed.gift) {
-    const giftData = JSON.parse(parsed.gift)
-    // Direct assignment instead of $patch — avoids deep merge leaving stale keys
+    const giftData = resolveDataObj(parsed.gift)
     if (giftData.quantities !== undefined) {
       stores.gift.quantities = giftData.quantities
     }
   }
-  if (parsed.giftPlanner) stores.giftPlanner.$patch(JSON.parse(parsed.giftPlanner))
-  if (parsed.setting) stores.setting.$patch(JSON.parse(parsed.setting))
+  if (parsed.giftPlanner) {
+    const plannerData = resolveDataObj(parsed.giftPlanner)
+    stores.giftPlanner.$patch(plannerData)
+  }
+  if (parsed.setting) {
+    const settingData = resolveDataObj(parsed.setting)
+    stores.setting.$patch(settingData)
+  }
 }
 
 export function generateExportFile() {
@@ -111,7 +153,7 @@ export function generateExportFile() {
 
   const exportData = {
     payload: base64Payload,
-    version: 1,
+    version: 2,
     date: new Date().toISOString(),
   }
 

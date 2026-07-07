@@ -134,14 +134,12 @@
       "synthesis": "合成におすすめの贈り物"
     },
     "analysis": {
-      "recExtra": "強く推奨",
-      "extraChoice": "効果抜群 (+{maxValue})",
-      "recBest": "非常におすすめ",
-      "bestChoice": "最良の選択 (+{maxValue})",
+      "recExtra": "イチオシ",
+      "extraChoice": "大好きなプレゼント (+{maxValue})",
+      "recBest": "おすすめ",
+      "bestChoice": "好きな贈り物 (+{maxValue})",
       "recGood": "良い選択",
-      "goodChoice": "好まれる (+{maxValue})",
-      "recAny": "誰にでも贈れる",
-      "normalEffect": "効果は普通 (+{maxValue})"
+      "goodChoice": "まあまあ好きなギフト (+{maxValue})"
     },
     "downloading": "ダウンロード中..."
   },

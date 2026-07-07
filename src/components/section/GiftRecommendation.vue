@@ -1,6 +1,13 @@
 <template>
   <div class="gift-row">
-    <div class="gift-island" :class="gift.isSsr ? 'gift-purple' : 'gift-yellow'">
+    <div
+      class="gift-island"
+      :class="gift.isSsr ? 'gift-purple' : 'gift-yellow'"
+      v-tooltip:gift-tooltip.bottom="{
+        content: gift.name,
+        class: gift.isSsr ? 'ssr-gift-tooltip' : 'sr-gift-tooltip',
+      }"
+    >
       <ImageWithLoader
         :src="getGiftUrl(gift.id, gift.isSsr)"
         class="gift-icon"
@@ -9,7 +16,6 @@
         :inherit-background="false"
       />
       <div class="gift-icon-bg"></div>
-      <div class="gift-name">{{ gift.name }}</div>
     </div>
     <div class="recommendation-island">
       <div class="rec-type" :class="gift.analysis.class">{{ t(gift.analysis.typeTextKey) }}</div>
@@ -21,23 +27,12 @@
           class="character-avatar"
           :class="{ 'sub-optimal': !char.isOptimal }"
           @click="openFavoriteGiftsModal(char)"
+          v-tooltip:char-tooltip="getCharTooltipHtml(char, gift)"
         >
           <ImageWithLoader
             :src="getAvatarUrl(char.id, studentStore.getStudentForm(char.id))"
             class="character-avatar-img"
           />
-          <div class="tooltip">
-            <div class="tooltip-name">{{ t(`student.name.${char.id}`) }}</div>
-            <div class="tooltip-xp">
-              <ImageWithLoader
-                :src="getInteractionUrl(getInteractionLevel(gift, char))"
-                class="tooltip-icon"
-                object-fit="contain"
-                loader-type="pulse"
-              />
-              <span>{{ t('giftRecommendation.bondXp', { value: getPreferenceValue(char, gift) }) }}</span>
-            </div>
-          </div>
         </div>
       </div>
     </div>
@@ -79,6 +74,22 @@
 
   const closeFavoriteGiftsModal = () => {
     isFavoriteGiftsModalVisible.value = false
+  }
+
+  const getCharTooltipHtml = (char, gift) => {
+    const charName = t(`student.name.${char.id}`)
+    const level = getInteractionLevel(gift, char)
+    const iconUrl = getInteractionUrl(level)
+    const bondXpText = t('giftRecommendation.bondXp', { value: getPreferenceValue(char, gift) })
+
+    return `
+      <div class="char-tooltip-header">${charName}</div>
+      <hr class="char-tooltip-divider" />
+      <div class="char-tooltip-xp">
+        <img src="${iconUrl}" class="char-tooltip-icon" />
+        <span class="char-tooltip-xp-val">${bondXpText}</span>
+      </div>
+    `
   }
 </script>
 
@@ -166,34 +177,6 @@
     z-index: 4;
   }
 
-  .gift-name {
-    position: absolute;
-    bottom: -30px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(0, 0, 0, 0.8);
-    color: white;
-    padding: 5px 10px;
-    border-radius: 15px;
-    font-size: 12px;
-    white-space: nowrap;
-    opacity: 0;
-    visibility: hidden;
-    transition:
-      opacity 0.3s ease,
-      visibility 0.3s ease;
-  }
-
-  .gift-island:hover .gift-name {
-    opacity: 1;
-    visibility: visible;
-  }
-
-  .dark-mode .gift-name {
-    background: rgba(223, 227, 231, 0.95);
-    color: #201e2e;
-  }
-
   .recommendation-island {
     flex: 1;
     background: #efefef;
@@ -263,52 +246,6 @@
   .character-avatar:hover {
     z-index: 10;
     transform: scale(1.1);
-  }
-
-  .tooltip {
-    position: absolute;
-    bottom: 110%;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(0, 0, 0, 0.9);
-    color: white;
-    padding: 10px;
-    border-radius: 8px;
-    font-size: 12px;
-    white-space: nowrap;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
-    z-index: 100;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 5px;
-  }
-
-  .character-avatar:hover .tooltip {
-    opacity: 1;
-  }
-
-  .tooltip-name {
-    font-weight: bold;
-    font-size: 14px;
-  }
-
-  .tooltip-xp {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-  }
-
-  .tooltip-icon {
-    width: 24px;
-    height: 24px;
-  }
-
-  .dark-mode .tooltip {
-    background: rgba(223, 227, 231, 0.95);
-    color: #201e2e;
   }
 
   .rec-type {

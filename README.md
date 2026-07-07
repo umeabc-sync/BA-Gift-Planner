@@ -16,7 +16,7 @@
 
 This is a gift planner designed for players of the mobile game "Blue Archive". Built with Vue 3 and Vite, this project provides a clean, fast, and responsive interface to help players quickly find the optimal gifting strategy for the students whose bond levels they want to increase. All information and materials used on this website are the property and copyright of their respective authors.
 
-**[➡️ Click here to visit the website](https://ba-gift-planner.pages.dev/)**
+**[➡️ Click here to visit the website](https://gift-planner.ba-tools.cc/)**
 
 ![Project OG Image](https://raw.githubusercontent.com/Yuuzi261/BA-Gift-Planner/refs/heads/main/public/og_image.webp)
 
@@ -50,11 +50,23 @@ Students who are not the best choice will have a semi-transparent + dashed borde
 
 4️⃣ Alright, now you can open the game and start building relationships with your students. No more worrying about giving the wrong gift or not knowing which gifts can be used for crafting! 🎉
 
+👉 In addition, you can use the share button to share your selected student combination link with others. You can also download screenshots of the current combination. The screenshots are available in two styles, both applying the optimal choices calculated above:
+
+- **Gift Recommendation** (gift-oriented view matching students who like the gift):
+  ![](./docs/imgs/11.png)
+
+- **Student Preference** (student-oriented view matching the favorite gifts of each student):
+  ![](./docs/imgs/12.png)
+
 ### Bond Calculator Page
 
 1️⃣ Set Gift Inventory
 
 ![](./docs/imgs/5.png)
+
+💡 Fast setup via screenshot recognition:
+
+![](./docs/imgs/14.png)
 
 2️⃣ Set Student's Bond Level and EXP
 
@@ -78,39 +90,58 @@ Students who are not the best choice will have a semi-transparent + dashed borde
 
 These features make bond calculation simple. It's convenient whether you want to sync your in-game progress for meticulous affection planning, simply set approximate values to see how far you are from your goal, or find out what you can achieve with your current gift inventory.
 
+### Cloud Sync & Backup
+
+Tired of losing your data when switching browsers or devices? The cloud sync feature allows you to sync your gift inventory and student bond progress across multiple devices. Currently, it only supports Google Login. You can also manually import/export to manage your data.
+
+![](./docs/imgs/13.png)
+
+### Character Presets
+
+Supports saving up to 10 character presets for easier management! You can also load presets shared by others via a link.
+
+![](./docs/imgs/15.png)
+
+![](./docs/imgs/16.png)
+
 ## 🛠️ Main Development Frameworks & Packages
 
-*   **Frontend Framework**: [Vue 3](https://vuejs.org/) (Composition API)
-*   **Build Tool**: [Vite](https://vitejs.dev/)
-*   **State Management**: [Pinia](https://pinia.vuejs.org/)
-*   **Routing**: [Vue Router](https://router.vuejs.org/)
-*   **Code Style**: [Prettier](https://prettier.io/)
-*   **Linter**: [ESLint](https://eslint.org/)
-*   **Deployment Platform**: [CloudFlare](https://www.cloudflare.com/)
+- **Frontend Framework**: [Vue 3](https://vuejs.org/) (Composition API)
+- **Build Tool**: [Vite](https://vitejs.dev/)
+- **State Management**: [Pinia](https://pinia.vuejs.org/)
+- **Routing**: [Vue Router](https://router.vuejs.org/)
+- **Code Style**: [Prettier](https://prettier.io/)
+- **Linter**: [ESLint](https://eslint.org/)
+- **Deployment Platform**: [CloudFlare](https://www.cloudflare.com/)
 
 ## 🚀 Local Development
 
 Please ensure you have [Node.js](https://nodejs.org/) (version 18.x or higher is recommended) installed on your computer.
 
 1.  **Clone the project**
+
     ```bash
     git clone https://github.com/Yuuzi261/BA-Gift-Planner.git
     ```
 
 2.  **Navigate to the project folder**
+
     ```bash
     cd BA-Gift-Planner
     ```
 
 3.  **Install dependencies**
+
     ```bash
     npm install
     ```
 
 4.  **Start the development server**
+
     ```bash
     npm run dev
     ```
+
     After starting, the browser will automatically open to `http://localhost:5173`.
 
 5.  **Build the project**
@@ -121,15 +152,18 @@ Please ensure you have [Node.js](https://nodejs.org/) (version 18.x or higher is
     The built files will be stored in the `dist` folder.
 
 ### Project Scripts
- 
-| Command | Description |
-| :--- | :--- |
-| `npm install` | Installs all project dependencies. |
-| `npm run dev` | Starts the local development server with hot-reloading. |
-| `npm run build` | Bundles the project into the dist folder and compresses JSON files. |
-| `npm run preview` | Previews the production build locally. |
-| `npm run format` | Formats all code with Prettier. |
-| `npm run lint` | Lints and fixes code style issues with ESLint. |
+
+| Command              | Description                                                         |
+| :------------------- | :------------------------------------------------------------------ |
+| `npm install`        | Installs all project dependencies.                                  |
+| `npm run dev`        | Starts the local development server with hot-reloading.             |
+| `npm run dev:worker` | Starts the local backend worker using Wrangler.                     |
+| `npm run db:init`    | Initializes the local D1 SQLite database.                           |
+| `npm run build`      | Bundles the project into the dist folder and compresses JSON files. |
+| `npm run preview`    | Previews the production build locally.                              |
+| `npm run format`     | Formats all code with Prettier.                                     |
+| `npm run lint`       | Lints and fixes code style issues with ESLint.                      |
+
 <!-- | `npm run analyze` | Runs a bundle analysis, generating a `stats.html` report. | -->
 
 ## 📁 Project Structure
@@ -137,10 +171,12 @@ Please ensure you have [Node.js](https://nodejs.org/) (version 18.x or higher is
 ```
 BA-Gift-Planner/
 ├── public/            # Public assets, not processed by Vite
+├── scripts/           # Helper scripts (e.g., sitemap generation)
 ├── src/
 │   ├── assets/        # Static assets like images, fonts, and data JSONs
 │   ├── components/    # Reusable Vue components
 │   ├── composables/   # Composable functions (Hooks)
+│   ├── config/        # Application configurations (e.g., registered sync stores)
 │   ├── data/          # Application data
 │   ├── directives/    # Custom directives
 │   ├── locales/       # i18n language files
@@ -148,15 +184,17 @@ BA-Gift-Planner/
 │   ├── store/         # Pinia state management
 │   ├── utils/         # Shared utility functions
 │   ├── views/         # Page components
-│   ├── App.vue        # Main component
+│   ├── App.vue        # Main Vue component
 │   ├── main.js        # Application entry point
-│   └── style.css      # Global styles
-├── .env               # Global variables
+│   ├── style.css      # Global styles
+│   └── worker.js      # Cloudflare Hono Worker script (backend)
+├── .dev.vars          # Environment variables configuration for local development
 ├── .prettierrc.json   # Prettier configuration file
 ├── eslint.config.js   # ESLint configuration file
 ├── index.html         # HTML entry file
 ├── package.json       # Project dependencies and scripts
-└── vite.config.js     # Vite configuration file
+├── schema.sql         # SQLite database schema for D1
+└── wrangler.toml      # Cloudflare Wrangler configuration
 ```
 
 ## 🤝 Contribution and Assistance
@@ -165,8 +203,8 @@ This project warmly welcomes community contributions, whether it's updating data
 
 You can help us in the following ways:
 
-*   Raise issues and suggestions in [Issues](https://github.com/Yuuzi261/BA-Gift-Planner/issues).
-*   Submit missing character data or code changes via [Pull Requests](https://github.com/Yuuzi261/BA-Gift-Planner/pulls).
+- Raise issues and suggestions in [Issues](https://github.com/Yuuzi261/BA-Gift-Planner/issues).
+- Submit missing character data or code changes via [Pull Requests](https://github.com/Yuuzi261/BA-Gift-Planner/pulls).
 
 ## 📄 License
 
