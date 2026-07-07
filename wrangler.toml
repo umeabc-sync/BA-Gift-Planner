@@ -1,4 +1,4 @@
-name = "ba-gift-planner"
+name = "ba-gift-planner-dev"
 main = "src/worker.js" 
 compatibility_date = "2026-07-01"
 workers_dev = false
