@@ -128,8 +128,10 @@ export function useCloudSync() {
     }
   }
 
-  const uploadSave = async () => {
+  const uploadSave = async (options = {}) => {
     if (!user.value) return
+
+    const { isBackground = false } = options
 
     try {
       isSyncing.value = true
@@ -157,7 +159,7 @@ export function useCloudSync() {
           payload: base64Payload,
           last_known_timestamp: lastServerTimestamp.value,
         }),
-        keepalive: true,
+        keepalive: isBackground,
       })
 
       if (res.status === 401) {
@@ -219,7 +221,7 @@ export function useCloudSync() {
     if (syncTimeout) {
       clearTimeout(syncTimeout)
       syncTimeout = null
-      uploadSave()
+      uploadSave({ isBackground: true })
     }
   }
 
