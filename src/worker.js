@@ -19,10 +19,10 @@ function getRedirectUri(c, reqUrl, phase) {
   if (c.env.ENVIRONMENT === 'production') {
     return `${reqUrl.origin}/api/auth/google/callback`
   }
-  
+
   const host = c.req.header('x-forwarded-host') || c.req.header('host') || reqUrl.host
   const proto = c.req.header('x-forwarded-proto') || 'http'
-  
+
   const uri = `${proto}://${host}/api/auth/google/callback`
   console.log(`[DEBUG] getRedirectUri (${phase}):`, uri, '| host:', host)
   return uri
