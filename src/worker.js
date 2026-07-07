@@ -14,14 +14,26 @@ app.get('/api/ping', (c) => {
 
 // === Google OAuth Login Process ===
 
+// Helper function: Retrieves the redirected URL and handles header rewriting issues by Wrangler during local development
+function getRedirectUri(c, reqUrl, phase) {
+  if (c.env.ENVIRONMENT === 'production') {
+    return `${reqUrl.origin}/api/auth/google/callback`
+  }
+  
+  const host = c.req.header('x-forwarded-host') || c.req.header('host') || reqUrl.host
+  const proto = c.req.header('x-forwarded-proto') || 'http'
+  
+  const uri = `${proto}://${host}/api/auth/google/callback`
+  console.log(`[DEBUG] getRedirectUri (${phase}):`, uri, '| host:', host)
+  return uri
+}
+
 // Redirecting to the Google login screen
 app.get('/api/auth/google/login', (c) => {
   const clientId = c.env.GOOGLE_CLIENT_ID
   const url = new URL(c.req.url)
+  const redirectUri = getRedirectUri(c, url, 'login')
   const isLocal = c.env.ENVIRONMENT !== 'production'
-  const redirectUri = isLocal
-    ? 'http://localhost:5173/api/auth/google/callback'
-    : `${url.origin}/api/auth/google/callback`
 
   const state = crypto.randomUUID()
   setCookie(c, 'oauth_state', state, {
@@ -63,10 +75,8 @@ app.get('/api/auth/google/callback', async (c) => {
   const clientSecret = c.env.GOOGLE_CLIENT_SECRET
 
   const url = new URL(c.req.url)
+  const redirectUri = getRedirectUri(c, url, 'callback')
   const isLocal = c.env.ENVIRONMENT !== 'production'
-  const redirectUri = isLocal
-    ? 'http://localhost:5173/api/auth/google/callback'
-    : `${url.origin}/api/auth/google/callback`
 
   // Exchange Code for Token
   const tokenRes = await fetch('https://oauth2.googleapis.com/token', {

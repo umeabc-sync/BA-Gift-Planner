@@ -36,7 +36,16 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      '/api': 'http://localhost:8787'
+      '/api': {
+        target: 'http://localhost:8787',
+        configure: (proxy) => {
+          proxy.on('proxyReq', (proxyReq, req) => {
+            // Manually add the proxy headers
+            proxyReq.setHeader('x-forwarded-host', req.headers.host || 'localhost:5173')
+            proxyReq.setHeader('x-forwarded-proto', req.headers['x-forwarded-proto'] || 'http')
+          })
+        }
+      }
     }
   }
 })
