@@ -91,13 +91,13 @@
     "disableBackgroundBlur": "背景のぼかしを無効にする",
     "appearance": "外観設定",
     "performance": "パフォーマンス設定",
-    "account": "アカウントと同期",
+    "account": "アカウント同期",
     "googleLoginStatus": "Googleログイン状態",
     "loginWithGoogle": "Googleでログイン",
     "loggedInAs": "ログイン中: {name}",
     "logout": "ログアウト",
     "pleaseLogin": "先にログインしてください",
-    "cloudSaveSync": "クラウド保存の同期",
+    "cloudSaveSync": "クラウドセーブの同期",
     "lastSyncTime": "最終同期: ",
     "dataManagement": "データ管理",
     "exportData": "データをエクスポート",
@@ -110,7 +110,7 @@
     "title": "スクショ設定",
     "screenshotStyle": "スクショのスタイル",
     "screenshotStyleDesc": "スクショのスタイルタイプを選択",
-    "giftRecommendation": "贈り物の推薦",
+    "giftRecommendation": "おすすめの贈り物",
     "giftRecommendationDesc": "各贈り物に適した生徒を表示",
     "studentPreference": "生徒の好み",
     "studentPreferenceDesc": "各生徒の好きな贈り物を表示",
@@ -174,7 +174,7 @@
     "recognize": "画像認識"
   },
   "giftRecognitionModal": {
-    "title": "ギフト認識",
+    "title": "贈り物認識",
     "upload": "画像アップロード",
     "imagePreview": "画像プレビュー",
     "initializing": "初期化中...",
@@ -216,8 +216,8 @@
   "giftPlannerActions": {
     "reset": "計画をリセット",
     "apply": "計画を適用",
-    "resetConfirmation": "現在のギフト計画をリセットしてもよろしいですか？保存されていない変更はすべて失われます。",
-    "applyConfirmation": "現在のギフト計画を適用してもよろしいですか？これにより、生徒の絆レベルが更新され、インベントリからギフトが消費されます。"
+    "resetConfirmation": "現在の贈り物計画をリセットしてもよろしいですか？保存されていない変更はすべて失われます。",
+    "applyConfirmation": "現在の贈り物計画を適用してもよろしいですか？これにより、生徒の絆レベルが更新され、インベントリから贈り物が消費されます。"
   },
   "student": {
     "name": {
