@@ -19,7 +19,8 @@ export const useSyncMetadataStore = defineStore(
     function setSyncMetadata(dataStr, serverTimestamp) {
       lastSyncedDataStr.value = dataStr
       lastServerTimestamp.value = serverTimestamp
-      lastSyncTimeRaw.value = serverTimestamp ? new Date(serverTimestamp + ' UTC').toISOString() : null
+      // Normalize 'YYYY-MM-DD HH:MM:SS' to 'YYYY-MM-DDTHH:MM:SSZ' for Safari compatibility
+      lastSyncTimeRaw.value = serverTimestamp ? new Date(serverTimestamp.replace(' ', 'T') + 'Z').toISOString() : null
     }
 
     function clearMetadata() {
