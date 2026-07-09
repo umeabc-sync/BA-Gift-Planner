@@ -48,7 +48,7 @@
             object-fit="contain"
             :inherit-background="false"
           />
-          <span>x {{ choiceBoxesToCreate }}</span>
+          <span>{{ choiceBoxesToCreate }}</span>
         </div>
         <div class="footer-buttons">
           <button @click="reset" class="btn-skew btn-text btn-blue">
@@ -321,11 +321,11 @@
   .summary {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 5px;
     font-weight: bold;
     font-size: 20px;
     background: #efefef;
-    padding: 5px 15px;
+    padding: 0 15px 0 8px;
     border-radius: 12px;
     border: 2px solid #dee2e6;
   }
