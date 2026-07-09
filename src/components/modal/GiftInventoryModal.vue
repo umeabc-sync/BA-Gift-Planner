@@ -38,22 +38,27 @@
           <button @click="openRecognitionModal" class="btn-skew btn-text btn-blue">
             <span>{{ t('giftInventoryModal.recognize') }}</span>
           </button>
-          <button @click="convertGifts" class="btn-skew btn-text btn-yellow" :disabled="!canConvertSynthesisGifts">
+          <button
+            @click="convertGifts"
+            class="btn-skew btn-text"
+            :class="canConvertNotRecommendedGifts ? 'btn-yellow' : 'btn-gray'"
+            :disabled="!canConvertSynthesisGifts"
+          >
             <span>{{ t('bondCalculator.convertToChoiceBox') }}</span>
           </button>
         </div>
       </div>
-      <BaseDialog
-        :is-visible="isConfirmVisible"
-        :text="t('bondCalculator.convertConfirmation')"
-        :show-cancel="true"
-        @close="isConfirmVisible = false"
-        @ok="confirmConvert"
-      />
       <GiftRecognitionModal
         v-if="hasOpenedRecognition"
         :is-visible="isRecognitionModalVisible"
         @close="isRecognitionModalVisible = false"
+      />
+      <GiftConvertModal
+        v-if="hasOpenedConvert"
+        :is-visible="isConvertModalVisible"
+        :sr-gifts="srGifts"
+        @close="isConvertModalVisible = false"
+        @confirm="handleConvertConfirm"
       />
     </template>
   </BaseModal>
@@ -72,9 +77,9 @@
   import ImageWithLoader from '@components/ui/ImageWithLoader.vue'
   import QuantityControl from '@components/ui/QuantityControl.vue'
   import BaseModal from '@components/ui/BaseModal.vue'
-  import BaseDialog from '@components/ui/BaseDialog.vue'
   import { defineAsyncComponent } from 'vue'
   const GiftRecognitionModal = defineAsyncComponent(() => import('./GiftRecognitionModal.vue'))
+  const GiftConvertModal = defineAsyncComponent(() => import('./GiftConvertModal.vue'))
 
   const { t, currentLocale: locale } = useI18n()
 
@@ -90,9 +95,11 @@
   const { synthesisGifts } = storeToRefs(giftStore)
   const { totalAssigned } = storeToRefs(giftPlannerStore)
 
-  const isConfirmVisible = ref(false)
   const isRecognitionModalVisible = ref(false)
   const hasOpenedRecognition = ref(false)
+
+  const isConvertModalVisible = ref(false)
+  const hasOpenedConvert = ref(false)
 
   const openRecognitionModal = () => {
     hasOpenedRecognition.value = true
@@ -102,6 +109,7 @@
   onMounted(() => {
     // Preload GiftRecognitionModal chunk in the background
     import('./GiftRecognitionModal.vue').catch(() => {})
+    import('./GiftConvertModal.vue').catch(() => {})
   })
 
   const close = () => {
@@ -129,7 +137,7 @@
     return [choiceBox, ...sr, ...ssr]
   })
 
-  const canConvertSynthesisGifts = computed(() => {
+  const canConvertNotRecommendedGifts = computed(() => {
     if (!synthesisGifts.value) return false
     const totalGiftQuantity = synthesisGifts.value.reduce((total, gift) => {
       const quantity = getGiftQuantity(gift.id, gift.isSsr)
@@ -138,15 +146,24 @@
     return totalGiftQuantity >= 2
   })
 
+  const canConvertSynthesisGifts = computed(() => {
+    if (!srGifts.value) return false
+    const totalOwnedSrGifts = srGifts.value
+      .filter((g) => g.id !== 35)
+      .reduce((total, g) => total + getGiftQuantity(g.id, false), 0)
+    return totalOwnedSrGifts >= 2
+  })
+
   const convertGifts = () => {
     if (canConvertSynthesisGifts.value) {
-      isConfirmVisible.value = true
+      hasOpenedConvert.value = true
+      isConvertModalVisible.value = true
     }
   }
 
-  const confirmConvert = () => {
-    convertSynthesisGifts()
-    isConfirmVisible.value = false
+  const handleConvertConfirm = (selection) => {
+    convertSynthesisGifts(selection)
+    isConvertModalVisible.value = false
   }
 </script>
 
