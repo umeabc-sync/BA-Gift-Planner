@@ -67,43 +67,49 @@ export const useGiftStore = defineStore(
       return quantities.value[key] || 0
     }
 
-    function convertSynthesisGifts() {
-      let totalSynthesisGiftQuantity = 0
-      const synthesisGiftKeys = []
-      let firstOwnedSynthesisGift = null
+    function convertSynthesisGifts(customConversionMap) {
+      if (!customConversionMap) return
 
-      // Calculate total quantity and collect keys
-      synthesisGifts.value.forEach((gift) => {
-        const key = getKey(gift.id, gift.isSsr)
-        const quantity = quantities.value[key] || 0
-        if (quantity > 0 && !firstOwnedSynthesisGift) {
-          firstOwnedSynthesisGift = { id: gift.id, isSsr: gift.isSsr }
+      let totalQuantity = 0
+      const keysToConsume = []
+      let firstOwned = null
+
+      for (const [key, quantity] of Object.entries(customConversionMap)) {
+        if (quantity > 0) {
+          const [type, idStr] = key.split('-')
+          const id = parseInt(idStr, 10)
+          const isSsr = type === 'ssr'
+          if (!firstOwned) {
+            firstOwned = { id, isSsr }
+          }
+          totalQuantity += quantity
+          keysToConsume.push({ key, quantity })
         }
-        totalSynthesisGiftQuantity += quantity
-        synthesisGiftKeys.push({ key, id: gift.id, isSsr: gift.isSsr })
+      }
+
+      if (totalQuantity < 2) return
+
+      const choiceBoxesToCreate = Math.floor(totalQuantity / 2)
+      const remainder = totalQuantity % 2
+
+      keysToConsume.forEach(({ key, quantity }) => {
+        const current = quantities.value[key] || 0
+        const newQ = Math.max(0, current - quantity)
+        if (newQ === 0) {
+          delete quantities.value[key]
+        } else {
+          quantities.value[key] = newQ
+        }
       })
 
-      if (totalSynthesisGiftQuantity < 2) return
-
-      const choiceBoxesToCreate = Math.floor(totalSynthesisGiftQuantity / 2)
-      const remainder = totalSynthesisGiftQuantity % 2
-
-      // Zero out all synthesis gifts
-      synthesisGiftKeys.forEach(({ key }) => {
-        delete quantities.value[key]
-      })
-
-      // Add choice boxes
       if (choiceBoxesToCreate > 0) {
-        const choiceBoxKey = getKey(35, false) // ID 35, isSsr: false for Gift Choice Box
+        const choiceBoxKey = getKey(35, false)
         quantities.value[choiceBoxKey] = (quantities.value[choiceBoxKey] || 0) + choiceBoxesToCreate
       }
 
-      // Handle remainder
-      if (remainder === 1 && firstOwnedSynthesisGift) {
-        // Put the remainder back into the first synthesis gift that was owned
-        const key = getKey(firstOwnedSynthesisGift.id, firstOwnedSynthesisGift.isSsr)
-        quantities.value[key] = 1
+      if (remainder === 1 && firstOwned) {
+        const key = getKey(firstOwned.id, firstOwned.isSsr)
+        quantities.value[key] = (quantities.value[key] || 0) + 1
       }
     }
 
