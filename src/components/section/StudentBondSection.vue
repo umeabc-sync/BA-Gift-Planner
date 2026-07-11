@@ -742,7 +742,7 @@
     border-radius: 10px;
     border: 2px solid white;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
-    z-index: 5;
+    z-index: 15;
     white-space: nowrap;
     pointer-events: none;
   }
