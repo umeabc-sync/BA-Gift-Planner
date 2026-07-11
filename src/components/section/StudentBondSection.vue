@@ -46,7 +46,7 @@
                 <span class="overlay-text">{{ t('bondCalculator.clickToSwitch') }}</span>
               </div>
             </div>
-            <div v-if="hasActiveTarget(student.id)" class="avatar-target-badge">
+            <div v-if="hasActiveTarget(student.id)" class="avatar-target-badge" :class="isSingleMode ? 'large' : ''">
               <LoyaltyIcon class="loyalty-icon" />
               {{ studentStore.getStudentBondData(student.id)?.target }}
             </div>
@@ -745,6 +745,10 @@
     z-index: 5;
     white-space: nowrap;
     pointer-events: none;
+  }
+
+  .avatar-target-badge.large {
+    font-size: 16px;
   }
 
   .dark-mode .avatar-target-badge {
