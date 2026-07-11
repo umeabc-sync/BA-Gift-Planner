@@ -46,8 +46,8 @@
                 <span class="overlay-text">{{ t('bondCalculator.clickToSwitch') }}</span>
               </div>
             </div>
-            <div v-if="studentStore.getStudentBondData(student.id).target" class="avatar-target-badge">
-              🎯{{ studentStore.getStudentBondData(student.id).target }}
+            <div v-if="studentStore.getStudentBondData(student.id)?.target" class="avatar-target-badge">
+              🎯{{ studentStore.getStudentBondData(student.id)?.target }}
             </div>
           </div>
           <div class="bond-island" :class="{ 'single-bond-island': isSingleMode }">
@@ -195,13 +195,14 @@
 
   const getTotalExpForLevel = (level) => {
     if (!bondExpTable.value || !bondExpTable.value.length || level <= 1) return 0
-    const levelData = bondExpTable.value.find((item) => item.rank === level)
+    const numericLevel = Number(level)
+    const levelData = bondExpTable.value.find((item) => item.rank === numericLevel)
     return levelData ? levelData.total : 0
   }
 
   const bondStatus = computed(() => (studentId) => {
     const preview = giftPlannerStore.calculatePreviewBond(studentId)
-    const target = studentStore.getStudentBondData(studentId).target
+    const target = studentStore.getStudentBondData(studentId)?.target
 
     if (giftPlannerStore.bondProgressMode === 'target') {
       if (!target) {
