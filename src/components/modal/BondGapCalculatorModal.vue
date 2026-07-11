@@ -85,6 +85,7 @@
   import { useGiftPlannerStore } from '@/store/giftPlanner'
   import { useStudentStore } from '@/store/student'
   import { useBondExpData } from '@/utils/fetchBondExpData'
+  import { getTotalExpForLevel as getGlobalTotalExpForLevel } from '@/utils/bondExpHelpers'
   import { getInteractionUrl } from '@/utils/getInteractionUrl'
   import { getAssetsFile } from '@/utils/getAssetsFile'
   import { getAvatarUrl } from '@/utils/getAvatarUrl'
@@ -185,12 +186,7 @@
     return map[exp] || null
   }
 
-  const getTotalExpForLevel = (level) => {
-    if (!bondExpTable.value || !bondExpTable.value.length || level <= 1) return 0
-    const numericLevel = Number(level)
-    const levelData = bondExpTable.value.find((item) => item.rank === numericLevel)
-    return levelData ? levelData.total : 0
-  }
+  const getTotalExpForLevel = (level) => getGlobalTotalExpForLevel(level, bondExpTable.value)
 
   const getLevelFromExp = (totalExp) => {
     if (!bondExpTable.value || !bondExpTable.value.length) return { level: 1, remainingExp: totalExp }

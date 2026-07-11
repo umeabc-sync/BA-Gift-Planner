@@ -120,6 +120,7 @@
   import { storeToRefs } from 'pinia'
   import { getAvatarUrl } from '@utils/getAvatarUrl'
   import { useBondExpData } from '@/utils/fetchBondExpData'
+  import { getTotalExpForLevel as getGlobalTotalExpForLevel } from '@/utils/bondExpHelpers'
   import { useI18n } from '@composables/useI18n'
   import ImageWithLoader from '@components/ui/ImageWithLoader.vue'
   import GiftGivingModal from '@components/modal/GiftGivingModal.vue'
@@ -193,12 +194,7 @@
     return rankInfo ? rankInfo.exp : 0
   }
 
-  const getTotalExpForLevel = (level) => {
-    if (!bondExpTable.value || !bondExpTable.value.length || level <= 1) return 0
-    const numericLevel = Number(level)
-    const levelData = bondExpTable.value.find((item) => item.rank === numericLevel)
-    return levelData ? levelData.total : 0
-  }
+  const getTotalExpForLevel = (level) => getGlobalTotalExpForLevel(level, bondExpTable.value)
 
   const bondStatus = computed(() => (studentId) => {
     const preview = giftPlannerStore.calculatePreviewBond(studentId)
@@ -571,16 +567,7 @@
     margin-bottom: 5px;
   }
 
-  .mode-toggle-wrapper {
-    display: flex;
-    gap: 10px;
-  }
 
-  .mode-toggle-wrapper button {
-    padding: 8px 16px;
-    height: 38px;
-    font-size: 0.95rem;
-  }
 
   .switch-student-btn {
     padding: 8px 16px;
@@ -666,14 +653,7 @@
       gap: 10px;
     }
 
-    .mode-toggle-wrapper {
-      width: 100%;
-    }
 
-    .mode-toggle-wrapper .btn-skew {
-      flex: 1;
-      width: auto;
-    }
 
     .student-row {
       flex-direction: column;
@@ -787,11 +767,12 @@
 
   @media (max-width: 768px) {
     .mode-toggles-container {
-      flex: 1;
+      width: 100%;
       gap: 10px;
     }
     .mode-toggles-container button {
       flex: 1;
+      width: auto;
     }
   }
 </style>
