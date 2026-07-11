@@ -134,7 +134,7 @@
     ([newLevel, newStudent]) => {
       if (newLevel != null && newStudent) {
         minLevel.value = Math.min(newLevel + 1, maxLevel.value)
-        const savedTarget = studentStore.getStudentBondData(newStudent.id).target
+        const savedTarget = studentStore.getStudentBondData(newStudent.id)?.target
         targetLevel.value = savedTarget ? Math.max(savedTarget, minLevel.value) : minLevel.value
       }
     },
