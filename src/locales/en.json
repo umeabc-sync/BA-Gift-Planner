@@ -187,6 +187,7 @@
   "bondGapCalculator": {
     "title": "Bond Gap Calculator",
     "setTargetLevel": "Set Target Level",
+    "clearTarget": "Clear Target",
     "beforeGift": "Before Gift",
     "afterGift": "After Gift",
     "levelGap": "Level Gap",

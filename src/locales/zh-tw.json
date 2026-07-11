@@ -187,6 +187,7 @@
   "bondGapCalculator": {
     "title": "羈絆目標試算",
     "setTargetLevel": "設定目標等級",
+    "clearTarget": "清除目標",
     "beforeGift": "贈送前",
     "afterGift": "贈送後",
     "levelGap": "等級差距",

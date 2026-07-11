@@ -187,6 +187,7 @@
   "bondGapCalculator": {
     "title": "羁绊目标测算",
     "setTargetLevel": "设置目标等级",
+    "clearTarget": "清除目标",
     "beforeGift": "赠送前",
     "afterGift": "赠送后",
     "levelGap": "等级差距",

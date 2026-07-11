@@ -46,7 +46,7 @@
                 <span class="overlay-text">{{ t('bondCalculator.clickToSwitch') }}</span>
               </div>
             </div>
-            <div v-if="studentStore.getStudentBondData(student.id)?.target" class="avatar-target-badge">
+            <div v-if="hasActiveTarget(student.id)" class="avatar-target-badge">
               🎯{{ studentStore.getStudentBondData(student.id)?.target }}
             </div>
           </div>
@@ -270,6 +270,11 @@
       hasTarget: false,
       noTarget: false,
     }
+  })
+
+  const hasActiveTarget = computed(() => (studentId) => {
+    const bond = studentStore.getStudentBondData(studentId)
+    return bond?.target && bond.target > bond.level
   })
 </script>
 
@@ -762,6 +767,14 @@
   }
   .dark-mode .bond-exp-bar.no-target-bar {
     border-color: #5c7289;
+  }
+  .bond-exp-bar.no-target-bar .bond-exp-text {
+    text-shadow:
+      -1px -1px 0 #9cb2cd,
+      1px -1px 0 #9cb2cd,
+      -1px 1px 0 #9cb2cd,
+      1px 1px 0 #9cb2cd,
+      0 2px 4px rgba(0, 0, 0, 0.2);
   }
 
   @media (max-width: 768px) {
