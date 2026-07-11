@@ -194,7 +194,8 @@
     "interactionsNeeded": "必要な交流",
     "dormInteraction": "なでなで",
     "schedule": "スケジュール",
-    "noInteractionsNeeded": "交流の必要なし"
+    "noInteractionsNeeded": "交流の必要なし",
+    "progressPercentage": "目標進捗率"
   },
   "bondCalculator": {
     "giftInventoryTitle": "贈り物インベントリ",
@@ -204,7 +205,10 @@
     "convertConfirmation": "この操作は、選択した贈り物をギフト選択ボックスに変換し、元に戻すことはできません。続行しますか？",
     "singleMode": "単体表示",
     "listMode": "リスト表示",
-    "clickToSwitch": "生徒を切り替える"
+    "clickToSwitch": "生徒を切り替える",
+    "levelProgress": "ランク進捗",
+    "targetProgress": "目標進捗",
+    "noTargetSet": "目標未設定"
   },
   "studentBondModal": {
     "bondLevel": "絆レベル",

@@ -194,7 +194,8 @@
     "interactionsNeeded": "所需互動",
     "dormInteraction": "摸頭",
     "schedule": "課程表",
-    "noInteractionsNeeded": "無需任何互動"
+    "noInteractionsNeeded": "無需任何互動",
+    "progressPercentage": "目標進度百分比"
   },
   "bondCalculator": {
     "giftInventoryTitle": "禮物庫存",
@@ -204,7 +205,10 @@
     "convertConfirmation": "此操作會將所選的禮物轉換為禮物自選箱，並且無法復原，確定繼續嗎？",
     "singleMode": "獨立顯示",
     "listMode": "列表顯示",
-    "clickToSwitch": "切換學生"
+    "clickToSwitch": "切換學生",
+    "levelProgress": "等級進度",
+    "targetProgress": "目標進度",
+    "noTargetSet": "未設定目標"
   },
   "giftPlannerActions": {
     "reset": "重設計畫",
