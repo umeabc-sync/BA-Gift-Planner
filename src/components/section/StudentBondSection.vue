@@ -1,16 +1,15 @@
 <template>
   <div v-if="selectedStudents.length > 0" class="student-bond-section">
     <div class="mode-toggle-header">
-      <div class="mode-toggle-wrapper">
-        <button class="btn-skew btn-text" :class="isSingleMode ? 'btn-blue' : 'btn-gray'" @click="isSingleMode = true">
-          <span>{{ t('bondCalculator.singleMode') }}</span>
+      <div class="mode-toggles-container">
+        <button class="btn-skew btn-text btn-blue" @click="isSingleMode = !isSingleMode">
+          <span>{{ isSingleMode ? t('bondCalculator.listMode') : t('bondCalculator.singleMode') }}</span>
         </button>
         <button
-          class="btn-skew btn-text"
-          :class="!isSingleMode ? 'btn-blue' : 'btn-gray'"
-          @click="isSingleMode = false"
+          class="btn-skew btn-text btn-blue"
+          @click="giftPlannerStore.bondProgressMode = giftPlannerStore.bondProgressMode === 'level' ? 'target' : 'level'"
         >
-          <span>{{ t('bondCalculator.listMode') }}</span>
+          <span>{{ giftPlannerStore.bondProgressMode === 'level' ? t('bondCalculator.targetProgress') : t('bondCalculator.levelProgress') }}</span>
         </button>
       </div>
       <transition name="fade">
@@ -37,13 +36,18 @@
             :class="{ 'single-island': isSingleMode }"
             @click="isSingleMode ? (isSingleStudentModalOpen = true) : openGapModal(student)"
           >
-            <ImageWithLoader
-              :src="getAvatarUrl(student.id, studentStore.getStudentForm(student.id))"
-              class="student-avatar-img"
-            />
-            <div v-if="isSingleMode" class="avatar-overlay">
-              <SwitchStudentIcon class="overlay-icon" />
-              <span class="overlay-text">{{ t('bondCalculator.clickToSwitch') }}</span>
+            <div class="avatar-wrapper">
+              <ImageWithLoader
+                :src="getAvatarUrl(student.id, studentStore.getStudentForm(student.id))"
+                class="student-avatar-img"
+              />
+              <div v-if="isSingleMode" class="avatar-overlay">
+                <SwitchStudentIcon class="overlay-icon" />
+                <span class="overlay-text">{{ t('bondCalculator.clickToSwitch') }}</span>
+              </div>
+            </div>
+            <div v-if="studentStore.getStudentBondData(student.id).target" class="avatar-target-badge">
+              🎯{{ studentStore.getStudentBondData(student.id).target }}
             </div>
           </div>
           <div class="bond-island" :class="{ 'single-bond-island': isSingleMode }">
@@ -63,7 +67,7 @@
                 </div>
               </div>
               <div class="bond-exp-bar-container">
-                <div class="bond-exp-bar">
+                <div class="bond-exp-bar" :class="{ 'no-target-bar': bondStatus(student.id).noTarget }">
                   <div
                     class="bond-exp-progress-preview"
                     :class="{
@@ -77,7 +81,12 @@
                     :style="{ width: `${bondStatus(student.id).originalExpPercentage}%` }"
                   ></div>
                   <div class="bond-exp-text">
-                    {{ bondStatus(student.id).displayExp }} / {{ bondStatus(student.id).displayMaxExp }}
+                    <span v-if="bondStatus(student.id).displayMaxExp !== null">
+                      {{ bondStatus(student.id).displayExp }} / {{ bondStatus(student.id).displayMaxExp }}
+                    </span>
+                    <span v-else>
+                      {{ bondStatus(student.id).displayExp }}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -184,13 +193,57 @@
     return rankInfo ? rankInfo.exp : 0
   }
 
+  const getTotalExpForLevel = (level) => {
+    if (!bondExpTable.value || !bondExpTable.value.length || level <= 1) return 0
+    const levelData = bondExpTable.value.find((item) => item.rank === level)
+    return levelData ? levelData.total : 0
+  }
+
   const bondStatus = computed(() => (studentId) => {
     const preview = giftPlannerStore.calculatePreviewBond(studentId)
+    const target = studentStore.getStudentBondData(studentId).target
 
+    if (giftPlannerStore.bondProgressMode === 'target') {
+      if (!target) {
+        return {
+          levelUp: false,
+          displayLevel: preview.newLevel,
+          displayExp: t('bondCalculator.noTargetSet'),
+          displayMaxExp: null,
+          gainedExp: 0,
+          originalExpPercentage: 0,
+          newExpPercentage: 0,
+          hasTarget: false,
+          noTarget: true,
+        }
+      }
+
+      const targetTotal = getTotalExpForLevel(target)
+      const currentTotal = getTotalExpForLevel(preview.level) + preview.exp
+      const newTotal = getTotalExpForLevel(preview.newLevel) + preview.newExp
+
+      const originalExpPercentage = targetTotal > 0 ? Math.min(100, (currentTotal / targetTotal) * 100) : 0
+      const newExpPercentage = targetTotal > 0 ? Math.min(100, (newTotal / targetTotal) * 100) : 0
+
+      const displayExpText = `${originalExpPercentage.toFixed(1)}%` + (preview.gainedExp > 0 ? ` ➔ ${newExpPercentage.toFixed(1)}%` : '')
+
+      return {
+        levelUp: preview.newLevel > preview.level,
+        displayLevel: preview.newLevel,
+        displayExp: displayExpText,
+        displayMaxExp: null,
+        gainedExp: preview.gainedExp,
+        originalExpPercentage,
+        newExpPercentage,
+        hasTarget: true,
+        noTarget: false,
+      }
+    }
+
+    // Default 'level' mode
     const originalMaxExp = maxExpForLevel(preview.level)
     const newMaxExp = maxExpForLevel(preview.newLevel)
 
-    // Handle max bond level edge case
     if (preview.newLevel === 100) {
       return {
         levelUp: preview.newLevel > preview.level,
@@ -200,6 +253,8 @@
         gainedExp: preview.gainedExp,
         originalExpPercentage: preview.newLevel > preview.level ? 0 : 100,
         newExpPercentage: 100,
+        hasTarget: false,
+        noTarget: false,
       }
     }
 
@@ -211,6 +266,8 @@
       gainedExp: preview.gainedExp,
       originalExpPercentage: preview.newLevel > preview.level ? 0 : (preview.exp / originalMaxExp) * 100,
       newExpPercentage: (preview.newExp / newMaxExp) * 100,
+      hasTarget: false,
+      noTarget: false,
     }
   })
 </script>
@@ -267,8 +324,18 @@
     cursor: pointer;
     border: 3px solid #466398;
     background-color: #f7f7f4;
-    overflow: hidden;
+    overflow: visible;
     transition: border-color 0.3s ease;
+  }
+
+  .avatar-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    overflow: hidden;
+    display: grid;
+    place-items: center;
   }
 
   .dark-mode .student-island {
@@ -653,6 +720,56 @@
     .btn-skew svg {
       width: 20px;
       height: 20px;
+    }
+  }
+
+  .mode-toggles-container {
+    display: flex;
+    gap: 15px;
+  }
+
+  .mode-toggles-container button {
+    padding: 8px 16px;
+    height: 38px;
+    font-size: 0.95rem;
+    min-width: 100px;
+  }
+
+  .avatar-target-badge {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    background: linear-gradient(135deg, #ff6b8b 0%, #ff4b6e 100%);
+    color: white;
+    font-size: 11px;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 10px;
+    border: 2px solid white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    z-index: 5;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+
+  .dark-mode .avatar-target-badge {
+    border-color: #1a2b40;
+  }
+
+  .bond-exp-bar.no-target-bar {
+    border-color: #9cb2cd;
+  }
+  .dark-mode .bond-exp-bar.no-target-bar {
+    border-color: #5c7289;
+  }
+
+  @media (max-width: 768px) {
+    .mode-toggles-container {
+      flex: 1;
+      gap: 10px;
+    }
+    .mode-toggles-container button {
+      flex: 1;
     }
   }
 </style>
