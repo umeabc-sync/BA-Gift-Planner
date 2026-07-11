@@ -47,7 +47,8 @@
               </div>
             </div>
             <div v-if="hasActiveTarget(student.id)" class="avatar-target-badge">
-              🎯{{ studentStore.getStudentBondData(student.id)?.target }}
+              <LoyaltyIcon class="loyalty-icon" />
+              {{ studentStore.getStudentBondData(student.id)?.target }}
             </div>
           </div>
           <div class="bond-island" :class="{ 'single-bond-island': isSingleMode }">
@@ -128,6 +129,7 @@
   import SelectedStudentSelectionModal from '@components/modal/SelectedStudentSelectionModal.vue'
   import GiftIcon from '@assets/icon/gift_icon.svg'
   import SwitchStudentIcon from '@assets/icon/switch_student.svg'
+  import LoyaltyIcon from '@assets/icon/loyalty.svg'
   import { getAssetsFile } from '@/utils/getAssetsFile'
   import { useSettingStore } from '@/store/setting'
 
@@ -621,6 +623,13 @@
     font-weight: bold;
     text-align: center;
     user-select: none;
+  }
+
+  .loyalty-icon {
+    width: 1em;
+    height: 1em;
+    vertical-align: -0.2em;
+    display: inline-block;
   }
 
   .single-bond-island {
