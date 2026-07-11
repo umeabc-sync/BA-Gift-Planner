@@ -13,8 +13,12 @@
           <div class="target-level-setter-wrapper">
             <div class="target-setter-header">
               <label>{{ t('bondGapCalculator.setTargetLevel') }}</label>
-              <button v-if="hasSavedTarget" class="btn-clear-target" @click="clearTarget">
-                {{ t('bondGapCalculator.clearTarget') }}
+              <button
+                class="btn-clear-target"
+                :class="{ 'btn-set-target': !hasSavedTarget }"
+                @click="hasSavedTarget ? clearTarget() : setAsTarget()"
+              >
+                {{ hasSavedTarget ? t('bondGapCalculator.clearTarget') : t('bondGapCalculator.setAsTarget') }}
               </button>
             </div>
             <QuantityControl
@@ -151,6 +155,12 @@
     if (student.value) {
       studentStore.updateStudentTarget(student.value.id, null)
       targetLevel.value = minLevel.value
+    }
+  }
+
+  const setAsTarget = () => {
+    if (student.value) {
+      studentStore.updateStudentTarget(student.value.id, targetLevel.value)
     }
   }
 
@@ -459,6 +469,12 @@
   }
   .dark-mode .btn-clear-target {
     color: #ffab91;
+  }
+  .btn-clear-target.btn-set-target {
+    color: #0288d1;
+  }
+  .dark-mode .btn-clear-target.btn-set-target {
+    color: #29b6f6;
   }
 
   @media (min-width: 600px) {

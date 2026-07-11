@@ -188,6 +188,7 @@
     "title": "인연 목표 계산기",
     "setTargetLevel": "목표 레벨 설정",
     "clearTarget": "목표 초기화",
+    "setAsTarget": "목표로 설정",
     "beforeGift": "선물 전",
     "afterGift": "선물 후",
     "levelGap": "레벨 차이",
