@@ -40,6 +40,10 @@
                 <span class="label">{{ t('bondGapCalculator.expGap') }}</span>
                 <span class="value">{{ col.data.expGap.toLocaleString() }}</span>
               </div>
+              <div class="stat-row">
+                <span class="label">{{ t('bondGapCalculator.progressPercentage') }}</span>
+                <span class="value">{{ col.data.progressPercentage.toFixed(1) }}%</span>
+              </div>
             </div>
             <div class="interaction-section">
               <h5>{{ t('bondGapCalculator.interactionsNeeded') }}</h5>
@@ -122,16 +126,23 @@
   })
 
   watch(
-    studentLevel,
-    (newLevel) => {
-      if (newLevel != null) {
+    [studentLevel, student],
+    ([newLevel, newStudent]) => {
+      if (newLevel != null && newStudent) {
         minLevel.value = Math.min(newLevel + 1, maxLevel.value)
-        targetLevel.value = minLevel.value
-        initialTargetLevel.value = minLevel
+        const savedTarget = studentStore.getStudentBondData(newStudent.id).target
+        targetLevel.value = savedTarget ? Math.max(savedTarget, minLevel.value) : minLevel.value
+        initialTargetLevel.value = minLevel.value
       }
     },
     { immediate: true }
   )
+
+  watch(targetLevel, (newTarget) => {
+    if (student.value && newTarget) {
+      studentStore.updateStudentTarget(student.value.id, newTarget)
+    }
+  })
 
   const incrementLevel = () => {
     if (targetLevel.value < maxLevel.value) {
@@ -263,12 +274,15 @@
 
     const calculateGaps = (state) => {
       if (!state || targetLevel.value <= state.level) {
-        return { levelGap: targetLevel.value - (state?.level ?? 0), expGap: 0, interactions: [] }
+        return { levelGap: targetLevel.value - (state?.level ?? 0), expGap: 0, interactions: [], progressPercentage: 100 }
       }
 
       const expGap = totalTargetExp - state.totalExp
+      const targetTotal = getTotalExpForLevel(targetLevel.value)
+      const progressPercentage = targetTotal > 0 ? Math.min(100, (state.totalExp / targetTotal) * 100) : 0
+
       if (expGap <= 0) {
-        return { levelGap: targetLevel.value - state.level, expGap: 0, interactions: [] }
+        return { levelGap: targetLevel.value - state.level, expGap: 0, interactions: [], progressPercentage: 100 }
       }
 
       const allInteractions = [
@@ -314,6 +328,7 @@
         levelGap: targetLevel.value - state.level,
         expGap,
         interactions: allInteractions,
+        progressPercentage,
       }
     }
 
