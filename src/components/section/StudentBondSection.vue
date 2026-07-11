@@ -776,6 +776,14 @@
       1px 1px 0 #9cb2cd,
       0 2px 4px rgba(0, 0, 0, 0.2);
   }
+  .dark-mode .bond-exp-bar.no-target-bar .bond-exp-text {
+    text-shadow:
+      -1px -1px 0 #5c7289,
+      1px -1px 0 #5c7289,
+      -1px 1px 0 #5c7289,
+      1px 1px 0 #5c7289,
+      0 2px 4px rgba(0, 0, 0, 0.2);
+  }
 
   @media (max-width: 768px) {
     .mode-toggles-container {

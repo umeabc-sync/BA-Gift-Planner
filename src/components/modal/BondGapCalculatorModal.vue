@@ -162,15 +162,13 @@
 
   const incrementLevel = () => {
     if (targetLevel.value < maxLevel.value) {
-      targetLevel.value++
-      studentStore.updateStudentTarget(student.value.id, targetLevel.value)
+      handleTargetLevelUpdate(targetLevel.value + 1)
     }
   }
 
   const decrementLevel = () => {
     if (targetLevel.value > minLevel.value) {
-      targetLevel.value--
-      studentStore.updateStudentTarget(student.value.id, targetLevel.value)
+      handleTargetLevelUpdate(targetLevel.value - 1)
     }
   }
 
@@ -189,7 +187,8 @@
 
   const getTotalExpForLevel = (level) => {
     if (!bondExpTable.value || !bondExpTable.value.length || level <= 1) return 0
-    const levelData = bondExpTable.value.find((item) => item.rank === level)
+    const numericLevel = Number(level)
+    const levelData = bondExpTable.value.find((item) => item.rank === numericLevel)
     return levelData ? levelData.total : 0
   }
 
