@@ -288,7 +288,12 @@
 
     const calculateGaps = (state) => {
       if (!state || targetLevel.value <= state.level) {
-        return { levelGap: targetLevel.value - (state?.level ?? 0), expGap: 0, interactions: [], progressPercentage: 100 }
+        return {
+          levelGap: targetLevel.value - (state?.level ?? 0),
+          expGap: 0,
+          interactions: [],
+          progressPercentage: 100,
+        }
       }
 
       const expGap = totalTargetExp - state.totalExp

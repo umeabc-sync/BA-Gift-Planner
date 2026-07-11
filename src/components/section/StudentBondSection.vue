@@ -7,9 +7,15 @@
         </button>
         <button
           class="btn-skew btn-text btn-blue"
-          @click="giftPlannerStore.bondProgressMode = giftPlannerStore.bondProgressMode === 'level' ? 'target' : 'level'"
+          @click="
+            giftPlannerStore.bondProgressMode = giftPlannerStore.bondProgressMode === 'level' ? 'target' : 'level'
+          "
         >
-          <span>{{ giftPlannerStore.bondProgressMode === 'level' ? t('bondCalculator.targetProgress') : t('bondCalculator.levelProgress') }}</span>
+          <span>{{
+            giftPlannerStore.bondProgressMode === 'level'
+              ? t('bondCalculator.targetProgress')
+              : t('bondCalculator.levelProgress')
+          }}</span>
         </button>
       </div>
       <transition name="fade">
@@ -224,7 +230,8 @@
       const originalExpPercentage = targetTotal > 0 ? Math.min(100, (currentTotal / targetTotal) * 100) : 0
       const newExpPercentage = targetTotal > 0 ? Math.min(100, (newTotal / targetTotal) * 100) : 0
 
-      const displayExpText = `${originalExpPercentage.toFixed(1)}%` + (preview.gainedExp > 0 ? ` ➔ ${newExpPercentage.toFixed(1)}%` : '')
+      const displayExpText =
+        `${originalExpPercentage.toFixed(1)}%` + (preview.gainedExp > 0 ? ` ➔ ${newExpPercentage.toFixed(1)}%` : '')
 
       return {
         levelUp: preview.newLevel > preview.level,
@@ -569,8 +576,6 @@
     margin-bottom: 5px;
   }
 
-
-
   .switch-student-btn {
     padding: 8px 16px;
     height: 38px;
@@ -661,8 +666,6 @@
       flex-direction: column;
       gap: 10px;
     }
-
-
 
     .student-row {
       flex-direction: column;
