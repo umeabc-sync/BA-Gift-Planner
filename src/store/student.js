@@ -42,10 +42,28 @@ export const useStudentStore = defineStore(
     }
 
     function updateStudentBond(studentId, level, exp) {
-      if (level === 1 && exp === 0) {
+      const existing = studentBondData.value[studentId]
+      const target = existing ? existing.target : undefined
+      if (level === 1 && exp === 0 && !target) {
         delete studentBondData.value[studentId]
       } else {
         studentBondData.value[studentId] = { level, exp }
+        if (target !== undefined) {
+          studentBondData.value[studentId].target = target
+        }
+      }
+    }
+
+    function updateStudentTarget(studentId, targetLevel) {
+      const existing = studentBondData.value[studentId] || { level: 1, exp: 0 }
+      if (targetLevel === undefined || targetLevel === null || targetLevel === 0) {
+        delete existing.target
+        if (existing.level === 1 && existing.exp === 0) {
+          delete studentBondData.value[studentId]
+        }
+      } else {
+        existing.target = targetLevel
+        studentBondData.value[studentId] = existing
       }
     }
 
@@ -141,6 +159,7 @@ export const useStudentStore = defineStore(
       deselectStudents,
       getStudentBondData,
       updateStudentBond,
+      updateStudentTarget,
       getStudentForm,
       toggleStudentForm,
       resetSelection,
@@ -192,7 +211,7 @@ export const useStudentStore = defineStore(
         if (ctx.store.studentBondData) {
           for (const key in ctx.store.studentBondData) {
             const data = ctx.store.studentBondData[key]
-            if (data && data.level === 1 && data.exp === 0) {
+            if (data && data.level === 1 && data.exp === 0 && !data.target) {
               delete ctx.store.studentBondData[key]
             }
           }
