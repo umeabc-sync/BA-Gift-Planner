@@ -196,7 +196,7 @@
     "dormInteraction": "쓰다듬기",
     "schedule": "스케줄",
     "noInteractionsNeeded": "상호작용 필요 없음",
-    "progressPercentage": "목표 진행도 백분율"
+    "progressPercentage": "목표 진행도"
   },
   "bondCalculator": {
     "giftInventoryTitle": "선물 인벤토리",
