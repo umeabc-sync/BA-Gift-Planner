@@ -11,17 +11,26 @@
             <h3>{{ t(`student.name.${student.id}`) }}</h3>
           </div>
           <div class="target-level-setter-wrapper">
-            <label>{{ t('bondGapCalculator.setTargetLevel') }}</label>
+            <div class="target-setter-header">
+              <label>{{ t('bondGapCalculator.setTargetLevel') }}</label>
+              <button
+                class="btn-clear-target"
+                :class="{ 'btn-set-target': !hasSavedTarget }"
+                @click="hasSavedTarget ? clearTarget() : setAsTarget()"
+              >
+                {{ hasSavedTarget ? t('bondGapCalculator.clearTarget') : t('bondGapCalculator.setAsTarget') }}
+              </button>
+            </div>
             <QuantityControl
               :value="targetLevel"
-              @update:value="targetLevel = $event"
+              @update:value="handleTargetLevelUpdate"
               :min="minLevel"
               :max="maxLevel"
               :show-min-max="true"
               :small-display="true"
               :use-continuous="true"
-              @set-min="targetLevel = minLevel"
-              @set-max="targetLevel = maxLevel"
+              @set-min="handleTargetLevelUpdate(minLevel)"
+              @set-max="handleTargetLevelUpdate(maxLevel)"
               @increment="incrementLevel"
               @decrement="decrementLevel"
             />
@@ -39,6 +48,10 @@
               <div class="stat-row">
                 <span class="label">{{ t('bondGapCalculator.expGap') }}</span>
                 <span class="value">{{ col.data.expGap.toLocaleString() }}</span>
+              </div>
+              <div class="stat-row">
+                <span class="label">{{ t('bondGapCalculator.progressPercentage') }}</span>
+                <span class="value">{{ col.data.progressPercentage.toFixed(1) }}%</span>
               </div>
             </div>
             <div class="interaction-section">
@@ -76,6 +89,7 @@
   import { useGiftPlannerStore } from '@/store/giftPlanner'
   import { useStudentStore } from '@/store/student'
   import { useBondExpData } from '@/utils/fetchBondExpData'
+  import { getTotalExpForLevel as getGlobalTotalExpForLevel } from '@/utils/bondExpHelpers'
   import { getInteractionUrl } from '@/utils/getInteractionUrl'
   import { getAssetsFile } from '@/utils/getAssetsFile'
   import { getAvatarUrl } from '@/utils/getAvatarUrl'
@@ -104,7 +118,6 @@
 
   const { data: bondExpTable } = useBondExpData()
   const targetLevel = ref(null)
-  const initialTargetLevel = ref(null)
   const minLevel = ref(1)
 
   const maxLevel = computed(() =>
@@ -122,25 +135,51 @@
   })
 
   watch(
-    studentLevel,
-    (newLevel) => {
-      if (newLevel != null) {
+    [studentLevel, student],
+    ([newLevel, newStudent]) => {
+      if (newLevel != null && newStudent) {
         minLevel.value = Math.min(newLevel + 1, maxLevel.value)
-        targetLevel.value = minLevel.value
-        initialTargetLevel.value = minLevel
+        const savedTarget = studentStore.getStudentBondData(newStudent.id)?.target
+        targetLevel.value = savedTarget ? Math.max(savedTarget, minLevel.value) : minLevel.value
       }
     },
     { immediate: true }
   )
 
-  const incrementLevel = () => {
-    if (targetLevel.value < maxLevel.value) {
-      targetLevel.value++
+  const hasSavedTarget = computed(() => {
+    if (!student.value) return false
+    return studentStore.getStudentBondData(student.value.id)?.target !== undefined
+  })
+
+  const clearTarget = () => {
+    if (student.value) {
+      studentStore.updateStudentTarget(student.value.id, null)
+      targetLevel.value = minLevel.value
     }
   }
+
+  const setAsTarget = () => {
+    if (student.value) {
+      studentStore.updateStudentTarget(student.value.id, targetLevel.value)
+    }
+  }
+
+  const handleTargetLevelUpdate = (value) => {
+    targetLevel.value = value
+    if (student.value) {
+      studentStore.updateStudentTarget(student.value.id, value)
+    }
+  }
+
+  const incrementLevel = () => {
+    if (targetLevel.value < maxLevel.value) {
+      handleTargetLevelUpdate(targetLevel.value + 1)
+    }
+  }
+
   const decrementLevel = () => {
     if (targetLevel.value > minLevel.value) {
-      targetLevel.value--
+      handleTargetLevelUpdate(targetLevel.value - 1)
     }
   }
 
@@ -157,11 +196,7 @@
     return map[exp] || null
   }
 
-  const getTotalExpForLevel = (level) => {
-    if (!bondExpTable.value || !bondExpTable.value.length || level <= 1) return 0
-    const levelData = bondExpTable.value.find((item) => item.rank === level)
-    return levelData ? levelData.total : 0
-  }
+  const getTotalExpForLevel = (level) => getGlobalTotalExpForLevel(level, bondExpTable.value)
 
   const getLevelFromExp = (totalExp) => {
     if (!bondExpTable.value || !bondExpTable.value.length) return { level: 1, remainingExp: totalExp }
@@ -263,12 +298,20 @@
 
     const calculateGaps = (state) => {
       if (!state || targetLevel.value <= state.level) {
-        return { levelGap: targetLevel.value - (state?.level ?? 0), expGap: 0, interactions: [] }
+        return {
+          levelGap: targetLevel.value - (state?.level ?? 0),
+          expGap: 0,
+          interactions: [],
+          progressPercentage: 100,
+        }
       }
 
       const expGap = totalTargetExp - state.totalExp
+      const targetTotal = getTotalExpForLevel(targetLevel.value)
+      const progressPercentage = targetTotal > 0 ? Math.min(100, (state.totalExp / targetTotal) * 100) : 0
+
       if (expGap <= 0) {
-        return { levelGap: targetLevel.value - state.level, expGap: 0, interactions: [] }
+        return { levelGap: targetLevel.value - state.level, expGap: 0, interactions: [], progressPercentage: 100 }
       }
 
       const allInteractions = [
@@ -314,6 +357,7 @@
         levelGap: targetLevel.value - state.level,
         expGap,
         interactions: allInteractions,
+        progressPercentage,
       }
     }
 
@@ -404,7 +448,33 @@
   .target-level-setter-wrapper label {
     font-size: 1rem;
     font-weight: 600;
-    text-align: center;
+  }
+  .target-setter-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .btn-clear-target {
+    background: none;
+    border: none;
+    color: #e64a19;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 0;
+    transition: opacity 0.2s;
+  }
+  .btn-clear-target:hover {
+    opacity: 0.8;
+  }
+  .dark-mode .btn-clear-target {
+    color: #ffab91;
+  }
+  .btn-clear-target.btn-set-target {
+    color: #0288d1;
+  }
+  .dark-mode .btn-clear-target.btn-set-target {
+    color: #29b6f6;
   }
 
   @media (min-width: 600px) {

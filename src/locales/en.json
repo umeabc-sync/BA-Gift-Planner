@@ -187,6 +187,8 @@
   "bondGapCalculator": {
     "title": "Bond Gap Calculator",
     "setTargetLevel": "Set Target Level",
+    "clearTarget": "Clear Target",
+    "setAsTarget": "Set as Target",
     "beforeGift": "Before Gift",
     "afterGift": "After Gift",
     "levelGap": "Level Gap",
@@ -194,7 +196,8 @@
     "interactionsNeeded": "Interactions Needed",
     "dormInteraction": "Patting Head",
     "schedule": "Schedule",
-    "noInteractionsNeeded": "No interactions needed"
+    "noInteractionsNeeded": "No interactions needed",
+    "progressPercentage": "Target Progress"
   },
   "bondCalculator": {
     "giftInventoryTitle": "Gift Inventory",
@@ -204,7 +207,10 @@
     "convertConfirmation": "This action will convert the selected gifts into gift selection boxes and cannot be undone. Are you sure you want to continue?",
     "singleMode": "Single View",
     "listMode": "List View",
-    "clickToSwitch": "Switch Student"
+    "clickToSwitch": "Switch Student",
+    "levelProgress": "Level Progress",
+    "targetProgress": "Target Progress",
+    "noTargetSet": "No Target Set"
   },
   "studentBondModal": {
     "bondLevel": "Bond Level",

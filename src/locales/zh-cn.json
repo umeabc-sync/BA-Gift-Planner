@@ -187,6 +187,8 @@
   "bondGapCalculator": {
     "title": "羁绊目标测算",
     "setTargetLevel": "设置目标等级",
+    "clearTarget": "清除目标",
+    "setAsTarget": "设定为目标",
     "beforeGift": "赠送前",
     "afterGift": "赠送后",
     "levelGap": "等级差距",
@@ -194,7 +196,8 @@
     "interactionsNeeded": "所需互动",
     "dormInteraction": "摸头",
     "schedule": "日程",
-    "noInteractionsNeeded": "无需互动"
+    "noInteractionsNeeded": "无需互动",
+    "progressPercentage": "目标进度"
   },
   "bondCalculator": {
     "giftInventoryTitle": "礼物库存",
@@ -204,7 +207,10 @@
     "convertConfirmation": "此操作会将所选的礼物转换为礼物自选箱，且无法复原。确定要继续吗？",
     "singleMode": "独立显示",
     "listMode": "列表显示",
-    "clickToSwitch": "切换学生"
+    "clickToSwitch": "切换学生",
+    "levelProgress": "等级进度",
+    "targetProgress": "目标进度",
+    "noTargetSet": "未设定目标"
   },
   "studentBondModal": {
     "bondLevel": "羁绊等级",

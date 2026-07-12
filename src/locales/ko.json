@@ -187,6 +187,8 @@
   "bondGapCalculator": {
     "title": "인연 목표 계산기",
     "setTargetLevel": "목표 레벨 설정",
+    "clearTarget": "목표 초기화",
+    "setAsTarget": "목표로 설정",
     "beforeGift": "선물 전",
     "afterGift": "선물 후",
     "levelGap": "레벨 차이",
@@ -194,7 +196,8 @@
     "interactionsNeeded": "필요한 상호작용",
     "dormInteraction": "쓰다듬기",
     "schedule": "스케줄",
-    "noInteractionsNeeded": "상호작용 필요 없음"
+    "noInteractionsNeeded": "상호작용 필요 없음",
+    "progressPercentage": "목표 진행도"
   },
   "bondCalculator": {
     "giftInventoryTitle": "선물 인벤토리",
@@ -204,7 +207,10 @@
     "convertConfirmation": "이 작업은 선택한 선물을 선물 선택 상자로 변환하며 되돌릴 수 없습니다. 계속하시겠습니까?",
     "singleMode": "단일 보기",
     "listMode": "목록 보기",
-    "clickToSwitch": "학생 전환"
+    "clickToSwitch": "학생 전환",
+    "levelProgress": "레벨 진행도",
+    "targetProgress": "목표 진행도",
+    "noTargetSet": "목표 미설정"
   },
   "studentBondModal": {
     "bondLevel": "인연 레벨",

@@ -17,6 +17,7 @@ export const useGiftPlannerStore = defineStore(
     const assignments = ref({}) // { studentId: { giftKey: quantity } }
     const isSingleMode = ref(true)
     const currentSingleStudentId = ref(null)
+    const bondProgressMode = ref('level') // 'level' or 'target'
 
     // Stores
     const giftStore = useGiftStore()
@@ -189,6 +190,7 @@ export const useGiftPlannerStore = defineStore(
       assignments,
       isSingleMode,
       currentSingleStudentId,
+      bondProgressMode,
       totalAssigned,
       getAvailableCount,
       setAssignment,
@@ -208,7 +210,7 @@ export const useGiftPlannerStore = defineStore(
       },
       {
         key: 'giftPlanner-ui',
-        pick: ['isSingleMode', 'currentSingleStudentId'],
+        pick: ['isSingleMode', 'currentSingleStudentId', 'bondProgressMode'],
       },
     ],
   }
