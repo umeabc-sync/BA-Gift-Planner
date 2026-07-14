@@ -770,14 +770,6 @@
     font-size: 16px;
   }
 
-  .dark-mode .avatar-target-badge {
-    border-color: #1a2b40;
-  }
-
-  .dark-mode .avatar-target-badge.achieved {
-    background: linear-gradient(135deg, #0079a8 0%, #005a7d 100%);
-  }
-
   .bond-exp-bar.no-target-bar {
     border-color: #9cb2cd;
   }
