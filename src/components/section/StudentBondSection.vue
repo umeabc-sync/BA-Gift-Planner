@@ -52,9 +52,14 @@
                 <span class="overlay-text">{{ t('bondCalculator.clickToSwitch') }}</span>
               </div>
             </div>
-            <div v-if="hasActiveTarget(student.id)" class="avatar-target-badge" :class="isSingleMode ? 'large' : ''">
-              <LoyaltyIcon class="loyalty-icon" />
-              {{ studentStore.getStudentBondData(student.id)?.target }}
+            <div
+              v-if="hasActiveTarget(student.id)"
+              class="avatar-target-badge"
+              :class="{ large: isSingleMode, achieved: hasAchievedTarget(student.id) }"
+            >
+              <CheckIcon v-if="hasAchievedTarget(student.id)" class="badge-icon" />
+              <LoyaltyIcon v-else class="badge-icon" />
+              {{ getBond(student.id)?.target }}
             </div>
           </div>
           <div class="bond-island" :class="{ 'single-bond-island': isSingleMode }">
@@ -136,6 +141,7 @@
   import GiftIcon from '@assets/icon/gift_icon.svg'
   import SwitchStudentIcon from '@assets/icon/switch_student.svg'
   import LoyaltyIcon from '@assets/icon/loyalty.svg'
+  import CheckIcon from '@assets/icon/selected.svg'
   import { getAssetsFile } from '@/utils/getAssetsFile'
   import { useSettingStore } from '@/store/setting'
 
@@ -277,10 +283,16 @@
     }
   })
 
-  const hasActiveTarget = computed(() => (studentId) => {
-    const bond = studentStore.getStudentBondData(studentId)
-    return bond?.target && bond.target > bond.level
-  })
+  const getBond = (studentId) => studentStore.getStudentBondData(studentId)
+
+  const hasActiveTarget = (studentId) => {
+    return !!getBond(studentId)?.target
+  }
+
+  const hasAchievedTarget = (studentId) => {
+    const bond = getBond(studentId)
+    return bond?.target ? bond.level >= bond.target : false
+  }
 </script>
 
 <style scoped>
@@ -630,7 +642,7 @@
     user-select: none;
   }
 
-  .loyalty-icon {
+  .badge-icon {
     width: 1em;
     height: 1em;
     vertical-align: -0.2em;
@@ -750,12 +762,12 @@
     pointer-events: none;
   }
 
-  .avatar-target-badge.large {
-    font-size: 16px;
+  .avatar-target-badge.achieved {
+    background: linear-gradient(135deg, #00a4e4 0%, #008cc3 100%);
   }
 
-  .dark-mode .avatar-target-badge {
-    border-color: #1a2b40;
+  .avatar-target-badge.large {
+    font-size: 16px;
   }
 
   .bond-exp-bar.no-target-bar {
