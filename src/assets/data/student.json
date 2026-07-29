@@ -6358,5 +6358,77 @@
         "xl": [3]
       }
     }
+  },
+  {
+    "id": 266,
+    "gid": 10146,
+    "school": "Gehenna",
+    "attackType": "Mystic",
+    "defenseType": "Heavy",
+    "weapon": "SR",
+    "position": "BACK",
+    "type": 0,
+    "role": ["Dealer"],
+    "rarity": 3,
+    "obtainMethod": "Unique",
+    "favor": {
+      "sr": {
+        "m": [18, 19, 28, 30],
+        "l": [17, 29, 34],
+        "xl": []
+      },
+      "ssr": {
+        "l": [3],
+        "xl": [6]
+      }
+    }
+  },
+  {
+    "id": 267,
+    "gid": 10147,
+    "school": "Gehenna",
+    "attackType": "Sonic",
+    "defenseType": "Elastic",
+    "weapon": "HG",
+    "position": "MIDDLE",
+    "type": 0,
+    "role": ["Healer"],
+    "rarity": 3,
+    "obtainMethod": "Unique",
+    "favor": {
+      "sr": {
+        "m": [3, 4, 9, 15, 23, 33],
+        "l": [32, 34],
+        "xl": []
+      },
+      "ssr": {
+        "l": [1],
+        "xl": [3]
+      }
+    }
+  },
+  {
+    "id": 268,
+    "gid": 26016,
+    "school": "Gehenna",
+    "attackType": "Piercing",
+    "defenseType": "Heavy",
+    "weapon": "AR",
+    "position": "BACK",
+    "type": 1,
+    "role": ["Dealer"],
+    "rarity": 1,
+    "obtainMethod": "Event",
+    "favor": {
+      "sr": {
+        "m": [3, 4, 9, 15, 32],
+        "l": [23, 34],
+        "xl": []
+      },
+      "ssr": {
+        "l": [1],
+        "xl": [5]
+      }
+    }
   }
 ]
