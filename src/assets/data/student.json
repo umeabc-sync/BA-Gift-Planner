@@ -6430,5 +6430,53 @@
         "xl": [5]
       }
     }
+  },
+  {
+    "id": 269,
+    "gid": 10148,
+    "school": "Gehenna",
+    "attackType": "Explosive",
+    "defenseType": "Special",
+    "weapon": "HG",
+    "position": "MIDDLE",
+    "type": 0,
+    "role": ["Dealer"],
+    "rarity": 3,
+    "obtainMethod": "Fest",
+    "favor": {
+      "sr": {
+        "m": [3, 4, 5, 6, 7, 9, 15, 23, 32],
+        "l": [34],
+        "xl": []
+      },
+      "ssr": {
+        "l": [2],
+        "xl": [1]
+      }
+    }
+  },
+  {
+    "id": 270,
+    "gid": 20060,
+    "school": "Gehenna",
+    "attackType": "Explosive",
+    "defenseType": "Special",
+    "weapon": "AR",
+    "position": "BACK",
+    "type": 1,
+    "role": ["Support"],
+    "rarity": 3,
+    "obtainMethod": "Fest",
+    "favor": {
+      "sr": {
+        "m": [8, 10, 12, 13, 18, 20, 25, 26],
+        "l": [22, 34],
+        "xl": []
+      },
+      "ssr": {
+        "l": [4],
+        "xl": [12]
+      }
+    }
   }
 ]
