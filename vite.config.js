@@ -18,12 +18,20 @@ export default defineConfig({
     vueDevTools(),
     Font.vite(),
     {
-      name: 'remove-onnx-wasm',
+      name: 'remove-onnx-wasm-and-force-exit',
       generateBundle(options, bundle) {
         for (const key in bundle) {
           if (key.endsWith('.wasm')) {
             delete bundle[key]
           }
+        }
+      },
+      closeBundle() {
+        if (process.env.NODE_ENV === 'production') {
+          setTimeout(() => {
+            console.log('Force exiting Vite to prevent CI hangs...');
+            process.exit(0);
+          }, 1000);
         }
       }
     }
