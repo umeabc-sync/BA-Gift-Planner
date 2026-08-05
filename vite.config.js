@@ -16,7 +16,17 @@ export default defineConfig({
     vue(),
     svgLoader(),
     vueDevTools(),
-    Font.vite()
+    Font.vite(),
+    {
+      name: 'remove-onnx-wasm',
+      generateBundle(options, bundle) {
+        for (const key in bundle) {
+          if (key.endsWith('.wasm')) {
+            delete bundle[key]
+          }
+        }
+      }
+    }
   ],
   optimizeDeps: {
     exclude: ['onnxruntime-web']
