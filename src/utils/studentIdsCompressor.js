@@ -114,11 +114,7 @@ export function decompressStudentIds(compressedStr, allStudentIds) {
       result = allIdsInUrl.filter((id) => !idsFromBitfield.includes(id))
     }
 
-    if (allStudentIds && allStudentIds.length > 0) {
-      const allSet = new Set(allStudentIds)
-      return result.filter((id) => allSet.has(id))
-    }
-    return result
+    return result.filter((id) => typeof id === 'number' && id > 0)
   } catch (error) {
     console.warn('Failed to decompress student IDs:', error)
     return []
