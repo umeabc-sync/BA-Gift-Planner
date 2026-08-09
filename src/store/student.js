@@ -127,25 +127,6 @@ export const useStudentStore = defineStore(
       savedCombinations.value = savedCombinations.value.filter((c) => c.id !== id)
     }
 
-    // When the async student list is fetched, filter out any invalid/deleted IDs
-    watch(
-      studentsData,
-      (newData) => {
-        if (!newData || newData.length === 0) return
-        const validIds = new Set(newData.map((s) => s.id))
-
-        // 1. Clean selectedStudentIds
-        selectedStudentIds.value = selectedStudentIds.value.filter((id) => validIds.has(id))
-
-        // 2. Clean savedCombinations
-        savedCombinations.value.forEach((combo) => {
-          if (Array.isArray(combo.studentIds)) {
-            combo.studentIds = combo.studentIds.filter((id) => validIds.has(id))
-          }
-        })
-      },
-      { immediate: true }
-    )
 
     return {
       studentsData,
