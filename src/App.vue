@@ -115,6 +115,7 @@
     baClickFxInstance = new BAClickFX({
       clickEnabled: enableClickFx.value,
       trailEnabled: enableClickFx.value,
+      scale: 0.75,
       maxDpr: 2,
     })
   })
