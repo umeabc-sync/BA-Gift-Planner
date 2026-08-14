@@ -117,6 +117,8 @@
       trailEnabled: enableClickFx.value,
       scale: 0.75,
       maxDpr: 2,
+      clickTimeScale: 1.5,
+      trailTimeScale: 1.5,
     })
   })
 
