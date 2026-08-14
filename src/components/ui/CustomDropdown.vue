@@ -134,6 +134,7 @@
     padding: 5px;
     list-style: none;
     margin: 0;
+    user-select: none;
   }
 
   .dark-mode .custom-dropdown-menu {

@@ -518,6 +518,7 @@
 
   .setting-control-wrapper {
     min-width: 180px;
+    user-select: none;
   }
 
   .toggle-button-group {
