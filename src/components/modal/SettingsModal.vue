@@ -99,6 +99,25 @@
                 </button>
               </div>
             </div>
+
+            <!-- Click Effect Settings -->
+            <div class="setting-group">
+              <h4 class="setting-group-title">{{ t('settingsModal.clickEffect') }}</h4>
+              <div class="toggle-button-group">
+                <button
+                  :class="['toggle-button', 'off', { active: !isClickFxEnabled }]"
+                  @click="isClickFxEnabled && toggleClickFx()"
+                >
+                  <span>{{ t('common.disabled') }}</span>
+                </button>
+                <button
+                  :class="['toggle-button', 'on', { active: isClickFxEnabled }]"
+                  @click="!isClickFxEnabled && toggleClickFx()"
+                >
+                  <span>{{ t('common.enabled') }}</span>
+                </button>
+              </div>
+            </div>
           </AppScrollbar>
 
           <!-- Performance Settings -->
@@ -290,6 +309,7 @@
     theme,
     useVibrantProgressBar: isVibrantProgressBarEnabled,
     disableBackgroundBlur: isBackgroundBlurDisabled,
+    enableClickFx: isClickFxEnabled,
   } = storeToRefs(settingStore)
 
   const {
@@ -297,6 +317,7 @@
     toggleShowOnlyOptimalSolution,
     toggleVibrantProgressBar,
     toggleBackgroundBlur,
+    toggleClickFx,
   } = settingStore
 
   const availableLanguages = [

@@ -54,12 +54,13 @@
   import CombinationManagerModal from '@components/modal/CombinationManagerModal.vue'
   import SharedCombinationPromptModal from '@components/modal/SharedCombinationPromptModal.vue'
   import ToastNotification from '@components/ui/ToastNotification.vue'
+  import { BAClickFX } from 'ba-click-fx'
 
   const { initSync } = useCloudSync()
 
   const { t, isLoaded, currentLocale: locale } = useI18n()
   const settingStore = useSettingStore()
-  const { isDarkMode } = storeToRefs(settingStore)
+  const { isDarkMode, enableClickFx } = storeToRefs(settingStore)
 
   const modalStore = useModalStore()
   const {
@@ -102,12 +103,29 @@
     }
   }
 
+  let baClickFxInstance = null
+
   onMounted(async () => {
     // Initialize locale based on browser settings and router context
     initLocale(router)
     settingStore.initThemeListener()
     initBodyOverlayScrollbars({ target: document.body })
     await initSync()
+
+    baClickFxInstance = new BAClickFX({
+      clickEnabled: enableClickFx.value,
+      trailEnabled: enableClickFx.value,
+      maxDpr: 1.5,
+    })
+  })
+
+  watch(enableClickFx, (enabled) => {
+    if (baClickFxInstance) {
+      baClickFxInstance.updateConfig({
+        clickEnabled: enabled,
+        trailEnabled: enabled,
+      })
+    }
   })
 
   watch(
