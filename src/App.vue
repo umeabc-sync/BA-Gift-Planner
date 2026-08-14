@@ -35,7 +35,7 @@
 </template>
 
 <script setup>
-  import { watch, onMounted } from 'vue'
+  import { watch, onMounted, onUnmounted } from 'vue'
   import { useRouter } from 'vue-router'
   import { useOverlayScrollbars } from 'overlayscrollbars-vue'
   import { initLocale } from '@utils/localeDetector'
@@ -117,6 +117,13 @@
       trailEnabled: enableClickFx.value,
       maxDpr: 2,
     })
+  })
+
+  onUnmounted(() => {
+    if (baClickFxInstance) {
+      baClickFxInstance.destroy()
+      baClickFxInstance = null
+    }
   })
 
   watch(enableClickFx, (enabled) => {
