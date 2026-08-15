@@ -113,6 +113,7 @@
     flex-shrink: 0;
     position: relative;
     align-self: center;
+    user-select: none;
   }
 
   .gift-island > *,
@@ -183,6 +184,7 @@
     border-radius: 12px;
     padding: 20px;
     border: 2px solid #dee2e6;
+    user-select: none;
   }
 
   .dark-mode .recommendation-island {

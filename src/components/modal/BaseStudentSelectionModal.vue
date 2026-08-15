@@ -652,6 +652,7 @@
     padding: 2px 8px;
     background-color: #e0e6ed;
     border-radius: 4px;
+    user-select: none;
   }
 
   .dark-mode .filter-label {

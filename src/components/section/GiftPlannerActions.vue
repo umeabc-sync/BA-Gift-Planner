@@ -95,6 +95,7 @@
     font-weight: bold;
     color: #314665;
     text-align: center;
+    user-select: none;
   }
 
   .dark-mode .gift-planner-title {

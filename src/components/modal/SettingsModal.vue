@@ -140,6 +140,25 @@
                 </button>
               </div>
             </div>
+
+            <!-- Click Effect Settings -->
+            <div class="setting-group">
+              <h4 class="setting-group-title">{{ t('settingsModal.clickEffect') }}</h4>
+              <div class="toggle-button-group">
+                <button
+                  :class="['toggle-button', 'off', { active: !isClickFxEnabled }]"
+                  @click="isClickFxEnabled && toggleClickFx()"
+                >
+                  <span>{{ t('common.disabled') }}</span>
+                </button>
+                <button
+                  :class="['toggle-button', 'on', { active: isClickFxEnabled }]"
+                  @click="!isClickFxEnabled && toggleClickFx()"
+                >
+                  <span>{{ t('common.enabled') }}</span>
+                </button>
+              </div>
+            </div>
           </AppScrollbar>
 
           <!-- Account Settings -->
@@ -211,6 +230,7 @@
 
 <script setup>
   import { computed, ref, toRefs, onMounted } from 'vue'
+  import { useRouter } from 'vue-router'
   import { useSettingStore } from '@/store/setting'
   import { storeToRefs } from 'pinia'
   import { useI18n } from '@/composables/useI18n.js'
@@ -235,6 +255,8 @@
   }
   const { isVisible } = toRefs(props)
   useModal(isVisible, closeModal)
+
+  const router = useRouter()
 
   // Active tab state
   const activeTab = ref('appearance')
@@ -287,6 +309,7 @@
     theme,
     useVibrantProgressBar: isVibrantProgressBarEnabled,
     disableBackgroundBlur: isBackgroundBlurDisabled,
+    enableClickFx: isClickFxEnabled,
   } = storeToRefs(settingStore)
 
   const {
@@ -294,6 +317,7 @@
     toggleShowOnlyOptimalSolution,
     toggleVibrantProgressBar,
     toggleBackgroundBlur,
+    toggleClickFx,
   } = settingStore
 
   const availableLanguages = [
@@ -330,7 +354,19 @@
       return
     }
     settingStore.setLocale(newLocale)
-    // window.location.reload()
+
+    // Remove the 'lang' query parameter to keep the URL clean
+    // when the user explicitly changes their language setting.
+    if (router && router.currentRoute.value.query.lang) {
+      const query = { ...router.currentRoute.value.query }
+      delete query.lang
+      router
+        .replace({
+          query,
+          hash: router.currentRoute.value.hash,
+        })
+        .catch((err) => console.error('Failed to clean up lang parameter:', err))
+    }
   }
 
   const toggleLazyLoad = () => {
@@ -482,6 +518,7 @@
 
   .setting-control-wrapper {
     min-width: 180px;
+    user-select: none;
   }
 
   .toggle-button-group {

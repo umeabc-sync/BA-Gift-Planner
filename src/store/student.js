@@ -127,7 +127,6 @@ export const useStudentStore = defineStore(
       savedCombinations.value = savedCombinations.value.filter((c) => c.id !== id)
     }
 
-
     return {
       studentsData,
       allStudentIds: allStudentIdsComputed,

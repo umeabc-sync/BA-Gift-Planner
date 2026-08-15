@@ -42,6 +42,7 @@
     border: 2px solid #dee2e6;
     border-radius: 20px;
     padding: 25px;
+    user-select: none;
   }
 
   .dark-mode .gift-grid-section {

@@ -12,6 +12,7 @@ export const useSettingStore = defineStore(
     const enableCharacterSelectorLazyLoad = ref(true)
     const useVibrantProgressBar = ref(false)
     const disableBackgroundBlur = ref(false)
+    const enableClickFx = ref(true)
 
     // Getters (Computed)
     const isDarkMode = computed(() => {
@@ -44,6 +45,10 @@ export const useSettingStore = defineStore(
       disableBackgroundBlur.value = !disableBackgroundBlur.value
     }
 
+    function toggleClickFx() {
+      enableClickFx.value = !enableClickFx.value
+    }
+
     function setLocale(newLocale) {
       locale.value = newLocale
     }
@@ -66,11 +71,13 @@ export const useSettingStore = defineStore(
       showOnlyOptimalSolution,
       useVibrantProgressBar,
       disableBackgroundBlur,
+      enableClickFx,
       toggleTheme,
       toggleCharacterSelectorLazyLoad,
       toggleShowOnlyOptimalSolution,
       toggleVibrantProgressBar,
       toggleBackgroundBlur,
+      toggleClickFx,
       setLocale,
       setTheme,
       initThemeListener,
@@ -85,6 +92,7 @@ export const useSettingStore = defineStore(
         'enableCharacterSelectorLazyLoad',
         'useVibrantProgressBar',
         'disableBackgroundBlur',
+        'enableClickFx',
       ],
     },
   }

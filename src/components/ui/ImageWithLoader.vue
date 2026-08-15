@@ -5,6 +5,7 @@
       :src="src"
       :alt="alt"
       :style="{ objectFit: objectFit }"
+      :draggable="draggable"
       @load="onLoad"
       @error="onError"
       :loading="lazy ? 'lazy' : 'eager'"
@@ -22,6 +23,7 @@
     lazy: { type: Boolean, default: false }, // Whether to use lazy loading for the image
     loaderType: { type: String, default: 'skeleton' }, // 'skeleton', 'pulse'
     inheritBackground: { type: Boolean, default: true }, // Whether to inherit background color
+    draggable: { type: Boolean, default: false }, // Prevent image dragging by default
   })
 
   const isLoading = ref(true)

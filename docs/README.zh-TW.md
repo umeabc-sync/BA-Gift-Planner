@@ -159,7 +159,7 @@
 | `npm run dev`        | 啟動本地開發伺服器，支援熱重載。             |
 | `npm run dev:worker` | 使用 Wrangler 啟動本地後端 Worker。          |
 | `npm run db:init`    | 初始化本地 D1 SQLite 資料庫。                |
-| `npm run build`      | 將專案打包至 dist 資料夾，並壓縮 JSON 檔案。 |
+| `npm run build`      | 將專案打包至 dist 資料夾，並產生 `sitemap.xml`。 |
 | `npm run preview`    | 預覽打包後的成果。                           |
 | `npm run format`     | 使用 Prettier 格式化所有程式碼。             |
 | `npm run lint`       | 使用 ESLint 檢查並修正程式碼風格問題。       |

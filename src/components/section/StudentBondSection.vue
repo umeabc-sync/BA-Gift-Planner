@@ -333,6 +333,7 @@
     display: flex;
     align-items: stretch;
     gap: 20px;
+    user-select: none;
   }
 
   .student-island {
