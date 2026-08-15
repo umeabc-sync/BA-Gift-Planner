@@ -105,6 +105,26 @@
 
   let baClickFxInstance = null
 
+  const initBaClickFx = () => {
+    if (!baClickFxInstance && enableClickFx.value) {
+      baClickFxInstance = new BAClickFX({
+        clickEnabled: true,
+        trailEnabled: true,
+        scale: 0.75,
+        maxDpr: 2,
+        clickTimeScale: 1.5,
+        trailTimeScale: 1.5,
+      })
+    }
+  }
+
+  const destroyBaClickFx = () => {
+    if (baClickFxInstance) {
+      baClickFxInstance.destroy()
+      baClickFxInstance = null
+    }
+  }
+
   onMounted(async () => {
     // Initialize locale based on browser settings and router context
     initLocale(router)
@@ -112,29 +132,18 @@
     initBodyOverlayScrollbars({ target: document.body })
     await initSync()
 
-    baClickFxInstance = new BAClickFX({
-      clickEnabled: enableClickFx.value,
-      trailEnabled: enableClickFx.value,
-      scale: 0.75,
-      maxDpr: 2,
-      clickTimeScale: 1.5,
-      trailTimeScale: 1.5,
-    })
+    initBaClickFx()
   })
 
   onUnmounted(() => {
-    if (baClickFxInstance) {
-      baClickFxInstance.destroy()
-      baClickFxInstance = null
-    }
+    destroyBaClickFx()
   })
 
   watch(enableClickFx, (enabled) => {
-    if (baClickFxInstance) {
-      baClickFxInstance.updateConfig({
-        clickEnabled: enabled,
-        trailEnabled: enabled,
-      })
+    if (enabled) {
+      initBaClickFx()
+    } else {
+      destroyBaClickFx()
     }
   })
 
