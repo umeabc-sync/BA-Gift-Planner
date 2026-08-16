@@ -209,6 +209,7 @@
     place-items: center;
     position: relative;
     flex-shrink: 0;
+    user-select: none;
   }
 
   .gift-grid-item > *,

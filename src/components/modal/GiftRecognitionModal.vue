@@ -23,7 +23,7 @@
           @dragleave.prevent="handleDragLeave"
           @drop.prevent="handleDrop"
         >
-          <p>{{ t('giftRecognitionModal.dropzonePlaceholder') }}</p>
+          <p style="user-select: none">{{ t('giftRecognitionModal.dropzonePlaceholder') }}</p>
         </div>
 
         <div v-show="imageUrl" class="preview-section">
@@ -35,7 +35,7 @@
           <transition name="expand">
             <div class="image-preview-container" v-show="isPreviewExpanded">
               <div class="image-wrapper">
-                <img :src="imageUrl" alt="Image Preview" ref="previewImage" @load="onImageLoad" />
+                <img :src="imageUrl" alt="Image Preview" ref="previewImage" @load="onImageLoad" draggable="false" />
                 <canvas ref="previewCanvas" class="preview-canvas"></canvas>
               </div>
             </div>
@@ -49,6 +49,10 @@
                 <div
                   class="gift-grid-item"
                   :class="[gift.isSsr ? 'gift-purple' : 'gift-yellow', { 'grayscale-effect': gift.quantity === 0 }]"
+                  v-tooltip:gift-tooltip.bottom="{
+                    content: gift.name,
+                    class: `gift-grid-tooltip ${gift.isSsr ? 'ssr-gift-tooltip' : 'sr-gift-tooltip'}`,
+                  }"
                 >
                   <ImageWithLoader
                     :src="getGiftUrl(gift.id, gift.isSsr)"
@@ -58,7 +62,7 @@
                     :inherit-background="false"
                   />
                   <div class="gift-icon-bg"></div>
-                  <div class="gift-name">{{ gift.name }}</div>
+                  <!-- <div class="gift-name">{{ gift.name }}</div> -->
                 </div>
                 <QuantityControl
                   :value="gift.quantity"
@@ -642,6 +646,7 @@
     height: auto;
     object-fit: contain;
     border-radius: 4px;
+    user-select: none;
   }
 
   .preview-canvas {
@@ -712,6 +717,7 @@
     place-items: center;
     position: relative;
     flex-shrink: 0;
+    user-select: none;
   }
 
   .gift-grid-item > *,
