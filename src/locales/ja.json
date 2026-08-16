@@ -172,6 +172,7 @@
     "tooltip": {
       "bestNoConflict": "一番おすすめ",
       "conflict": "プレゼント可能",
+      "generic": "自由にプレゼント可能",
       "otherGift": "非推奨"
     }
   },

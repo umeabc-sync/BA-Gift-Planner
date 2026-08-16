@@ -172,6 +172,7 @@
     "tooltip": {
       "bestNoConflict": "最推荐赠送",
       "conflict": "可以赠送",
+      "generic": "可任意赠送",
       "otherGift": "不推荐赠送"
     }
   },

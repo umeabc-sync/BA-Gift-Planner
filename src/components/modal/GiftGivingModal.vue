@@ -105,12 +105,14 @@
   const tooltipKeyMap = {
     'best-no-conflict': 'giftGivingModal.tooltip.bestNoConflict',
     conflict: 'giftGivingModal.tooltip.conflict',
+    generic: 'giftGivingModal.tooltip.generic',
     'other-gift': 'giftGivingModal.tooltip.otherGift',
   }
 
   const getGiftStyle = (gift) => {
     if (gift.isSpecial) return 'conflict'
     const analysis = giftAnalysisStore.getGiftAnalysis(gift)
+    if (analysis?.isGeneric) return 'generic'
     if (!analysis || !analysis.characters) return 'other-gift'
     const optimalCharacters = analysis.characters.filter((c) => c.isOptimal)
     if (optimalCharacters.some((character) => character.id === props.student.id)) {
@@ -125,7 +127,7 @@
 
   const sortedGifts = computed(() => {
     if (!props.student || !giftPlannerStore.allGifts) return []
-    const giftPriorityMap = { 'best-no-conflict': 0, conflict: 2, 'other-gift': 3 }
+    const giftPriorityMap = { 'best-no-conflict': 0, conflict: 2, generic: 3, 'other-gift': 4 }
 
     return giftPlannerStore.allGifts
       .filter((g) => giftStore.getGiftQuantity(g.id, g.isSsr) > 0)
@@ -360,8 +362,22 @@
     animation: glow 1.5s infinite;
   }
 
+  .generic {
+    animation: pulse-mild 2.5s infinite ease-in-out;
+  }
+
   .other-gift {
     opacity: 0.6;
+  }
+
+  @keyframes pulse-mild {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.75;
+    }
   }
 
   @keyframes glow {
