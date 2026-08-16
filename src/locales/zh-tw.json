@@ -168,6 +168,11 @@
       "bestNoConflict": "最優",
       "allSuitable": "所有偏好",
       "all": "全部"
+    },
+    "tooltip": {
+      "bestNoConflict": "最推薦贈送",
+      "conflict": "可以贈送",
+      "otherGift": "不推薦贈送"
     }
   },
   "giftInventoryModal": {

@@ -7,7 +7,14 @@
       <div class="gift-giving-body">
         <div class="gift-list">
           <div v-for="gift in sortedGifts" :key="gift.key" class="gift-wrapper">
-            <div class="gift-grid-item" :class="[gift.isSsr ? 'gift-purple' : 'gift-yellow', getGiftStyle(gift)]">
+            <div
+              class="gift-grid-item"
+              :class="[gift.isSsr ? 'gift-purple' : 'gift-yellow', gift.style]"
+              v-tooltip:gift-tooltip.bottom="{
+                content: getGiftTooltip(gift.style),
+                class: 'general-tooltip',
+              }"
+            >
               <ImageWithLoader
                 :src="getGiftUrl(gift.id, gift.isSsr)"
                 class="gift-icon"
@@ -95,6 +102,12 @@
   const { show } = toRefs(props)
   useModal(show, close)
 
+  const tooltipKeyMap = {
+    'best-no-conflict': 'giftGivingModal.tooltip.bestNoConflict',
+    conflict: 'giftGivingModal.tooltip.conflict',
+    'other-gift': 'giftGivingModal.tooltip.otherGift',
+  }
+
   const getGiftStyle = (gift) => {
     if (gift.isSpecial) return 'conflict'
     const analysis = giftAnalysisStore.getGiftAnalysis(gift)
@@ -104,6 +117,10 @@
       return optimalCharacters.length === 1 ? 'best-no-conflict' : 'conflict'
     }
     return 'other-gift'
+  }
+
+  const getGiftTooltip = (style) => {
+    return t(tooltipKeyMap[style] || tooltipKeyMap['other-gift'])
   }
 
   const sortedGifts = computed(() => {
@@ -116,7 +133,7 @@
         const style = getGiftStyle(g)
         let priority = giftPriorityMap[style] !== undefined ? giftPriorityMap[style] : 99
         if (g.id === 35 && !g.isSsr) priority = 1
-        return { ...g, key: `${g.isSsr ? 'ssr' : 'sr'}-${g.id}`, priority }
+        return { ...g, key: `${g.isSsr ? 'ssr' : 'sr'}-${g.id}`, style, priority }
       })
       .sort((a, b) => {
         if (a.priority !== b.priority) return a.priority - b.priority
@@ -183,7 +200,7 @@
     if (!props.student) return
     giftPlannerStore.clearStudentAssignments(props.student.id)
     sortedGifts.value.forEach((gift) => {
-      if (getGiftStyle(gift) === 'best-no-conflict') {
+      if (gift.style === 'best-no-conflict') {
         setMax(gift)
       }
     })
@@ -193,8 +210,7 @@
     if (!props.student) return
     giftPlannerStore.clearStudentAssignments(props.student.id)
     sortedGifts.value.forEach((gift) => {
-      const style = getGiftStyle(gift)
-      if (style === 'best-no-conflict' || style === 'conflict') {
+      if (gift.style === 'best-no-conflict' || gift.style === 'conflict') {
         setMax(gift)
       }
     })
@@ -245,6 +261,7 @@
     place-items: center;
     position: relative;
     flex-shrink: 0;
+    user-select: none;
   }
 
   .gift-grid-item > *,

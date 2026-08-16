@@ -168,6 +168,11 @@
       "bestNoConflict": "Optimal",
       "allSuitable": "All Preferred",
       "all": "All"
+    },
+    "tooltip": {
+      "bestNoConflict": "Highly Recommended",
+      "conflict": "Can Give",
+      "otherGift": "Not Recommended"
     }
   },
   "giftInventoryModal": {

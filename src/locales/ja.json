@@ -168,6 +168,11 @@
       "bestNoConflict": "最適",
       "allSuitable": "すべての推奨",
       "all": "すべて"
+    },
+    "tooltip": {
+      "bestNoConflict": "一番おすすめ",
+      "conflict": "プレゼント可能",
+      "otherGift": "非推奨"
     }
   },
   "giftInventoryModal": {
