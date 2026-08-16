@@ -15,14 +15,16 @@
                 class: 'general-tooltip',
               }"
             >
-              <ImageWithLoader
-                :src="getGiftUrl(gift.id, gift.isSsr)"
-                class="gift-icon"
-                object-fit="contain"
-                loader-type="pulse"
-                :inherit-background="false"
-              />
-              <div class="gift-icon-bg"></div>
+              <div class="gift-circle">
+                <ImageWithLoader
+                  :src="getGiftUrl(gift.id, gift.isSsr)"
+                  class="gift-icon"
+                  object-fit="contain"
+                  loader-type="pulse"
+                  :inherit-background="false"
+                />
+                <div class="gift-icon-bg"></div>
+              </div>
               <div class="quantity-badge">
                 {{ giftPlannerStore.getAvailableCount(gift.id, gift.isSsr) }} /
                 {{ giftStore.getGiftQuantity(gift.id, gift.isSsr) }}
@@ -258,22 +260,28 @@
   .gift-grid-item {
     width: 80px;
     height: 80px;
-    border-radius: 50%;
-    display: grid;
-    place-items: center;
     position: relative;
     flex-shrink: 0;
     user-select: none;
   }
 
-  .gift-grid-item > *,
-  .gift-grid-item::before,
-  .gift-grid-item::after {
+  .gift-circle {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    position: relative;
+  }
+
+  .gift-circle > *,
+  .gift-circle::before,
+  .gift-circle::after {
     grid-column: 1 / 1;
     grid-row: 1 / 1;
   }
 
-  .gift-grid-item::before {
+  .gift-circle::before {
     content: '';
     width: 100%;
     height: 100%;
@@ -281,13 +289,13 @@
     z-index: 1;
   }
 
-  .gift-yellow::before {
+  .gift-yellow .gift-circle::before {
     background-color: #c7a579;
     background-image: linear-gradient(to bottom right, #a97d51 0%, transparent 50%),
       linear-gradient(to top left, #a97d51 0%, transparent 50%);
   }
 
-  .gift-purple::before {
+  .gift-purple .gift-circle::before {
     background-color: #9e82d6;
     background-image: linear-gradient(to bottom right, #7a5bbe 0%, transparent 50%),
       linear-gradient(to top left, #7a5bbe 0%, transparent 50%);
@@ -308,7 +316,7 @@
     background-color: #9e82d6;
   }
 
-  .dark-mode .gift-grid-item::after {
+  .dark-mode .gift-circle::after {
     content: '';
     width: 100%;
     height: 100%;
@@ -332,6 +340,7 @@
     border-radius: 20px;
     font-size: 12px;
     font-weight: bold;
+    line-height: 14px;
     padding: 3px 8px;
     z-index: 5;
     border: 2px solid white;
@@ -358,15 +367,15 @@
     max-width: 250px;
   }
 
-  .best-no-conflict {
+  .best-no-conflict .gift-circle {
     animation: glow 1.5s infinite;
   }
 
-  .generic {
+  .generic .gift-circle {
     animation: pulse-mild 2.5s infinite ease-in-out;
   }
 
-  .other-gift {
+  .other-gift .gift-circle {
     opacity: 0.6;
   }
 
