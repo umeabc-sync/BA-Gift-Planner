@@ -107,8 +107,7 @@ export function useCloudSync() {
       }
 
       // Cloud always wins — apply cloud data unconditionally
-      const preserveShared = new URLSearchParams(window.location.search).has('s')
-      applySaveDataToStores(decompressed, preserveShared)
+      applySaveDataToStores(decompressed)
 
       syncMetadataStore.setSyncMetadata(cloudDataStr, cloudTimestamp)
 
@@ -176,8 +175,7 @@ export function useCloudSync() {
           const cloudPayload = JSON.parse(decompressed)
           const cloudDataStr = JSON.stringify(cloudPayload)
 
-          const preserveShared = new URLSearchParams(window.location.search).has('s')
-          applySaveDataToStores(decompressed, preserveShared)
+          applySaveDataToStores(decompressed)
 
           syncMetadataStore.setSyncMetadata(cloudDataStr, conflictData.updated_at)
 

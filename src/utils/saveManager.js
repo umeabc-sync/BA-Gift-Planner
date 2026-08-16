@@ -93,7 +93,7 @@ export function decompressSaveData(base64Payload) {
   return pako.inflate(bytes, { to: 'string' })
 }
 
-export function applySaveDataToStores(jsonString, preserveSharedSelection = false) {
+export function applySaveDataToStores(jsonString) {
   const parsed = JSON.parse(jsonString)
   const stores = getSyncStores()
 
@@ -123,10 +123,6 @@ export function applySaveDataToStores(jsonString, preserveSharedSelection = fals
           combo.studentIds = decompressStudentIds(combo.studentIds, allStudentIds)
         }
       })
-    }
-
-    if (preserveSharedSelection) {
-      studentData.selectedStudentIds = stores.student.selectedStudentIds
     }
 
     stores.student.$patch(studentData)
