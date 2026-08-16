@@ -12,7 +12,7 @@
               :class="[gift.isSsr ? 'gift-purple' : 'gift-yellow', gift.style]"
               v-tooltip:gift-tooltip.bottom="{
                 content: getGiftTooltip(gift.style),
-                class: 'general-tooltip',
+                class: 'gift-grid-tooltip general-tooltip',
               }"
             >
               <div class="gift-circle">
