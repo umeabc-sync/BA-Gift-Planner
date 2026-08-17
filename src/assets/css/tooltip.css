@@ -32,6 +32,11 @@ body.dark-mode {
   color: var(--tooltip-ssr-color);
 }
 
+.tooltip.general-tooltip {
+  background: rgba(32, 62, 100, 0.85);
+  color: #fff;
+}
+
 /* ==========================================================================
    Gift Tooltip (.gift-tooltip)
    Used for gift name tooltips under gift icons

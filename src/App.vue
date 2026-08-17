@@ -31,11 +31,12 @@
       @close="closeSharedCombinationPromptModal"
     />
     <ToastNotification />
+    <ClickFxOverlay />
   </div>
 </template>
 
 <script setup>
-  import { watch, onMounted, onUnmounted } from 'vue'
+  import { watch, onMounted } from 'vue'
   import { useRouter } from 'vue-router'
   import { useOverlayScrollbars } from 'overlayscrollbars-vue'
   import { initLocale } from '@utils/localeDetector'
@@ -54,13 +55,13 @@
   import CombinationManagerModal from '@components/modal/CombinationManagerModal.vue'
   import SharedCombinationPromptModal from '@components/modal/SharedCombinationPromptModal.vue'
   import ToastNotification from '@components/ui/ToastNotification.vue'
-  import { BAClickFX } from 'ba-click-fx'
+  import ClickFxOverlay from '@components/ui/ClickFxOverlay.vue'
 
   const { initSync } = useCloudSync()
 
   const { t, isLoaded, currentLocale: locale } = useI18n()
   const settingStore = useSettingStore()
-  const { isDarkMode, enableClickFx } = storeToRefs(settingStore)
+  const { isDarkMode } = storeToRefs(settingStore)
 
   const modalStore = useModalStore()
   const {
@@ -103,48 +104,12 @@
     }
   }
 
-  let baClickFxInstance = null
-
-  const initBaClickFx = () => {
-    if (!baClickFxInstance && enableClickFx.value) {
-      baClickFxInstance = new BAClickFX({
-        clickEnabled: true,
-        trailEnabled: true,
-        scale: 0.75,
-        maxDpr: 2,
-        clickTimeScale: 1.5,
-        trailTimeScale: 1.5,
-      })
-    }
-  }
-
-  const destroyBaClickFx = () => {
-    if (baClickFxInstance) {
-      baClickFxInstance.destroy()
-      baClickFxInstance = null
-    }
-  }
-
   onMounted(async () => {
     // Initialize locale based on browser settings and router context
     initLocale(router)
     settingStore.initThemeListener()
     initBodyOverlayScrollbars({ target: document.body })
     await initSync()
-
-    initBaClickFx()
-  })
-
-  onUnmounted(() => {
-    destroyBaClickFx()
-  })
-
-  watch(enableClickFx, (enabled) => {
-    if (enabled) {
-      initBaClickFx()
-    } else {
-      destroyBaClickFx()
-    }
   })
 
   watch(

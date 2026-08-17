@@ -168,6 +168,12 @@
       "bestNoConflict": "최적",
       "allSuitable": "모든 선호 선물",
       "all": "모두"
+    },
+    "tooltip": {
+      "bestNoConflict": "가장 추천",
+      "conflict": "선물 가능",
+      "generic": "자유롭게 선물 가능",
+      "otherGift": "비추천"
     }
   },
   "giftInventoryModal": {

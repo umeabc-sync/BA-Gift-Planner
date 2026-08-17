@@ -7,7 +7,14 @@
       <div class="gift-convert-body">
         <div class="gift-list">
           <div v-for="gift in sortedGifts" :key="gift.key" class="gift-wrapper">
-            <div class="gift-grid-item gift-yellow" :class="getGiftStyle(gift)">
+            <div
+              class="gift-grid-item gift-yellow"
+              :class="getGiftStyle(gift)"
+              v-tooltip:gift-tooltip.bottom="{
+                content: gift.name,
+                class: `gift-grid-tooltip ${gift.isSsr ? 'ssr-gift-tooltip' : 'sr-gift-tooltip'}`,
+              }"
+            >
               <ImageWithLoader
                 :src="getGiftUrl(gift.id, false)"
                 class="gift-icon"
@@ -239,6 +246,7 @@
     place-items: center;
     position: relative;
     flex-shrink: 0;
+    user-select: none;
   }
 
   .gift-grid-item > *,

@@ -7,15 +7,24 @@
       <div class="gift-giving-body">
         <div class="gift-list">
           <div v-for="gift in sortedGifts" :key="gift.key" class="gift-wrapper">
-            <div class="gift-grid-item" :class="[gift.isSsr ? 'gift-purple' : 'gift-yellow', getGiftStyle(gift)]">
-              <ImageWithLoader
-                :src="getGiftUrl(gift.id, gift.isSsr)"
-                class="gift-icon"
-                object-fit="contain"
-                loader-type="pulse"
-                :inherit-background="false"
-              />
-              <div class="gift-icon-bg"></div>
+            <div
+              class="gift-grid-item"
+              :class="[gift.isSsr ? 'gift-purple' : 'gift-yellow', gift.style]"
+              v-tooltip:gift-tooltip.bottom="{
+                content: getGiftTooltip(gift.style),
+                class: 'gift-grid-tooltip general-tooltip',
+              }"
+            >
+              <div class="gift-circle">
+                <ImageWithLoader
+                  :src="getGiftUrl(gift.id, gift.isSsr)"
+                  class="gift-icon"
+                  object-fit="contain"
+                  loader-type="pulse"
+                  :inherit-background="false"
+                />
+                <div class="gift-icon-bg"></div>
+              </div>
               <div class="quantity-badge">
                 {{ giftPlannerStore.getAvailableCount(gift.id, gift.isSsr) }} /
                 {{ giftStore.getGiftQuantity(gift.id, gift.isSsr) }}
@@ -95,9 +104,17 @@
   const { show } = toRefs(props)
   useModal(show, close)
 
+  const tooltipKeyMap = {
+    'best-no-conflict': 'giftGivingModal.tooltip.bestNoConflict',
+    conflict: 'giftGivingModal.tooltip.conflict',
+    generic: 'giftGivingModal.tooltip.generic',
+    'other-gift': 'giftGivingModal.tooltip.otherGift',
+  }
+
   const getGiftStyle = (gift) => {
     if (gift.isSpecial) return 'conflict'
     const analysis = giftAnalysisStore.getGiftAnalysis(gift)
+    if (analysis?.isGeneric) return 'generic'
     if (!analysis || !analysis.characters) return 'other-gift'
     const optimalCharacters = analysis.characters.filter((c) => c.isOptimal)
     if (optimalCharacters.some((character) => character.id === props.student.id)) {
@@ -106,9 +123,13 @@
     return 'other-gift'
   }
 
+  const getGiftTooltip = (style) => {
+    return t(tooltipKeyMap[style] || tooltipKeyMap['other-gift'])
+  }
+
   const sortedGifts = computed(() => {
     if (!props.student || !giftPlannerStore.allGifts) return []
-    const giftPriorityMap = { 'best-no-conflict': 0, conflict: 2, 'other-gift': 3 }
+    const giftPriorityMap = { 'best-no-conflict': 0, conflict: 2, generic: 3, 'other-gift': 4 }
 
     return giftPlannerStore.allGifts
       .filter((g) => giftStore.getGiftQuantity(g.id, g.isSsr) > 0)
@@ -116,7 +137,7 @@
         const style = getGiftStyle(g)
         let priority = giftPriorityMap[style] !== undefined ? giftPriorityMap[style] : 99
         if (g.id === 35 && !g.isSsr) priority = 1
-        return { ...g, key: `${g.isSsr ? 'ssr' : 'sr'}-${g.id}`, priority }
+        return { ...g, key: `${g.isSsr ? 'ssr' : 'sr'}-${g.id}`, style, priority }
       })
       .sort((a, b) => {
         if (a.priority !== b.priority) return a.priority - b.priority
@@ -183,7 +204,7 @@
     if (!props.student) return
     giftPlannerStore.clearStudentAssignments(props.student.id)
     sortedGifts.value.forEach((gift) => {
-      if (getGiftStyle(gift) === 'best-no-conflict') {
+      if (gift.style === 'best-no-conflict') {
         setMax(gift)
       }
     })
@@ -193,8 +214,7 @@
     if (!props.student) return
     giftPlannerStore.clearStudentAssignments(props.student.id)
     sortedGifts.value.forEach((gift) => {
-      const style = getGiftStyle(gift)
-      if (style === 'best-no-conflict' || style === 'conflict') {
+      if (gift.style === 'best-no-conflict' || gift.style === 'conflict') {
         setMax(gift)
       }
     })
@@ -240,21 +260,28 @@
   .gift-grid-item {
     width: 80px;
     height: 80px;
+    position: relative;
+    flex-shrink: 0;
+    user-select: none;
+  }
+
+  .gift-circle {
+    width: 100%;
+    height: 100%;
     border-radius: 50%;
     display: grid;
     place-items: center;
     position: relative;
-    flex-shrink: 0;
   }
 
-  .gift-grid-item > *,
-  .gift-grid-item::before,
-  .gift-grid-item::after {
+  .gift-circle > *,
+  .gift-circle::before,
+  .gift-circle::after {
     grid-column: 1 / 1;
     grid-row: 1 / 1;
   }
 
-  .gift-grid-item::before {
+  .gift-circle::before {
     content: '';
     width: 100%;
     height: 100%;
@@ -262,13 +289,13 @@
     z-index: 1;
   }
 
-  .gift-yellow::before {
+  .gift-yellow .gift-circle::before {
     background-color: #c7a579;
     background-image: linear-gradient(to bottom right, #a97d51 0%, transparent 50%),
       linear-gradient(to top left, #a97d51 0%, transparent 50%);
   }
 
-  .gift-purple::before {
+  .gift-purple .gift-circle::before {
     background-color: #9e82d6;
     background-image: linear-gradient(to bottom right, #7a5bbe 0%, transparent 50%),
       linear-gradient(to top left, #7a5bbe 0%, transparent 50%);
@@ -289,7 +316,7 @@
     background-color: #9e82d6;
   }
 
-  .dark-mode .gift-grid-item::after {
+  .dark-mode .gift-circle::after {
     content: '';
     width: 100%;
     height: 100%;
@@ -313,6 +340,7 @@
     border-radius: 20px;
     font-size: 12px;
     font-weight: bold;
+    line-height: 14px;
     padding: 3px 8px;
     z-index: 5;
     border: 2px solid white;
@@ -339,12 +367,26 @@
     max-width: 250px;
   }
 
-  .best-no-conflict {
+  .best-no-conflict .gift-circle {
     animation: glow 1.5s infinite;
   }
 
-  .other-gift {
+  .generic .gift-circle {
+    animation: pulse-mild 2.5s infinite ease-in-out;
+  }
+
+  .other-gift .gift-circle {
     opacity: 0.6;
+  }
+
+  @keyframes pulse-mild {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.75;
+    }
   }
 
   @keyframes glow {
