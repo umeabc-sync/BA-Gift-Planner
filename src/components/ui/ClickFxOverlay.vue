@@ -1,5 +1,5 @@
 <template>
-  <canvas v-if="enableClickFx && isSupported" ref="canvasRef" class="click-fx-overlay" aria-hidden="true" />
+  <canvas v-if="isSupported" ref="canvasRef" class="click-fx-overlay" aria-hidden="true" />
 </template>
 
 <script setup>
@@ -92,6 +92,10 @@
       )
 
       isInitialized = true
+
+      if (!enableClickFx.value) {
+        worker.postMessage({ type: 'PAUSE', paused: true, clear: true })
+      }
     } catch (err) {
       console.warn('[ClickFxOverlay] Failed to initialize OffscreenCanvas worker:', err)
     }
@@ -107,9 +111,7 @@
   }
 
   onMounted(() => {
-    if (enableClickFx.value) {
-      initWorker()
-    }
+    initWorker()
 
     window.addEventListener('pointerdown', handlePointerDown, { passive: true })
     window.addEventListener('pointermove', handlePointerMove, { passive: true })
@@ -130,12 +132,7 @@
 
   watch(enableClickFx, (enabled) => {
     if (enabled) {
-      if (!isInitialized) {
-        // Wait for canvas element to render in DOM if it was previously v-if false
-        setTimeout(initWorker, 0)
-      } else {
-        worker?.postMessage({ type: 'PAUSE', paused: false })
-      }
+      worker?.postMessage({ type: 'PAUSE', paused: false })
     } else {
       worker?.postMessage({ type: 'PAUSE', paused: true, clear: true })
     }
