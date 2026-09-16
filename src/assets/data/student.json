@@ -6526,5 +6526,29 @@
         "xl": [5]
       }
     }
+  },
+  {
+    "id": 273,
+    "gid": 20061,
+    "school": "Gehenna",
+    "attackType": "Piercing",
+    "defenseType": "Special",
+    "weapon": "HG",
+    "position": "BACK",
+    "type": 1,
+    "role": ["Support"],
+    "rarity": 3,
+    "obtainMethod": "Regular",
+    "favor": {
+      "sr": {
+        "m": [10, 19, 29, 30],
+        "l": [17, 34],
+        "xl": []
+      },
+      "ssr": {
+        "l": [3],
+        "xl": [5]
+      }
+    }
   }
 ]
