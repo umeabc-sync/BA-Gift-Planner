@@ -6550,5 +6550,53 @@
         "xl": [5]
       }
     }
+  },
+  {
+    "id": 274,
+    "gid": 10151,
+    "school": "RedWinter",
+    "attackType": "Piercing",
+    "defenseType": "Light",
+    "weapon": "HG",
+    "position": "MIDDLE",
+    "type": 0,
+    "role": ["Dealer"],
+    "rarity": 3,
+    "obtainMethod": "Regular",
+    "favor": {
+      "sr": {
+        "m": [3, 4, 9, 15, 23, 33],
+        "l": [32],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [1]
+      }
+    }
+  },
+  {
+    "id": 275,
+    "gid": 20062,
+    "school": "RedWinter",
+    "attackType": "Sonic",
+    "defenseType": "Light",
+    "weapon": "HG",
+    "position": "BACK",
+    "type": 1,
+    "role": ["Support"],
+    "rarity": 3,
+    "obtainMethod": "Regular",
+    "favor": {
+      "sr": {
+        "m": [8, 31],
+        "l": [4],
+        "xl": []
+      },
+      "ssr": {
+        "l": [6],
+        "xl": [1]
+      }
+    }
   }
 ]
