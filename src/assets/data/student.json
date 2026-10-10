@@ -6598,5 +6598,29 @@
         "xl": [1]
       }
     }
+  },
+  {
+    "id": 276,
+    "gid": 10152,
+    "school": "WildHunt",
+    "attackType": "Piercing",
+    "defenseType": "Special",
+    "weapon": "SMG",
+    "position": "FRONT",
+    "type": 0,
+    "role": ["Tank"],
+    "rarity": 3,
+    "obtainMethod": "Regular",
+    "favor": {
+      "sr": {
+        "m": [2, 18, 28, 29, 30],
+        "l": [15],
+        "xl": []
+      },
+      "ssr": {
+        "l": [],
+        "xl": [10]
+      }
+    }
   }
 ]
