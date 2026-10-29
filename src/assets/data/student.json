@@ -6622,5 +6622,77 @@
         "xl": [10]
       }
     }
+  },
+  {
+    "id": 277,
+    "gid": 10153,
+    "school": "Trinity",
+    "attackType": "Explosive",
+    "defenseType": "Special",
+    "weapon": "AR",
+    "position": "MIDDLE",
+    "type": 0,
+    "role": ["Dealer"],
+    "rarity": 3,
+    "obtainMethod": "Unique",
+    "favor": {
+      "sr": {
+        "m": [0, 14, 16],
+        "l": [1],
+        "xl": []
+      },
+      "ssr": {
+        "l": [0, 11],
+        "xl": [2]
+      }
+    }
+  },
+  {
+    "id": 278,
+    "gid": 20063,
+    "school": "Trinity",
+    "attackType": "Explosive",
+    "defenseType": "Special",
+    "weapon": "AR",
+    "position": "BACK",
+    "type": 1,
+    "role": ["Support"],
+    "rarity": 3,
+    "obtainMethod": "Unique",
+    "favor": {
+      "sr": {
+        "m": [0, 1, 14, 16],
+        "l": [20],
+        "xl": []
+      },
+      "ssr": {
+        "l": [0],
+        "xl": [11]
+      }
+    }
+  },
+  {
+    "id": 279,
+    "gid": 26017,
+    "school": "RedWinter",
+    "attackType": "Explosive",
+    "defenseType": "Special",
+    "weapon": "SG",
+    "position": "BACK",
+    "type": 1,
+    "role": ["TS"],
+    "rarity": 1,
+    "obtainMethod": "Event",
+    "favor": {
+      "sr": {
+        "m": [2, 3, 4, 9, 11, 15, 23],
+        "l": [32],
+        "xl": []
+      },
+      "ssr": {
+        "l": [1],
+        "xl": [5]
+      }
+    }
   }
 ]
